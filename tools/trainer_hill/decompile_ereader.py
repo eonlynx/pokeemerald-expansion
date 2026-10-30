@@ -88,14 +88,14 @@ def decode_jp_string(raw_bytes):
 custom_speeches = {
     # Pack 1 (Cards 1..8)
     1: { # Black Belt (Kousei)
-        "speechBefore": ["EC_WORD_THIS", "EC_WORD_IS", "EC_WORD_WHERE", "EC_WORD_IT", "EC_WORD_ENDS", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_WAAAH", "EC_WORD_EXCL", "EC_WORD_I_AM", "EC_WORD_THE", "EC_WORD_CHAMP", "EC_WORD_EXCL"],
+        "speechBefore": ["EC_WORD_THIS", "EC_WORD_IS", "EC_WORD_WHERE", "EC_WORD_IT", "EC_WORD_END", "EC_WORD_EXCL"],
+        "speechWin":    ["EC_WORD_WAAAH", "EC_WORD_EXCL", "EC_WORD_I_AM", "EC_WORD_THE", "EC_WORD_WINNER", "EC_WORD_EXCL"],
         "speechLose":   ["EC_WORD_THANKS", "EC_WORD_A_LOT", "EC_WORD_FOR", "EC_WORD_THAT", "EC_WORD_GREAT", "EC_WORD_BATTLE"],
         "speechAfter":  ["EC_WORD_YES_SIR_EXCL", "EC_WORD_YOU", "EC_WORD_LOOK", "EC_WORD_NICE", "EC_WORD_AND", "EC_WORD_GUTSY"],
     },
     2: { # Ninja Boy (Kagemasa)
         "speechBefore": ["EC_WORD_LOOK", "EC_WORD_AT", "EC_WORD_MY", "EC_WORD_SECRET", "EC_MOVE2(SMOKESCREEN)", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_YOU", "EC_WORD_COULDN_T", "EC_WORD_SEE", "EC_WORD_THROUGH", "EC_WORD_MY", "EC_MOVE2(SMOKESCREEN)"],
+        "speechWin":    ["EC_WORD_YOU", "EC_WORD_CAN_T", "EC_WORD_SEE", "EC_WORD_IN", "EC_MOVE2(SMOKESCREEN)", "EC_WORD_EXCL"],
         "speechLose":   ["EC_WORD_HOW", "EC_WORD_COULD", "EC_WORD_YOU", "EC_WORD_SEE", "EC_WORD_ME", "EC_WORD_QUES"],
         "speechAfter":  ["EC_WORD_A", "EC_WORD_SECRET", "EC_WORD_IS", "EC_WORD_BEST", "EC_WORD_NOT", "EC_WORD_SAID"],
     },
@@ -107,7 +107,7 @@ custom_speeches = {
     },
     4: { # Cooltrainer M (Akiomi)
         "speechBefore": ["EC_WORD_LET_S", "EC_WORD_HAVE", "EC_WORD_AN", "EC_WORD_EXCITING", "EC_WORD_BATTLE", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_WON", "EC_WORD_THAT_WAS", "EC_WORD_TOO_EASY", "EC_WORD_EXCL"],
+        "speechWin":    ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_WON", "EC_WORD_THAT_WAS", "EC_WORD_EASY", "EC_WORD_EXCL"],
         "speechLose":   ["EC_WORD_THAT_WAS", "EC_WORD_A", "EC_WORD_VERY", "EC_WORD_COOL", "EC_WORD_BATTLE", "EC_WORD_EXCL"],
         "speechAfter":  ["EC_WORD_YOU_RE", "EC_WORD_PRETTY", "EC_WORD_GOOD", "EC_WORD_AT", "EC_WORD_THIS", "EC_WORD_BATTLE"],
     },
@@ -115,7 +115,7 @@ custom_speeches = {
         "speechBefore": ["EC_WORD_I", "EC_WORD_WILL", "EC_WORD_WIN", "EC_WORD_AND", "EC_WORD_GO", "EC_WORD_ON"],
         "speechWin":    ["EC_WORD_I_AM", "EC_WORD_AWESOME", "EC_WORD_EXCL", "EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_RULE"],
         "speechLose":   ["EC_WORD_A_LITTLE", "EC_WORD_TOO", "EC_WORD_STRONG", "EC_WORD_FOR", "EC_WORD_ME", "EC_WORD_EXCL"],
-        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING_TO", "EC_WORD_TRAIN", "EC_WORD_AND", "EC_WORD_TRY", "EC_WORD_AGAIN"],
+        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING", "EC_WORD_TO", "EC_WORD_TRAIN", "EC_WORD_MORE", "EC_WORD_EXCL"],
     },
     6: { # Dragon Tamer (Inami)
         "speechBefore": ["EC_WORD_I", "EC_WORD_GOT", "EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_ON", "EC_WORD_VACATION"],
@@ -139,39 +139,39 @@ custom_speeches = {
     # Pack 2 (Cards 9..16)
     9: { # Lass (Komari)
         "speechBefore": ["EC_WORD_I_AM", "EC_WORD_REALLY", "EC_WORD_THE", "EC_WORD_BEST", "EC_WORD_AROUND", "EC_WORD_HERE"],
-        "speechWin":    ["EC_WORD_OF_COURSE", "EC_WORD_I", "EC_WORD_WON", "EC_WORD_EXCL", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
+        "speechWin":    ["EC_WORD_NATURALLY", "EC_WORD_I", "EC_WORD_WON", "EC_WORD_EXCL", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
         "speechLose":   ["EC_WORD_WHY", "EC_WORD_COULDN_T", "EC_WORD_I", "EC_WORD_WIN", "EC_WORD_QUES", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING_TO", "EC_WORD_GO", "EC_WORD_SHOPPING", "EC_WORD_NOW", "EC_EMPTY_WORD"],
+        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING", "EC_WORD_SHOPPING", "EC_WORD_NOW", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
     },
     10: { # Running Triathlete M (Ragi)
-        "speechBefore": ["EC_WORD_I_AM", "EC_WORD_PRETTY", "EC_WORD_HAPPY", "EC_WORD_WITH", "EC_WORD_MY", "EC_WORD_SPEED"],
-        "speechWin":    ["EC_WORD_MY", "EC_WORD_SPEED", "EC_WORD_IS", "EC_WORD_UNBELIEVABLE", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
+        "speechBefore": ["EC_WORD_I_AM", "EC_WORD_PRETTY", "EC_WORD_FAST", "EC_WORD_AND", "EC_WORD_HAPPY", "EC_WORD_EXCL"],
+        "speechWin":    ["EC_WORD_BEING", "EC_WORD_FAST", "EC_WORD_IS", "EC_WORD_UNBELIEVABLE", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
         "speechLose":   ["EC_WORD_THAT_WAS", "EC_WORD_AN", "EC_WORD_UNBELIEVABLE", "EC_WORD_LOSS", "EC_WORD_ELLIPSIS", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_I", "EC_WORD_MUST", "EC_WORD_WORK", "EC_WORD_ON", "EC_WORD_MY", "EC_WORD_SPEED"],
+        "speechAfter":  ["EC_WORD_I", "EC_WORD_MUST_BE", "EC_WORD_MORE", "EC_WORD_FAST", "EC_WORD_ELLIPSIS", "EC_EMPTY_WORD"],
     },
     11: { # Ninja Boy (Kennosuke)
         "speechBefore": ["EC_WORD_YAHOO", "EC_WORD_EXCL", "EC_WORD_HERE_I_COME", "EC_WORD_BABY", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
         "speechWin":    ["EC_WORD_I_AM", "EC_WORD_A", "EC_WORD_BIG", "EC_WORD_WINNER", "EC_WORD_BABY", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_SOMETHING", "EC_WORD_IS", "EC_WORD_TERRIBLY", "EC_WORD_WRONG", "EC_WORD_HERE", "EC_EMPTY_WORD"],
+        "speechLose":   ["EC_WORD_SOMETHING", "EC_WORD_IS", "EC_WORD_TERRIBLE", "EC_WORD_AND", "EC_WORD_BAD", "EC_EMPTY_WORD"],
         "speechAfter":  ["EC_WORD_HOW", "EC_WORD_COULD", "EC_WORD_I", "EC_WORD_LOSE", "EC_WORD_THIS", "EC_WORD_QUES"],
     },
     12: { # Psychic M (Ozunu)
-        "speechBefore": ["EC_WORD_THIS", "EC_WORD_POWER", "EC_WORD_IS", "EC_WORD_VERY", "EC_WORD_SPECIAL", "EC_EMPTY_WORD"],
-        "speechWin":    ["EC_WORD_DID", "EC_WORD_YOU", "EC_WORD_FEEL", "EC_WORD_THAT", "EC_WORD_POWER", "EC_WORD_QUES"],
+        "speechBefore": ["EC_WORD_THIS", "EC_WORD_POWER", "EC_WORD_IS", "EC_WORD_VERY", "EC_WORD_RARE", "EC_EMPTY_WORD"],
+        "speechWin":    ["EC_WORD_DID", "EC_WORD_YOU", "EC_WORD_SEE", "EC_WORD_THAT", "EC_WORD_POWER", "EC_WORD_QUES"],
         "speechLose":   ["EC_WORD_WHERE", "EC_WORD_DID", "EC_WORD_THAT", "EC_WORD_POWER", "EC_WORD_GO", "EC_WORD_QUES"],
         "speechAfter":  ["EC_WORD_THIS", "EC_WORD_IS", "EC_WORD_NOT", "EC_WORD_A", "EC_WORD_DREAM", "EC_WORD_ELLIPSIS"],
     },
     13: { # School Kid F (Kae)
         "speechBefore": ["EC_WORD_TOO", "EC_WORD_BAD", "EC_WORD_IT_S", "EC_WORD_OVER", "EC_WORD_FOR", "EC_WORD_YOU"],
         "speechWin":    ["EC_WORD_NATURALLY", "EC_WORD_I", "EC_WORD_WIN", "EC_WORD_EXCL", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
-        "speechLose":   ["EC_WORD_HOW", "EC_WORD_DID", "EC_WORD_THIS", "EC_WORD_HAPPEN", "EC_WORD_QUES", "EC_EMPTY_WORD"],
+        "speechLose":   ["EC_WORD_HOW", "EC_WORD_DID", "EC_WORD_I", "EC_WORD_LOSE", "EC_WORD_QUES", "EC_EMPTY_WORD"],
         "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_SHOCKED", "EC_WORD_THAT", "EC_WORD_I", "EC_WORD_LOST", "EC_EMPTY_WORD"],
     },
     14: { # School Kid M (Sakiteru)
         "speechBefore": ["EC_WORD_AHAHA", "EC_WORD_YOU_RE", "EC_WORD_NOT", "EC_WORD_GOING", "EC_WORD_ANYWHERE", "EC_WORD_EXCL"],
         "speechWin":    ["EC_WORD_ALL_RIGHT", "EC_WORD_EXCL", "EC_WORD_BYE_BYE", "EC_WORD_EXCL", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
         "speechLose":   ["EC_WORD_HIYAH", "EC_WORD_EXCL_EXCL", "EC_WORD_DONE", "EC_WORD_IN", "EC_WORD_TOTALLY", "EC_WORD_EXCL_EXCL"],
-        "speechAfter":  ["EC_WORD_TCH, EC_WORD_TCH", "EC_WORD_YOU_RE", "EC_WORD_TOO_STRONG", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
+        "speechAfter":  ["EC_WORD_TCH", "EC_WORD_TCH", "EC_WORD_YOU_RE", "EC_WORD_TOO_STRONG", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
     },
     15: { # Pkmn Breeder F (Nukumi)
         "speechBefore": ["EC_WORD_I", "EC_WORD_WANT", "EC_WORD_SOMETHING", "EC_WORD_TASTY", "EC_WORD_TO", "EC_WORD_EAT"],
@@ -201,7 +201,7 @@ custom_speeches = {
     },
     27: { # Expert M (Isaji)
         "speechBefore": ["EC_WORD_OH_DEAR", "EC_WORD_THIS", "EC_WORD_MATCH", "EC_WORD_IS", "EC_WORD_FOR", "EC_WORD_YOU"],
-        "speechWin":    ["EC_WORD_OH_DEAR", "EC_WORD_DID", "EC_WORD_YOU", "EC_WORD_SEE", "EC_WORD_THAT, EC_WORD_QUES"],
+        "speechWin":    ["EC_WORD_OH_DEAR", "EC_WORD_DID", "EC_WORD_YOU", "EC_WORD_SEE", "EC_WORD_THAT", "EC_WORD_QUES"],
         "speechLose":   ["EC_WORD_OH_DEAR", "EC_WORD_I_AM", "EC_WORD_SO", "EC_WORD_SORRY", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
         "speechAfter":  ["EC_WORD_IS", "EC_WORD_YOUR", "EC_WORD_GRANDMOTHER", "EC_WORD_STRONG", "EC_WORD_QUES", "EC_EMPTY_WORD"],
     },
@@ -214,7 +214,7 @@ custom_speeches = {
     29: { # Beauty (Maiko)
         "speechBefore": ["EC_WORD_I_AM", "EC_WORD_THE", "EC_WORD_GROUP", "EC_WORD_LEADER", "EC_WORD_TODAY", "EC_WORD_EXCL"],
         "speechWin":    ["EC_WORD_I_AM", "EC_WORD_SO", "EC_WORD_HAPPY", "EC_WORD_I", "EC_WORD_WON", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_THAT", "EC_WORD_MAKES", "EC_WORD_ME", "EC_WORD_REALLY", "EC_WORD_ANGRY", "EC_WORD_EXCL"],
+        "speechLose":   ["EC_WORD_I_AM", "EC_WORD_REALLY", "EC_WORD_ANGRY", "EC_WORD_NOW", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
         "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_NOT", "EC_WORD_TALKING", "EC_WORD_WITH", "EC_WORD_YOU", "EC_WORD_ELLIPSIS"],
     },
     30: { # Parasol Lady (Akino)
@@ -226,32 +226,32 @@ custom_speeches = {
     31: { # Hiker (Okikazu)
         "speechBefore": ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_ARE", "EC_WORD_ROCK_SOLID", "EC_WORD_AND", "EC_WORD_TOUGH"],
         "speechWin":    ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_ARE", "EC_WORD_VERY", "EC_WORD_STRONG", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_YOU", "EC_WORD_CAN_WIN", "EC_WORD_WITH", "EC_WORD_A", "EC_WORD_ROCK", "EC_WORD_HEAD"],
+        "speechLose":   ["EC_WORD_YOU", "EC_WORD_CAN_WIN", "EC_WORD_WITH", "EC_WORD_ROCK_HEAD", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
         "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_DISAPPOINTED", "EC_WORD_BUT", "EC_WORD_YOU", "EC_WORD_WIN", "EC_WORD_ELLIPSIS"],
     },
     32: { # Tuber F (Rikka)
         "speechBefore": ["EC_WORD_I_AM", "EC_WORD_A_LITTLE", "EC_WORD_COLD", "EC_WORD_TODAY", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
-        "speechWin":    ["EC_WORD_I_AM", "EC_WORD_SO", "EC_WORD_HAPPY", "EC_WORD_I_AM", "EC_WORD_WARM", "EC_WORD_NOW"],
+        "speechWin":    ["EC_WORD_I_AM", "EC_WORD_SO", "EC_WORD_HAPPY", "EC_WORD_I_AM", "EC_WORD_HOT", "EC_WORD_NOW"],
         "speechLose":   ["EC_WORD_WAAAH", "EC_WORD_ELLIPSIS", "EC_EMPTY_WORD", "EC_WORD_I", "EC_WORD_LOST", "EC_WORD_ELLIPSIS"],
         "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING", "EC_WORD_TO", "EC_WORD_GO", "EC_WORD_HOME", "EC_EMPTY_WORD"],
     },
 
     # Pack 5 (Cards 33..40)
     33: { # Camper (Kousuke)
-        "speechBefore": ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_ARE", "EC_WORD_TOP", "EC_WORD_GRADE", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_SEE", "EC_WORD_QUES", "EC_WORD_THEY_RE", "EC_WORD_REALLY", "EC_WORD_TOP", "EC_WORD_GRADE"],
-        "speechLose":   ["EC_WORD_I", "EC_WORD_DON_T", "EC_WORD_BELIEVE", "EC_WORD_THIS", "EC_WORD_AT_ALL", "EC_WORD_ELLIPSIS"],
+        "speechBefore": ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_ARE", "EC_WORD_TOP", "EC_WORD_RANK", "EC_WORD_EXCL"],
+        "speechWin":    ["EC_WORD_SEE", "EC_WORD_QUES", "EC_WORD_THEY_RE", "EC_WORD_REALLY", "EC_WORD_TOP", "EC_WORD_RANK"],
+        "speechLose":   ["EC_WORD_I", "EC_WORD_DON_T", "EC_WORD_BELIEVE", "EC_WORD_THIS", "EC_WORD_LOSS", "EC_WORD_ELLIPSIS"],
         "speechAfter":  ["EC_WORD_ALL", "EC_WORD_I", "EC_WORD_DO", "EC_WORD_IS", "EC_WORD_LOSE", "EC_WORD_ELLIPSIS"],
     },
     34: { # Guitarist (Neo)
         "speechBefore": ["EC_WORD_LALALA", "EC_WORD_LET_S", "EC_MOVE(SING)", "EC_WORD_A", "EC_WORD_SONG", "EC_WORD_EXCL"],
         "speechWin":    ["EC_WORD_LALALA", "EC_WORD_MY", "EC_WORD_MUSIC", "EC_WORD_IS", "EC_WORD_PERFECT", "EC_WORD_EXCL"],
         "speechLose":   ["EC_WORD_WAAAH", "EC_WORD_EXCL_EXCL", "EC_WORD_I", "EC_WORD_CAN_T", "EC_MOVE(SING)", "EC_WORD_ELLIPSIS"],
-        "speechAfter":  ["EC_WORD_MY", "EC_WORD_SONG", "EC_WORD_WAS", "EC_WORD_OUT_OF_THE_QUESTION", "EC_WORD_HUH_QUES", "EC_EMPTY_WORD"],
+        "speechAfter":  ["EC_WORD_MY", "EC_WORD_SONG", "EC_WORD_WAS", "EC_WORD_BAD", "EC_WORD_HUH_QUES", "EC_EMPTY_WORD"],
     },
     35: { # Rich Boy (Tsugane)
-        "speechBefore": ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_COST", "EC_WORD_A_LOT", "EC_WORD_OF", "EC_WORD_MONEY"],
-        "speechWin":    ["EC_WORD_MY", "EC_WORD_MONEY", "EC_WORD_IS", "EC_WORD_WELL", "EC_WORD_SPENT", "EC_WORD_EXCL"],
+        "speechBefore": ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_USE", "EC_WORD_A_LOT", "EC_WORD_OF", "EC_WORD_MONEY"],
+        "speechWin":    ["EC_WORD_MY", "EC_WORD_MONEY", "EC_WORD_IS", "EC_WORD_VERY", "EC_WORD_GOOD", "EC_WORD_EXCL"],
         "speechLose":   ["EC_WORD_I", "EC_WORD_NEED", "EC_WORD_MORE", "EC_WORD_MONEY", "EC_WORD_FOR", "EC_WORD_POKEMON"],
         "speechAfter":  ["EC_WORD_DID", "EC_WORD_YOU", "EC_WORD_SEE", "EC_WORD_MY", "EC_WORD_SKILL", "EC_WORD_QUES"],
     },
@@ -268,8 +268,8 @@ custom_speeches = {
         "speechAfter":  ["EC_WORD_WHY", "EC_WORD_YES", "EC_WORD_I_AM", "EC_WORD_ANGRY", "EC_WORD_THANK_YOU", "EC_WORD_EXCL"],
     },
     38: { # Gentleman (Edo)
-        "speechBefore": ["EC_WORD_HMM", "EC_WORD_QUES", "EC_WORD_ARE", "EC_WORD_YOU", "EC_WORD_LOOKING", "EC_WORD_AT_ME"],
-        "speechWin":    ["EC_WORD_SPLENDID", "EC_WORD_I_AM", "EC_WORD_THE", "EC_WORD_WINNER", "EC_WORD_TODAY", "EC_WORD_EXCL"],
+        "speechBefore": ["EC_WORD_HMM", "EC_WORD_QUES", "EC_WORD_DO", "EC_WORD_YOU", "EC_WORD_LOOK", "EC_WORD_HERE"],
+        "speechWin":    ["EC_WORD_EXCELLENT", "EC_WORD_I_AM", "EC_WORD_THE", "EC_WORD_WINNER", "EC_WORD_TODAY", "EC_WORD_EXCL"],
         "speechLose":   ["EC_WORD_DISASTER", "EC_WORD_EXCL", "EC_WORD_I_AM", "EC_WORD_SHOCKED", "EC_WORD_TOTALLY", "EC_WORD_EXCL"],
         "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING", "EC_WORD_TO", "EC_WORD_A", "EC_WORD_PARTY", "EC_WORD_NOW"],
     },
@@ -282,7 +282,7 @@ custom_speeches = {
     40: { # Bug Catcher (Kiichi)
         "speechBefore": ["EC_WORD_POISON", "EC_WORD_IS", "EC_WORD_JUST", "EC_WORD_AWESOME", "EC_WORD_OKAY", "EC_WORD_QUES"],
         "speechWin":    ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_RULE", "EC_WORD_SO", "EC_WORD_THERE", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_YOU_RE", "EC_WORD_NOT", "EC_WORD_NICE", "EC_WORD_AT_ALL", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
+        "speechLose":   ["EC_WORD_YOU_RE", "EC_WORD_NOT", "EC_WORD_NICE", "EC_WORD_AND", "EC_WORD_MEAN", "EC_WORD_EXCL"],
         "speechAfter":  ["EC_WORD_POISON", "EC_WORD_IS", "EC_WORD_A", "EC_WORD_TERRIBLE", "EC_MOVE(TORMENT)", "EC_WORD_ISN_T_IT_QUES"],
     },
 
@@ -297,11 +297,11 @@ custom_speeches = {
         "speechBefore": ["EC_WORD_AHAHA", "EC_WORD_YOU_RE", "EC_WORD_NOT", "EC_WORD_GOING", "EC_WORD_ANYWHERE", "EC_WORD_EXCL"],
         "speechWin":    ["EC_WORD_ALL_RIGHT", "EC_WORD_EXCL", "EC_WORD_BYE_BYE", "EC_WORD_EXCL", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
         "speechLose":   ["EC_WORD_HIYAH", "EC_WORD_EXCL_EXCL", "EC_WORD_DONE", "EC_WORD_IN", "EC_WORD_TOTALLY", "EC_WORD_EXCL_EXCL"],
-        "speechAfter":  ["EC_WORD_TCH, EC_WORD_TCH", "EC_WORD_YOU_RE", "EC_WORD_TOO_STRONG", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
+        "speechAfter":  ["EC_WORD_TCH", "EC_WORD_TCH", "EC_WORD_YOU_RE", "EC_WORD_TOO_STRONG", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
     }
 }
 
-def extract_western_trainers_from_source(indent=16):
+def extract_western_trainers_from_source(indent=12):
     """Extracts all 32 Western trainers (Packs 3, 6, 7, 8) directly from trainer_hill.h."""
     with open(HEADER_PATH) as f:
         text = f.read()
@@ -467,7 +467,7 @@ jp_default_trainers = {
         "name": "SIMON",
         "speechBefore": "{ EC_WORD_YAHOO, EC_WORD_EXCL, EC_WORD_HERE_I_COME, EC_WORD_BABY, EC_WORD_EXCL, EC_EMPTY_WORD }",
         "speechWin":    "{ EC_WORD_I_AM, EC_WORD_A, EC_WORD_BIG, EC_WORD_WINNER, EC_WORD_BABY, EC_WORD_EXCL }",
-        "speechLose":   "{ EC_WORD_SOMETHING, EC_WORD_IS, EC_WORD_TERRIBLY, EC_WORD_WRONG, EC_WORD_HERE, EC_EMPTY_WORD }",
+        "speechLose":   "{ EC_WORD_SOMETHING, EC_WORD_IS, EC_WORD_TERRIBLE, EC_WORD_AND, EC_WORD_BAD, EC_EMPTY_WORD }",
         "speechAfter":  "{ EC_WORD_HOW, EC_WORD_COULD, EC_WORD_I, EC_WORD_LOSE, EC_WORD_THIS, EC_WORD_QUES }",
     },
     # Beauty Namiko -> Naomi
@@ -663,9 +663,335 @@ def format_dummy_trainer_c(indent=12):
 
 dir_names = {0: "DIR_NONE", 1: "DIR_SOUTH", 2: "DIR_NORTH", 3: "DIR_WEST", 4: "DIR_EAST"}
 
+def format_candidate_c(cand_idx, trainer_num, has_map, trainer_body, map_data=None, alt_trainer_name=None):
+    if has_map and map_data:
+        map_body = f"""        .map = {{
+            .metatileData = INCBIN_U8("{map_data['floor_map_rel']}/metatiles.bin"),
+            .collisionData = INCBIN_U16("{map_data['floor_map_rel']}/collision.bin"),
+            .trainerCoords = {{ COORDS_XY({map_data['c1_x']},{map_data['c1_y']}), COORDS_XY({map_data['c2_x']},{map_data['c2_y']}) }},
+            .trainerDirections = TRAINER_DIRS({map_data['dir_t1']}, {map_data['dir_t2']}),
+            .trainerRanges = TRAINER_RANGE({map_data['range_t1']}, {map_data['range_t2']})
+        }}"""
+    else:
+        map_body = """        .map = {
+            .metatileData = {0},
+            .collisionData = {0},
+            .trainerCoords = {0},
+            .trainerDirections = 0,
+            .trainerRanges = 0
+        }"""
+        
+    alt_str = f"&{alt_trainer_name}" if alt_trainer_name else "NULL"
+    has_map_str = "TRUE" if has_map else "FALSE"
+    return f"""    [{cand_idx}] = {{
+        .trainerNum = {trainer_num},
+        .hasMap = {has_map_str},
+        .trainer = {{
+{trainer_body}
+        }},
+        .altTrainer = {alt_str},
+{map_body}
+    }},"""
+
+shawn_autumn_mons = """                [0] = {
+                    .species = SPECIES_ZIGZAGOON,
+                    .heldItem = ITEM_SITRUS_BERRY,
+                    .moves = { MOVE_HEADBUTT, MOVE_PIN_MISSILE, MOVE_GROWL, MOVE_TAIL_WHIP },
+                    .hpEV = 110,
+                    .attackEV = 100,
+                    .defenseEV = 100,
+                    .speedEV = 100,
+                    .spDefenseEV = 100,
+                    .otId = TRAINER_HILL_OTID,
+                    .hpIV = 5,
+                    .attackIV = 5,
+                    .defenseIV = 5,
+                    .speedIV = 5,
+                    .spAttackIV = 5,
+                    .spDefenseIV = 5,
+                    .abilityNum = 0,
+                    .personality = 0x80,
+                    .nickname = _("ZIGZAGOON"),
+                    .friendship = MAX_FRIENDSHIP
+                },
+                [1] = {
+                    .species = SPECIES_SHROOMISH,
+                    .heldItem = ITEM_PECHA_BERRY,
+                    .moves = { MOVE_MEGA_DRAIN, MOVE_LEECH_SEED, MOVE_POISON_POWDER, MOVE_GROWTH },
+                    .hpEV = 120,
+                    .defenseEV = 120,
+                    .spAttackEV = 150,
+                    .spDefenseEV = 120,
+                    .otId = TRAINER_HILL_OTID,
+                    .hpIV = 5,
+                    .attackIV = 5,
+                    .defenseIV = 5,
+                    .speedIV = 5,
+                    .spAttackIV = 5,
+                    .spDefenseIV = 5,
+                    .abilityNum = 0,
+                    .personality = 0x0,
+                    .nickname = _("SHROOMISH"),
+                    .friendship = MAX_FRIENDSHIP
+                },
+                [2] = {
+                    .species = SPECIES_SANDSHREW,
+                    .heldItem = ITEM_QUICK_CLAW,
+                    .moves = { MOVE_SCRATCH, MOVE_POISON_STING, MOVE_SAND_ATTACK, MOVE_SWIFT },
+                    .hpEV = 110,
+                    .attackEV = 100,
+                    .defenseEV = 100,
+                    .spDefenseEV = 200,
+                    .otId = TRAINER_HILL_OTID,
+                    .hpIV = 5,
+                    .attackIV = 5,
+                    .defenseIV = 5,
+                    .speedIV = 5,
+                    .spAttackIV = 5,
+                    .spDefenseIV = 5,
+                    .abilityNum = 0,
+                    .personality = 0x80,
+                    .nickname = _("SANDSHREW"),
+                    .friendship = MAX_FRIENDSHIP
+                },
+                [3] = {
+                    .species = SPECIES_WINGULL,
+                    .heldItem = ITEM_CHERI_BERRY,
+                    .moves = { MOVE_WATER_GUN, MOVE_WING_ATTACK, MOVE_GROWL, MOVE_SUPERSONIC },
+                    .hpEV = 110,
+                    .attackEV = 100,
+                    .defenseEV = 100,
+                    .spAttackEV = 100,
+                    .spDefenseEV = 100,
+                    .otId = TRAINER_HILL_OTID,
+                    .hpIV = 5,
+                    .attackIV = 5,
+                    .defenseIV = 5,
+                    .speedIV = 5,
+                    .spAttackIV = 5,
+                    .spDefenseIV = 5,
+                    .abilityNum = 0,
+                    .personality = 0x0,
+                    .nickname = _("WINGULL"),
+                    .friendship = MAX_FRIENDSHIP
+                },
+                [4] = {
+                    .species = SPECIES_NUMEL,
+                    .heldItem = ITEM_FOCUS_BAND,
+                    .moves = { MOVE_EMBER, MOVE_DIG, MOVE_TACKLE, MOVE_FOCUS_ENERGY },
+                    .hpEV = 110,
+                    .attackEV = 100,
+                    .defenseEV = 100,
+                    .spAttackEV = 100,
+                    .spDefenseEV = 100,
+                    .otId = TRAINER_HILL_OTID,
+                    .hpIV = 5,
+                    .attackIV = 5,
+                    .defenseIV = 5,
+                    .speedIV = 5,
+                    .spAttackIV = 5,
+                    .spDefenseIV = 5,
+                    .abilityNum = 0,
+                    .personality = 0x96,
+                    .nickname = _("NUMEL"),
+                    .friendship = MAX_FRIENDSHIP
+                },
+                [5] = {
+                    .species = SPECIES_SURSKIT,
+                    .heldItem = ITEM_PERSIM_BERRY,
+                    .moves = { MOVE_BUBBLE_BEAM, MOVE_MUD_SHOT, MOVE_QUICK_ATTACK, MOVE_AGILITY },
+                    .hpEV = 100,
+                    .attackEV = 100,
+                    .defenseEV = 100,
+                    .spAttackEV = 100,
+                    .spDefenseEV = 100,
+                    .otId = TRAINER_HILL_OTID,
+                    .hpIV = 5,
+                    .attackIV = 5,
+                    .defenseIV = 5,
+                    .speedIV = 5,
+                    .spAttackIV = 5,
+                    .spDefenseIV = 5,
+                    .abilityNum = 0,
+                    .personality = 0x0,
+                    .nickname = _("SURSKIT"),
+                    .friendship = MAX_FRIENDSHIP
+                }"""
+
+simon_naomi_mons = """                [0] = {
+                    .species = SPECIES_ELECTRIKE,
+                    .heldItem = ITEM_CHERI_BERRY,
+                    .moves = { MOVE_SPARK, MOVE_THUNDER_WAVE, MOVE_QUICK_ATTACK, MOVE_ROAR },
+                    .hpEV = 120,
+                    .attackEV = 120,
+                    .speedEV = 120,
+                    .spAttackEV = 150,
+                    .otId = TRAINER_HILL_OTID,
+                    .hpIV = 5,
+                    .attackIV = 5,
+                    .defenseIV = 5,
+                    .speedIV = 5,
+                    .spAttackIV = 5,
+                    .spDefenseIV = 5,
+                    .abilityNum = 1,
+                    .personality = 0x0,
+                    .nickname = _("ELECTRIKE"),
+                    .friendship = MAX_FRIENDSHIP
+                },
+                [1] = {
+                    .species = SPECIES_CORPHISH,
+                    .heldItem = ITEM_QUICK_CLAW,
+                    .moves = { MOVE_KNOCK_OFF, MOVE_CRABHAMMER, MOVE_TAUNT, MOVE_PROTECT },
+                    .hpEV = 100,
+                    .attackEV = 110,
+                    .defenseEV = 100,
+                    .spAttackEV = 100,
+                    .spDefenseEV = 100,
+                    .otId = TRAINER_HILL_OTID,
+                    .hpIV = 5,
+                    .attackIV = 5,
+                    .defenseIV = 5,
+                    .speedIV = 5,
+                    .spAttackIV = 5,
+                    .spDefenseIV = 5,
+                    .abilityNum = 1,
+                    .personality = 0x96,
+                    .nickname = _("CORPHISH"),
+                    .friendship = MAX_FRIENDSHIP
+                },
+                [2] = {
+                    .species = SPECIES_BALTOY,
+                    .heldItem = ITEM_PERSIM_BERRY,
+                    .moves = { MOVE_PSYBEAM, MOVE_ROCK_TOMB, MOVE_MUD_SLAP, MOVE_HARDEN },
+                    .hpEV = 100,
+                    .attackEV = 100,
+                    .defenseEV = 100,
+                    .spAttackEV = 110,
+                    .spDefenseEV = 100,
+                    .otId = TRAINER_HILL_OTID,
+                    .hpIV = 5,
+                    .attackIV = 5,
+                    .defenseIV = 5,
+                    .speedIV = 5,
+                    .spAttackIV = 5,
+                    .spDefenseIV = 5,
+                    .abilityNum = 0,
+                    .personality = 0x96,
+                    .nickname = _("BALTOY"),
+                    .friendship = MAX_FRIENDSHIP
+                },
+                [3] = {
+                    .species = SPECIES_SPHEAL,
+                    .heldItem = ITEM_FOCUS_BAND,
+                    .moves = { MOVE_ICE_BALL, MOVE_BODY_SLAM, MOVE_WATER_GUN, MOVE_ENCORE },
+                    .hpEV = 100,
+                    .attackEV = 100,
+                    .defenseEV = 100,
+                    .spAttackEV = 110,
+                    .spDefenseEV = 100,
+                    .otId = TRAINER_HILL_OTID,
+                    .hpIV = 5,
+                    .attackIV = 5,
+                    .defenseIV = 5,
+                    .speedIV = 5,
+                    .spAttackIV = 5,
+                    .spDefenseIV = 5,
+                    .abilityNum = 0,
+                    .personality = 0x80,
+                    .nickname = _("SPHEAL"),
+                    .friendship = MAX_FRIENDSHIP
+                },
+                [4] = {
+                    .species = SPECIES_SPOINK,
+                    .heldItem = ITEM_PERSIM_BERRY,
+                    .moves = { MOVE_PSYWAVE, MOVE_FUTURE_SIGHT, MOVE_CONFUSE_RAY, MOVE_MAGIC_COAT },
+                    .hpEV = 100,
+                    .defenseEV = 100,
+                    .speedEV = 100,
+                    .spAttackEV = 110,
+                    .spDefenseEV = 100,
+                    .otId = TRAINER_HILL_OTID,
+                    .hpIV = 5,
+                    .attackIV = 5,
+                    .defenseIV = 5,
+                    .speedIV = 5,
+                    .spAttackIV = 5,
+                    .spDefenseIV = 5,
+                    .abilityNum = 1,
+                    .personality = 0xf,
+                    .nickname = _("SPOINK"),
+                    .friendship = MAX_FRIENDSHIP
+                },
+                [5] = {
+                    .species = SPECIES_POOCHYENA,
+                    .heldItem = ITEM_PECHA_BERRY,
+                    .moves = { MOVE_BITE, MOVE_POISON_FANG, MOVE_SWAGGER, MOVE_SCARY_FACE },
+                    .hpEV = 70,
+                    .attackEV = 80,
+                    .defenseEV = 80,
+                    .speedEV = 80,
+                    .spAttackEV = 80,
+                    .spDefenseEV = 80,
+                    .otId = TRAINER_HILL_OTID,
+                    .hpIV = 5,
+                    .attackIV = 5,
+                    .defenseIV = 5,
+                    .speedIV = 5,
+                    .spAttackIV = 5,
+                    .spDefenseIV = 5,
+                    .abilityNum = 0,
+                    .personality = 0x96,
+                    .nickname = _("POOCHYENA"),
+                    .friendship = MAX_FRIENDSHIP
+                }"""
+
+shawn_body = f"""            .name = _("SHAWN"),
+            .facilityClass = FACILITY_CLASS_YOUNGSTER,
+            .unused = TRUE,
+            .speechBefore = {{ EC_WORD_AHAHA, EC_WORD_YOU_RE, EC_WORD_NOT, EC_WORD_GOING, EC_WORD_ANYWHERE, EC_WORD_EXCL }},
+            .speechWin = {{ EC_WORD_ALL_RIGHT, EC_WORD_EXCL, EC_WORD_BYE_BYE, EC_WORD_EXCL, EC_EMPTY_WORD, EC_EMPTY_WORD }},
+            .speechLose = {{ EC_WORD_HIYAH, EC_WORD_EXCL_EXCL, EC_WORD_DONE, EC_WORD_IN, EC_WORD_TOTALLY, EC_WORD_EXCL_EXCL }},
+            .speechAfter = {{ EC_WORD_TCH, EC_WORD_TCH, EC_WORD_YOU_RE, EC_WORD_TOO_STRONG, EC_EMPTY_WORD, EC_EMPTY_WORD }},
+            .mons = {{
+{shawn_autumn_mons}
+            }}"""
+
+autumn_body = f"""            .name = _("AUTUMN"),
+            .facilityClass = FACILITY_CLASS_PARASOL_LADY,
+            .unused = TRUE,
+            .speechBefore = {{ EC_WORD_HI, EC_WORD_ARE, EC_WORD_YOU, EC_WORD_FEELING, EC_WORD_UPBEAT, EC_WORD_QUES }},
+            .speechWin = {{ EC_WORD_AREN_T, EC_WORD_YOU, EC_WORD_FEELING, EC_WORD_WELL, EC_WORD_QUES, EC_EMPTY_WORD }},
+            .speechLose = {{ EC_WORD_I, EC_WORD_CAN, EC_WORD_SEE, EC_WORD_YOU_RE, EC_WORD_FEELING, EC_WORD_GREAT }},
+            .speechAfter = {{ EC_WORD_YOUR, EC_WORD_POKEMON, EC_WORD_LOOK, EC_WORD_READY, EC_WORD_TO, EC_WORD_HUSTLE }},
+            .mons = {{
+{shawn_autumn_mons}
+            }}"""
+
+simon_body = f"""            .name = _("SIMON"),
+            .facilityClass = FACILITY_CLASS_NINJA_BOY,
+            .unused = TRUE,
+            .speechBefore = {{ EC_WORD_YAHOO, EC_WORD_EXCL, EC_WORD_HERE_I_COME, EC_WORD_BABY, EC_WORD_EXCL, EC_EMPTY_WORD }},
+            .speechWin = {{ EC_WORD_I_AM, EC_WORD_A, EC_WORD_BIG, EC_WORD_WINNER, EC_WORD_BABY, EC_WORD_EXCL }},
+            .speechLose = {{ EC_WORD_SOMETHING, EC_WORD_IS, EC_WORD_TERRIBLE, EC_WORD_AND, EC_WORD_BAD, EC_EMPTY_WORD }},
+            .speechAfter = {{ EC_WORD_HOW, EC_WORD_COULD, EC_WORD_I, EC_WORD_LOSE, EC_WORD_THIS, EC_WORD_QUES }},
+            .mons = {{
+{simon_naomi_mons}
+            }}"""
+
+naomi_body = f"""            .name = _("NAOMI"),
+            .facilityClass = FACILITY_CLASS_BEAUTY,
+            .unused = TRUE,
+            .speechBefore = {{ EC_WORD_I_AM, EC_WORD_THE, EC_WORD_GROUP, EC_WORD_LEADER, EC_WORD_TODAY, EC_WORD_EXCL }},
+            .speechWin = {{ EC_WORD_I_AM, EC_WORD_SO, EC_WORD_HAPPY, EC_WORD_I, EC_WORD_WON, EC_WORD_EXCL }},
+            .speechLose = {{ EC_WORD_HOW, EC_WORD_COULD, EC_WORD_I, EC_WORD_LOSE, EC_WORD_THIS, EC_WORD_QUES }},
+            .speechAfter = {{ EC_WORD_I_AM, EC_WORD_NOT, EC_WORD_TALKING, EC_WORD_WITH, EC_WORD_YOU, EC_WORD_ELLIPSIS }},
+            .mons = {{
+{simon_naomi_mons}
+            }}"""
+
 def main():
     print("Extracting 32 Western trainers directly from trainer_hill.h...")
-    western_trainers = extract_western_trainers_from_source(indent=16)
+    western_trainers = extract_western_trainers_from_source(indent=12)
     print(f"Loaded {len(western_trainers)} Western trainer structs from source.")
 
     print("Finding all raw card files...")
@@ -710,154 +1036,122 @@ def main():
         except Exception as e:
             print(f"FAILED: {e}")
 
-    c_output_parts = []
-    
-    # 1. Add the 2 default Japanese floors at the beginning (with English species nicknames)
-    jp_defaults = extract_jp_default_floors()
-    if jp_defaults:
-        c_output_parts.append("// Default Japanese 2-floor challenge from original ROM\n" + jp_defaults)
-
-    # 2. Generate arrays for 8 packs of Series A (1..8, 9..16, ..., 57..64)
-    for pack_idx in range(8):
-        pack_num = pack_idx + 1
-        pack_start = pack_idx * 8 + 1
-        
-        floors_c = []
-        for floor_idx in range(4):
-            t1_num = pack_start + floor_idx * 2
-            t2_num = t1_num + 1
-            
-            t1_data = decompiled_cards.get(("A", t1_num))
-            t2_data = decompiled_cards.get(("A", t2_num))
-            
-            # Floor map and layout:
-            # For Pack 8 Floor 1 (59 & 60), if raw 59 is missing, fallback to expert floor 1
-            if t1_num == 59 and t1_data is None:
-                floor_map_rel = "graphics/trainer_hill/maps_expert/floor_1"
-                c1_x, c1_y = 7, 10
-                c2_x, c2_y = 7, 14
-                dir_t1, dir_t2 = "DIR_SOUTH", "DIR_NORTH"
-                range_t1, range_t2 = 3, 3
-            else:
-                map_source = t1_data if t1_data is not None else t2_data
-                source_card_id = f"a{t1_num:03d}" if t1_data is not None else (f"a{t2_num:03d}" if t2_data is not None else None)
-                
-                if map_source is not None and source_card_id is not None:
-                    floor_map_rel = f"graphics/trainer_hill/maps_ereader/card_{source_card_id}"
-                    coords = map_source["map"]["coords"]
-                    c1_x, c1_y = coords[0] & 0xF, (coords[0] >> 4) & 0xF
-                    c2_x, c2_y = coords[1] & 0xF, (coords[1] >> 4) & 0xF
-                    
-                    dirs = map_source["map"]["dirs"]
-                    dir_t1 = dir_names.get((dirs & 0xF) + 1, "DIR_SOUTH")
-                    dir_t2 = dir_names.get(((dirs >> 4) & 0xF) + 1, "DIR_NORTH")
-                    
-                    ranges = map_source["map"]["ranges"]
-                    range_t1 = ranges & 0xF
-                    range_t2 = (ranges >> 4) & 0xF
-                else:
-                    floor_map_rel = "graphics/trainer_hill/maps_jp/floor_0"
-                    c1_x, c1_y = 4, 6
-                    c2_x, c2_y = 7, 9
-                    dir_t1, dir_t2 = "DIR_EAST", "DIR_SOUTH"
-                    range_t1, range_t2 = 3, 3
-
-            # Trainer 1:
-            # If in western_trainers (Packs 3, 6, 7, 8): load entire struct directly from trainer_hill.h!
-            if t1_num in western_trainers:
-                t1_body = western_trainers[t1_num]
-            elif t1_data is not None:
-                t1_body = format_trainer_c(t1_data, indent=16)
-            else:
-                t1_body = format_dummy_trainer_c(indent=16)
-
-            # Trainer 2:
-            if t2_num in western_trainers:
-                t2_body = western_trainers[t2_num]
-            elif t2_data is not None:
-                t2_body = format_trainer_c(t2_data, indent=16)
-            else:
-                t2_body = format_dummy_trainer_c(indent=16)
-            
-            floor_str = f"""    [{floor_idx}] = {{
-        .trainerNum1 = {t1_num},
-        .trainerNum2 = {t2_num},
-        .trainers = {{
-            [0] = {{
-{t1_body}
-            }},
-            [1] = {{
-{t2_body}
-            }},
-        }},
-        .map = {{
-            .metatileData = INCBIN_U8("{floor_map_rel}/metatiles.bin"),
-            .collisionData = INCBIN_U16("{floor_map_rel}/collision.bin"),
-            .trainerCoords = {{ COORDS_XY({c1_x},{c1_y}), COORDS_XY({c2_x},{c2_y}) }},
-            .trainerDirections = TRAINER_DIRS({dir_t1}, {dir_t2}),
-            .trainerRanges = TRAINER_RANGE({range_t1}, {range_t2})
-        }}
-    }},"""
-            floors_c.append(floor_str)
-
-        floors_block = "\n".join(floors_c)
-        pack_code = f"""static const struct TrainerHillFloor sFloors_EReaderPack{pack_num}[] = {{
-{floors_block}
-}};
-"""
-        c_output_parts.append(pack_code)
-
-    # 3. Promo floor (P001 & P002) - using P001 as primary map
-    p1_data = decompiled_cards.get(("P", 1))
-    p2_data = decompiled_cards.get(("P", 2))
-    if p1_data or p2_data:
-        map_source = p1_data if p1_data else p2_data
-        source_card_id = "p001" if p1_data else "p002"
-        floor_map_rel = f"graphics/trainer_hill/maps_ereader/card_{source_card_id}"
-        
-        coords = map_source["map"]["coords"]
+    def card_to_map_data(card_data, card_id_str):
+        coords = card_data["map"]["coords"]
         c1_x, c1_y = coords[0] & 0xF, (coords[0] >> 4) & 0xF
         c2_x, c2_y = coords[1] & 0xF, (coords[1] >> 4) & 0xF
-        dirs = map_source["map"]["dirs"]
+        dirs = card_data["map"]["dirs"]
         dir_t1 = dir_names.get((dirs & 0xF) + 1, "DIR_SOUTH")
         dir_t2 = dir_names.get(((dirs >> 4) & 0xF) + 1, "DIR_NORTH")
-        ranges = map_source["map"]["ranges"]
+        ranges = card_data["map"]["ranges"]
         range_t1 = ranges & 0xF
         range_t2 = (ranges >> 4) & 0xF
-        
-        t1_body = format_trainer_c(p1_data, indent=16) if p1_data else format_dummy_trainer_c(indent=16)
-        t2_body = format_trainer_c(p2_data, indent=16) if p2_data else format_dummy_trainer_c(indent=16)
-        
-        promo_code = f"""static const struct TrainerHillFloor sFloors_EReaderPromo[] = {{
-    [0] = {{
-        .trainerNum1 = {p1_data['trainerNum'] if p1_data else 0},
-        .trainerNum2 = {p2_data['trainerNum'] if p2_data else 0},
-        .trainers = {{
-            [0] = {{
-{t1_body}
-            }},
-            [1] = {{
-{t2_body}
-            }},
-        }},
-        .map = {{
-            .metatileData = INCBIN_U8("{floor_map_rel}/metatiles.bin"),
-            .collisionData = INCBIN_U16("{floor_map_rel}/collision.bin"),
-            .trainerCoords = {{ COORDS_XY({c1_x},{c1_y}), COORDS_XY({c2_x},{c2_y}) }},
-            .trainerDirections = TRAINER_DIRS({dir_t1}, {dir_t2}),
-            .trainerRanges = TRAINER_RANGE({range_t1}, {range_t2})
-        }}
-    }},
-}};
+        return {
+            "floor_map_rel": f"graphics/trainer_hill/maps_ereader/card_{card_id_str}",
+            "c1_x": c1_x, "c1_y": c1_y,
+            "c2_x": c2_x, "c2_y": c2_y,
+            "dir_t1": dir_t1, "dir_t2": dir_t2,
+            "range_t1": range_t1, "range_t2": range_t2
+        }
+
+    # 1. Normal Mode Candidates (JP Default 1 + A001..A016) = 17 layouts
+    normal_cands = []
+    shawn_map = {
+        "floor_map_rel": "graphics/trainer_hill/maps_jp/floor_0",
+        "c1_x": 8, "c1_y": 2, "c2_x": 8, "c2_y": 7,
+        "dir_t1": "DIR_SOUTH", "dir_t2": "DIR_NORTH",
+        "range_t1": 2, "range_t2": 3
+    }
+    normal_cands.append(format_candidate_c(0, 0, True, shawn_body, shawn_map, alt_trainer_name="sTrainer_Autumn"))
+    for idx in range(1, 17):
+        card_num = idx
+        cdata = decompiled_cards[("A", card_num)]
+        mdata = card_to_map_data(cdata, f"a{card_num:03d}")
+        tbody = format_trainer_c(cdata, indent=12)
+        normal_cands.append(format_candidate_c(idx, card_num, True, tbody, mdata))
+
+    # 2. Variety Mode Candidates (JP Default 2 + A017..A032) = 17 layouts
+    variety_cands = []
+    simon_map = {
+        "floor_map_rel": "graphics/trainer_hill/maps_jp/floor_1",
+        "c1_x": 4, "c1_y": 6, "c2_x": 7, "c2_y": 9,
+        "dir_t1": "DIR_EAST", "dir_t2": "DIR_SOUTH",
+        "range_t1": 3, "range_t2": 3
+    }
+    variety_cands.append(format_candidate_c(0, 0, True, simon_body, simon_map, alt_trainer_name="sTrainer_Naomi"))
+    for idx in range(1, 17):
+        card_num = 16 + idx
+        cdata = decompiled_cards[("A", card_num)]
+        mdata = card_to_map_data(cdata, f"a{card_num:03d}")
+        tbody = western_trainers[card_num] if card_num in western_trainers else format_trainer_c(cdata, indent=12)
+        variety_cands.append(format_candidate_c(idx, card_num, True, tbody, mdata))
+
+    # 3. Unique Mode Candidates (P001 + A033..A048) = 17 layouts
+    unique_cands = []
+    p1_data = decompiled_cards[("P", 1)]
+    p1_map = card_to_map_data(p1_data, "p001")
+    p1_body = format_trainer_c(p1_data, indent=12)
+    unique_cands.append(format_candidate_c(0, p1_data["trainerNum"], True, p1_body, p1_map))
+    for idx in range(1, 17):
+        card_num = 32 + idx
+        cdata = decompiled_cards[("A", card_num)]
+        mdata = card_to_map_data(cdata, f"a{card_num:03d}")
+        tbody = western_trainers[card_num] if card_num in western_trainers else format_trainer_c(cdata, indent=12)
+        unique_cands.append(format_candidate_c(idx, card_num, True, tbody, mdata))
+
+    # 4. Expert Mode Candidates (P002 + A049..A064) = 17 trainers (15 layouts)
+    expert_cands = []
+    p2_data = decompiled_cards[("P", 2)]
+    p2_map = card_to_map_data(p2_data, "p002")
+    p2_body = format_trainer_c(p2_data, indent=12)
+    expert_cands.append(format_candidate_c(0, p2_data["trainerNum"], True, p2_body, p2_map))
+    for idx in range(1, 17):
+        card_num = 48 + idx
+        cdata = decompiled_cards.get(("A", card_num))
+        if cdata is not None:
+            mdata = card_to_map_data(cdata, f"a{card_num:03d}")
+            if card_num in (58, 59, 64):
+                tbody = format_trainer_c(cdata, indent=12)
+            else:
+                tbody = western_trainers[card_num] if card_num in western_trainers else format_trainer_c(cdata, indent=12)
+            expert_cands.append(format_candidate_c(idx, card_num, True, tbody, mdata))
+        else:
+            if card_num == 59:
+                mdata = {
+                    "floor_map_rel": "graphics/trainer_hill/maps_expert/floor_1",
+                    "c1_x": 7, "c1_y": 10, "c2_x": 7, "c2_y": 14,
+                    "dir_t1": "DIR_SOUTH", "dir_t2": "DIR_NORTH",
+                    "range_t1": 3, "range_t2": 3
+                }
+                tbody = western_trainers[59]
+                expert_cands.append(format_candidate_c(idx, 59, True, tbody, mdata))
+            else:
+                # 58 (Edie) and 64 (Gav): no map
+                tbody = western_trainers[card_num]
+                expert_cands.append(format_candidate_c(idx, card_num, False, tbody, None))
+
+    c_output_parts = [
+        f"static const struct TrainerHillTrainer sTrainer_Autumn = {{\n{autumn_body}\n}};\n",
+        f"static const struct TrainerHillTrainer sTrainer_Naomi = {{\n{naomi_body}\n}};\n",
+        "const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {\n" + "\n".join(normal_cands) + "\n};\n",
+        "const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {\n" + "\n".join(variety_cands) + "\n};\n",
+        "const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {\n" + "\n".join(unique_cands) + "\n};\n",
+        "const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {\n" + "\n".join(expert_cands) + "\n};\n",
+        """const struct TrainerHillCandidate *const sTrainerHillCandidates[NUM_TRAINER_HILL_MODES] = {
+    [HILL_MODE_NORMAL]  = sTrainerHillCandidates_Normal,
+    [HILL_MODE_VARIETY] = sTrainerHillCandidates_Variety,
+    [HILL_MODE_UNIQUE]  = sTrainerHillCandidates_Unique,
+    [HILL_MODE_EXPERT]  = sTrainerHillCandidates_Expert,
+};
 """
-        c_output_parts.append(promo_code)
+    ]
 
     all_generated_c = "\n".join(c_output_parts)
     with open(EREADER_HEADER_PATH, "w") as f:
         f.write("// Auto-generated by tools/trainer_hill/decompile_ereader.py\n")
-        f.write("// Contains Japanese Emerald Battle e+ Trainer Hill floors with Western data and adjusted speeches\n\n")
+        f.write("// Contains Trainer Hill candidate arrays for Normal, Variety, Unique, Expert modes\n\n")
         f.write(all_generated_c)
-    print(f"\nWritten all packs to {EREADER_HEADER_PATH}!")
+    print(f"\nWritten all candidates to {EREADER_HEADER_PATH}!")
 
 if __name__ == "__main__":
     main()

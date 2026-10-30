@@ -16,6 +16,7 @@
 #include "overworld.h"
 #include "palette.h"
 #include "pokemon.h"
+#include "random.h"
 #include "script.h"
 #include "string_util.h"
 #include "strings.h"
@@ -213,7 +214,7 @@ static const struct TrainerHillChallenge *const sChallengeData[NUM_TRAINER_HILL_
     [HILL_MODE_EXPERT]  = &sChallenge_Expert,
 };
 
-static const struct TrainerHillFloor *const sFloorData[NUM_TRAINER_HILL_MODES] =
+static const struct TrainerHillFloor *const UNUSED sFloorData[NUM_TRAINER_HILL_MODES] =
 {
     [HILL_MODE_NORMAL]  = &sFloors_Normal[0],
     [HILL_MODE_VARIETY] = &sFloors_Variety[0],
@@ -277,7 +278,7 @@ static const u32 sNextFloorMapNum[NUM_TRAINER_HILL_FLOORS] =
     [TRAINER_HILL_3F - 1] = MAP_NUM(MAP_TRAINER_HILL_4F),
     [TRAINER_HILL_4F - 1] = MAP_NUM(MAP_TRAINER_HILL_ROOF)
 };
-static const u8 sTrainerPartySlots[HILL_TRAINERS_PER_FLOOR][PARTY_SIZE / 2] =
+static const u8 UNUSED sTrainerPartySlots[HILL_TRAINERS_PER_FLOOR][PARTY_SIZE / 2] =
 {
     {0, 1, 2},
     {3, 4, 5}
@@ -302,6 +303,8 @@ void ResetTrainerHillResults(void)
     gSaveBlock1Ptr->trainerHill.bestTime = 0;
     for (i = 0; i < NUM_TRAINER_HILL_MODES; i++)
         SetTimerValue(&gSaveBlock1Ptr->trainerHillTimes[i], HILL_MAX_TIME);
+    memset(gSaveBlock1Ptr->trainerHill.prevFirstTrainers, 0xFF, sizeof(gSaveBlock1Ptr->trainerHill.prevFirstTrainers));
+    memset(gSaveBlock1Ptr->trainerHill.currentFloorTrainers, 0xFF, sizeof(gSaveBlock1Ptr->trainerHill.currentFloorTrainers));
 #endif //FREE_TRAINER_HILL
 }
 
@@ -363,16 +366,192 @@ void FreeTrainerHillBattleStruct(void)
     TRY_FREE_AND_SET_NULL(sFloorTrainers);
 }
 
+#if FREE_TRAINER_HILL == FALSE
+static void GenerateTrainerHillChallenge(u8 mode)
+{
+    u8 f, i, j;
+    u8 t1Count = 0;
+    u8 t2Count = 0;
+    u8 eligibleT1[17];
+    u8 eligibleT2[17];
+    u8 chosenT1[NUM_TRAINER_HILL_FLOORS];
+    u8 chosenT2[NUM_TRAINER_HILL_FLOORS];
+    bool8 chosen[17];
+    const struct TrainerHillCandidate *pool;
+
+    if (mode >= NUM_TRAINER_HILL_MODES)
+        mode = HILL_MODE_NORMAL;
+
+    pool = sTrainerHillCandidates[mode];
+
+    for (i = 0; i < 17; i++)
+        chosen[i] = FALSE;
+
+    // 1. Collect candidates eligible to be Trainer 1 (First trainer on floor; provides the map layout)
+    // Must have a valid map (hasMap == TRUE).
+    // Must NOT have been chosen as Trainer 1 in the previous challenge of this mode.
+    for (i = 0; i < 17; i++)
+    {
+        bool8 usedPreviously;
+
+        if (!pool[i].hasMap)
+            continue;
+
+        usedPreviously = FALSE;
+        for (j = 0; j < NUM_TRAINER_HILL_FLOORS; j++)
+        {
+            if (gSaveBlock1Ptr->trainerHill.prevFirstTrainers[mode][j] == i)
+            {
+                usedPreviously = TRUE;
+                break;
+            }
+        }
+        if (!usedPreviously)
+            eligibleT1[t1Count++] = i;
+    }
+
+    // Safety fallback: if fewer than 4 eligible (e.g. uninitialized save), allow any candidate with map
+    if (t1Count < NUM_TRAINER_HILL_FLOORS)
+    {
+        t1Count = 0;
+        for (i = 0; i < 17; i++)
+        {
+            if (pool[i].hasMap)
+                eligibleT1[t1Count++] = i;
+        }
+    }
+
+    // Randomly select 4 distinct Trainer 1s from eligibleT1
+    for (f = 0; f < NUM_TRAINER_HILL_FLOORS; f++)
+    {
+        u8 idx = Random() % t1Count;
+        u8 cand = eligibleT1[idx];
+        chosen[cand] = TRUE;
+        gSaveBlock1Ptr->trainerHill.prevFirstTrainers[mode][f] = cand;
+        if (pool[cand].altTrainer != NULL && (Random() & 1))
+            chosenT1[f] = cand | 0x80;
+        else
+            chosenT1[f] = cand;
+        eligibleT1[idx] = eligibleT1[--t1Count];
+    }
+
+    // 2. Collect candidates eligible to be Trainer 2 (Second trainer on floor)
+    // Any candidate (0..16) not chosen as Trainer 1 in this challenge.
+    // (Can include previous run's Trainer 1s, and candidates without maps such as 58 and 64).
+    for (i = 0; i < 17; i++)
+    {
+        if (!chosen[i])
+            eligibleT2[t2Count++] = i;
+    }
+
+    // Randomly select 4 distinct Trainer 2s from eligibleT2
+    for (f = 0; f < NUM_TRAINER_HILL_FLOORS; f++)
+    {
+        u8 idx = Random() % t2Count;
+        u8 cand = eligibleT2[idx];
+        chosen[cand] = TRUE;
+        if (pool[cand].altTrainer != NULL && (Random() & 1))
+            chosenT2[f] = cand | 0x80;
+        else
+            chosenT2[f] = cand;
+        eligibleT2[idx] = eligibleT2[--t2Count];
+    }
+
+    // Save chosen trainers to SaveBlock
+    for (f = 0; f < NUM_TRAINER_HILL_FLOORS; f++)
+    {
+        gSaveBlock1Ptr->trainerHill.currentFloorTrainers[f][0] = chosenT1[f];
+        gSaveBlock1Ptr->trainerHill.currentFloorTrainers[f][1] = chosenT2[f];
+    }
+
+    // 3. Shuffle Pokémon for each of the 8 chosen trainers
+    for (f = 0; f < NUM_TRAINER_HILL_FLOORS; f++)
+    {
+        for (j = 0; j < HILL_TRAINERS_PER_FLOOR; j++)
+        {
+            u8 candIdx = gSaveBlock1Ptr->trainerHill.currentFloorTrainers[f][j] & 0x7F;
+            const struct TrainerHillTrainer *tr = &pool[candIdx].trainer;
+            u8 validMons[PARTY_SIZE];
+            u8 numValid = 0;
+            u8 m;
+
+            // Collect indices of all valid Pokémon (species != SPECIES_NONE)
+            for (m = 0; m < PARTY_SIZE; m++)
+            {
+                if (tr->mons[m].species != SPECIES_NONE)
+                    validMons[numValid++] = m;
+            }
+
+            // Shuffle valid mons using Fisher-Yates
+            for (m = numValid; m > 1; m--)
+            {
+                u8 r = Random() % m;
+                u8 tmp = validMons[r];
+                validMons[r] = validMons[m - 1];
+                validMons[m - 1] = tmp;
+            }
+
+            // Store chosen slots into monSlots
+            for (m = 0; m < MULTI_PARTY_SIZE; m++)
+            {
+                if (numValid > 0)
+                    gSaveBlock1Ptr->trainerHill.monSlots[f][j][m] = validMons[m % numValid];
+                else
+                    gSaveBlock1Ptr->trainerHill.monSlots[f][j][m] = m;
+            }
+        }
+    }
+}
+#endif // FREE_TRAINER_HILL
+
 static void SetUpDataStruct(void)
 {
 #if FREE_TRAINER_HILL == FALSE
+    u8 f, cand1, cand2, mode;
+    const struct TrainerHillCandidate *pool;
+
     if (sHillData != NULL) return;
 
     sHillData = AllocZeroed(sizeof(*sHillData));
     sHillData->floorId = gMapHeader.mapLayoutId - LAYOUT_TRAINER_HILL_1F;
 
-    CpuCopy32(sChallengeData[gSaveBlock1Ptr->trainerHill.mode], &sHillData->challenge, sizeof(sHillData->challenge));
-    CpuCopy32(sFloorData[gSaveBlock1Ptr->trainerHill.mode], &sHillData->floors, sizeof(sHillData->floors));
+    mode = gSaveBlock1Ptr->trainerHill.mode;
+    if (mode >= NUM_TRAINER_HILL_MODES)
+        mode = HILL_MODE_NORMAL;
+
+    CpuCopy32(sChallengeData[mode], &sHillData->challenge, sizeof(sHillData->challenge));
+
+    // If current floor trainers are uninitialized, generate challenge now
+    if ((gSaveBlock1Ptr->trainerHill.currentFloorTrainers[0][0] & 0x7F) >= 17)
+        GenerateTrainerHillChallenge(mode);
+
+    pool = sTrainerHillCandidates[mode];
+    for (f = 0; f < NUM_TRAINER_HILL_FLOORS; f++)
+    {
+        cand1 = gSaveBlock1Ptr->trainerHill.currentFloorTrainers[f][0];
+        cand2 = gSaveBlock1Ptr->trainerHill.currentFloorTrainers[f][1];
+        bool8 alt1 = (cand1 & 0x80) != 0;
+        bool8 alt2 = (cand2 & 0x80) != 0;
+        cand1 &= 0x7F;
+        cand2 &= 0x7F;
+        if (cand1 >= 17) cand1 = 0;
+        if (cand2 >= 17) cand2 = 1;
+
+        sHillData->floors[f].trainerNum1 = pool[cand1].trainerNum;
+        sHillData->floors[f].trainerNum2 = pool[cand2].trainerNum;
+
+        if (alt1 && pool[cand1].altTrainer != NULL)
+            sHillData->floors[f].trainers[0] = *pool[cand1].altTrainer;
+        else
+            sHillData->floors[f].trainers[0] = pool[cand1].trainer;
+
+        if (alt2 && pool[cand2].altTrainer != NULL)
+            sHillData->floors[f].trainers[1] = *pool[cand2].altTrainer;
+        else
+            sHillData->floors[f].trainers[1] = pool[cand2].trainer;
+
+        sHillData->floors[f].map = pool[cand1].map;
+    }
 #endif // FREE_TRAINER_HILL
 }
 
@@ -412,6 +591,8 @@ static void TrainerHillStartChallenge(void)
 {
     TrainerHillDummy();
 #if FREE_TRAINER_HILL == FALSE
+    GenerateTrainerHillChallenge(gSaveBlock1Ptr->trainerHill.mode);
+
     if (!ReadTrainerHillAndValidate())
         gSaveBlock1Ptr->trainerHill.field_3D6E_0f = 1;
     else
@@ -894,7 +1075,7 @@ static void ShowTrainerHillPostBattleText(void)
 static void CreateNPCTrainerHillParty(u16 trainerId, enum BattleTrainer trainer)
 {
     u8 trId, level;
-    s32 i, floorId, partySlot;
+    s32 i, floorId;
 
     if (trainerId == 0 || trainerId > HILL_TRAINERS_PER_FLOOR)
         return;
@@ -903,10 +1084,16 @@ static void CreateNPCTrainerHillParty(u16 trainerId, enum BattleTrainer trainer)
     SetUpDataStruct();
     level = GetHighestLevelInPlayerParty();
     floorId = GetFloorId();
-    for (i = 0, partySlot = 0; i < MULTI_PARTY_SIZE; i++, partySlot++)
+    if (floorId >= NUM_TRAINER_HILL_FLOORS)
+        floorId = 0;
+
+    for (i = 0; i < MULTI_PARTY_SIZE; i++)
     {
-        u8 id = sTrainerPartySlots[trId][partySlot];
+        u8 id = gSaveBlock1Ptr->trainerHill.monSlots[floorId][trId][i];
         struct Pokemon *mon = &gParties[trainer][i];
+
+        if (id >= PARTY_SIZE)
+            id = i;
 
         CreateBattleTowerMon(mon, &sHillData->floors[floorId].trainers[trId].mons[id]);
         SetTrainerHillMonLevel(mon, level);

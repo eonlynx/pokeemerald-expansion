@@ -32,6 +32,15 @@ struct TrainerHillFloor
     struct TrainerHillFloorMap map;
 };
 
+struct TrainerHillCandidate
+{
+    u8 trainerNum;
+    bool8 hasMap;
+    struct TrainerHillTrainer trainer;
+    const struct TrainerHillTrainer *altTrainer;
+    struct TrainerHillFloorMap map;
+};
+
 struct TrainerHillChallenge
 {
     u8 numTrainers;
