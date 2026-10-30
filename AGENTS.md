@@ -70,6 +70,13 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
   - *Simon:* Constrict commitment (`EC_MOVE(CONSTRICT)`) and tomorrow is another day.
   - *Naomi:* Requesting opponents not to go easy on her (`EC_WORD_DON_T`, `EC_WORD_BE`, `EC_WORD_KIND`).
 
+### 2.8. Trainer Facing Directions & Double Battle Sight Lines
+- **Bug Diagnosis:** In earlier decompilations, imported e-Reader trainers faced directions opposite or inverted from their intended orientations, preventing tag/double battles from triggering.
+  - *Root Cause 1 (Trainer Nibble Swap):* Game Freak's macro `#define TRAINER_DIRS(a, b) (((a-1)<<4)|(b-1))` packs `a` into the high nibble (which in `trainer_hill.c` corresponds to `Trainer 2`) and `b` into the low nibble (`Trainer 1`). Passing `(dir_t1, dir_t2)` inverted the trainers' directions.
+  - *Root Cause 2 (North/South Inversion):* Raw dotcodes encode movement directly as `0 = Up/North`, `1 = Down/South`, `2 = Left/West`, `3 = Right/East`. Mapping through engine direction constants (`DIR_SOUTH = 1`, `DIR_NORTH = 2`) inverted North and South.
+  - *Fix:* `tools/trainer_hill/decompile_ereader.py` was updated to directly output raw hex bytes (`raw_dirs` and `raw_ranges`), matching the hardware format byte-for-byte and ensuring 100% fidelity without macro misalignments.
+  - *Verification & Tooling:* An ASCII layout generator (`tools/trainer_hill/generate_ascii_layouts.py`) was created to export visual grids (`□` passable, `■` obstacle, arrows for facing directions, and `X` for double battle line-of-sight intersections) for all 63 raw cards, 2 JP Default floors, and 16 original Western floors. All maps confirm identical collision and trainer placements between Western releases and raw Japanese cards, guaranteeing proper double-battle triggers across all floors.
+
 ---
 
 ## 3. Key Source Files
@@ -80,13 +87,17 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
    - Enforces English trainer names, replaces Japanese nicknames with species names, and writes faithful Easy Chat phrases.
    - Generates `src/data/battle_frontier/trainer_hill_ereader.h`.
 
-2. **`src/data/battle_frontier/trainer_hill_ereader.h`**:
+2. **`tools/trainer_hill/generate_ascii_layouts.py` & `tools/trainer_hill/export_ascii_layouts/`**:
+   - Visual ASCII representation tool and exported `.txt` layouts for all 81 floors (63 raw cards, 2 JP Default floors, 16 original Western floors).
+   - Validates impassable geometry, trainer coordinates, vision cones, and tag-battle intersection triggers.
+
+3. **`src/data/battle_frontier/trainer_hill_ereader.h`**:
    - Contains candidate pools for Normal, Variety, Unique, and Expert with metatiles, collisions, coordinates, and full trainer data.
 
-3. **`src/trainer_hill.c`**:
+4. **`src/trainer_hill.c`**:
    - Facility gameplay engine: procedural selection of 4 floors (8 trainers), team order shuffling for double battles, and previous-floor anti-repetition guards.
 
-4. **`src/data/battle_frontier/trainer_hill.h`**:
+5. **`src/data/battle_frontier/trainer_hill.h`**:
    - Main header including `trainer_hill_ereader.h` and managing base floor tables.
 
 ---
@@ -96,6 +107,11 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
 To regenerate the e-Reader data header:
 ```bash
 python3 tools/trainer_hill/decompile_ereader.py
+```
+
+To export/verify ASCII layout representations:
+```bash
+python3 tools/trainer_hill/generate_ascii_layouts.py
 ```
 
 To compile the ROM:

@@ -661,7 +661,11 @@ def format_dummy_trainer_c(indent=12):
 {ind}    }}
 {ind}}}"""
 
-dir_names = {0: "DIR_NONE", 1: "DIR_SOUTH", 2: "DIR_NORTH", 3: "DIR_WEST", 4: "DIR_EAST"}
+# GBA Direction mapping:
+# Raw byte dirs: low nibble (dirs & 0xF) = Trainer 1, high nibble ((dirs >> 4) & 0xF) = Trainer 2.
+# 0 = North, 1 = South, 2 = West, 3 = East
+# In global.h: DIR_NONE = 0, DIR_SOUTH = 1, DIR_NORTH = 2, DIR_WEST = 3, DIR_EAST = 4
+dir_names = {0: "DIR_NORTH", 1: "DIR_SOUTH", 2: "DIR_WEST", 3: "DIR_EAST"}
 
 def format_candidate_c(cand_idx, trainer_num, has_map, trainer_body, map_data=None, alt_trainer_name=None):
     if has_map and map_data:
@@ -669,8 +673,8 @@ def format_candidate_c(cand_idx, trainer_num, has_map, trainer_body, map_data=No
             .metatileData = INCBIN_U8("{map_data['floor_map_rel']}/metatiles.bin"),
             .collisionData = INCBIN_U16("{map_data['floor_map_rel']}/collision.bin"),
             .trainerCoords = {{ COORDS_XY({map_data['c1_x']},{map_data['c1_y']}), COORDS_XY({map_data['c2_x']},{map_data['c2_y']}) }},
-            .trainerDirections = TRAINER_DIRS({map_data['dir_t1']}, {map_data['dir_t2']}),
-            .trainerRanges = TRAINER_RANGE({map_data['range_t1']}, {map_data['range_t2']})
+            .trainerDirections = 0x{map_data['raw_dirs']:02X},
+            .trainerRanges = 0x{map_data['raw_ranges']:02X}
         }}"""
     else:
         map_body = """        .map = {
@@ -1041,17 +1045,13 @@ def main():
         c1_x, c1_y = coords[0] & 0xF, (coords[0] >> 4) & 0xF
         c2_x, c2_y = coords[1] & 0xF, (coords[1] >> 4) & 0xF
         dirs = card_data["map"]["dirs"]
-        dir_t1 = dir_names.get((dirs & 0xF) + 1, "DIR_SOUTH")
-        dir_t2 = dir_names.get(((dirs >> 4) & 0xF) + 1, "DIR_NORTH")
         ranges = card_data["map"]["ranges"]
-        range_t1 = ranges & 0xF
-        range_t2 = (ranges >> 4) & 0xF
         return {
             "floor_map_rel": f"graphics/trainer_hill/maps_ereader/card_{card_id_str}",
             "c1_x": c1_x, "c1_y": c1_y,
             "c2_x": c2_x, "c2_y": c2_y,
-            "dir_t1": dir_t1, "dir_t2": dir_t2,
-            "range_t1": range_t1, "range_t2": range_t2
+            "raw_dirs": dirs,
+            "raw_ranges": ranges
         }
 
     # 1. Normal Mode Candidates (JP Default 1 + A001..A016) = 17 layouts
@@ -1059,8 +1059,8 @@ def main():
     shawn_map = {
         "floor_map_rel": "graphics/trainer_hill/maps_jp/floor_0",
         "c1_x": 8, "c1_y": 2, "c2_x": 8, "c2_y": 7,
-        "dir_t1": "DIR_SOUTH", "dir_t2": "DIR_NORTH",
-        "range_t1": 2, "range_t2": 3
+        "raw_dirs": 0x01, # DIR_SOUTH (T1=1), DIR_NORTH (T2=0)
+        "raw_ranges": 0x23 # Range T1=3, Range T2=2
     }
     normal_cands.append(format_candidate_c(0, 0, True, shawn_body, shawn_map, alt_trainer_name="sTrainer_Autumn"))
     for idx in range(1, 17):
@@ -1074,9 +1074,9 @@ def main():
     variety_cands = []
     simon_map = {
         "floor_map_rel": "graphics/trainer_hill/maps_jp/floor_1",
-        "c1_x": 4, "c1_y": 6, "c2_x": 7, "c2_y": 9,
-        "dir_t1": "DIR_EAST", "dir_t2": "DIR_SOUTH",
-        "range_t1": 3, "range_t2": 3
+        "c1_x": 7, "c1_y": 6, "c2_x": 7, "c2_y": 10,
+        "raw_dirs": 0x01, # DIR_SOUTH (T1=1), DIR_NORTH (T2=0)
+        "raw_ranges": 0x33 # Range T1=3, Range T2=3
     }
     variety_cands.append(format_candidate_c(0, 0, True, simon_body, simon_map, alt_trainer_name="sTrainer_Naomi"))
     for idx in range(1, 17):
@@ -1120,8 +1120,8 @@ def main():
                 mdata = {
                     "floor_map_rel": "graphics/trainer_hill/maps_expert/floor_1",
                     "c1_x": 7, "c1_y": 10, "c2_x": 7, "c2_y": 14,
-                    "dir_t1": "DIR_SOUTH", "dir_t2": "DIR_NORTH",
-                    "range_t1": 3, "range_t2": 3
+                    "raw_dirs": 0x01, # DIR_SOUTH (T1=1), DIR_NORTH (T2=0)
+                    "raw_ranges": 0x33 # Range T1=3, Range T2=3
                 }
                 tbody = western_trainers[59]
                 expert_cands.append(format_candidate_c(idx, 59, True, tbody, mdata))

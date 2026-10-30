@@ -419,8 +419,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_jp/floor_0/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_jp/floor_0/collision.bin"),
             .trainerCoords = { COORDS_XY(8,2), COORDS_XY(8,7) },
-            .trainerDirections = TRAINER_DIRS(DIR_SOUTH, DIR_NORTH),
-            .trainerRanges = TRAINER_RANGE(2, 3)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x23
         }
     },
     [1] = {
@@ -550,8 +550,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a001/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a001/collision.bin"),
             .trainerCoords = { COORDS_XY(4,6), COORDS_XY(7,9) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x03,
+            .trainerRanges = 0x33
         }
     },
     [2] = {
@@ -681,8 +681,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a002/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a002/collision.bin"),
             .trainerCoords = { COORDS_XY(2,9), COORDS_XY(5,11) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(3, 2)
+            .trainerDirections = 0x03,
+            .trainerRanges = 0x23
         }
     },
     [3] = {
@@ -818,8 +818,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a003/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a003/collision.bin"),
             .trainerCoords = { COORDS_XY(4,13), COORDS_XY(10,13) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(5, 5)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x55
         }
     },
     [4] = {
@@ -955,8 +955,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a004/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a004/collision.bin"),
             .trainerCoords = { COORDS_XY(9,2), COORDS_XY(14,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(5, 5)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x55
         }
     },
     [5] = {
@@ -1092,8 +1092,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a005/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a005/collision.bin"),
             .trainerCoords = { COORDS_XY(2,4), COORDS_XY(10,4) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(7, 7)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x77
         }
     },
     [6] = {
@@ -1229,8 +1229,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a006/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a006/collision.bin"),
             .trainerCoords = { COORDS_XY(9,3), COORDS_XY(13,3) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(2, 2)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x22
         }
     },
     [7] = {
@@ -1360,8 +1360,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a007/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a007/collision.bin"),
             .trainerCoords = { COORDS_XY(3,7), COORDS_XY(11,7) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(7, 7)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x77
         }
     },
     [8] = {
@@ -1491,8 +1491,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a008/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a008/collision.bin"),
             .trainerCoords = { COORDS_XY(9,2), COORDS_XY(14,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(5, 5)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x55
         }
     },
     [9] = {
@@ -1623,8 +1623,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a009/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a009/collision.bin"),
             .trainerCoords = { COORDS_XY(8,2), COORDS_XY(13,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(4, 4)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x44
         }
     },
     [10] = {
@@ -1758,8 +1758,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a010/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a010/collision.bin"),
             .trainerCoords = { COORDS_XY(9,1), COORDS_XY(14,1) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(4, 4)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x44
         }
     },
     [11] = {
@@ -1895,8 +1895,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a011/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a011/collision.bin"),
             .trainerCoords = { COORDS_XY(6,8), COORDS_XY(8,8) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x11
         }
     },
     [12] = {
@@ -2032,8 +2032,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a012/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a012/collision.bin"),
             .trainerCoords = { COORDS_XY(7,7), COORDS_XY(7,9) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x11
         }
     },
     [13] = {
@@ -2169,8 +2169,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a013/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a013/collision.bin"),
             .trainerCoords = { COORDS_XY(10,2), COORDS_XY(14,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x33
         }
     },
     [14] = {
@@ -2306,8 +2306,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a014/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a014/collision.bin"),
             .trainerCoords = { COORDS_XY(7,5), COORDS_XY(7,7) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x11
         }
     },
     [15] = {
@@ -2439,8 +2439,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a015/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a015/collision.bin"),
             .trainerCoords = { COORDS_XY(10,3), COORDS_XY(14,3) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(2, 2)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x22
         }
     },
     [16] = {
@@ -2570,8 +2570,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Normal[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a016/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a016/collision.bin"),
             .trainerCoords = { COORDS_XY(6,2), COORDS_XY(8,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x11
         }
     },
 };
@@ -2721,9 +2721,9 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
         .map = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_jp/floor_1/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_jp/floor_1/collision.bin"),
-            .trainerCoords = { COORDS_XY(4,6), COORDS_XY(7,9) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerCoords = { COORDS_XY(7,6), COORDS_XY(7,10) },
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x33
         }
     },
     [1] = {
@@ -2867,8 +2867,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a017/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a017/collision.bin"),
             .trainerCoords = { COORDS_XY(11,1), COORDS_XY(13,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(1, 2)
+            .trainerDirections = 0x21,
+            .trainerRanges = 0x21
         }
     },
     [2] = {
@@ -3005,8 +3005,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a018/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a018/collision.bin"),
             .trainerCoords = { COORDS_XY(10,2), COORDS_XY(13,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(2, 2)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x22
         }
     },
     [3] = {
@@ -3148,8 +3148,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a019/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a019/collision.bin"),
             .trainerCoords = { COORDS_XY(4,11), COORDS_XY(9,14) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(5, 3)
+            .trainerDirections = 0x03,
+            .trainerRanges = 0x35
         }
     },
     [4] = {
@@ -3291,8 +3291,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a020/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a020/collision.bin"),
             .trainerCoords = { COORDS_XY(7,6), COORDS_XY(7,12) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(5, 5)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x55
         }
     },
     [5] = {
@@ -3434,8 +3434,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a021/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a021/collision.bin"),
             .trainerCoords = { COORDS_XY(5,2), COORDS_XY(9,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x33
         }
     },
     [6] = {
@@ -3576,8 +3576,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a022/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a022/collision.bin"),
             .trainerCoords = { COORDS_XY(5,2), COORDS_XY(9,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x33
         }
     },
     [7] = {
@@ -3715,8 +3715,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a023/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a023/collision.bin"),
             .trainerCoords = { COORDS_XY(7,4), COORDS_XY(7,10) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x33
         }
     },
     [8] = {
@@ -3854,8 +3854,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a024/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a024/collision.bin"),
             .trainerCoords = { COORDS_XY(2,4), COORDS_XY(4,4) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x11
         }
     },
     [9] = {
@@ -3990,8 +3990,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a025/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a025/collision.bin"),
             .trainerCoords = { COORDS_XY(6,10), COORDS_XY(4,12) },
-            .trainerDirections = TRAINER_DIRS(DIR_WEST, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(2, 2)
+            .trainerDirections = 0x02,
+            .trainerRanges = 0x22
         }
     },
     [10] = {
@@ -4128,8 +4128,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a026/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a026/collision.bin"),
             .trainerCoords = { COORDS_XY(8,6), COORDS_XY(13,6) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(4, 4)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x44
         }
     },
     [11] = {
@@ -4265,8 +4265,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a027/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a027/collision.bin"),
             .trainerCoords = { COORDS_XY(3,7), COORDS_XY(11,7) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(7, 7)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x77
         }
     },
     [12] = {
@@ -4402,8 +4402,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a028/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a028/collision.bin"),
             .trainerCoords = { COORDS_XY(4,9), COORDS_XY(11,13) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(5, 7)
+            .trainerDirections = 0x21,
+            .trainerRanges = 0x75
         }
     },
     [13] = {
@@ -4545,8 +4545,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a029/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a029/collision.bin"),
             .trainerCoords = { COORDS_XY(8,13), COORDS_XY(13,13) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(4, 4)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x44
         }
     },
     [14] = {
@@ -4683,8 +4683,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a030/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a030/collision.bin"),
             .trainerCoords = { COORDS_XY(9,8), COORDS_XY(9,12) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(2, 2)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x22
         }
     },
     [15] = {
@@ -4814,8 +4814,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a031/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a031/collision.bin"),
             .trainerCoords = { COORDS_XY(9,1), COORDS_XY(14,1) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(4, 4)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x44
         }
     },
     [16] = {
@@ -4946,8 +4946,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Variety[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a032/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a032/collision.bin"),
             .trainerCoords = { COORDS_XY(10,6), COORDS_XY(10,10) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x33
         }
     },
 };
@@ -5086,8 +5086,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_p001/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_p001/collision.bin"),
             .trainerCoords = { COORDS_XY(7,6), COORDS_XY(7,10) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(2, 2)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x22
         }
     },
     [1] = {
@@ -5218,8 +5218,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a033/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a033/collision.bin"),
             .trainerCoords = { COORDS_XY(7,5), COORDS_XY(9,7) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(2, 2)
+            .trainerDirections = 0x21,
+            .trainerRanges = 0x22
         }
     },
     [2] = {
@@ -5349,8 +5349,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a034/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a034/collision.bin"),
             .trainerCoords = { COORDS_XY(6,11), COORDS_XY(8,11) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x11
         }
     },
     [3] = {
@@ -5486,8 +5486,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a035/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a035/collision.bin"),
             .trainerCoords = { COORDS_XY(2,4), COORDS_XY(10,4) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(7, 7)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x77
         }
     },
     [4] = {
@@ -5623,8 +5623,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a036/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a036/collision.bin"),
             .trainerCoords = { COORDS_XY(10,2), COORDS_XY(14,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x33
         }
     },
     [5] = {
@@ -5760,8 +5760,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a037/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a037/collision.bin"),
             .trainerCoords = { COORDS_XY(7,11), COORDS_XY(7,13) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x11
         }
     },
     [6] = {
@@ -5897,8 +5897,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a038/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a038/collision.bin"),
             .trainerCoords = { COORDS_XY(7,7), COORDS_XY(7,9) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x11
         }
     },
     [7] = {
@@ -6028,8 +6028,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a039/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a039/collision.bin"),
             .trainerCoords = { COORDS_XY(8,3), COORDS_XY(8,7) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x33
         }
     },
     [8] = {
@@ -6159,8 +6159,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a040/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a040/collision.bin"),
             .trainerCoords = { COORDS_XY(9,4), COORDS_XY(13,4) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x33
         }
     },
     [9] = {
@@ -6296,8 +6296,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a041/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a041/collision.bin"),
             .trainerCoords = { COORDS_XY(5,8), COORDS_XY(9,8) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x33
         }
     },
     [10] = {
@@ -6433,8 +6433,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a042/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a042/collision.bin"),
             .trainerCoords = { COORDS_XY(7,11), COORDS_XY(7,13) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x11
         }
     },
     [11] = {
@@ -6594,8 +6594,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a043/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a043/collision.bin"),
             .trainerCoords = { COORDS_XY(3,8), COORDS_XY(11,8) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(7, 7)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x77
         }
     },
     [12] = {
@@ -6737,8 +6737,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a044/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a044/collision.bin"),
             .trainerCoords = { COORDS_XY(8,2), COORDS_XY(14,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(5, 5)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x55
         }
     },
     [13] = {
@@ -6880,8 +6880,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a045/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a045/collision.bin"),
             .trainerCoords = { COORDS_XY(9,1), COORDS_XY(14,1) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(4, 4)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x44
         }
     },
     [14] = {
@@ -7022,8 +7022,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a046/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a046/collision.bin"),
             .trainerCoords = { COORDS_XY(1,2), COORDS_XY(4,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(2, 2)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x22
         }
     },
     [15] = {
@@ -7160,8 +7160,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a047/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a047/collision.bin"),
             .trainerCoords = { COORDS_XY(10,2), COORDS_XY(14,2) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x33
         }
     },
     [16] = {
@@ -7298,8 +7298,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Unique[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a048/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a048/collision.bin"),
             .trainerCoords = { COORDS_XY(6,13), COORDS_XY(8,13) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x11
         }
     },
 };
@@ -7438,8 +7438,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_p002/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_p002/collision.bin"),
             .trainerCoords = { COORDS_XY(3,7), COORDS_XY(11,7) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(7, 7)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x77
         }
     },
     [1] = {
@@ -7579,8 +7579,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a049/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a049/collision.bin"),
             .trainerCoords = { COORDS_XY(4,3), COORDS_XY(7,3) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(2, 2)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x22
         }
     },
     [2] = {
@@ -7717,8 +7717,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a050/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a050/collision.bin"),
             .trainerCoords = { COORDS_XY(9,3), COORDS_XY(13,3) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x33
         }
     },
     [3] = {
@@ -7860,8 +7860,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a051/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a051/collision.bin"),
             .trainerCoords = { COORDS_XY(9,6), COORDS_XY(13,6) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x33
         }
     },
     [4] = {
@@ -8002,8 +8002,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a052/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a052/collision.bin"),
             .trainerCoords = { COORDS_XY(3,6), COORDS_XY(11,6) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(7, 7)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x77
         }
     },
     [5] = {
@@ -8144,8 +8144,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a053/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a053/collision.bin"),
             .trainerCoords = { COORDS_XY(6,9), COORDS_XY(8,9) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x11
         }
     },
     [6] = {
@@ -8287,8 +8287,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a054/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a054/collision.bin"),
             .trainerCoords = { COORDS_XY(3,8), COORDS_XY(11,8) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(7, 7)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x77
         }
     },
     [7] = {
@@ -8424,8 +8424,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a055/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a055/collision.bin"),
             .trainerCoords = { COORDS_XY(7,6), COORDS_XY(7,10) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(2, 2)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x22
         }
     },
     [8] = {
@@ -8562,8 +8562,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a056/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a056/collision.bin"),
             .trainerCoords = { COORDS_XY(8,2), COORDS_XY(11,5) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x21,
+            .trainerRanges = 0x33
         }
     },
     [9] = {
@@ -8705,8 +8705,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a057/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a057/collision.bin"),
             .trainerCoords = { COORDS_XY(4,7), COORDS_XY(10,7) },
-            .trainerDirections = TRAINER_DIRS(DIR_EAST, DIR_WEST),
-            .trainerRanges = TRAINER_RANGE(5, 5)
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x55
         }
     },
     [10] = {
@@ -8991,8 +8991,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_expert/floor_1/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_expert/floor_1/collision.bin"),
             .trainerCoords = { COORDS_XY(7,10), COORDS_XY(7,14) },
-            .trainerDirections = TRAINER_DIRS(DIR_SOUTH, DIR_NORTH),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x33
         }
     },
     [12] = {
@@ -9134,8 +9134,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a060/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a060/collision.bin"),
             .trainerCoords = { COORDS_XY(7,7), COORDS_XY(7,9) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x11
         }
     },
     [13] = {
@@ -9277,8 +9277,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a061/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a061/collision.bin"),
             .trainerCoords = { COORDS_XY(7,6), COORDS_XY(7,10) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x33
         }
     },
     [14] = {
@@ -9420,8 +9420,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a062/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a062/collision.bin"),
             .trainerCoords = { COORDS_XY(10,8), COORDS_XY(10,10) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(1, 1)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x11
         }
     },
     [15] = {
@@ -9559,8 +9559,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
             .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a063/metatiles.bin"),
             .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a063/collision.bin"),
             .trainerCoords = { COORDS_XY(7,6), COORDS_XY(7,10) },
-            .trainerDirections = TRAINER_DIRS(DIR_NORTH, DIR_SOUTH),
-            .trainerRanges = TRAINER_RANGE(3, 3)
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x33
         }
     },
     [16] = {
