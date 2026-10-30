@@ -87,217 +87,217 @@ def decode_jp_string(raw_bytes):
 # All words and moves are 100% verified against easy_chat.h, moves.h, and species.h
 custom_speeches = {
     # Pack 1 (Cards 1..8)
-    1: { # Black Belt (Kousei)
-        "speechBefore": ["EC_WORD_THIS", "EC_WORD_IS", "EC_WORD_WHERE", "EC_WORD_IT", "EC_WORD_END", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_WAAAH", "EC_WORD_EXCL", "EC_WORD_I_AM", "EC_WORD_THE", "EC_WORD_WINNER", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_THANKS", "EC_WORD_A_LOT", "EC_WORD_FOR", "EC_WORD_THAT", "EC_WORD_GREAT", "EC_WORD_BATTLE"],
-        "speechAfter":  ["EC_WORD_YES_SIR_EXCL", "EC_WORD_YOU", "EC_WORD_LOOK", "EC_WORD_NICE", "EC_WORD_AND", "EC_WORD_GUTSY"],
+    1: { # Black Belt (Kousei / Kent) - Secret trump card move
+        "speechBefore": ["EC_WORD_LOOK", "EC_WORD_AT", "EC_WORD_MY", "EC_MOVE(TRUMP_CARD)", "EC_WORD_MOVE", "EC_WORD_EXCL"],
+        "speechWin":    ["EC_WORD_HAHAHA", "EC_WORD_EXCL", "EC_WORD_THAT_WAS", "EC_WORD_A", "EC_WORD_GREAT", "EC_WORD_MOVE"],
+        "speechLose":   ["EC_WORD_DISAPPOINTED", "EC_WORD_MY", "EC_MOVE(TRUMP_CARD)", "EC_WORD_WAS", "EC_WORD_NOTHING", "EC_WORD_ELLIPSIS"],
+        "speechAfter":  ["EC_WORD_YOU", "EC_WORD_SHOULD", "EC_WORD_TRY", "EC_WORD_THAT", "EC_WORD_MOVE", "EC_WORD_TOO"],
     },
-    2: { # Ninja Boy (Kagemasa)
-        "speechBefore": ["EC_WORD_LOOK", "EC_WORD_AT", "EC_WORD_MY", "EC_WORD_SECRET", "EC_MOVE2(SMOKESCREEN)", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_YOU", "EC_WORD_CAN_T", "EC_WORD_SEE", "EC_WORD_IN", "EC_MOVE2(SMOKESCREEN)", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_HOW", "EC_WORD_COULD", "EC_WORD_YOU", "EC_WORD_SEE", "EC_WORD_ME", "EC_WORD_QUES"],
-        "speechAfter":  ["EC_WORD_A", "EC_WORD_SECRET", "EC_WORD_IS", "EC_WORD_BEST", "EC_WORD_NOT", "EC_WORD_SAID"],
+    2: { # Ninja Boy (Kagemasa / Mason) - Ninja kid aiming high
+        "speechBefore": ["EC_WORD_DON_T", "EC_WORD_LOOK", "EC_WORD_DOWN", "EC_WORD_ON", "EC_WORD_A", "EC_WORD_KID"],
+        "speechWin":    ["EC_WORD_HEHEHE", "EC_WORD_I_AM", "EC_WORD_MUCH", "EC_WORD_BETTER", "EC_WORD_THAN", "EC_WORD_YOU"],
+        "speechLose":   ["EC_WORD_URGH", "EC_WORD_ELLIPSIS", "EC_WORD_YOU", "EC_WORD_WERE", "EC_WORD_IMPOSSIBLE", "EC_WORD_ELLIPSIS"],
+        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING", "EC_WORD_TO", "EC_WORD_BE", "EC_WORD_STRONG", "EC_WORD_TRAINER"],
     },
-    3: { # Pokefan M (Keizou)
-        "speechBefore": ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_ARE", "EC_WORD_JUST", "EC_WORD_SO", "EC_WORD_CUTE"],
-        "speechWin":    ["EC_WORD_AREN_T", "EC_WORD_THEY", "EC_WORD_JUST", "EC_WORD_GREAT", "EC_WORD_AND", "EC_WORD_STRONG"],
-        "speechLose":   ["EC_WORD_OH_DEAR", "EC_WORD_YOU", "EC_WORD_WERE", "EC_WORD_TOO", "EC_WORD_STRONG", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_I", "EC_WORD_CARE", "EC_WORD_FOR", "EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_DAILY"],
+    3: { # Pokefan M (Keizou / Keith) - Items for Pokémon Lady
+        "speechBefore": ["EC_WORD_A", "EC_WORD_GREAT", "EC_WORD_ITEM", "EC_WORD_FOR", "EC_WORD_POKEMON", "EC_WORD_EXCL_EXCL"],
+        "speechWin":    ["EC_WORD_YEAH", "EC_WORD_EXCL", "EC_WORD_ISN_T", "EC_WORD_EVOLVE", "EC_WORD_SO", "EC_WORD_GREAT"],
+        "speechLose":   ["EC_WORD_WHOAH", "EC_WORD_EXCL", "EC_WORD_THAT_WAS", "EC_WORD_A", "EC_WORD_LIE", "EC_WORD_ELLIPSIS_EXCL"],
+        "speechAfter":  ["EC_WORD_AWFUL", "EC_WORD_ELLIPSIS", "EC_WORD_TOO", "EC_WORD_AWFUL", "EC_WORD_GOOD_BYE", "EC_WORD_EXCL_EXCL"],
     },
-    4: { # Cooltrainer M (Akiomi)
-        "speechBefore": ["EC_WORD_LET_S", "EC_WORD_HAVE", "EC_WORD_AN", "EC_WORD_EXCITING", "EC_WORD_BATTLE", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_WON", "EC_WORD_THAT_WAS", "EC_WORD_EASY", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_THAT_WAS", "EC_WORD_A", "EC_WORD_VERY", "EC_WORD_COOL", "EC_WORD_BATTLE", "EC_WORD_EXCL"],
-        "speechAfter":  ["EC_WORD_YOU_RE", "EC_WORD_PRETTY", "EC_WORD_GOOD", "EC_WORD_AT", "EC_WORD_THIS", "EC_WORD_BATTLE"],
+    4: { # Cooltrainer M (Akiomi / Arthur) - Surprising strategy
+        "speechBefore": ["EC_WORD_GWAH", "EC_WORD_EXCL", "EC_WORD_GET", "EC_WORD_READY", "EC_WORD_FOR", "EC_WORD_SURPRISE"],
+        "speechWin":    ["EC_WORD_DID", "EC_WORD_MY", "EC_WORD_STRATEGY", "EC_WORD_SURPRISE", "EC_WORD_YOU", "EC_WORD_QUES"],
+        "speechLose":   ["EC_WORD_YOU", "EC_WORD_ARE", "EC_WORD_NOT", "EC_WORD_SURPRISE", "EC_WORD_AT", "EC_WORD_ALL"],
+        "speechAfter":  ["EC_WORD_GWAH", "EC_WORD_ELLIPSIS", "EC_WORD_THAT_WAS", "EC_WORD_PRETTY", "EC_WORD_GOOD", "EC_WORD_QUES"],
     },
-    5: { # Battle Girl (Riona)
-        "speechBefore": ["EC_WORD_I", "EC_WORD_WILL", "EC_WORD_WIN", "EC_WORD_AND", "EC_WORD_GO", "EC_WORD_ON"],
-        "speechWin":    ["EC_WORD_I_AM", "EC_WORD_AWESOME", "EC_WORD_EXCL", "EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_RULE"],
-        "speechLose":   ["EC_WORD_A_LITTLE", "EC_WORD_TOO", "EC_WORD_STRONG", "EC_WORD_FOR", "EC_WORD_ME", "EC_WORD_EXCL"],
-        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING", "EC_WORD_TO", "EC_WORD_TRAIN", "EC_WORD_MORE", "EC_WORD_EXCL"],
+    5: { # Battle Girl (Riona / Leona) - Fast dash to finish
+        "speechBefore": ["EC_WORD_LET_S", "EC_WORD_DASH", "EC_WORD_AND", "EC_WORD_FINISH", "EC_WORD_THIS", "EC_WORD_FAST"],
+        "speechWin":    ["EC_WORD_SO", "EC_WORD_FAST", "EC_WORD_FAST", "EC_WORD_AHAHA", "EC_WORD_EXCL_EXCL", "EC_EMPTY_WORD"],
+        "speechLose":   ["EC_WORD_FINISH", "EC_WORD_FINISH", "EC_WORD_EXCL_EXCL", "EC_WORD_BYE_BYE", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
+        "speechAfter":  ["EC_WORD_YOUR", "EC_WORD_POWER", "EC_WORD_IS", "EC_WORD_SO", "EC_WORD_DEEP", "EC_WORD_EXCL"],
     },
-    6: { # Dragon Tamer (Inami)
-        "speechBefore": ["EC_WORD_I", "EC_WORD_GOT", "EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_ON", "EC_WORD_VACATION"],
-        "speechWin":    ["EC_WORD_IT_S", "EC_WORD_GREAT", "EC_WORD_TO", "EC_WORD_TRAVEL", "EC_WORD_AND", "EC_WORD_BATTLE"],
-        "speechLose":   ["EC_WORD_WAAAH", "EC_WORD_EXCL", "EC_WORD_MY", "EC_WORD_RARE", "EC_WORD_POKEMON", "EC_WORD_EXCL"],
-        "speechAfter":  ["EC_WORD_OFF", "EC_WORD_ON", "EC_WORD_ANOTHER", "EC_WORD_VACATION", "EC_WORD_I", "EC_WORD_GO"],
+    6: { # Dragon Tamer (Inami / Irene) - Reverence for Mr. Dragon
+        "speechBefore": ["EC_WORD_DRAGON", "EC_WORD_MR", "EC_WORD_GIVE", "EC_WORD_ME", "EC_WORD_POWER", "EC_WORD_EXCL_EXCL"],
+        "speechWin":    ["EC_WORD_WHOAH", "EC_WORD_THANKS", "EC_WORD_TO", "EC_WORD_DRAGON", "EC_WORD_MR", "EC_WORD_EXCL"],
+        "speechLose":   ["EC_WORD_AIYEEH", "EC_WORD_EXCL", "EC_WORD_EXCUSE_ME", "EC_WORD_DRAGON", "EC_WORD_MR", "EC_WORD_EXCL_EXCL"],
+        "speechAfter":  ["EC_WORD_I", "EC_WORD_ADORE", "EC_WORD_DRAGON", "EC_WORD_MR", "EC_WORD_SO", "EC_WORD_MUCH"],
     },
-    7: { # Pokemaniac (Yurato)
-        "speechBefore": ["EC_WORD_I", "EC_WORD_COLLECT", "EC_WORD_ANY", "EC_WORD_POKEMON", "EC_WORD_THAT_S", "EC_WORD_RARE"],
-        "speechWin":    ["EC_WORD_MY", "EC_WORD_COLLECTION", "EC_WORD_IS", "EC_WORD_TRULY", "EC_WORD_AWESOME", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_MY", "EC_WORD_RARE", "EC_WORD_POKEMON", "EC_WORD_LOST", "EC_WORD_ELLIPSIS", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_I_VE", "EC_WORD_DECIDED", "EC_WORD_I_CHOOSE_YOU", "EC_WORD_AS", "EC_WORD_MY", "EC_WORD_IDOL"],
+    7: { # Hiker (Yurato / Logan) - Earthquake in solo match
+        "speechBefore": ["EC_WORD_AN", "EC_MOVE(EARTHQUAKE)", "EC_WORD_IN", "EC_WORD_THIS", "EC_WORD_MATCH", "EC_WORD_EXCL"],
+        "speechWin":    ["EC_WORD_HMM", "EC_WORD_AN", "EC_WORD_OVERWHELMING", "EC_WORD_MATCH", "EC_WORD_FEELING", "EC_WORD_GOOD"],
+        "speechLose":   ["EC_WORD_OH_QUES", "EC_WORD_WHY", "EC_WORD_DID", "EC_WORD_I", "EC_WORD_LOSE", "EC_WORD_QUES"],
+        "speechAfter":  ["EC_WORD_I", "EC_WORD_REALLY", "EC_WORD_LIKE", "EC_WORD_A", "EC_WORD_GOOD", "EC_WORD_MATCH"],
     },
-    8: { # Cycling Triathlete F (Sakuya)
-        "speechBefore": ["EC_WORD_THIS", "EC_WORD_IS", "EC_WORD_HOW", "EC_WORD_YOU", "EC_WORD_WIN", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_DO", "EC_WORD_YOU", "EC_WORD_UNDERSTAND", "EC_WORD_HOW", "EC_WORD_NOW", "EC_WORD_QUES"],
-        "speechLose":   ["EC_WORD_YES", "EC_WORD_THAT_S", "EC_WORD_HOW", "EC_WORD_YOU", "EC_WORD_DO", "EC_WORD_IT"],
-        "speechAfter":  ["EC_WORD_YOU", "EC_WORD_BEAT", "EC_WORD_ME", "EC_WORD_GOOD", "EC_WORD_FOR", "EC_WORD_YOU"],
+    8: { # Lady (Sakuya / Skye) - A little strong / destroyed feelings
+        "speechBefore": ["EC_WORD_I_AM", "EC_WORD_A_LITTLE", "EC_WORD_TOO_STRONG", "EC_WORD_FOR", "EC_WORD_YOU", "EC_WORD_EXCL"],
+        "speechWin":    ["EC_WORD_EEK", "EC_WORD_EXCL", "EC_WORD_WE", "EC_WORD_ARE", "EC_WORD_JUST", "EC_WORD_FABULOUS"],
+        "speechLose":   ["EC_WORD_WAAAH", "EC_WORD_EXCL", "EC_WORD_WE", "EC_WORD_WERE", "EC_WORD_TOTALLY", "EC_WORD_USELESS"],
+        "speechAfter":  ["EC_WORD_MY", "EC_WORD_FEELING", "EC_WORD_IS", "EC_WORD_DESTROYED", "EC_WORD_ELLIPSIS_EXCL", "EC_EMPTY_WORD"],
     },
 
     # Pack 2 (Cards 9..16)
-    9: { # Lass (Komari)
-        "speechBefore": ["EC_WORD_I_AM", "EC_WORD_REALLY", "EC_WORD_THE", "EC_WORD_BEST", "EC_WORD_AROUND", "EC_WORD_HERE"],
-        "speechWin":    ["EC_WORD_NATURALLY", "EC_WORD_I", "EC_WORD_WON", "EC_WORD_EXCL", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
-        "speechLose":   ["EC_WORD_WHY", "EC_WORD_COULDN_T", "EC_WORD_I", "EC_WORD_WIN", "EC_WORD_QUES", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING", "EC_WORD_SHOPPING", "EC_WORD_NOW", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
+    9: { # School Kid F (Komari / Cora) - A little service
+        "speechBefore": ["EC_WORD_CAN", "EC_WORD_YOU", "EC_WORD_GIVE_ME", "EC_WORD_A_LITTLE", "EC_WORD_SERVICE", "EC_WORD_QUES"],
+        "speechWin":    ["EC_WORD_GIGGLE", "EC_WORD_EXCL", "EC_WORD_THANK_YOU", "EC_WORD_VERY", "EC_WORD_MUCH", "EC_WORD_EXCL"],
+        "speechLose":   ["EC_WORD_WHAT", "EC_WORD_WAS", "EC_WORD_THE", "EC_WORD_MEAN", "EC_WORD_OF", "EC_WORD_THAT"],
+        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING", "EC_WORD_HOME", "EC_WORD_NOW", "EC_WORD_BYE_BYE", "EC_WORD_EXCL_EXCL"],
     },
-    10: { # Running Triathlete M (Ragi)
-        "speechBefore": ["EC_WORD_I_AM", "EC_WORD_PRETTY", "EC_WORD_FAST", "EC_WORD_AND", "EC_WORD_HAPPY", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_BEING", "EC_WORD_FAST", "EC_WORD_IS", "EC_WORD_UNBELIEVABLE", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
-        "speechLose":   ["EC_WORD_THAT_WAS", "EC_WORD_AN", "EC_WORD_UNBELIEVABLE", "EC_WORD_LOSS", "EC_WORD_ELLIPSIS", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_I", "EC_WORD_MUST_BE", "EC_WORD_MORE", "EC_WORD_FAST", "EC_WORD_ELLIPSIS", "EC_EMPTY_WORD"],
+    10: { # Rich Boy (Ragi / Ray) - Arrogant / Cotton Spore
+        "speechBefore": ["EC_WORD_HUH_QUES", "EC_WORD_ARE", "EC_WORD_YOU", "EC_WORD_REALLY", "EC_WORD_ANY", "EC_WORD_GOOD"],
+        "speechWin":    ["EC_WORD_AHAHA", "EC_WORD_EXCL", "EC_WORD_WILL", "EC_WORD_YOU", "EC_WORD_GIVE_UP", "EC_WORD_QUES"],
+        "speechLose":   ["EC_WORD_THAT_WAS", "EC_WORD_TOTALLY", "EC_WORD_HOPELESS", "EC_WORD_AND", "EC_WORD_TOO", "EC_WORD_FAST"],
+        "speechAfter":  ["EC_WORD_MY", "EC_MOVE2(COTTON_SPORE)", "EC_WORD_WAS", "EC_WORD_TOTALLY", "EC_WORD_USELESS", "EC_WORD_ELLIPSIS"],
     },
-    11: { # Ninja Boy (Kennosuke)
-        "speechBefore": ["EC_WORD_YAHOO", "EC_WORD_EXCL", "EC_WORD_HERE_I_COME", "EC_WORD_BABY", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
-        "speechWin":    ["EC_WORD_I_AM", "EC_WORD_A", "EC_WORD_BIG", "EC_WORD_WINNER", "EC_WORD_BABY", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_SOMETHING", "EC_WORD_IS", "EC_WORD_TERRIBLE", "EC_WORD_AND", "EC_WORD_BAD", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_HOW", "EC_WORD_COULD", "EC_WORD_I", "EC_WORD_LOSE", "EC_WORD_THIS", "EC_WORD_QUES"],
+    11: { # Ninja Boy (Kennosuke / Kenny) - Showing a dream / lacks rest
+        "speechBefore": ["EC_WORD_I", "EC_WORD_CAN", "EC_WORD_SHOW", "EC_WORD_YOU", "EC_WORD_A", "EC_WORD_DREAM"],
+        "speechWin":    ["EC_WORD_GIGGLE", "EC_WORD_THIS", "EC_WORD_IS", "EC_WORD_ALMOST", "EC_WORD_THE", "EC_WORD_END"],
+        "speechLose":   ["EC_WORD_DIDN_T", "EC_WORD_YOU", "EC_WORD_HEAR", "EC_WORD_ME", "EC_WORD_TALK", "EC_WORD_QUES"],
+        "speechAfter":  ["EC_WORD_I", "EC_WORD_WANT", "EC_MOVE2(REST)", "EC_WORD_EVERY", "EC_WORD_DAY", "EC_WORD_ELLIPSIS"],
     },
-    12: { # Psychic M (Ozunu)
-        "speechBefore": ["EC_WORD_THIS", "EC_WORD_POWER", "EC_WORD_IS", "EC_WORD_VERY", "EC_WORD_RARE", "EC_EMPTY_WORD"],
-        "speechWin":    ["EC_WORD_DID", "EC_WORD_YOU", "EC_WORD_SEE", "EC_WORD_THAT", "EC_WORD_POWER", "EC_WORD_QUES"],
-        "speechLose":   ["EC_WORD_WHERE", "EC_WORD_DID", "EC_WORD_THAT", "EC_WORD_POWER", "EC_WORD_GO", "EC_WORD_QUES"],
-        "speechAfter":  ["EC_WORD_THIS", "EC_WORD_IS", "EC_WORD_NOT", "EC_WORD_A", "EC_WORD_DREAM", "EC_WORD_ELLIPSIS"],
+    12: { # Psychic M (Ozunu / Owen) - Attacking weakened foes / surrender
+        "speechBefore": ["EC_WORD_ATTACK", "EC_WORD_WHEN", "EC_WORD_YOU_RE", "EC_WORD_WEAK", "EC_WORD_AND", "EC_WORD_LOW"],
+        "speechWin":    ["EC_WORD_WHY", "EC_WORD_DON_T", "EC_WORD_YOU", "EC_WORD_JUST", "EC_WORD_SURRENDER", "EC_WORD_QUES"],
+        "speechLose":   ["EC_WORD_YOU", "EC_WORD_WERE", "EC_WORD_NOT", "EC_WORD_WEAKENED", "EC_WORD_AT", "EC_WORD_ALL"],
+        "speechAfter":  ["EC_WORD_YOU_RE", "EC_WORD_A_TINY_BIT", "EC_WORD_COOL", "EC_WORD_AFTER", "EC_WORD_ALL", "EC_WORD_ELLIPSIS"],
     },
-    13: { # School Kid F (Kae)
-        "speechBefore": ["EC_WORD_TOO", "EC_WORD_BAD", "EC_WORD_IT_S", "EC_WORD_OVER", "EC_WORD_FOR", "EC_WORD_YOU"],
-        "speechWin":    ["EC_WORD_NATURALLY", "EC_WORD_I", "EC_WORD_WIN", "EC_WORD_EXCL", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
-        "speechLose":   ["EC_WORD_HOW", "EC_WORD_DID", "EC_WORD_I", "EC_WORD_LOSE", "EC_WORD_QUES", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_SHOCKED", "EC_WORD_THAT", "EC_WORD_I", "EC_WORD_LOST", "EC_EMPTY_WORD"],
+    13: { # PKMN Breeder F (Kae / Kay) - Boring battle is no joke / Baton Pass
+        "speechBefore": ["EC_WORD_A", "EC_WORD_BORING", "EC_WORD_BATTLE", "EC_WORD_IS", "EC_WORD_NO", "EC_WORD_JOKING"],
+        "speechWin":    ["EC_WORD_YOU", "EC_WORD_LOST", "EC_WORD_TO", "EC_WORD_MY", "EC_WORD_GREAT", "EC_WORD_STRATEGY"],
+        "speechLose":   ["EC_WORD_YOUR", "EC_WORD_BATTLE", "EC_WORD_STRATEGY", "EC_WORD_WAS", "EC_WORD_INCREDIBLE", "EC_WORD_ELLIPSIS"],
+        "speechAfter":  ["EC_WORD_NEXT", "EC_WORD_A", "EC_MOVE2(BATON_PASS)", "EC_WORD_FOR", "EC_WORD_THE", "EC_WORD_VICTORY"],
     },
-    14: { # School Kid M (Sakiteru)
-        "speechBefore": ["EC_WORD_AHAHA", "EC_WORD_YOU_RE", "EC_WORD_NOT", "EC_WORD_GOING", "EC_WORD_ANYWHERE", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_ALL_RIGHT", "EC_WORD_EXCL", "EC_WORD_BYE_BYE", "EC_WORD_EXCL", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
-        "speechLose":   ["EC_WORD_HIYAH", "EC_WORD_EXCL_EXCL", "EC_WORD_DONE", "EC_WORD_IN", "EC_WORD_TOTALLY", "EC_WORD_EXCL_EXCL"],
-        "speechAfter":  ["EC_WORD_TCH", "EC_WORD_TCH", "EC_WORD_YOU_RE", "EC_WORD_TOO_STRONG", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
+    14: { # School Kid M (Sakiteru / Sammy) - Signature "Oi, oi, oi hey there !!"
+        "speechBefore": ["EC_WORD_OI_OI_OI", "EC_WORD_HEY_THERE", "EC_WORD_EXCL_EXCL", "EC_WORD_PLEASE", "EC_WORD_BATTLE", "EC_WORD_ME"],
+        "speechWin":    ["EC_WORD_OI_OI_OI", "EC_WORD_HEY_THERE", "EC_WORD_EXCL_EXCL", "EC_WORD_I_AM", "EC_WORD_SO", "EC_WORD_HAPPY"],
+        "speechLose":   ["EC_WORD_OI_OI_OI", "EC_WORD_HEY_THERE", "EC_WORD_ELLIPSIS_EXCL", "EC_WORD_I", "EC_WORD_APOLOGIZE", "EC_WORD_ELLIPSIS"],
+        "speechAfter":  ["EC_WORD_AIYEEH", "EC_WORD_EXCUSE_ME", "EC_WORD_I_AM", "EC_WORD_SHAKY", "EC_WORD_ALL", "EC_WORD_OVER"],
     },
-    15: { # Pkmn Breeder F (Nukumi)
-        "speechBefore": ["EC_WORD_I", "EC_WORD_WANT", "EC_WORD_SOMETHING", "EC_WORD_TASTY", "EC_WORD_TO", "EC_WORD_EAT"],
-        "speechWin":    ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_ARE", "EC_WORD_REALLY", "EC_WORD_HAPPY", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_WE_RE", "EC_WORD_NOT", "EC_WORD_HAPPY", "EC_WORD_AT", "EC_WORD_ALL", "EC_WORD_ELLIPSIS"],
-        "speechAfter":  ["EC_WORD_I", "EC_WORD_HAVE", "EC_WORD_TO", "EC_WORD_TRAIN", "EC_WORD_SOME", "EC_WORD_MORE"],
+    15: { # Aroma Lady (Nukumi / Nina) - Transform into something / still an Egg
+        "speechBefore": ["EC_WORD_SEE", "EC_WORD_MY", "EC_WORD_POKEMON", "EC_MOVE2(TRANSFORM)", "EC_WORD_TODAY", "EC_WORD_EXCL"],
+        "speechWin":    ["EC_WORD_EEK", "EC_WORD_THAT_WAS", "EC_WORD_PERFECT", "EC_WORD_AND", "EC_WORD_A", "EC_WORD_LEGEND"],
+        "speechLose":   ["EC_WORD_GRAAAH", "EC_WORD_WE_RE", "EC_WORD_SHREDDED", "EC_WORD_THIS", "EC_WORD_IS", "EC_WORD_TERRIBLE"],
+        "speechAfter":  ["EC_WORD_WE_RE", "EC_WORD_NOT", "EC_WORD_AN", "EC_WORD_EGG", "EC_WORD_GWAH", "EC_WORD_ELLIPSIS"],
     },
-    16: { # Youngster (Akitaka)
-        "speechBefore": ["EC_WORD_I_AM", "EC_WORD_CUTE", "EC_WORD_AND", "EC_WORD_I_AM", "EC_WORD_HAPPY", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_WE", "EC_WORD_WIN", "EC_WORD_AND", "EC_WORD_WE_RE", "EC_WORD_HAPPY", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_WE", "EC_WORD_LOST", "EC_WORD_AND", "EC_WORD_WE_RE", "EC_WORD_SAD", "EC_WORD_EXCL"],
-        "speechAfter":  ["EC_WORD_I", "EC_WORD_LIKE", "EC_WORD_THE", "EC_WORD_BEGINNING", "EC_WORD_POKEMON", "EC_WORD_BEST"],
+    16: { # Youngster (Akitaka / Alan) - Strong without evolving!
+        "speechBefore": ["EC_WORD_WE_RE", "EC_WORD_STRONG", "EC_WORD_WITHOUT", "EC_WORD_ANY", "EC_WORD_EVOLVE", "EC_WORD_EXCL_EXCL"],
+        "speechWin":    ["EC_WORD_AREN_T", "EC_WORD_WE", "EC_WORD_CUTE", "EC_WORD_AND", "EC_WORD_SUPER", "EC_WORD_STRONG"],
+        "speechLose":   ["EC_WORD_HMM", "EC_WORD_OUR", "EC_WORD_PLANS", "EC_WORD_WERE", "EC_WORD_NOTHING", "EC_WORD_ELLIPSIS"],
+        "speechAfter":  ["EC_WORD_WE", "EC_WORD_GET", "EC_WORD_STRONG", "EC_WORD_WITHOUT", "EC_WORD_EVOLVE", "EC_WORD_EXCL"],
     },
 
     # Pack 4 (Cards 25..32)
-    25: { # Sailor (Isonosuke)
-        "speechBefore": ["EC_WORD_LET_S", "EC_WORD_GET", "EC_WORD_WITH", "EC_WORD_IT", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
-        "speechWin":    ["EC_WORD_YES_SIR_EXCL", "EC_EMPTY_WORD", "EC_WORD_I_AM", "EC_WORD_NO_1", "EC_WORD_TODAY", "EC_EMPTY_WORD"],
-        "speechLose":   ["EC_WORD_JUST", "EC_WORD_LOST", "EC_WORD_MY", "EC_MOVE2(SURF)", "EC_WORD_FEELING", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING", "EC_WORD_TO", "EC_WORD_BE", "EC_WORD_A", "EC_WORD_FATHER"],
+    25: { # Sailor (Isonosuke / Ian) - Surf feeling / Never forget Surf!
+        "speechBefore": ["EC_WORD_THAT_S", "EC_WORD_A", "EC_MOVE2(SURF)", "EC_WORD_FEELING", "EC_WORD_YAHOO", "EC_WORD_EXCL_EXCL"],
+        "speechWin":    ["EC_WORD_WE_VE", "EC_WORD_GOT", "EC_WORD_IT", "EC_WORD_EXCL_EXCL", "EC_WORD_YAHOO", "EC_WORD_EXCL"],
+        "speechLose":   ["EC_WORD_USELESS", "EC_WORD_EXCL_EXCL", "EC_WORD_WE_RE", "EC_WORD_TOTALLY", "EC_WORD_USELESS", "EC_WORD_EXCL_EXCL"],
+        "speechAfter":  ["EC_WORD_DON_T", "EC_WORD_EVER", "EC_WORD_FORGET", "EC_MOVE2(SURF)", "EC_WORD_NO", "EC_WORD_JOKING"],
     },
-    26: { # Picnicker (Koeda)
-        "speechBefore": ["EC_WORD_LET_S", "EC_WORD_BATTLE", "EC_WORD_IN", "EC_WORD_THE", "EC_WORD_COLD", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_THAT_WAS", "EC_WORD_AN", "EC_WORD_EASY", "EC_WORD_MATCH", "EC_WORD_FOR", "EC_WORD_ME"],
-        "speechLose":   ["EC_WORD_THIS", "EC_WORD_CAN_T", "EC_WORD_BE", "EC_WORD_HAPPENING", "EC_WORD_TO_ME", "EC_WORD_EXCL"],
-        "speechAfter":  ["EC_WORD_I", "EC_WORD_WANT", "EC_WORD_A", "EC_WORD_HOT", "EC_WORD_BATH", "EC_WORD_NOW"],
+    26: { # Picnicker (Koeda / Kyle) - If I win I play, if I lose I go home
+        "speechBefore": ["EC_WORD_IF_I_WIN", "EC_WORD_I", "EC_WORD_PLAY", "EC_WORD_IF_I_LOSE", "EC_WORD_GO_HOME", "EC_WORD_ELLIPSIS"],
+        "speechWin":    ["EC_WORD_YEAH", "EC_WORD_EXCL", "EC_WORD_NOW", "EC_WORD_WE", "EC_WORD_PLAY", "EC_WORD_EXCL_EXCL"],
+        "speechLose":   ["EC_WORD_I_AM", "EC_WORD_SHOCKED", "EC_WORD_I_AM", "EC_WORD_GOING", "EC_WORD_HOME", "EC_WORD_ELLIPSIS"],
+        "speechAfter":  ["EC_WORD_NO", "EC_WORD_PLAY", "EC_WORD_FOR", "EC_WORD_ME", "EC_WORD_TODAY", "EC_WORD_ELLIPSIS"],
     },
-    27: { # Expert M (Isaji)
-        "speechBefore": ["EC_WORD_OH_DEAR", "EC_WORD_THIS", "EC_WORD_MATCH", "EC_WORD_IS", "EC_WORD_FOR", "EC_WORD_YOU"],
-        "speechWin":    ["EC_WORD_OH_DEAR", "EC_WORD_DID", "EC_WORD_YOU", "EC_WORD_SEE", "EC_WORD_THAT", "EC_WORD_QUES"],
-        "speechLose":   ["EC_WORD_OH_DEAR", "EC_WORD_I_AM", "EC_WORD_SO", "EC_WORD_SORRY", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_IS", "EC_WORD_YOUR", "EC_WORD_GRANDMOTHER", "EC_WORD_STRONG", "EC_WORD_QUES", "EC_EMPTY_WORD"],
+    27: { # Bird Keeper (Isaji / Isaac) - Needs opponent / Too strong vs too weak
+        "speechBefore": ["EC_WORD_A", "EC_WORD_BATTLE", "EC_WORD_IS", "EC_WORD_BEGINNING", "EC_WORD_WITH", "EC_WORD_YOU"],
+        "speechWin":    ["EC_WORD_FORGET", "EC_WORD_IT", "EC_WORD_WE_RE", "EC_WORD_JUST", "EC_WORD_TOO_STRONG", "EC_WORD_EXCL_EXCL"],
+        "speechLose":   ["EC_WORD_I", "EC_WORD_APOLOGIZE", "EC_WORD_WE_RE", "EC_WORD_JUST", "EC_WORD_TOO_WEAK", "EC_WORD_EXCL_EXCL"],
+        "speechAfter":  ["EC_WORD_WE_RE", "EC_WORD_JUST", "EC_WORD_TOO_WEAK", "EC_WORD_AFTER", "EC_WORD_ALL", "EC_WORD_ELLIPSIS"],
     },
-    28: { # Running Triathlete F (Ouka)
-        "speechBefore": ["EC_WORD_THIS", "EC_WORD_IS", "EC_WORD_HOW", "EC_WORD_YOU", "EC_WORD_WIN", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_DO", "EC_WORD_YOU", "EC_WORD_UNDERSTAND", "EC_WORD_HOW", "EC_WORD_NOW", "EC_WORD_QUES"],
-        "speechLose":   ["EC_WORD_YES", "EC_WORD_THAT_S", "EC_WORD_HOW", "EC_WORD_YOU", "EC_WORD_DO", "EC_WORD_IT"],
-        "speechAfter":  ["EC_WORD_YOU", "EC_WORD_BEAT", "EC_WORD_ME", "EC_WORD_GOOD", "EC_WORD_FOR", "EC_WORD_YOU"],
+    28: { # Expert F (Ouka / Olivia) - Final match / surprised at myself
+        "speechBefore": ["EC_WORD_THIS", "EC_WORD_IS", "EC_WORD_THE", "EC_WORD_FINAL", "EC_WORD_MATCH", "EC_WORD_EXCL_EXCL"],
+        "speechWin":    ["EC_WORD_MYSELF", "EC_WORD_WAS", "EC_WORD_A", "EC_WORD_BIG", "EC_WORD_SURPRISE", "EC_WORD_EXCL"],
+        "speechLose":   ["EC_WORD_I", "EC_WORD_DIDN_T", "EC_WORD_KNOW", "EC_WORD_I_AM", "EC_WORD_LOSING", "EC_WORD_EXCL"],
+        "speechAfter":  ["EC_WORD_NEVER", "EC_WORD_GIVE_UP", "EC_WORD_IN", "EC_WORD_A", "EC_WORD_MATCH", "EC_WORD_EXCL"],
     },
-    29: { # Beauty (Maiko)
-        "speechBefore": ["EC_WORD_I_AM", "EC_WORD_THE", "EC_WORD_GROUP", "EC_WORD_LEADER", "EC_WORD_TODAY", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_I_AM", "EC_WORD_SO", "EC_WORD_HAPPY", "EC_WORD_I", "EC_WORD_WON", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_I_AM", "EC_WORD_REALLY", "EC_WORD_ANGRY", "EC_WORD_NOW", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_NOT", "EC_WORD_TALKING", "EC_WORD_WITH", "EC_WORD_YOU", "EC_WORD_ELLIPSIS"],
+    29: { # Beauty (Maiko / Maya) - Dancing Pokémon obsession
+        "speechBefore": ["EC_WORD_CAN", "EC_WORD_WE", "EC_WORD_ALL", "EC_WORD_DANCE", "EC_WORD_TOGETHER", "EC_WORD_QUES"],
+        "speechWin":    ["EC_WORD_WE", "EC_WORD_WON", "EC_WORD_BUT", "EC_WORD_I_AM", "EC_WORD_ALL", "EC_WORD_WOBBLY"],
+        "speechLose":   ["EC_WORD_TOO", "EC_WORD_WOBBLY", "EC_WORD_I", "EC_WORD_CAN_T_WIN", "EC_WORD_TODAY", "EC_WORD_EXCL"],
+        "speechAfter":  ["EC_WORD_I", "EC_WORD_ADORE", "EC_WORD_A", "EC_WORD_DANCE", "EC_WORD_POKEMON", "EC_WORD_EXCL_EXCL"],
     },
-    30: { # Parasol Lady (Akino)
-        "speechBefore": ["EC_WORD_HI", "EC_WORD_ARE", "EC_WORD_YOU", "EC_WORD_FEELING", "EC_WORD_UPBEAT", "EC_WORD_QUES"],
-        "speechWin":    ["EC_WORD_AREN_T", "EC_WORD_YOU", "EC_WORD_FEELING", "EC_WORD_WELL", "EC_WORD_QUES", "EC_EMPTY_WORD"],
-        "speechLose":   ["EC_WORD_I", "EC_WORD_CAN", "EC_WORD_SEE", "EC_WORD_YOU_RE", "EC_WORD_FEELING", "EC_WORD_GREAT"],
-        "speechAfter":  ["EC_WORD_YOUR", "EC_WORD_POKEMON", "EC_WORD_LOOK", "EC_WORD_READY", "EC_WORD_TO", "EC_WORD_HUSTLE"],
+    30: { # Parasol Lady (Akino / Austin) - Dislikes fast battles, loves Curse
+        "speechBefore": ["EC_WORD_I", "EC_WORD_DISLIKE", "EC_WORD_A", "EC_WORD_FAST", "EC_WORD_BATTLE", "EC_WORD_ELLIPSIS"],
+        "speechWin":    ["EC_WORD_GIGGLE", "EC_WORD_ELLIPSIS", "EC_WORD_A", "EC_MOVE2(CURSE)", "EC_WORD_BATTLE", "EC_WORD_EXCL"],
+        "speechLose":   ["EC_WORD_OH_DEAR", "EC_WORD_WAS", "EC_WORD_THAT", "EC_WORD_TOO", "EC_WORD_FAST", "EC_WORD_QUES"],
+        "speechAfter":  ["EC_WORD_I", "EC_WORD_WANT", "EC_WORD_A", "EC_MOVE2(CURSE)", "EC_WORD_BATTLE", "EC_WORD_ELLIPSIS"],
     },
-    31: { # Hiker (Okikazu)
-        "speechBefore": ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_ARE", "EC_WORD_ROCK_SOLID", "EC_WORD_AND", "EC_WORD_TOUGH"],
-        "speechWin":    ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_ARE", "EC_WORD_VERY", "EC_WORD_STRONG", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_YOU", "EC_WORD_CAN_WIN", "EC_WORD_WITH", "EC_WORD_ROCK_HEAD", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_DISAPPOINTED", "EC_WORD_BUT", "EC_WORD_YOU", "EC_WORD_WIN", "EC_WORD_ELLIPSIS"],
+    31: { # School Kid M (Okikazu / Oscar) - Kid bravado / becoming friends
+        "speechBefore": ["EC_WORD_WHO", "EC_WORD_THINKS", "EC_WORD_THEY", "EC_WORD_CAN", "EC_WORD_WIN", "EC_WORD_QUES"],
+        "speechWin":    ["EC_WORD_YOU", "EC_WORD_KNOW", "EC_WORD_NOTHING", "EC_WORD_ABOUT", "EC_WORD_POKEMON", "EC_WORD_EXCL"],
+        "speechLose":   ["EC_WORD_OH_YEAH", "EC_WORD_EXCUSE_ME", "EC_WORD_FOR", "EC_WORD_THAT", "EC_WORD_LOSS", "EC_WORD_ELLIPSIS_EXCL"],
+        "speechAfter":  ["EC_WORD_CAN", "EC_WORD_WE", "EC_WORD_BE", "EC_WORD_A", "EC_WORD_FRIEND", "EC_WORD_EXCL_EXCL"],
     },
-    32: { # Tuber F (Rikka)
-        "speechBefore": ["EC_WORD_I_AM", "EC_WORD_A_LITTLE", "EC_WORD_COLD", "EC_WORD_TODAY", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
-        "speechWin":    ["EC_WORD_I_AM", "EC_WORD_SO", "EC_WORD_HAPPY", "EC_WORD_I_AM", "EC_WORD_HOT", "EC_WORD_NOW"],
-        "speechLose":   ["EC_WORD_WAAAH", "EC_WORD_ELLIPSIS", "EC_EMPTY_WORD", "EC_WORD_I", "EC_WORD_LOST", "EC_WORD_ELLIPSIS"],
-        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING", "EC_WORD_TO", "EC_WORD_GO", "EC_WORD_HOME", "EC_EMPTY_WORD"],
+    32: { # Battle Girl (Rikka / Riley) - Loving good Pokémon / no bad Pokémon
+        "speechBefore": ["EC_WORD_THERE", "EC_WORD_ARE", "EC_WORD_NO", "EC_WORD_BAD", "EC_WORD_POKEMON", "EC_WORD_EXCL_EXCL"],
+        "speechWin":    ["EC_WORD_OUR", "EC_WORD_POKEMON", "EC_WORD_ARE", "EC_WORD_REALLY", "EC_WORD_SO", "EC_WORD_GOOD"],
+        "speechLose":   ["EC_WORD_THAT", "EC_WORD_LOSS", "EC_WORD_WAS", "EC_WORD_NOT", "EC_WORD_BEING", "EC_WORD_KIND"],
+        "speechAfter":  ["EC_WORD_I", "EC_WORD_JUST", "EC_WORD_ADORE", "EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_EXCL"],
     },
 
     # Pack 5 (Cards 33..40)
-    33: { # Camper (Kousuke)
-        "speechBefore": ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_ARE", "EC_WORD_TOP", "EC_WORD_RANK", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_SEE", "EC_WORD_QUES", "EC_WORD_THEY_RE", "EC_WORD_REALLY", "EC_WORD_TOP", "EC_WORD_RANK"],
-        "speechLose":   ["EC_WORD_I", "EC_WORD_DON_T", "EC_WORD_BELIEVE", "EC_WORD_THIS", "EC_WORD_LOSS", "EC_WORD_ELLIPSIS"],
-        "speechAfter":  ["EC_WORD_ALL", "EC_WORD_I", "EC_WORD_DO", "EC_WORD_IS", "EC_WORD_LOSE", "EC_WORD_ELLIPSIS"],
+    33: { # Camper (Kousuke / Kirk) - Cries non-stop / can't stop
+        "speechBefore": ["EC_WORD_DON_T", "EC_WORD_STOP", "EC_WORD_PLEASE", "EC_WORD_STOP", "EC_WORD_CRIES", "EC_WORD_EXCL_EXCL"],
+        "speechWin":    ["EC_WORD_HAHAHA", "EC_WORD_IT", "EC_WORD_DID", "EC_WORD_STOP", "EC_WORD_IT_S", "EC_WORD_GREAT"],
+        "speechLose":   ["EC_WORD_HOW", "EC_WORD_COULD", "EC_WORD_WE", "EC_WORD_LOSE", "EC_WORD_THIS", "EC_WORD_QUES"],
+        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_ALMOST", "EC_WORD_DROOLING", "EC_WORD_OVER", "EC_WORD_HERE", "EC_WORD_ELLIPSIS"],
     },
-    34: { # Guitarist (Neo)
-        "speechBefore": ["EC_WORD_LALALA", "EC_WORD_LET_S", "EC_MOVE(SING)", "EC_WORD_A", "EC_WORD_SONG", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_LALALA", "EC_WORD_MY", "EC_WORD_MUSIC", "EC_WORD_IS", "EC_WORD_PERFECT", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_WAAAH", "EC_WORD_EXCL_EXCL", "EC_WORD_I", "EC_WORD_CAN_T", "EC_MOVE(SING)", "EC_WORD_ELLIPSIS"],
-        "speechAfter":  ["EC_WORD_MY", "EC_WORD_SONG", "EC_WORD_WAS", "EC_WORD_BAD", "EC_WORD_HUH_QUES", "EC_EMPTY_WORD"],
+    34: { # Guitarist (Neo / Nolan) - Swift level / Master level
+        "speechBefore": ["EC_WORD_WHAT", "EC_WORD_IS", "EC_WORD_MY", "EC_MOVE(SWIFT)", "EC_WORD_LEVEL", "EC_WORD_QUES"],
+        "speechWin":    ["EC_WORD_YOU_RE", "EC_WORD_ONLY", "EC_WORD_AT", "EC_WORD_CHILD_S_PLAY", "EC_WORD_LEVEL", "EC_WORD_EXCL"],
+        "speechLose":   ["EC_WORD_WHOAH", "EC_WORD_ME", "EC_WORD_LOSE", "EC_WORD_IS", "EC_WORD_NO", "EC_WORD_JOKING"],
+        "speechAfter":  ["EC_WORD_YOU", "EC_WORD_CAN_T", "EC_WORD_SEE", "EC_WORD_MY", "EC_WORD_MASTER", "EC_WORD_LEVEL"],
     },
-    35: { # Rich Boy (Tsugane)
-        "speechBefore": ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_USE", "EC_WORD_A_LOT", "EC_WORD_OF", "EC_WORD_MONEY"],
-        "speechWin":    ["EC_WORD_MY", "EC_WORD_MONEY", "EC_WORD_IS", "EC_WORD_VERY", "EC_WORD_GOOD", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_I", "EC_WORD_NEED", "EC_WORD_MORE", "EC_WORD_MONEY", "EC_WORD_FOR", "EC_WORD_POKEMON"],
-        "speechAfter":  ["EC_WORD_DID", "EC_WORD_YOU", "EC_WORD_SEE", "EC_WORD_MY", "EC_WORD_SKILL", "EC_WORD_QUES"],
+    35: { # Rich Boy (Tsugane / Travis) - Spending money on Pokémon / Mother!
+        "speechBefore": ["EC_WORD_I", "EC_WORD_USE", "EC_WORD_ALL", "EC_WORD_MY", "EC_WORD_MONEY", "EC_WORD_EXCL_EXCL"],
+        "speechWin":    ["EC_WORD_FEELING", "EC_WORD_GOOD", "EC_WORD_WE_RE", "EC_WORD_THE", "EC_WORD_NO_1", "EC_WORD_EXCL"],
+        "speechLose":   ["EC_WORD_EXPENSIVE", "EC_WORD_ITEM", "EC_WORD_WAS", "EC_WORD_NOT", "EC_WORD_ENOUGH", "EC_WORD_ELLIPSIS"],
+        "speechAfter":  ["EC_WORD_MOTHER", "EC_WORD_WHY", "EC_WORD_DID", "EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_LOSE"],
     },
-    36: { # Hex Maniac (Kagaho)
-        "speechBefore": ["EC_WORD_YOU", "EC_WORD_CAN", "EC_WORD_CHOOSE", "EC_WORD_NOT", "EC_WORD_TO", "EC_WORD_BELIEVE"],
-        "speechWin":    ["EC_WORD_A", "EC_WORD_SUPER", "EC_WORD_NATURAL", "EC_WORD_POWER", "EC_WORD_HAS", "EC_WORD_COME"],
-        "speechLose":   ["EC_WORD_THIS", "EC_WORD_MUST_BE", "EC_WORD_A", "EC_MOVE(NIGHTMARE)", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
-        "speechAfter":  ["EC_WORD_I", "EC_WORD_WILL", "EC_WORD_DISAPPEAR", "EC_WORD_IN", "EC_WORD_THE", "EC_WORD_DARK"],
+    36: { # Hex Maniac (Kagaho / Calvin) - Scary, spooky, but cool
+        "speechBefore": ["EC_WORD_AIYEEH", "EC_WORD_EXCL", "EC_WORD_YOU_RE", "EC_WORD_SO", "EC_WORD_SCARY", "EC_WORD_ELLIPSIS_EXCL"],
+        "speechWin":    ["EC_WORD_YOU_RE", "EC_WORD_NOT", "EC_WORD_SCARY", "EC_WORD_JUST", "EC_WORD_TOO_WEAK", "EC_WORD_ELLIPSIS"],
+        "speechLose":   ["EC_WORD_AIYEEH", "EC_WORD_YOU", "EC_WORD_WERE", "EC_WORD_SCARY", "EC_WORD_AND", "EC_WORD_TOO_STRONG"],
+        "speechAfter":  ["EC_WORD_SCARY", "EC_WORD_SCARY", "EC_WORD_ELLIPSIS", "EC_WORD_EVEN_SO", "EC_WORD_SO", "EC_WORD_COOL"],
     },
-    37: { # Beauty (Tsukika)
-        "speechBefore": ["EC_WORD_I_AM", "EC_WORD_THE", "EC_WORD_STRONG", "EC_WORD_BEAUTY", "EC_WORD_AROUND", "EC_WORD_HERE"],
-        "speechWin":    ["EC_WORD_I_AM", "EC_WORD_STRONG", "EC_WORD_THAT_S", "EC_WORD_WHY", "EC_WORD_EXCL", "EC_EMPTY_WORD"],
-        "speechLose":   ["EC_WORD_I_AM", "EC_WORD_TIRED", "EC_WORD_TODAY", "EC_WORD_THAT_S", "EC_WORD_WHY", "EC_WORD_EXCL"],
-        "speechAfter":  ["EC_WORD_WHY", "EC_WORD_YES", "EC_WORD_I_AM", "EC_WORD_ANGRY", "EC_WORD_THANK_YOU", "EC_WORD_EXCL"],
+    37: { # Beauty (Tsukika / Tara) - Party from morning to night / Fever dance
+        "speechBefore": ["EC_WORD_PARTY", "EC_WORD_FROM", "EC_WORD_MORNING", "EC_WORD_UNTIL", "EC_WORD_NIGHT", "EC_WORD_EXCL"],
+        "speechWin":    ["EC_WORD_POKEMON", "EC_WORD_FEVER", "EC_WORD_LET_S", "EC_WORD_DANCE", "EC_WORD_TODAY", "EC_WORD_EXCL_EXCL"],
+        "speechLose":   ["EC_WORD_DISAPPOINT", "EC_WORD_THE", "EC_WORD_PARTY", "EC_WORD_IS", "EC_WORD_OVER", "EC_WORD_ELLIPSIS"],
+        "speechAfter":  ["EC_WORD_TRAIN", "EC_WORD_UNTIL", "EC_WORD_NIGHT", "EC_WORD_AND", "EC_WORD_DANCE", "EC_WORD_MORE"],
     },
-    38: { # Gentleman (Edo)
-        "speechBefore": ["EC_WORD_HMM", "EC_WORD_QUES", "EC_WORD_DO", "EC_WORD_YOU", "EC_WORD_LOOK", "EC_WORD_HERE"],
-        "speechWin":    ["EC_WORD_EXCELLENT", "EC_WORD_I_AM", "EC_WORD_THE", "EC_WORD_WINNER", "EC_WORD_TODAY", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_DISASTER", "EC_WORD_EXCL", "EC_WORD_I_AM", "EC_WORD_SHOCKED", "EC_WORD_TOTALLY", "EC_WORD_EXCL"],
-        "speechAfter":  ["EC_WORD_I_AM", "EC_WORD_GOING", "EC_WORD_TO", "EC_WORD_A", "EC_WORD_PARTY", "EC_WORD_NOW"],
+    38: { # Ruin Maniac (Edo / Eddie) - Disaster / full of sadness
+        "speechBefore": ["EC_WORD_ARE", "EC_WORD_YOU", "EC_WORD_THAT", "EC_WORD_STRONG", "EC_WORD_TRAINER", "EC_WORD_QUES"],
+        "speechWin":    ["EC_WORD_OH", "EC_WORD_A", "EC_WORD_DISASTER", "EC_WORD_FOR", "EC_WORD_YOU", "EC_WORD_EXCL"],
+        "speechLose":   ["EC_WORD_OH", "EC_WORD_I_AM", "EC_WORD_FULL", "EC_WORD_OF", "EC_WORD_SAD", "EC_WORD_FEELING"],
+        "speechAfter":  ["EC_WORD_WHO", "EC_WORD_IS", "EC_WORD_A", "EC_WORD_TRAINER", "EC_WORD_WITHOUT", "EC_WORD_LOSS"],
     },
-    39: { # Pkmn Breeder M (Kaiji)
-        "speechBefore": ["EC_WORD_LET_S", "EC_MOVE2(WRAP)", "EC_WORD_THINGS", "EC_WORD_UP", "EC_WORD_HERE", "EC_WORD_HEY_QUES"],
-        "speechWin":    ["EC_WORD_WOULD", "EC_WORD_YOU", "EC_WORD_LIKE", "EC_WORD_TO", "EC_WORD_GO_HOME", "EC_WORD_QUES"],
-        "speechLose":   ["EC_WORD_I", "EC_WORD_WILL", "EC_WORD_MAKE", "EC_WORD_YOU", "EC_WORD_SORRY", "EC_WORD_FRIEND"],
-        "speechAfter":  ["EC_WORD_HAVEN_T", "EC_WORD_YOU", "EC_WORD_DONE", "EC_WORD_ENOUGH", "EC_WORD_QUES", "EC_EMPTY_WORD"],
+    39: { # PKMN Breeder M (Kaiji / Kaleb) - Excuse me!! Excuse me!!
+        "speechBefore": ["EC_WORD_EXCUSE_ME", "EC_WORD_EXCL_EXCL", "EC_WORD_EXCUSE_ME", "EC_WORD_EXCL_EXCL", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
+        "speechWin":    ["EC_WORD_EXCUSE_ME", "EC_WORD_FOR", "EC_WORD_WIN", "EC_WORD_EXCUSE_ME", "EC_WORD_EXCL_EXCL", "EC_EMPTY_WORD"],
+        "speechLose":   ["EC_WORD_TOO_WEAK", "EC_WORD_EXCUSE_ME", "EC_WORD_EXCL_EXCL", "EC_WORD_DISAPPOINTED", "EC_WORD_EXCUSE_ME", "EC_WORD_EXCL_EXCL"],
+        "speechAfter":  ["EC_WORD_EXCUSE_ME", "EC_WORD_EXCL_EXCL", "EC_WORD_EXCUSE_ME", "EC_WORD_EXCL_EXCL", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
     },
-    40: { # Bug Catcher (Kiichi)
-        "speechBefore": ["EC_WORD_POISON", "EC_WORD_IS", "EC_WORD_JUST", "EC_WORD_AWESOME", "EC_WORD_OKAY", "EC_WORD_QUES"],
-        "speechWin":    ["EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_RULE", "EC_WORD_SO", "EC_WORD_THERE", "EC_WORD_EXCL"],
-        "speechLose":   ["EC_WORD_YOU_RE", "EC_WORD_NOT", "EC_WORD_NICE", "EC_WORD_AND", "EC_WORD_MEAN", "EC_WORD_EXCL"],
-        "speechAfter":  ["EC_WORD_POISON", "EC_WORD_IS", "EC_WORD_A", "EC_WORD_TERRIBLE", "EC_MOVE(TORMENT)", "EC_WORD_ISN_T_IT_QUES"],
+    40: { # Bug Catcher (Kiichi / Kevin) - Gym Leaders never concede
+        "speechBefore": ["EC_WORD_I_AM", "EC_WORD_SEEK", "EC_WORD_OF", "EC_WORD_THE", "EC_WORD_LEADERS", "EC_WORD_EXCL_EXCL"],
+        "speechWin":    ["EC_WORD_TO", "EC_WORD_WIN", "EC_WORD_IS", "EC_WORD_FEELING", "EC_WORD_SO", "EC_WORD_GOOD"],
+        "speechLose":   ["EC_WORD_TCH", "EC_WORD_IT_S", "EC_WORD_IMPOSSIBLE", "EC_WORD_TO", "EC_WORD_WIN", "EC_WORD_ELLIPSIS"],
+        "speechAfter":  ["EC_WORD_LEADERS", "EC_WORD_WILL", "EC_WORD_NOT", "EC_WORD_CONCEDE", "EC_WORD_A", "EC_WORD_MATCH"],
     },
 
-    # Promo (Cards 101..102)
-    101: { # Camper (Soushi)
-        "speechBefore": ["EC_WORD_LET_S", "EC_WORD_HAVE", "EC_WORD_AN", "EC_WORD_EXCITING", "EC_WORD_BATTLE", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_THAT_WAS", "EC_WORD_AN", "EC_WORD_EXCITING", "EC_WORD_MATCH", "EC_WORD_FOR", "EC_WORD_ME"],
-        "speechLose":   ["EC_WORD_THAT_WAS", "EC_WORD_AN", "EC_WORD_AWESOME", "EC_WORD_BATTLE", "EC_WORD_MY", "EC_WORD_FRIEND"],
-        "speechAfter":  ["EC_WORD_YOU_RE", "EC_WORD_PRETTY", "EC_WORD_GOOD", "EC_WORD_AT", "EC_WORD_THIS", "EC_WORD_BATTLE"],
+    # Promo Cards (101, 102)
+    101: { # Camper (Soushi / Soren) - Emerald is beautiful / Pokémon colors
+        "speechBefore": ["EC_WORD_LOOK", "EC_WORD_WELL", "EC_WORD_AT", "EC_WORD_MY", "EC_WORD_POKEMON", "EC_WORD_EXCL_EXCL"],
+        "speechWin":    ["EC_WORD_EMERALD", "EC_WORD_IS", "EC_WORD_SO", "EC_WORD_VERY", "EC_WORD_BEAUTIFUL", "EC_WORD_EXCL_EXCL"],
+        "speechLose":   ["EC_WORD_YOU_RE", "EC_WORD_A", "EC_WORD_TRULY", "EC_WORD_STRONG", "EC_WORD_TRAINER", "EC_WORD_EXCL_EXCL"],
+        "speechAfter":  ["EC_WORD_WHAT", "EC_WORD_COLOR", "EC_WORD_IS", "EC_WORD_YOUR", "EC_WORD_POKEMON", "EC_WORD_QUES"],
     },
-    102: { # School Kid M (Toshinori)
-        "speechBefore": ["EC_WORD_AHAHA", "EC_WORD_YOU_RE", "EC_WORD_NOT", "EC_WORD_GOING", "EC_WORD_ANYWHERE", "EC_WORD_EXCL"],
-        "speechWin":    ["EC_WORD_ALL_RIGHT", "EC_WORD_EXCL", "EC_WORD_BYE_BYE", "EC_WORD_EXCL", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
-        "speechLose":   ["EC_WORD_HIYAH", "EC_WORD_EXCL_EXCL", "EC_WORD_DONE", "EC_WORD_IN", "EC_WORD_TOTALLY", "EC_WORD_EXCL_EXCL"],
-        "speechAfter":  ["EC_WORD_TCH", "EC_WORD_TCH", "EC_WORD_YOU_RE", "EC_WORD_TOO_STRONG", "EC_EMPTY_WORD", "EC_EMPTY_WORD"],
+    102: { # School Kid M (Toshinori / Ashton) - I choose you / Never give up / Facade
+        "speechBefore": ["EC_WORD_I_CHOOSE_YOU", "EC_WORD_ELLIPSIS", "EC_WORD_THAT_WAS", "EC_WORD_JUST", "EC_WORD_A", "EC_WORD_JOKING"],
+        "speechWin":    ["EC_WORD_OH_KAY", "EC_WORD_EXCL_EXCL", "EC_WORD_NEVER", "EC_WORD_GIVE_UP", "EC_WORD_ON", "EC_WORD_VICTORY"],
+        "speechLose":   ["EC_WORD_HAHAHA", "EC_WORD_I", "EC_WORD_LOST", "EC_WORD_BUT", "EC_WORD_DON_T", "EC_WORD_GIVE_UP"],
+        "speechAfter":  ["EC_WORD_I", "EC_WORD_LOST", "EC_WORD_BUT", "EC_WORD_THIS", "EC_WORD_ISN_T", "EC_MOVE(FACADE)"],
     }
 }
 
@@ -446,37 +446,37 @@ trainer_english_names = {
 }
 
 jp_default_trainers = {
-    # Youngster Shigenobu -> Shawn
+    # Youngster Shigenobu -> Shawn: Talking to trainer lady
     "シゲノブ": {
         "name": "SHAWN",
-        "speechBefore": "{ EC_WORD_AHAHA, EC_WORD_YOU_RE, EC_WORD_NOT, EC_WORD_GOING, EC_WORD_ANYWHERE, EC_WORD_EXCL }",
-        "speechWin":    "{ EC_WORD_ALL_RIGHT, EC_WORD_EXCL, EC_WORD_BYE_BYE, EC_WORD_EXCL, EC_EMPTY_WORD, EC_EMPTY_WORD }",
-        "speechLose":   "{ EC_WORD_HIYAH, EC_WORD_EXCL_EXCL, EC_WORD_DONE, EC_WORD_IN, EC_WORD_TOTALLY, EC_WORD_EXCL_EXCL }",
-        "speechAfter":  "{ EC_WORD_TCH, EC_WORD_TCH, EC_WORD_YOU_RE, EC_WORD_TOO_STRONG, EC_EMPTY_WORD, EC_EMPTY_WORD }",
+        "speechBefore": "{ EC_WORD_MISS, EC_WORD_TRAINER, EC_WORD_CAN, EC_WORD_WE, EC_WORD_BATTLE, EC_WORD_QUES }",
+        "speechWin":    "{ EC_WORD_MISS, EC_WORD_TRAINER, EC_WORD_WERE, EC_WORD_YOU, EC_WORD_TOO_WEAK, EC_WORD_QUES }",
+        "speechLose":   "{ EC_WORD_MISS, EC_WORD_TRAINER, EC_WORD_YOU_RE, EC_WORD_SO, EC_WORD_STRONG, EC_WORD_EXCL_EXCL }",
+        "speechAfter":  "{ EC_WORD_THAT_WAS, EC_WORD_EXCITING, EC_WORD_MISS, EC_WORD_TRAINER, EC_WORD_THANK_YOU, EC_WORD_EXCL }",
     },
-    # Parasol Lady Akari -> Autumn
+    # Parasol Lady Akari -> Autumn: Every type of Pokemon / Earthquake
     "アカリ": {
         "name": "AUTUMN",
-        "speechBefore": "{ EC_WORD_HI, EC_WORD_ARE, EC_WORD_YOU, EC_WORD_FEELING, EC_WORD_UPBEAT, EC_WORD_QUES }",
-        "speechWin":    "{ EC_WORD_AREN_T, EC_WORD_YOU, EC_WORD_FEELING, EC_WORD_WELL, EC_WORD_QUES, EC_EMPTY_WORD }",
-        "speechLose":   "{ EC_WORD_I, EC_WORD_CAN, EC_WORD_SEE, EC_WORD_YOU_RE, EC_WORD_FEELING, EC_WORD_GREAT }",
-        "speechAfter":  "{ EC_WORD_YOUR, EC_WORD_POKEMON, EC_WORD_LOOK, EC_WORD_READY, EC_WORD_TO, EC_WORD_HUSTLE }",
+        "speechBefore": "{ EC_WORD_I, EC_WORD_ADORE, EC_WORD_EVERY, EC_WORD_TYPE, EC_WORD_OF, EC_WORD_POKEMON }",
+        "speechWin":    "{ EC_WORD_DID, EC_WORD_I, EC_WORD_SURPRISE, EC_WORD_YOU, EC_WORD_GIGGLE, EC_WORD_EXCL }",
+        "speechLose":   "{ EC_WORD_OH_QUES, EC_WORD_WAS, EC_WORD_THAT, EC_WORD_AN, EC_MOVE(EARTHQUAKE), EC_WORD_QUES }",
+        "speechAfter":  "{ EC_WORD_YOU, EC_WORD_CAN, EC_WORD_GO, EC_WORD_TO, EC_WORD_THE, EC_WORD_END }",
     },
-    # Ninja Boy Shigezou -> Simon
+    # Ninja Boy Shigezou -> Simon: Constrict / Tomorrow is another day
     "シゲゾウ": {
         "name": "SIMON",
-        "speechBefore": "{ EC_WORD_YAHOO, EC_WORD_EXCL, EC_WORD_HERE_I_COME, EC_WORD_BABY, EC_WORD_EXCL, EC_EMPTY_WORD }",
-        "speechWin":    "{ EC_WORD_I_AM, EC_WORD_A, EC_WORD_BIG, EC_WORD_WINNER, EC_WORD_BABY, EC_WORD_EXCL }",
-        "speechLose":   "{ EC_WORD_SOMETHING, EC_WORD_IS, EC_WORD_TERRIBLE, EC_WORD_AND, EC_WORD_BAD, EC_EMPTY_WORD }",
-        "speechAfter":  "{ EC_WORD_HOW, EC_WORD_COULD, EC_WORD_I, EC_WORD_LOSE, EC_WORD_THIS, EC_WORD_QUES }",
+        "speechBefore": "{ EC_WORD_I, EC_WORD_WILL, EC_MOVE(CONSTRICT), EC_WORD_UNTIL, EC_WORD_I, EC_WORD_WIN }",
+        "speechWin":    "{ EC_WORD_I, EC_WORD_DIDN_T, EC_WORD_NEED, EC_MOVE(CONSTRICT), EC_WORD_TODAY, EC_WORD_EXCL }",
+        "speechLose":   "{ EC_WORD_URGH, EC_WORD_I, EC_WORD_HAVE, EC_WORD_NO, EC_WORD_POWER, EC_WORD_ELLIPSIS }",
+        "speechAfter":  "{ EC_WORD_TOMORROW, EC_WORD_IS, EC_WORD_ANOTHER, EC_WORD_DAY, EC_WORD_EXCL, EC_EMPTY_WORD }",
     },
-    # Beauty Namiko -> Naomi
+    # Beauty Namiko -> Naomi: Don't go easy on me / Good match
     "ナミコ": {
         "name": "NAOMI",
-        "speechBefore": "{ EC_WORD_I_AM, EC_WORD_THE, EC_WORD_GROUP, EC_WORD_LEADER, EC_WORD_TODAY, EC_WORD_EXCL }",
-        "speechWin":    "{ EC_WORD_I_AM, EC_WORD_SO, EC_WORD_HAPPY, EC_WORD_I, EC_WORD_WON, EC_WORD_EXCL }",
-        "speechLose":   "{ EC_WORD_HOW, EC_WORD_COULD, EC_WORD_I, EC_WORD_LOSE, EC_WORD_THIS, EC_WORD_QUES }",
-        "speechAfter":  "{ EC_WORD_I_AM, EC_WORD_NOT, EC_WORD_TALKING, EC_WORD_WITH, EC_WORD_YOU, EC_WORD_ELLIPSIS }",
+        "speechBefore": "{ EC_WORD_DON_T, EC_WORD_BE, EC_WORD_KIND, EC_WORD_TO, EC_WORD_ME, EC_WORD_EXCL }",
+        "speechWin":    "{ EC_WORD_WERE, EC_WORD_YOU, EC_WORD_BEING, EC_WORD_KIND, EC_WORD_OR, EC_WORD_WEAK }",
+        "speechLose":   "{ EC_WORD_THAT_WAS, EC_WORD_AWFUL, EC_WORD_I, EC_WORD_CAN_T_WIN, EC_WORD_TODAY, EC_WORD_EXCL }",
+        "speechAfter":  "{ EC_WORD_AWW, EC_WORD_BUT, EC_WORD_THAT_WAS, EC_WORD_A, EC_WORD_GOOD, EC_WORD_MATCH }",
     },
 }
 
@@ -948,10 +948,10 @@ simon_naomi_mons = """                [0] = {
 shawn_body = f"""            .name = _("SHAWN"),
             .facilityClass = FACILITY_CLASS_YOUNGSTER,
             .unused = TRUE,
-            .speechBefore = {{ EC_WORD_AHAHA, EC_WORD_YOU_RE, EC_WORD_NOT, EC_WORD_GOING, EC_WORD_ANYWHERE, EC_WORD_EXCL }},
-            .speechWin = {{ EC_WORD_ALL_RIGHT, EC_WORD_EXCL, EC_WORD_BYE_BYE, EC_WORD_EXCL, EC_EMPTY_WORD, EC_EMPTY_WORD }},
-            .speechLose = {{ EC_WORD_HIYAH, EC_WORD_EXCL_EXCL, EC_WORD_DONE, EC_WORD_IN, EC_WORD_TOTALLY, EC_WORD_EXCL_EXCL }},
-            .speechAfter = {{ EC_WORD_TCH, EC_WORD_TCH, EC_WORD_YOU_RE, EC_WORD_TOO_STRONG, EC_EMPTY_WORD, EC_EMPTY_WORD }},
+            .speechBefore = {{ EC_WORD_MISS, EC_WORD_TRAINER, EC_WORD_CAN, EC_WORD_WE, EC_WORD_BATTLE, EC_WORD_QUES }},
+            .speechWin = {{ EC_WORD_MISS, EC_WORD_TRAINER, EC_WORD_WERE, EC_WORD_YOU, EC_WORD_TOO_WEAK, EC_WORD_QUES }},
+            .speechLose = {{ EC_WORD_MISS, EC_WORD_TRAINER, EC_WORD_YOU_RE, EC_WORD_SO, EC_WORD_STRONG, EC_WORD_EXCL_EXCL }},
+            .speechAfter = {{ EC_WORD_THAT_WAS, EC_WORD_EXCITING, EC_WORD_MISS, EC_WORD_TRAINER, EC_WORD_THANK_YOU, EC_WORD_EXCL }},
             .mons = {{
 {shawn_autumn_mons}
             }}"""
@@ -959,10 +959,10 @@ shawn_body = f"""            .name = _("SHAWN"),
 autumn_body = f"""            .name = _("AUTUMN"),
             .facilityClass = FACILITY_CLASS_PARASOL_LADY,
             .unused = TRUE,
-            .speechBefore = {{ EC_WORD_HI, EC_WORD_ARE, EC_WORD_YOU, EC_WORD_FEELING, EC_WORD_UPBEAT, EC_WORD_QUES }},
-            .speechWin = {{ EC_WORD_AREN_T, EC_WORD_YOU, EC_WORD_FEELING, EC_WORD_WELL, EC_WORD_QUES, EC_EMPTY_WORD }},
-            .speechLose = {{ EC_WORD_I, EC_WORD_CAN, EC_WORD_SEE, EC_WORD_YOU_RE, EC_WORD_FEELING, EC_WORD_GREAT }},
-            .speechAfter = {{ EC_WORD_YOUR, EC_WORD_POKEMON, EC_WORD_LOOK, EC_WORD_READY, EC_WORD_TO, EC_WORD_HUSTLE }},
+            .speechBefore = {{ EC_WORD_I, EC_WORD_ADORE, EC_WORD_EVERY, EC_WORD_TYPE, EC_WORD_OF, EC_WORD_POKEMON }},
+            .speechWin = {{ EC_WORD_DID, EC_WORD_I, EC_WORD_SURPRISE, EC_WORD_YOU, EC_WORD_GIGGLE, EC_WORD_EXCL }},
+            .speechLose = {{ EC_WORD_OH_QUES, EC_WORD_WAS, EC_WORD_THAT, EC_WORD_AN, EC_MOVE(EARTHQUAKE), EC_WORD_QUES }},
+            .speechAfter = {{ EC_WORD_YOU, EC_WORD_CAN, EC_WORD_GO, EC_WORD_TO, EC_WORD_THE, EC_WORD_END }},
             .mons = {{
 {shawn_autumn_mons}
             }}"""
@@ -970,10 +970,10 @@ autumn_body = f"""            .name = _("AUTUMN"),
 simon_body = f"""            .name = _("SIMON"),
             .facilityClass = FACILITY_CLASS_NINJA_BOY,
             .unused = TRUE,
-            .speechBefore = {{ EC_WORD_YAHOO, EC_WORD_EXCL, EC_WORD_HERE_I_COME, EC_WORD_BABY, EC_WORD_EXCL, EC_EMPTY_WORD }},
-            .speechWin = {{ EC_WORD_I_AM, EC_WORD_A, EC_WORD_BIG, EC_WORD_WINNER, EC_WORD_BABY, EC_WORD_EXCL }},
-            .speechLose = {{ EC_WORD_SOMETHING, EC_WORD_IS, EC_WORD_TERRIBLE, EC_WORD_AND, EC_WORD_BAD, EC_EMPTY_WORD }},
-            .speechAfter = {{ EC_WORD_HOW, EC_WORD_COULD, EC_WORD_I, EC_WORD_LOSE, EC_WORD_THIS, EC_WORD_QUES }},
+            .speechBefore = {{ EC_WORD_I, EC_WORD_WILL, EC_MOVE(CONSTRICT), EC_WORD_UNTIL, EC_WORD_I, EC_WORD_WIN }},
+            .speechWin = {{ EC_WORD_I, EC_WORD_DIDN_T, EC_WORD_NEED, EC_MOVE(CONSTRICT), EC_WORD_TODAY, EC_WORD_EXCL }},
+            .speechLose = {{ EC_WORD_URGH, EC_WORD_I, EC_WORD_HAVE, EC_WORD_NO, EC_WORD_POWER, EC_WORD_ELLIPSIS }},
+            .speechAfter = {{ EC_WORD_TOMORROW, EC_WORD_IS, EC_WORD_ANOTHER, EC_WORD_DAY, EC_WORD_EXCL, EC_EMPTY_WORD }},
             .mons = {{
 {simon_naomi_mons}
             }}"""
@@ -981,10 +981,10 @@ simon_body = f"""            .name = _("SIMON"),
 naomi_body = f"""            .name = _("NAOMI"),
             .facilityClass = FACILITY_CLASS_BEAUTY,
             .unused = TRUE,
-            .speechBefore = {{ EC_WORD_I_AM, EC_WORD_THE, EC_WORD_GROUP, EC_WORD_LEADER, EC_WORD_TODAY, EC_WORD_EXCL }},
-            .speechWin = {{ EC_WORD_I_AM, EC_WORD_SO, EC_WORD_HAPPY, EC_WORD_I, EC_WORD_WON, EC_WORD_EXCL }},
-            .speechLose = {{ EC_WORD_HOW, EC_WORD_COULD, EC_WORD_I, EC_WORD_LOSE, EC_WORD_THIS, EC_WORD_QUES }},
-            .speechAfter = {{ EC_WORD_I_AM, EC_WORD_NOT, EC_WORD_TALKING, EC_WORD_WITH, EC_WORD_YOU, EC_WORD_ELLIPSIS }},
+            .speechBefore = {{ EC_WORD_DON_T, EC_WORD_BE, EC_WORD_KIND, EC_WORD_TO, EC_WORD_ME, EC_WORD_EXCL }},
+            .speechWin = {{ EC_WORD_WERE, EC_WORD_YOU, EC_WORD_BEING, EC_WORD_KIND, EC_WORD_OR, EC_WORD_WEAK }},
+            .speechLose = {{ EC_WORD_THAT_WAS, EC_WORD_AWFUL, EC_WORD_I, EC_WORD_CAN_T_WIN, EC_WORD_TODAY, EC_WORD_EXCL }},
+            .speechAfter = {{ EC_WORD_AWW, EC_WORD_BUT, EC_WORD_THAT_WAS, EC_WORD_A, EC_WORD_GOOD, EC_WORD_MATCH }},
             .mons = {{
 {simon_naomi_mons}
             }}"""
