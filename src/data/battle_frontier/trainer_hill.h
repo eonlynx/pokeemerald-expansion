@@ -352,6 +352,8 @@ static const struct TrainerHillFloor sFloors_JPDefault[] = {
     },
 };
 
+#include "data/battle_frontier/trainer_hill_ereader.h"
+
 static const struct TrainerHillChallenge sChallenge_Normal =
 {
     .numTrainers = NUM_TRAINER_HILL_TRAINERS,
