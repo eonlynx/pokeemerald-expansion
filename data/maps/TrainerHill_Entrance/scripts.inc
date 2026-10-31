@@ -198,21 +198,14 @@ TrainerHill_Entrance_EventScript_EntryTrigger::
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
 	goto_if_unset FLAG_SYS_GAME_CLEAR, TrainerHill_Entrance_EventScript_Closed
 	msgbox TrainerHill_Entrance_Text_WelcomeToTrainerHill, MSGBOX_DEFAULT
-	trainerhill_allfloorsused
-	goto_if_eq VAR_RESULT, TRUE, TrainerHill_Entrance_EventScript_AllFloorsUsed
-	msgbox TrainerHill_Entrance_Text_TrainersUpToFloorX, MSGBOX_DEFAULT
-	goto TrainerHill_Entrance_EventScript_AskChallengeTrainers
-
-TrainerHill_Entrance_EventScript_AllFloorsUsed::
-	msgbox TrainerHill_Entrance_Text_TrainersInEveryRoom, MSGBOX_DEFAULT
 TrainerHill_Entrance_EventScript_AskChallengeTrainers::
 	message TrainerHill_Entrance_Text_LikeToChallengeTrainers
 	waitmessage
-	multichoice 15, 6, MULTI_YESNOINFO, FALSE
+	multichoice 17, 6, MULTI_CHALLENGEINFO, FALSE
 	switch VAR_RESULT
 	case 0, TrainerHill_Entrance_EventScript_ChooseChallenge
-	case 1, TrainerHill_Entrance_EventScript_CancelEntry
-	case 2, TrainerHill_Entrance_EventScript_Info
+	case 1, TrainerHill_Entrance_EventScript_Info
+	case 2, TrainerHill_Entrance_EventScript_CancelEntry
 	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_CancelEntry
 	end
 
@@ -470,20 +463,9 @@ TrainerHill_Entrance_Text_RetireFromChallenge:
 	.string "Would you like to retire from your\n"
 	.string "BATTLE HILL challenge?$"
 
-TrainerHill_Entrance_Text_TrainersUpToFloorX:
-	.string "Let's see…\n"
-	.string "The TRAINERS here now are…\p"
-	.string "Up to floor no. {STR_VAR_1}.$"
-
-TrainerHill_Entrance_Text_TrainersInEveryRoom:
-	.string "Let's see…\n"
-	.string "The TRAINERS here now are…\p"
-	.string "There appear to be TRAINERS gathered\n"
-	.string "in every room.$"
-
 TrainerHill_Entrance_Text_LikeToChallengeTrainers:
-	.string "Would you like to challenge the\n"
-	.string "waiting TRAINERS?$"
+	.string "Would you like to take the\n"
+	.string "BATTLE HILL challenge?$"
 
 TrainerHill_Entrance_Text_TimeProgessGetSetGo:
 	.string "I will time your progress.\n"
@@ -493,7 +475,8 @@ TrainerHill_Entrance_Text_TimeProgessGetSetGo:
 	.string "Go!$"
 
 TrainerHill_Entrance_Text_PleaseVisitUsAgain:
-	.string "Please do visit us again!$"
+	.string "We look forward to seeing you on\n"
+	.string "another challenge!$"
 
 TrainerHill_Entrance_Text_TooBadTremendousEffort:
 	.string "That was too bad.\p"
@@ -514,17 +497,21 @@ TrainerHill_Entrance_Text_ThankYouForPlaying:
 	.string "Thank you for playing!$"
 
 TrainerHill_Entrance_Text_ExplainTrainerHill:
-	.string "Here at the BATTLE HILL, we conduct\n"
-	.string "an event called the Time Attack.\p"
-	.string "It is a race that measures how long\n"
-	.string "you take to reach our Owner on\l"
-	.string "the rooftop from this counter.\p"
-	.string "The fastest times are posted on\n"
-	.string "the Time Board--try competing with\l"
-	.string "your friends.\p"
-	.string "In TRAINER battles along the way,\n"
-	.string "neither Exp. Points nor money will\l"
-	.string "be awarded.$"
+	.string "At the BATTLE HILL, we conduct\n"
+	.string "the Time Attack Tag Challenge.\p"
+	.string "It is an endurance race measuring\n"
+	.string "how quickly you can scale all four\l"
+	.string "floors to reach the rooftop arena.\p"
+	.string "On each floor, you will face two\n"
+	.string "TRAINERS in a TAG BATTLE.\p"
+	.string "You may enter with a full team of\n"
+	.string "six POKéMON, and no species or\l"
+	.string "held items are restricted.\p"
+	.string "Battle Points are awarded on the\n"
+	.string "roof based on your clear time.\p"
+	.string "Saving inside is prohibited.\p"
+	.string "If you quit without finishing,\n"
+	.string "your challenge is disqualified.$"
 
 @ Unused
 TrainerHill_Entrance_Text_NeedAtLeastTwoPokemon:

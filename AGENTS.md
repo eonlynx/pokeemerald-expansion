@@ -103,7 +103,7 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
 - **Legacy Cleanup:** Unused item prize list structures and lookup functions (`sPrizeListSets`, `GetPrizeItemId`, `GetPrizeListId`) were safely decommissioned to ensure clean, warning-free compilation.
 
 ### 2.11. Frontier Brain Wally & Gauge Credits System
-- **Integration as Battle Hill:** Trainer Hill has been rebranded to **Battle Hill** across all scripts, map names, landmarks, and signposts, fully integrating it into the Battle Frontier experience. Facility music across all floors and lobby retains the facility theme `MUS_B_TOWER_RS`, and reception dialogue is harmonized to the Frontier standard (*"Where the agility of TRAINERS is put to the test! Welcome to the BATTLE HILL!"*).
+- **Integration as Battle Hill:** Trainer Hill has been rebranded to **Battle Hill** across all scripts, map names, landmarks, and signposts, fully integrating it into the Battle Frontier experience. Facility music across all floors and lobby retains the facility theme `MUS_B_TOWER_RS`, and reception dialogue is harmonized to the Frontier standard (*"Where the agility of TRAINERS is put to the test! Welcome to the BATTLE HILL!"*). The reception menu uses `MULTI_CHALLENGEINFO` (`CHALLENGE / INFO / EXIT`) with full Battle Frontier rules explanation and farewell phrasing.
 - **Frontier Brain Integration:** Wally serves as the Frontier Brain of Battle Hill with the official title and class **Hill Prodigy** (`TRAINER_CLASS_HILL_PRODIGY` / `"HILL PRODIGY"`).
 - **Gauge Credits Accumulation:**
   - Challengers earn base gauge credits depending on their clear time:
