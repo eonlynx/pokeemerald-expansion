@@ -153,7 +153,41 @@ TrainerHill_Entrance_EventScript_ChooseChallenge::
 	switch VAR_RESULT
 	case 4, TrainerHill_Entrance_EventScript_CancelEntry
 	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_CancelEntry
-	trainerhill_setmode VAR_RESULT
+	copyvar VAR_0x8006, VAR_RESULT
+	message TrainerHill_Entrance_Text_WhichLevelMode
+	waitmessage
+	multichoice 17, 6, MULTI_LEVEL_MODE, FALSE
+	switch VAR_RESULT
+	case FRONTIER_LVL_TENT, TrainerHill_Entrance_EventScript_CancelEntry
+	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_CancelEntry
+	case FRONTIER_LVL_50, TrainerHill_Entrance_EventScript_CheckLvl50
+	case FRONTIER_LVL_OPEN, TrainerHill_Entrance_EventScript_StartOpenLevel
+	goto TrainerHill_Entrance_EventScript_CancelEntry
+	end
+
+TrainerHill_Entrance_EventScript_CheckLvl50::
+	trainerhill_getpartymaxlevel
+	goto_if_gt VAR_RESULT, FRONTIER_MAX_LEVEL_50, TrainerHill_Entrance_EventScript_PartyLevelTooHigh50
+	trainerhill_setlvlmode FRONTIER_LVL_50
+	goto TrainerHill_Entrance_EventScript_EnterChallenge
+	end
+
+TrainerHill_Entrance_EventScript_StartOpenLevel::
+	trainerhill_setlvlmode FRONTIER_LVL_OPEN
+	goto TrainerHill_Entrance_EventScript_EnterChallenge
+	end
+
+TrainerHill_Entrance_EventScript_PartyLevelTooHigh50::
+	msgbox TrainerHill_Entrance_Text_PartyLevelTooHigh50, MSGBOX_DEFAULT
+	closemessage
+	setvar VAR_TEMP_5, 0
+	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PushPlayerBackFromCounter
+	waitmovement 0
+	releaseall
+	end
+
+TrainerHill_Entrance_EventScript_EnterChallenge::
+	trainerhill_setmode VAR_0x8006
 	setvar VAR_TRAINER_HILL_IS_ACTIVE, 1
 	setvar VAR_TEMP_5, 0
 	special HealPlayerParty
@@ -448,3 +482,16 @@ TrainerHill_Entrance_Text_DoYouKnowWhenTheyOpen:
 TrainerHill_Elevator_Text_ReturnToReception:
 	.string "Would you like to return to\n"
 	.string "the reception counter?$"
+
+TrainerHill_Entrance_Text_WhichLevelMode:
+	.string "TRAINER HILL offers two levels\n"
+	.string "of challenge, Level 50 and Open Level.\l"
+	.string "Which is your choice?$"
+
+TrainerHill_Entrance_Text_PartyLevelTooHigh50:
+	.string "Excuse me!\p"
+	.string "One or more of your POKéMON exceeds\n"
+	.string "Level 50.\p"
+	.string "All POKéMON in your party must be\n"
+	.string "Level 50 or less to enter Level 50.\p"
+	.string "Please come see me when you are ready.$"

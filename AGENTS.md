@@ -78,6 +78,14 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
   - *Fix:* `tools/trainer_hill/decompile_ereader.py` was updated to directly output raw hex bytes (`raw_dirs` and `raw_ranges`), matching the hardware format byte-for-byte and ensuring 100% fidelity without macro misalignments.
   - *Verification & Tooling:* An ASCII layout generator (`tools/trainer_hill/generate_ascii_layouts.py`) was created to export visual grids (`□` passable, `■` obstacle, arrows for facing directions, and `X` for double battle line-of-sight intersections) for all 63 raw cards, 2 JP Default floors, and 16 original Western floors. All maps confirm identical collision and trainer placements between Western releases and raw Japanese cards, guaranteeing proper double-battle triggers across all floors.
 
+### 2.9. Level 50 and Open Level Challenge Modes
+- **Battle Frontier Parity:** Players can choose between **Level 50** and **Open Level** after selecting any challenge mode (Normal, Variety, Unique, Expert).
+- **Pokemon Roster Integrity:** Unlike Battle Frontier facilities which ban mythical/legendary species (`isFrontierBanned`), Trainer Hill retains its original freedom: **no Pokemon or held item is banned**, allowing players to use their full party of up to 6 Pokemon.
+- **Level Mechanics:**
+  - **Level 50 (`FRONTIER_LVL_50`):** Enemies are scaled to Level 50. If any Pokemon in the player's party exceeds Level 50, entry is denied with a descriptive prompt.
+  - **Open Level (`FRONTIER_LVL_OPEN`):** Enemies scale to match the player's highest party level, with a minimum level of 60 (`FRONTIER_MIN_LEVEL_OPEN`).
+- **Map Non-Repetition Decoupling:** Floor anti-repetition memory is tracked per mode (Normal, Variety, etc.) independently of the level mode chosen. Switching between Level 50 and Open Level preserves the non-repetition rules.
+
 ---
 
 ## 3. Key Source Files

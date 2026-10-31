@@ -106,3 +106,16 @@
 	copyvar VAR_0x8005, \mode
 	special CallTrainerHillFunction
 	.endm
+
+	@ Returns the highest level of non-egg Pokemon in player's party in VAR_RESULT
+	.macro trainerhill_getpartymaxlevel
+	setvar VAR_0x8004, TRAINER_HILL_FUNC_GET_PARTY_MAX_LEVEL
+	special CallTrainerHillFunction
+	.endm
+
+	@ Sets the level mode to FRONTIER_LVL_50 or FRONTIER_LVL_OPEN
+	.macro trainerhill_setlvlmode lvlMode:req
+	setvar VAR_0x8004, TRAINER_HILL_FUNC_SET_LVL_MODE
+	setvar VAR_0x8005, \lvlMode
+	special CallTrainerHillFunction
+	.endm

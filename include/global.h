@@ -963,7 +963,8 @@ struct TrainerHillSave
                u16 maybeECardScanDuringChallenge:1;
                u16 field_3D6E_0f:1;
                u16 mode:2; // HILL_MODE_*
-               //u16 padding:8;
+               u16 lvlMode:1; // FRONTIER_LVL_50 or FRONTIER_LVL_OPEN
+               //u16 padding:7;
     u8 prevFirstTrainers[NUM_TRAINER_HILL_MODES][NUM_TRAINER_HILL_FLOORS];
     u8 currentFloorTrainers[NUM_TRAINER_HILL_FLOORS][HILL_TRAINERS_PER_FLOOR];
     u8 monSlots[NUM_TRAINER_HILL_FLOORS][HILL_TRAINERS_PER_FLOOR][MULTI_PARTY_SIZE];

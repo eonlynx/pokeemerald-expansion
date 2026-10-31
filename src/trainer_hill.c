@@ -28,6 +28,7 @@
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
 #include "constants/items.h"
+#include "constants/battle_frontier.h"
 #include "constants/layouts.h"
 #include "constants/moves.h"
 #include "constants/trainers.h"
@@ -70,6 +71,8 @@ static void SetGameSaved(void);
 static void ClearGameSaved(void);
 static void GetChallengeWon(void);
 static void TrainerHillSetMode(void);
+static void TrainerHillGetPartyMaxLevel(void);
+static void TrainerHillSetLvlMode(void);
 static void SetUpDataStruct(void);
 static void FreeDataStruct(void);
 static void TrainerHillDummy(void);
@@ -251,6 +254,8 @@ static void (*const sHillFunctions[])(void) =
     [TRAINER_HILL_FUNC_CLEAR_GAME_SAVED]      = ClearGameSaved,
     [TRAINER_HILL_FUNC_GET_WON]               = GetChallengeWon,
     [TRAINER_HILL_FUNC_SET_MODE]              = TrainerHillSetMode,
+    [TRAINER_HILL_FUNC_GET_PARTY_MAX_LEVEL]   = TrainerHillGetPartyMaxLevel,
+    [TRAINER_HILL_FUNC_SET_LVL_MODE]          = TrainerHillSetLvlMode,
 };
 
 static const u8 *const sModeStrings[NUM_TRAINER_HILL_MODES] =
@@ -1082,7 +1087,16 @@ static void CreateNPCTrainerHillParty(u16 trainerId, enum BattleTrainer trainer)
 
     trId = trainerId - 1;
     SetUpDataStruct();
-    level = GetHighestLevelInPlayerParty();
+    if (gSaveBlock1Ptr->trainerHill.lvlMode == FRONTIER_LVL_50)
+    {
+        level = FRONTIER_MAX_LEVEL_50;
+    }
+    else
+    {
+        level = GetHighestLevelInPlayerParty();
+        if (level < FRONTIER_MIN_LEVEL_OPEN)
+            level = FRONTIER_MIN_LEVEL_OPEN;
+    }
     floorId = GetFloorId();
     if (floorId >= NUM_TRAINER_HILL_FLOORS)
         floorId = 0;
@@ -1210,6 +1224,19 @@ static void TrainerHillSetMode(void)
 #if FREE_TRAINER_HILL == FALSE
     gSaveBlock1Ptr->trainerHill.mode = gSpecialVar_0x8005;
     gSaveBlock1Ptr->trainerHill.bestTime = gSaveBlock1Ptr->trainerHillTimes[gSpecialVar_0x8005];
+#endif //FREE_TRAINER_HILL
+}
+
+static void TrainerHillGetPartyMaxLevel(void)
+{
+    gSpecialVar_Result = GetHighestLevelInPlayerParty();
+}
+
+static void TrainerHillSetLvlMode(void)
+{
+#if FREE_TRAINER_HILL == FALSE
+    gSaveBlock1Ptr->trainerHill.lvlMode = gSpecialVar_0x8005;
+    gSaveBlock2Ptr->frontier.lvlMode = gSpecialVar_0x8005;
 #endif //FREE_TRAINER_HILL
 }
 
