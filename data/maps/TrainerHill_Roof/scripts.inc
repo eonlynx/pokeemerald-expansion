@@ -82,15 +82,21 @@ TrainerHill_Roof_EventScript_BattleWallySilver::
 	closemessage
 	playse SE_ELEVATOR
 	delay 30
+	opendoor 15, 5
+	waitdooranim
 	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
 	addobject LOCALID_WALLY
 	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitElevator
 	waitmovement 0
+	closedoor 15, 5
+	waitdooranim
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	msgbox TrainerHill_Roof_Text_WallySilverIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
 	trainerbattle_no_intro_double TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_ne VAR_RESULT, B_OUTCOME_WON, TrainerHill_Roof_EventScript_LostToWally
 	msgbox TrainerHill_Roof_Text_WallySilverAwardSymbol, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
 	message TrainerHill_Roof_Text_ReceivedAgilitySymbol
@@ -101,8 +107,12 @@ TrainerHill_Roof_EventScript_BattleWallySilver::
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallySilverFarewell, MSGBOX_DEFAULT
 	closemessage
+	opendoor 15, 5
+	waitdooranim
 	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitToElevator
 	waitmovement 0
+	closedoor 15, 5
+	waitdooranim
 	playse SE_ELEVATOR
 	removeobject LOCALID_WALLY
 	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
@@ -116,22 +126,32 @@ TrainerHill_Roof_EventScript_BattleWallySilverStreak::
 	closemessage
 	playse SE_ELEVATOR
 	delay 30
+	opendoor 15, 5
+	waitdooranim
 	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
 	addobject LOCALID_WALLY
 	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitElevator
 	waitmovement 0
+	closedoor 15, 5
+	waitdooranim
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	msgbox TrainerHill_Roof_Text_WallySilverStreakIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
 	trainerbattle_no_intro_double TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_ne VAR_RESULT, B_OUTCOME_WON, TrainerHill_Roof_EventScript_LostToWally
 	msgbox TrainerHill_Roof_Text_WallySilverStreakPostBattle, MSGBOX_DEFAULT
 	trainerhill_givebrainprize
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallySilverFarewell, MSGBOX_DEFAULT
 	closemessage
+	opendoor 15, 5
+	waitdooranim
 	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitToElevator
 	waitmovement 0
+	closedoor 15, 5
+	waitdooranim
 	playse SE_ELEVATOR
 	removeobject LOCALID_WALLY
 	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
@@ -145,15 +165,21 @@ TrainerHill_Roof_EventScript_BattleWallyGold::
 	closemessage
 	playse SE_ELEVATOR
 	delay 30
+	opendoor 15, 5
+	waitdooranim
 	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
 	addobject LOCALID_WALLY
 	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitElevator
 	waitmovement 0
+	closedoor 15, 5
+	waitdooranim
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	msgbox TrainerHill_Roof_Text_WallyGoldIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
 	trainerbattle_no_intro_double TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_ne VAR_RESULT, B_OUTCOME_WON, TrainerHill_Roof_EventScript_LostToWally
 	msgbox TrainerHill_Roof_Text_WallyGoldAwardSymbol, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
 	message TrainerHill_Roof_Text_AgilitySymbolTookGoldenShine
@@ -164,8 +190,12 @@ TrainerHill_Roof_EventScript_BattleWallyGold::
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallyGoldFarewell, MSGBOX_DEFAULT
 	closemessage
+	opendoor 15, 5
+	waitdooranim
 	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitToElevator
 	waitmovement 0
+	closedoor 15, 5
+	waitdooranim
 	playse SE_ELEVATOR
 	removeobject LOCALID_WALLY
 	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
@@ -179,22 +209,32 @@ TrainerHill_Roof_EventScript_BattleWallyGoldStreak::
 	closemessage
 	playse SE_ELEVATOR
 	delay 30
+	opendoor 15, 5
+	waitdooranim
 	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
 	addobject LOCALID_WALLY
 	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitElevator
 	waitmovement 0
+	closedoor 15, 5
+	waitdooranim
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	msgbox TrainerHill_Roof_Text_WallyGoldStreakIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
 	trainerbattle_no_intro_double TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_ne VAR_RESULT, B_OUTCOME_WON, TrainerHill_Roof_EventScript_LostToWally
 	msgbox TrainerHill_Roof_Text_WallyGoldStreakPostBattle, MSGBOX_DEFAULT
 	trainerhill_givebrainprize
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallyGoldFarewell, MSGBOX_DEFAULT
 	closemessage
+	opendoor 15, 5
+	waitdooranim
 	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitToElevator
 	waitmovement 0
+	closedoor 15, 5
+	waitdooranim
 	playse SE_ELEVATOR
 	removeobject LOCALID_WALLY
 	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
@@ -202,6 +242,9 @@ TrainerHill_Roof_EventScript_BattleWallyGoldStreak::
 	waitmovement 0
 	msgbox TrainerHill_Roof_Text_OwnerPostBrain, MSGBOX_DEFAULT
 	goto TrainerHill_Roof_EventScript_CheckFinalTime
+
+TrainerHill_Roof_EventScript_LostToWally::
+	goto TrainerHill_1F_EventScript_Lost
 
 TrainerHill_Roof_Movement_WallyExitElevator:
 	walk_down

@@ -426,17 +426,17 @@ TrainerHill_Roof_Text_HaveTheMostMarvelousGift:
 TrainerHill_Roof_Text_OwnerAnnounceWallySilver:
 	.string "Bravo! But hold on… look who's here!\p"
 	.string "In recognition of your marvelous talent,\n"
-	.string "a very special Trainer has stepped\l"
+	.string "a very special TRAINER has stepped\l"
 	.string "forward to challenge you!\p"
-	.string "Please welcome our Frontier Brain,\n"
-	.string "Wally the Hill Prodigy!$"
+	.string "Please welcome our FRONTIER BRAIN,\n"
+	.string "WALLY the HILL PRODIGY!$"
 
 TrainerHill_Roof_Text_OwnerAnnounceWallyGold:
 	.string "Incredible! Absolutely extraordinary!\p"
 	.string "Your supreme mastery through the Hill\n"
 	.string "has brought back our finest champion!\p"
-	.string "Prepare yourself for our Frontier\n"
-	.string "Brain, Wally the Hill Prodigy!$"
+	.string "Prepare yourself for our FRONTIER\n"
+	.string "BRAIN, WALLY the HILL PRODIGY!$"
 
 TrainerHill_Roof_Text_WallySilverIntro:
 	.string "WALLY: Hi, {PLAYER}!\p"
@@ -518,7 +518,7 @@ TrainerHill_Roof_Text_AgilitySymbolTookGoldenShine:
 	.string "a golden shine!$"
 
 TrainerHill_Roof_Text_WallyGoldPostBattle:
-	.string "WALLY: You truly are a master Trainer!\n"
+	.string "WALLY: You truly are a master TRAINER!\n"
 	.string "Please, take these marvelous Battle Points!$"
 
 TrainerHill_Roof_Text_WallyGoldStreakIntro:
@@ -530,7 +530,7 @@ TrainerHill_Roof_Text_WallyGoldStreakIntro:
 
 TrainerHill_Roof_Text_WallyGoldStreakPostBattle:
 	.string "WALLY: Incredible battle! You continue to\n"
-	.string "set the standard for what a Trainer\l"
+	.string "set the standard for what a TRAINER\l"
 	.string "can achieve.\p"
 	.string "Please, accept these extra Battle Points!$"
 

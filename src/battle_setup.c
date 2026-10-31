@@ -1633,7 +1633,11 @@ static void CB2_EndTrainerBattle(void)
     }
     else if (IsPlayerDefeated(gBattleOutcome))
     {
-        if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || InTrainerHillChallenge() || FlagGet(B_FLAG_NO_WHITEOUT))
+        if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE 
+         || InTrainerHillChallenge() 
+         || TRAINER_BATTLE_PARAM.opponentA == TRAINER_WALLY_HILL_SILVER 
+         || TRAINER_BATTLE_PARAM.opponentA == TRAINER_WALLY_HILL_GOLD 
+         || FlagGet(B_FLAG_NO_WHITEOUT))
             SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
         else
             SetMainCallback2(CB2_WhiteOut);
