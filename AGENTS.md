@@ -132,16 +132,24 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
     - Defeating Gold advances the threshold by $+4.5$ credits, triggering subsequent Gold encounters at 11.0, 15.5, 20.0 credits, etc., without resetting the gauge.
   - **Streak Loss / Broken Runs:** If the player is defeated during the challenge, the winning streak is broken, resetting `gaugeCredits` to 0 and `nextBrainThreshold` to 2.0 credits. On the next climb, Wally Silver appears at 2.0 credits awarding Battle Points only.
 - **Battle Points Distribution on Brain Runs:**
-  - On runs where Wally appears, the Owner does not award the standard run BP.
-  - Instead, the Owner introduces Wally, and upon victory, Wally awards **10 BP + the run BP that the Owner would have given**, presenting the combined total all at once.
-  - On runs where Wally does not appear, the Owner awards the standard completion BP as usual.
-- **Rooftop Presentation & Cutscene:**
-  - Upon clearing 4F and arriving at the roof, 3 coordinate triggers placed at (12, 8), (12, 9), and (12, 10) directly south of the Owner prevent the player from bypassing the Owner to reach the elevator. Stepping on (12, 8) turns the player up, while stepping on (12, 9) or (12, 10) approaches the Owner (1 or 2 steps up) to ensure the Owner encounter always triggers before elevator access.
-  - The Owner checks for Wally's arrival. If the threshold is met, the Owner alerts the player of the Frontier Brain.
-  - With an elevator chime (`SE_ELEVATOR`), Wally exits the elevator doorway at (15, 5), walks down onto the roof plaza, and approaches adjacent to the player at (13, 8).
-  - Wally heals the player's entire party (`special HealPlayerParty`) and delivers pre-battle dialogue before starting the battle.
-  - Plays `MUS_VS_FRONTIER_BRAIN` and uses the standard Battle Frontier battle transition (`sBattleTransitionTable_BattleFrontier`).
-  - Upon defeat, Wally presents the Agility Symbol (if first time) and combined Battle Points, shares farewell dialogue, and returns into the elevator with elevator chime before the Owner updates the Time Board. Once completed, the triggers are cleared so the player can take the elevator.
+  - On runs where Wally appears, the Owner does not award the standard run BP prior to battle.
+  - Instead, the Owner alerts the player and coordinates the exhibition. Upon victory and Wally's farewell, the Owner approaches the center of the rooftop, triggers celebratory confetti (`DoDomeConfetti`) with crowd applause (`SE_M_ENCORE2`), and proclaims the mode champion (*"{PLAYER} is the\n{STR_VAR_1} Champion!\pCongratulations!"* via `trainerhill_buffermodename`).
+  - The Owner presents **10 BP + the run BP that the Owner would have given**, presenting the combined total all at once before escorting the player to reception.
+  - On runs where Wally does not appear, the Owner awards the standard completion BP as usual and the player takes the elevator.
+- **Rooftop Presentation, Spectators & Wally Battle Cutscene:**
+  - Upon clearing 4F and arriving at the roof, 3 coordinate triggers placed at (12, 8), (12, 9), and (12, 10) directly south of the Owner use `VAR_TEMP_2` to prevent the player from bypassing the Owner to reach the elevator.
+  - When Wally is challenged, the 8 trainers defeated across all 4 floors ascend the stairs in pairs and take viewing positions flanking the arena as spectators. The first two pairs position themselves on the side flanks (Pair 1: top left and top right; Pair 2: bottom left and bottom right), and the remaining two pairs position themselves along the south barrier (Pair 3: inner left and inner right; Pair 4: outer left and outer right), ensuring trainers never overlap during entry. Their overworld sprites are dynamically populated by `TRAINER_HILL_FUNC_SET_SPECTATOR_GFX` to accurately reflect the trainers encountered in the current run.
+  - The Owner directs the challenger to take position in the arena, with the player standing at (10, 8) and Wally taking his battle position at (14, 8) facing each other, giving generous spacing above the south spectator line.
+  - With an elevator chime (`SE_ELEVATOR`) and door open/close animations, Wally exits the elevator doorway at (15, 5), walks down onto the roof plaza, and takes position facing the player.
+  - Wally heals the player's entire party (`special HealPlayerParty`) and delivers pre-battle dialogue steeped in his canonical journey with {PLAYER} (Ralts capture on Route 102, Mauville gym loss, Victory Road promise) before starting the battle.
+  - Plays `MUS_VS_FRONTIER_BRAIN` and uses the standard Battle Frontier battle transition (`sBattleTransitionTable_BattleFrontier`). In addition, all standard floor battles across Battle Hill feature the canonical Battle Frontier logo transition animation (`sBattleTransitionTable_BattleFrontier`) instead of generic trainer transitions.
+  - Upon victory, all 8 spectators react with synchronized jumping/cheering emote animations (`SE_M_ENCORE2`).
+  - Wally presents the Agility Symbol (if first time), shares heartfelt farewell words, and enters cleanly into the elevator cab before the doors close, accompanied by elevator chimes and proper disappearing sequence, before the Owner proclaims the champion and awards the Battle Points.
+- **Reception Sequence, Challenge Save & Match Recording (Battle Frontier Parity):**
+  - **Brain Victory:** Warps directly to the entrance counter with the player already oriented facing North towards the receptionist (`MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE`), where the receptionist congratulates the player on defeating the Hill Prodigy Wally and conquering Battle Hill.
+  - **Challenge Save:** Both upon defeating Wally and upon defeat (`ExitChallengeLost`), the receptionist states *"Your record will be saved. Please wait."*, saving progress cleanly to flash via `trainerhill_savechallenge` / `SaveGameFrontier()` with `SE_SAVE`.
+  - **Frontier Pass Match Recording:** Challengers are prompted with *"Would you like to record your last match on your FRONTIER PASS?"*. Selecting Yes invokes `BattleFrontier_EventScript_SaveBattle`, saving the battle replay to the Frontier Pass with canonical confirmation.
+  - **Brevity & Formatting Standards:** All dialogues strictly adhere to $\le 34$ characters per line and canonical capitalization (`TRAINER`, `FRONTIER BRAIN`, `HILL PRODIGY`, `POKéMON`, `BATTLE HILL`).
 - **Teams & Battle Properties (Strictly Hoenn 386 - 6v6 Double Battle):**
   - All Wally battles are **Double Battles (6 vs 6)** triggered via `trainerbattle_no_intro_double`.
   - **Silver Team (Level 50 or Open Level, 24 IVs):**

@@ -78,6 +78,8 @@ static void TrainerHillCheckFrontierBrain(void);
 static void TrainerHillGiveBrainPrize(void);
 static void TrainerHillGetSpokeToOwner(void);
 static void TrainerHillSetRoofSpectatorGraphics(void);
+static void TrainerHillBufferModeName(void);
+static void TrainerHillSaveChallenge(void);
 static void SetUpDataStruct(void);
 static void FreeDataStruct(void);
 static void TrainerHillDummy(void);
@@ -206,6 +208,8 @@ static void (*const sHillFunctions[])(void) =
     [TRAINER_HILL_FUNC_GIVE_BRAIN_PRIZE]      = TrainerHillGiveBrainPrize,
     [TRAINER_HILL_FUNC_GET_SPOKE_TO_OWNER]    = TrainerHillGetSpokeToOwner,
     [TRAINER_HILL_FUNC_SET_SPECTATOR_GFX]     = TrainerHillSetRoofSpectatorGraphics,
+    [TRAINER_HILL_FUNC_BUFFER_MODE_NAME]      = TrainerHillBufferModeName,
+    [TRAINER_HILL_FUNC_SAVE_CHALLENGE]        = TrainerHillSaveChallenge,
 };
 
 static const u8 *const sModeStrings[NUM_TRAINER_HILL_MODES] =
@@ -1437,6 +1441,23 @@ static void TrainerHillSetRoofSpectatorGraphics(void)
     }
 #endif //FREE_TRAINER_HILL
 }
+
+static void TrainerHillBufferModeName(void)
+{
+    u8 mode = gSaveBlock1Ptr->trainerHill.mode;
+    if (mode >= NUM_TRAINER_HILL_MODES)
+        mode = HILL_MODE_NORMAL;
+    StringCopy(gStringVar1, sModeStrings[mode]);
+}
+
+static void TrainerHillSaveChallenge(void)
+{
+#if FREE_TRAINER_HILL == FALSE
+    SetDynamicWarp(0, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE);
+    SaveGameFrontier();
+#endif
+}
+
 
 
 

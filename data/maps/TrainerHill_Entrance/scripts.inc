@@ -4,7 +4,16 @@ TrainerHill_Entrance_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, TrainerHill_Entrance_OnTransition
 	map_script MAP_SCRIPT_ON_LOAD, TrainerHill_Entrance_OnLoad
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, TrainerHill_Entrance_OnFrame
+	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, TrainerHill_Entrance_OnWarpTable
 	.byte 0
+
+TrainerHill_Entrance_OnWarpTable:
+	map_script_2 VAR_TEMP_0, 0, TrainerHill_Entrance_EventScript_TurnPlayerEast
+	.2byte 0
+
+TrainerHill_Entrance_EventScript_TurnPlayerEast::
+	turnobject LOCALID_PLAYER, DIR_EAST
+	end
 
 TrainerHill_Entrance_OnTransition:
 	setflag FLAG_LANDMARK_TRAINER_HILL
@@ -80,12 +89,34 @@ TrainerHill_Entrance_EventScript_ExitChallengeBrainWon::
 	lockall
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
 	msgbox TrainerHill_Entrance_Text_BrainVictoryReception, MSGBOX_DEFAULT
-	goto TrainerHill_Entrance_EventScript_PlayerExitChallenge
+	goto TrainerHill_Entrance_EventScript_AskRecordBattle
 
 TrainerHill_Entrance_EventScript_ExitChallengeLost::
 	lockall
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
 	msgbox TrainerHill_Entrance_Text_TooBadTremendousEffort, MSGBOX_DEFAULT
+	goto TrainerHill_Entrance_EventScript_AskRecordBattle
+
+TrainerHill_Entrance_EventScript_AskRecordBattle::
+	message TrainerHill_Entrance_Text_RecordWillBeSaved
+	waitmessage
+	trainerhill_savechallenge
+	playse SE_SAVE
+	waitse
+	call BattleFrontier_EventScript_GetCantRecordBattle
+	goto_if_eq VAR_RESULT, TRUE, TrainerHill_Entrance_EventScript_EndChallenge
+	message TrainerHill_Entrance_Text_RecordLastMatch
+	waitmessage
+	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
+	switch VAR_RESULT
+	case 1, TrainerHill_Entrance_EventScript_EndChallenge
+	case 0, TrainerHill_Entrance_EventScript_RecordBattle
+	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_EndChallenge
+
+TrainerHill_Entrance_EventScript_RecordBattle::
+	call BattleFrontier_EventScript_SaveBattle
+TrainerHill_Entrance_EventScript_EndChallenge::
+	msgbox TrainerHill_Entrance_Text_HopeToSeeYouAgain, MSGBOX_DEFAULT
 	goto TrainerHill_Entrance_EventScript_PlayerExitChallenge
 
 TrainerHill_Entrance_EventScript_ExitChallengeECard::
@@ -97,6 +128,7 @@ TrainerHill_Entrance_EventScript_PlayerExitChallenge::
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PushPlayerBackFromCounter
 	waitmovement 0
 	setvar VAR_TRAINER_HILL_IS_ACTIVE, 0
+	setvar VAR_TEMP_5, 0
 	special HealPlayerParty
 	callnative UpdateFollowingPokemon
 	releaseall
@@ -374,8 +406,7 @@ TrainerHill_Entrance_Text_PleaseVisitUsAgain:
 TrainerHill_Entrance_Text_TooBadTremendousEffort:
 	.string "That was too bad.\p"
 	.string "I think you put in a tremendous\n"
-	.string "effort in your battling.\p"
-	.string "Please come back and try again!$"
+	.string "effort in your battling.$"
 
 TrainerHill_Entrance_Text_HopeYouGiveItYourBest:
 	.string "I hope you give it your best.$"
@@ -431,161 +462,157 @@ TrainerHill_Roof_Text_HaveTheMostMarvelousGift:
 	.string "take these marvelous Battle Points!$"
 
 TrainerHill_Roof_Text_OwnerAnnounceWallySilver:
-	.string "Bravo! But hold on… look behind you!\p"
-	.string "The TRAINERS you overcame across each\n"
-	.string "floor have ascended to the rooftop!\p"
-	.string "They've come to witness your ultimate test!\p"
-	.string "In recognition of your marvelous speed,\n"
-	.string "our FRONTIER BRAIN has arrived to\l"
-	.string "challenge you!$"
+	.string "Bravo! But hold on…\n"
+	.string "Look behind you!\p"
+	.string "The TRAINERS you beat have\n"
+	.string "ascended to the rooftop to watch!\p"
+	.string "In honor of your marvelous speed,\n"
+	.string "our FRONTIER BRAIN has arrived!$"
 
 TrainerHill_Roof_Text_OwnerAnnounceWallyGold:
-	.string "Incredible! Absolutely extraordinary!\p"
-	.string "Look around you! The defeated TRAINERS\n"
-	.string "from all four floors have gathered here\l"
-	.string "to watch history in the making!\p"
-	.string "Prepare yourself! Our supreme champion,\n"
-	.string "the FRONTIER BRAIN, is stepping forth!$"
+	.string "Incredible! What a feat!\p"
+	.string "Challengers from all four floors\n"
+	.string "have gathered to watch this match!\p"
+	.string "Prepare yourself! Our champion,\n"
+	.string "the FRONTIER BRAIN, is here!$"
 
 TrainerHill_Roof_Text_OwnerTakeBattlePosition:
-	.string "Challenger! Step forward to the center\n"
-	.string "of the arena and take your battle stance!$"
+	.string "Challenger! Step forward to the\n"
+	.string "arena and take your battle stance!$"
 
 TrainerHill_Roof_Text_OwnerIntroduceWally:
-	.string "Ladies and gentlemen, challengers of the\n"
-	.string "Hill! Please welcome our FRONTIER BRAIN,\l"
+	.string "Ladies and gentlemen!\p"
+	.string "Please welcome our FRONTIER BRAIN,\n"
 	.string "WALLY the HILL PRODIGY!$"
 
 TrainerHill_Roof_Text_WallySilverIntro:
 	.string "WALLY: Hi, {PLAYER}!\p"
-	.string "I've been training tirelessly with my\n"
-	.string "Pokémon ever since our battle on\l"
-	.string "Victory Road.\p"
-	.string "When the Owner told me someone with such\n"
-	.string "an incredible pace was climbing the\l"
-	.string "Battle Hill, I knew it had to be you!\p"
-	.string "I won't hold anything back.\n"
-	.string "Let's see just how strong we've\l"
-	.string "both become!$"
+	.string "Remember that RALTS you helped me\n"
+	.string "catch back on ROUTE 102?\p"
+	.string "Ever since our battle on VICTORY\n"
+	.string "ROAD, my team and I kept training!\p"
+	.string "When the Owner invited me to be\n"
+	.string "the FRONTIER BRAIN here, I dreamed\l"
+	.string "of facing you on this rooftop!\p"
+	.string "I'm not the frail kid from before…\n"
+	.string "Let me show you how strong we are!$"
 
 TrainerHill_Roof_Text_WallySilverDefeat:
-	.string "Aha… You're still as amazing\n"
-	.string "as ever, {PLAYER}!$"
+	.string "Wow…\n"
+	.string "{PLAYER}, you are strong after all!$"
 
 TrainerHill_Roof_Text_WallySilverAwardSymbol:
-	.string "WALLY: That was a breathtaking battle!\p"
-	.string "I can really feel how much you love\n"
-	.string "and trust your Pokémon.\p"
-	.string "Your FRONTIER PASS, please…\n"
+	.string "WALLY: That was breathtaking!\p"
+	.string "Battling you as a FRONTIER BRAIN\n"
+	.string "is the greatest honor!\p"
+	.string "Your FRONTIER PASS, please!\n"
 	.string "I want to present you with this!$"
 
 TrainerHill_Roof_Text_ReceivedAgilitySymbol:
 	.string "The Agility Symbol was embossed on\n"
 	.string "the FRONTIER PASS!$"
 
-TrainerHill_Roof_Text_WallySilverPostBattle:
-	.string "WALLY: And as extra proof of your\n"
-	.string "victory, please accept these marvelous\l"
-	.string "Battle Points!$"
+TrainerHill_Roof_Text_WallySilverFarewell:
+	.string "WALLY: {PLAYER}, losing to you in\n"
+	.string "MAUVILLE made me stronger.\p"
+	.string "Today, you showed me once more how\n"
+	.string "much higher we can aim!\p"
+	.string "I won't give up. One day, I will\n"
+	.string "catch up to you, {PLAYER}!\p"
+	.string "Until then, take care!$"
 
 TrainerHill_Roof_Text_WallySilverStreakIntro:
 	.string "WALLY: Hi again, {PLAYER}!\p"
-	.string "I knew you'd come back to test\n"
-	.string "your speed once more!\p"
-	.string "Let's see if we can push each other\n"
-	.string "to new limits!$"
+	.string "Whenever I see you climbing the\n"
+	.string "BATTLE HILL, my heart races!\p"
+	.string "My team is ready to give it all\n"
+	.string "we've got! Here we come!$"
 
-TrainerHill_Roof_Text_WallySilverStreakPostBattle:
-	.string "WALLY: That was a thrilling battle!\p"
-	.string "Your pace is just as remarkable\n"
-	.string "as always!\p"
-	.string "As proof of your victory, please\n"
-	.string "accept these extra Battle Points!$"
-
-TrainerHill_Roof_Text_WallySilverFarewell:
-	.string "WALLY: I'm going to keep training hard\n"
-	.string "with my team.\p"
-	.string "Next time, we'll be even stronger!$"
+TrainerHill_Roof_Text_WallySilverStreakFarewell:
+	.string "WALLY: What a thrilling match!\p"
+	.string "Battles with you remind me of\n"
+	.string "why I fell in love with POKéMON.\p"
+	.string "I won't stop training either!\n"
+	.string "Thank you so much, {PLAYER}!$"
 
 TrainerHill_Roof_Text_WallyGoldIntro:
-	.string "WALLY: Hi again, {PLAYER}!\p"
-	.string "I knew you'd make it back here!\n"
-	.string "Your speed and technique through the\l"
-	.string "Hill are truly unmatched.\p"
-	.string "My Pokémon and I have pushed beyond our\n"
-	.string "limits, learning from every challenge.\p"
-	.string "We're going all out this time with\n"
-	.string "everything we've got!\p"
-	.string "Here we go, {PLAYER}!$"
+	.string "WALLY: Hi, {PLAYER}!\p"
+	.string "Before I met you, I hardly ever\n"
+	.string "left my house in PETALBURG…\p"
+	.string "Now look at us, standing atop the\n"
+	.string "pinnacle of the BATTLE HILL!\p"
+	.string "GARDEVOIR and I gave everything we\n"
+	.string "had to master this facility!\p"
+	.string "Show me the true summit of your\n"
+	.string "power, {PLAYER}! Here I come!$"
 
 TrainerHill_Roof_Text_WallyGoldDefeat:
-	.string "Incredible…! I gave it everything,\n"
-	.string "and you still surpassed me!$"
+	.string "Incredible…!\n"
+	.string "You truly are my hero, {PLAYER}!$"
 
 TrainerHill_Roof_Text_WallyGoldAwardSymbol:
-	.string "WALLY: Thank you for such an inspiring\n"
-	.string "battle, {PLAYER}!\p"
-	.string "Standing on this rooftop with you\n"
-	.string "reminds me of how far we've both\l"
-	.string "traveled since Petalburg.\p"
-	.string "Your FRONTIER PASS, please…\n"
-	.string "You've earned the ultimate honor here!$"
+	.string "WALLY: That was magnificent!\p"
+	.string "To share this battle with the\n"
+	.string "TRAINER who inspired my journey…\p"
+	.string "Your FRONTIER PASS, please!\n"
+	.string "You've earned the Golden Agility!$"
 
 TrainerHill_Roof_Text_AgilitySymbolTookGoldenShine:
 	.string "The Agility Symbol took on\n"
 	.string "a golden shine!$"
 
-TrainerHill_Roof_Text_WallyGoldPostBattle:
-	.string "WALLY: You truly are a master TRAINER!\n"
-	.string "Please, take these marvelous Battle Points!$"
+TrainerHill_Roof_Text_WallyGoldFarewell:
+	.string "WALLY: Thank you, {PLAYER}.\p"
+	.string "From catching RALTS together to\n"
+	.string "facing off as a FRONTIER BRAIN…\p"
+	.string "All of my journey happened because\n"
+	.string "you believed in me.\p"
+	.string "I will keep training so I can\n"
+	.string "give you an even greater match!\p"
+	.string "Thank you for everything, {PLAYER}!$"
 
 TrainerHill_Roof_Text_WallyGoldStreakIntro:
 	.string "WALLY: Hi, {PLAYER}!\p"
-	.string "Every time you climb the Battle Hill,\n"
-	.string "your speed and precision leave me amazed!\p"
-	.string "My team and I are ready to give you\n"
-	.string "everything we've got once more!$"
+	.string "No matter how many times we clash,\n"
+	.string "the excitement never fades away!\p"
+	.string "We won't hold back a single ounce\n"
+	.string "of energy! Let's go, {PLAYER}!$"
 
-TrainerHill_Roof_Text_WallyGoldStreakPostBattle:
-	.string "WALLY: Incredible battle! You continue to\n"
-	.string "set the standard for what a TRAINER\l"
-	.string "can achieve.\p"
-	.string "Please, accept these extra Battle Points!$"
+TrainerHill_Roof_Text_WallyGoldStreakFarewell:
+	.string "WALLY: Incredible battle!\p"
+	.string "You keep showing me what a true\n"
+	.string "CHAMPION can achieve.\p"
+	.string "I'll keep chasing your footsteps!\n"
+	.string "Thank you so much, {PLAYER}!$"
 
-TrainerHill_Roof_Text_WallyGoldFarewell:
-	.string "WALLY: No matter how high we climb,\n"
-	.string "there's always a new peak to reach.\p"
-	.string "I'll never stop growing, and I know\n"
-	.string "you won't either!$"
-
-TrainerHill_Roof_Text_OwnerPostBrain:
-	.string "Marvelous! Simply breathtaking!\n"
-	.string "Now, let us record your final time!$"
+TrainerHill_Roof_Text_OwnerProclaimChampion:
+	.string "{PLAYER} is the\n"
+	.string "{STR_VAR_1} Champion!\p"
+	.string "Congratulations!$"
 
 TrainerHill_Roof_Text_OwnerPostVictory:
-	.string "Stupendous! Magnificent! A performance\n"
-	.string "of unmatched brilliance!\p"
-	.string "To conquer the entire BATTLE HILL and\n"
-	.string "defeat our HILL PRODIGY before such an\l"
-	.string "electrified audience…\p"
-	.string "You are truly a master of agility!\p"
-	.string "As the proprietor of this facility, it is\n"
-	.string "my great privilege to present your\l"
-	.string "hard-earned Battle Points!$"
+	.string "As proprietor of this facility,\n"
+	.string "I present your Battle Points!$"
 
 TrainerHill_Roof_Text_OwnerReturnToReception:
-	.string "Now, let us return to the reception hall\n"
-	.string "below so that everyone may celebrate\l"
-	.string "your crowning achievement!$"
+	.string "Let us return to the reception\n"
+	.string "counter below!$"
 
 TrainerHill_Entrance_Text_BrainVictoryReception:
-	.string "Welcome back, {PLAYER}!\p"
-	.string "The thunderous cheers from the rooftop\n"
-	.string "could be heard all the way down here!\p"
-	.string "Defeating the HILL PRODIGY WALLY and\n"
-	.string "conquering the BATTLE HILL is a feat\l"
-	.string "worthy of the greatest champions!\p"
-	.string "Congratulations on your marvelous victory!$"
+	.string "Congratulations!\p"
+	.string "You defeated the HILL PRODIGY and\n"
+	.string "conquered the BATTLE HILL!$"
+
+TrainerHill_Entrance_Text_RecordWillBeSaved:
+	.string "Your record will be saved.\n"
+	.string "Please wait.$"
+
+TrainerHill_Entrance_Text_RecordLastMatch:
+	.string "Would you like to record your last\n"
+	.string "match on your FRONTIER PASS?$"
+
+TrainerHill_Entrance_Text_HopeToSeeYouAgain:
+	.string "We hope to see you again.$"
 
 TrainerHill_Roof_Text_GotHereMarvelouslyQuickly:
 	.string "Oh, hold on here! Did you possibly get\n"

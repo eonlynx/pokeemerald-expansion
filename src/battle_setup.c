@@ -978,6 +978,7 @@ enum BattleTransition GetSpecialBattleTransition(enum BattleTransitionGroup id)
         switch (id)
         {
         case B_TRANSITION_GROUP_TRAINER_HILL:
+            return RANDOM_TRANSITION(sBattleTransitionTable_BattleFrontier);
         case B_TRANSITION_GROUP_SECRET_BASE:
         case B_TRANSITION_GROUP_E_READER:
             return B_TRANSITION_POKEBALLS_TRAIL;
@@ -997,6 +998,7 @@ enum BattleTransition GetSpecialBattleTransition(enum BattleTransitionGroup id)
         switch (id)
         {
         case B_TRANSITION_GROUP_TRAINER_HILL:
+            return RANDOM_TRANSITION(sBattleTransitionTable_BattleFrontier);
         case B_TRANSITION_GROUP_SECRET_BASE:
         case B_TRANSITION_GROUP_E_READER:
             return B_TRANSITION_BIG_POKEBALL;

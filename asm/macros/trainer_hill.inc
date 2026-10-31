@@ -143,3 +143,15 @@
 	setvar VAR_0x8004, TRAINER_HILL_FUNC_SET_SPECTATOR_GFX
 	special CallTrainerHillFunction
 	.endm
+
+	@ Buffers the current challenge mode string to STR_VAR_1
+	.macro trainerhill_buffermodename
+	setvar VAR_0x8004, TRAINER_HILL_FUNC_BUFFER_MODE_NAME
+	special CallTrainerHillFunction
+	.endm
+
+	@ Saves the challenge state to flash
+	.macro trainerhill_savechallenge
+	setvar VAR_0x8004, TRAINER_HILL_FUNC_SAVE_CHALLENGE
+	special CallTrainerHillFunction
+	.endm
