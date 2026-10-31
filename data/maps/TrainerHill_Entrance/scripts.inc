@@ -321,17 +321,18 @@ TrainerHill_Entrance_Pokemart_Expanded:
 	pokemartlistend
 
 TrainerHill_Entrance_Text_StillGettingReady:
-	.string "This is the TRAINER HILL where\n"
-	.string "you may enjoy tag battles with many\l"
-	.string "TRAINERS.\p"
+	.string "Where the speed of TRAINERS\n"
+	.string "is put to the test…\p"
+	.string "This is the BATTLE HILL.\p"
 	.string "Unfortunately, we're still getting\n"
 	.string "things ready. Please come back later!$"
 
 TrainerHill_Entrance_Text_WelcomeToTrainerHill:
-	.string "Welcome!\p"
-	.string "This is the TRAINER HILL where\n"
-	.string "you may enjoy tag battles with many\l"
-	.string "TRAINERS!$"
+	.string "Where the speed of TRAINERS\n"
+	.string "is put to the test!\p"
+	.string "Welcome to the BATTLE HILL!\p"
+	.string "I am your guide to the Time Attack\n"
+	.string "Tag Battle Challenge.$"
 
 TrainerHill_Entrance_Text_SaveGameBeforeEnter:
 	.string "Is this your first visit here?\p"
@@ -383,10 +384,10 @@ TrainerHill_Entrance_Text_ThankYouForPlaying:
 	.string "Thank you for playing!$"
 
 TrainerHill_Entrance_Text_ExplainTrainerHill:
-	.string "Here at the TRAINER HILL, we conduct\n"
+	.string "Here at the BATTLE HILL, we conduct\n"
 	.string "an event called the Time Attack.\p"
 	.string "It is a race that measures how long\n"
-	.string "you take to reach our owner on\l"
+	.string "you take to reach our Owner on\l"
 	.string "the rooftop from this counter.\p"
 	.string "The fastest times are posted on\n"
 	.string "the Time Board--try competing with\l"
@@ -410,7 +411,7 @@ TrainerHill_Roof_Text_YouFinallyCameBravo:
 	.string "I know why you came all the way\l"
 	.string "here by yourself!\p"
 	.string "You wanted to see me, the owner\n"
-	.string "of the TRAINER HILL, because…\p"
+	.string "of the BATTLE HILL, because…\p"
 	.string "You want to form a tag team with me!\n"
 	.string "Wa-hoo!\p"
 	.string "…Uh?\n"
@@ -443,7 +444,7 @@ TrainerHill_Roof_Text_WallySilverIntro:
 	.string "Victory Road.\p"
 	.string "When the Owner told me someone with such\n"
 	.string "an incredible pace was climbing the\l"
-	.string "Trainer Hill, I knew it had to be you!\p"
+	.string "Battle Hill, I knew it had to be you!\p"
 	.string "I won't hold anything back.\n"
 	.string "Let's see just how strong we've\l"
 	.string "both become!$"
@@ -452,10 +453,33 @@ TrainerHill_Roof_Text_WallySilverDefeat:
 	.string "Aha… You're still as amazing\n"
 	.string "as ever, {PLAYER}!$"
 
-TrainerHill_Roof_Text_WallySilverPostBattle:
+TrainerHill_Roof_Text_WallySilverAwardSymbol:
 	.string "WALLY: That was a breathtaking battle!\p"
 	.string "I can really feel how much you love\n"
 	.string "and trust your Pokémon.\p"
+	.string "Your FRONTIER PASS, please…\n"
+	.string "I want to present you with this!$"
+
+TrainerHill_Roof_Text_ReceivedSpeedSymbol:
+	.string "The Speed Symbol was embossed on\n"
+	.string "the FRONTIER PASS!$"
+
+TrainerHill_Roof_Text_WallySilverPostBattle:
+	.string "WALLY: And as extra proof of your\n"
+	.string "victory, please accept these marvelous\l"
+	.string "Battle Points!$"
+
+TrainerHill_Roof_Text_WallySilverStreakIntro:
+	.string "WALLY: Hi again, {PLAYER}!\p"
+	.string "I knew you'd come back to test\n"
+	.string "your speed once more!\p"
+	.string "Let's see if we can push each other\n"
+	.string "to new limits!$"
+
+TrainerHill_Roof_Text_WallySilverStreakPostBattle:
+	.string "WALLY: That was a thrilling battle!\p"
+	.string "Your pace is just as remarkable\n"
+	.string "as always!\p"
 	.string "As proof of your victory, please\n"
 	.string "accept these extra Battle Points!$"
 
@@ -479,14 +503,35 @@ TrainerHill_Roof_Text_WallyGoldDefeat:
 	.string "Incredible…! I gave it everything,\n"
 	.string "and you still surpassed me!$"
 
-TrainerHill_Roof_Text_WallyGoldPostBattle:
+TrainerHill_Roof_Text_WallyGoldAwardSymbol:
 	.string "WALLY: Thank you for such an inspiring\n"
 	.string "battle, {PLAYER}!\p"
 	.string "Standing on this rooftop with you\n"
 	.string "reminds me of how far we've both\l"
 	.string "traveled since Petalburg.\p"
-	.string "You truly are a master Trainer!\n"
-	.string "Please, take these extra Battle Points!$"
+	.string "Your FRONTIER PASS, please…\n"
+	.string "You've earned the ultimate honor here!$"
+
+TrainerHill_Roof_Text_SpeedSymbolTookGoldenShine:
+	.string "The Speed Symbol took on\n"
+	.string "a golden shine!$"
+
+TrainerHill_Roof_Text_WallyGoldPostBattle:
+	.string "WALLY: You truly are a master Trainer!\n"
+	.string "Please, take these marvelous Battle Points!$"
+
+TrainerHill_Roof_Text_WallyGoldStreakIntro:
+	.string "WALLY: Hi, {PLAYER}!\p"
+	.string "Every time you climb the Battle Hill,\n"
+	.string "your speed and precision leave me amazed!\p"
+	.string "My team and I are ready to give you\n"
+	.string "everything we've got once more!$"
+
+TrainerHill_Roof_Text_WallyGoldStreakPostBattle:
+	.string "WALLY: Incredible battle! You continue to\n"
+	.string "set the standard for what a Trainer\l"
+	.string "can achieve.\p"
+	.string "Please, accept these extra Battle Points!$"
 
 TrainerHill_Roof_Text_WallyGoldFarewell:
 	.string "WALLY: No matter how high we climb,\n"
@@ -519,7 +564,7 @@ TrainerHill_Roof_Text_ArriveZippierNextTime:
 
 @ Unused
 TrainerHill_Roof_Text_BuiltTrainerHillToFindPartner:
-	.string "I had the TRAINER HILL built for but\n"
+	.string "I had the BATTLE HILL built for but\n"
 	.string "one reason and one only!\p"
 	.string "To find the most suitable partner\n"
 	.string "with whom I may form a tag team!$"
@@ -535,7 +580,7 @@ TrainerHill_Entrance_Text_WhatSortOfTrainersAreAhead:
 
 TrainerHill_Entrance_Text_CantWaitToTestTheWaters:
 	.string "I heard tough TRAINERS come to this\n"
-	.string "TRAINER HILL from all over.\p"
+	.string "BATTLE HILL from all over.\p"
 	.string "I can't wait to test the waters!\p"
 	.string "I'll knock aside anyone that stands\n"
 	.string "in my way!$"
@@ -556,7 +601,7 @@ TrainerHill_Elevator_Text_ReturnToReception:
 	.string "the reception counter?$"
 
 TrainerHill_Entrance_Text_WhichLevelMode:
-	.string "TRAINER HILL offers two levels\n"
+	.string "The BATTLE HILL offers two levels\n"
 	.string "of challenge, Level 50 and Open Level.\l"
 	.string "Which is your choice?$"
 

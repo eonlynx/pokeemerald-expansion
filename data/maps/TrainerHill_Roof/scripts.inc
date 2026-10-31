@@ -29,6 +29,8 @@ TrainerHill_Roof_EventScript_ReceivePrize::
 	switch VAR_RESULT
 	case TRAINER_HILL_BRAIN_SILVER, TrainerHill_Roof_EventScript_BattleWallySilver
 	case TRAINER_HILL_BRAIN_GOLD, TrainerHill_Roof_EventScript_BattleWallyGold
+	case TRAINER_HILL_BRAIN_STREAK, TrainerHill_Roof_EventScript_BattleWallySilverStreak
+	case TRAINER_HILL_BRAIN_STREAK_LONG, TrainerHill_Roof_EventScript_BattleWallyGoldStreak
 	goto TrainerHill_Roof_EventScript_CheckFinalTime
 
 TrainerHill_Roof_EventScript_BattleWallySilver::
@@ -43,7 +45,38 @@ TrainerHill_Roof_EventScript_BattleWallySilver::
 	msgbox TrainerHill_Roof_Text_WallySilverIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
 	trainerbattle_no_intro TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
+	msgbox TrainerHill_Roof_Text_WallySilverAwardSymbol, MSGBOX_DEFAULT
+	playfanfare MUS_OBTAIN_SYMBOL
+	message TrainerHill_Roof_Text_ReceivedSpeedSymbol
+	waitmessage
+	waitfanfare
 	msgbox TrainerHill_Roof_Text_WallySilverPostBattle, MSGBOX_DEFAULT
+	trainerhill_givebrainprize
+	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
+	msgbox TrainerHill_Roof_Text_WallySilverFarewell, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExit
+	waitmovement 0
+	removeobject LOCALID_WALLY
+	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
+	waitmovement 0
+	msgbox TrainerHill_Roof_Text_OwnerPostBrain, MSGBOX_DEFAULT
+	goto TrainerHill_Roof_EventScript_CheckFinalTime
+
+TrainerHill_Roof_EventScript_BattleWallySilverStreak::
+	msgbox TrainerHill_Roof_Text_OwnerAnnounceWallySilver, MSGBOX_DEFAULT
+	closemessage
+	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
+	addobject LOCALID_WALLY
+	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyApproach
+	waitmovement 0
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
+	waitmovement 0
+	msgbox TrainerHill_Roof_Text_WallySilverStreakIntro, MSGBOX_DEFAULT
+	special HealPlayerParty
+	trainerbattle_no_intro TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
+	msgbox TrainerHill_Roof_Text_WallySilverStreakPostBattle, MSGBOX_DEFAULT
 	trainerhill_givebrainprize
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallySilverFarewell, MSGBOX_DEFAULT
@@ -69,7 +102,38 @@ TrainerHill_Roof_EventScript_BattleWallyGold::
 	msgbox TrainerHill_Roof_Text_WallyGoldIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
 	trainerbattle_no_intro TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
+	msgbox TrainerHill_Roof_Text_WallyGoldAwardSymbol, MSGBOX_DEFAULT
+	playfanfare MUS_OBTAIN_SYMBOL
+	message TrainerHill_Roof_Text_SpeedSymbolTookGoldenShine
+	waitmessage
+	waitfanfare
 	msgbox TrainerHill_Roof_Text_WallyGoldPostBattle, MSGBOX_DEFAULT
+	trainerhill_givebrainprize
+	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
+	msgbox TrainerHill_Roof_Text_WallyGoldFarewell, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExit
+	waitmovement 0
+	removeobject LOCALID_WALLY
+	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
+	waitmovement 0
+	msgbox TrainerHill_Roof_Text_OwnerPostBrain, MSGBOX_DEFAULT
+	goto TrainerHill_Roof_EventScript_CheckFinalTime
+
+TrainerHill_Roof_EventScript_BattleWallyGoldStreak::
+	msgbox TrainerHill_Roof_Text_OwnerAnnounceWallyGold, MSGBOX_DEFAULT
+	closemessage
+	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
+	addobject LOCALID_WALLY
+	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyApproach
+	waitmovement 0
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
+	waitmovement 0
+	msgbox TrainerHill_Roof_Text_WallyGoldStreakIntro, MSGBOX_DEFAULT
+	special HealPlayerParty
+	trainerbattle_no_intro TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
+	msgbox TrainerHill_Roof_Text_WallyGoldStreakPostBattle, MSGBOX_DEFAULT
 	trainerhill_givebrainprize
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallyGoldFarewell, MSGBOX_DEFAULT

@@ -259,6 +259,7 @@ void ResetTrainerHillResults(void)
     gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
     gSaveBlock1Ptr->trainerHill.hasDefeatedSilver = FALSE;
     gSaveBlock1Ptr->trainerHill.hasDefeatedGold = FALSE;
+    gSaveBlock1Ptr->trainerHill.foughtSilverThisStreak = FALSE;
 #endif //FREE_TRAINER_HILL
 }
 
@@ -700,6 +701,7 @@ static void TrainerHillSetPlayerLost(void)
 #if FREE_TRAINER_HILL == FALSE
     gSaveBlock1Ptr->trainerHill.hasLost = TRUE;
     gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
+    gSaveBlock1Ptr->trainerHill.foughtSilverThisStreak = FALSE;
 #endif //FREE_TRAINER_HILL
 }
 
@@ -1305,21 +1307,21 @@ static void TrainerHillCheckFrontierBrain(void)
         gSaveBlock1Ptr->trainerHill.gaugeCredits = 1000;
 
     // Check Brain appearance:
-    if (!gSaveBlock1Ptr->trainerHill.hasDefeatedSilver)
+    if (gSaveBlock1Ptr->trainerHill.gaugeCredits >= HILL_GAUGE_GOLD_THRESHOLD)
     {
-        if (gSaveBlock1Ptr->trainerHill.gaugeCredits >= HILL_GAUGE_SILVER_THRESHOLD)
-        {
-            gSpecialVar_Result = TRAINER_HILL_BRAIN_SILVER;
-            return;
-        }
-    }
-    else
-    {
-        if (gSaveBlock1Ptr->trainerHill.gaugeCredits >= HILL_GAUGE_GOLD_THRESHOLD)
-        {
+        if (!gSaveBlock1Ptr->trainerHill.hasDefeatedGold)
             gSpecialVar_Result = TRAINER_HILL_BRAIN_GOLD;
-            return;
-        }
+        else
+            gSpecialVar_Result = TRAINER_HILL_BRAIN_STREAK_LONG;
+        return;
+    }
+    else if (gSaveBlock1Ptr->trainerHill.gaugeCredits >= HILL_GAUGE_SILVER_THRESHOLD && !gSaveBlock1Ptr->trainerHill.foughtSilverThisStreak)
+    {
+        if (!gSaveBlock1Ptr->trainerHill.hasDefeatedSilver)
+            gSpecialVar_Result = TRAINER_HILL_BRAIN_SILVER;
+        else
+            gSpecialVar_Result = TRAINER_HILL_BRAIN_STREAK;
+        return;
     }
 
     gSpecialVar_Result = TRAINER_HILL_BRAIN_NONE;
@@ -1346,15 +1348,21 @@ static void TrainerHillGiveBrainPrize(void)
 
     ConvertIntToDecimalStringN(gStringVar1, points, STR_CONV_MODE_LEFT_ALIGN, 2);
 
-    if (!gSaveBlock1Ptr->trainerHill.hasDefeatedSilver)
+    if (gSaveBlock1Ptr->trainerHill.gaugeCredits >= HILL_GAUGE_GOLD_THRESHOLD)
     {
-        gSaveBlock1Ptr->trainerHill.hasDefeatedSilver = TRUE;
+        gSaveBlock1Ptr->trainerHill.hasDefeatedGold = TRUE;
+        FlagSet(FLAG_SYS_HILL_GOLD);
+        // After Gold: the gauge resets to 0.
+        gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
+        // Keep foughtSilverThisStreak true so that continuing this streak advances straight toward Gold again
+        gSaveBlock1Ptr->trainerHill.foughtSilverThisStreak = TRUE;
     }
     else
     {
-        gSaveBlock1Ptr->trainerHill.hasDefeatedGold = TRUE;
-        // After Gold: the gauge resets to 0.
-        gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
+        gSaveBlock1Ptr->trainerHill.hasDefeatedSilver = TRUE;
+        FlagSet(FLAG_SYS_HILL_SILVER);
+        gSaveBlock1Ptr->trainerHill.foughtSilverThisStreak = TRUE;
+        // Silver does not reset gauge, allowing streak to continue towards Gold
     }
 #endif //FREE_TRAINER_HILL
 }

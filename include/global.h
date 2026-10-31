@@ -966,7 +966,8 @@ struct TrainerHillSave
                u16 lvlMode:1; // FRONTIER_LVL_50 or FRONTIER_LVL_OPEN
                u16 hasDefeatedSilver:1;
                u16 hasDefeatedGold:1;
-               //u16 padding:5;
+               u16 foughtSilverThisStreak:1;
+               //u16 padding:4;
     u16 gaugeCredits;
     u8 prevFirstTrainers[NUM_TRAINER_HILL_MODES][NUM_TRAINER_HILL_FLOORS];
     u8 currentFloorTrainers[NUM_TRAINER_HILL_FLOORS][HILL_TRAINERS_PER_FLOOR];

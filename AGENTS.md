@@ -103,7 +103,8 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
 - **Legacy Cleanup:** Unused item prize list structures and lookup functions (`sPrizeListSets`, `GetPrizeItemId`, `GetPrizeListId`) were safely decommissioned to ensure clean, warning-free compilation.
 
 ### 2.11. Frontier Brain Wally & Gauge Credits System
-- **Frontier Brain Integration:** Wally serves as the Frontier Brain of Trainer Hill, challenging players who consistently achieve swift completion times.
+- **Integration as Battle Hill:** Trainer Hill has been rebranded to **Battle Hill** across all scripts, map names, landmarks, and signposts, fully integrating it into the Battle Frontier experience. Facility music across all floors and lobby has been updated to `MUS_B_FRONTIER`, and reception dialogue harmonized to the Frontier standard (*"Where the speed of TRAINERS is put to the test! Welcome to the BATTLE HILL!"*).
+- **Frontier Brain Integration:** Wally serves as the Frontier Brain of Battle Hill with the official title and class **Hill Master** (`TRAINER_CLASS_HILL_MASTER`).
 - **Gauge Credits Accumulation:**
   - Challengers earn base gauge credits depending on their clear time:
     - `< 12 min`: 1.0 credit (100 internal units)
@@ -119,17 +120,24 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
     - **Expert:** $\times 1.5$
   - Fixed-point integer arithmetic (`credits * 100`) is used to ensure precision without floating-point overhead on the GBA.
   - Gauge credits are stored in `gSaveBlock1Ptr->trainerHill.gaugeCredits` and persist across runs.
-  - **Gauge Resets:** Any failed run (`TrainerHillSetPlayerLost` and `ResetTrainerHillResults`) completely resets the gauge to 0. Defeating Gold Wally also resets the gauge to 0.
-- **Brain Appearances & Rewards:**
-  - **Silver Brain (`TRAINER_WALLY_HILL_SILVER`):** Appears when gauge credits reach $\ge 2.0$ (200 units) and Silver has not yet been defeated (`!hasDefeatedSilver`).
-  - **Gold Brain (`TRAINER_WALLY_HILL_GOLD`):** Appears when gauge credits reach $\ge 4.5$ (450 units) after Silver has been cleared (`hasDefeatedSilver && !hasDefeatedGold`).
-  - Defeating Wally awards an extra **+10 Battle Points (BP)** directly added to the player's Battle Frontier tally on top of the standard run BP reward.
+  - **Gauge Resets & Streak Memory:** Any failed run (`TrainerHillSetPlayerLost` and `ResetTrainerHillResults`) completely resets the gauge to 0 and clears `foughtSilverThisStreak`. Defeating Gold Wally resets the gauge to 0 while maintaining the active streak so the player continues directly toward Gold rematches without repeating Silver.
+- **Brain Appearances, Rematches & Frontier Symbols:**
+  - **Speed Symbol:** Defeating Wally awards the **Speed Symbol** on the player's Frontier Pass (`FLAG_SYS_HILL_SILVER` and `FLAG_SYS_HILL_GOLD`), accompanied by `MUS_OBTAIN_SYMBOL` fanfare and commemorative messages.
+  - **Silver Brain (`TRAINER_WALLY_HILL_SILVER`):** Appears when gauge credits reach $\ge 2.0$ (200 units) on a fresh streak (`!foughtSilverThisStreak`).
+    - If Silver Symbol is not yet earned: awards the Silver Speed Symbol + 10 BP (`TRAINER_HILL_BRAIN_SILVER`).
+    - If Silver Symbol was already earned previously: triggers a Silver rematch + 10 BP (`TRAINER_HILL_BRAIN_STREAK`).
+    - Winning allows the gauge to continue climbing past 2.0 toward 4.5.
+  - **Gold Brain (`TRAINER_WALLY_HILL_GOLD`):** Appears when gauge credits reach $\ge 4.5$ (450 units).
+    - If Gold Symbol is not yet earned: awards the Gold Speed Symbol + 10 BP (`TRAINER_HILL_BRAIN_GOLD`).
+    - If Gold Symbol was already earned previously: triggers a Gold rematch + 10 BP (`TRAINER_HILL_BRAIN_STREAK_LONG`).
+    - Winning resets the gauge to 0 while keeping the winning streak active.
+  - **Streak Loss / Broken Runs:** If the player is defeated during the challenge, the winning streak is broken, resetting gauge to 0 and requiring them to face Silver again at 2.0 credits before reaching Gold at 4.5 credits, matching standard Battle Frontier facility behavior.
 - **Rooftop Presentation & Cutscene:**
   - Upon clearing 4F and arriving at the roof, the Owner awards the standard completion BP.
   - If the gauge threshold is met, the Owner alerts the player of a special challenger.
   - Wally arrives via the elevator (`FLAG_HIDE_TRAINER_HILL_ROOF_WALLY`), heals the player's entire party (`special HealPlayerParty`), and delivers pre-battle dialogue.
   - Plays `MUS_VS_FRONTIER_BRAIN` and uses the standard Battle Frontier battle transition (`sBattleTransitionTable_BattleFrontier`).
-  - Upon defeat, Wally presents +10 BP, shares farewell dialogue, and departs via elevator before the Owner updates the Time Board.
+  - Upon defeat, Wally presents the Frontier Symbol (if first time) and +10 BP, shares farewell dialogue, and departs via elevator before the Owner updates the Time Board.
 - **Teams & Battle Properties (Strictly Hoenn 386):**
   - **Silver Team (Level 50 or Open Level, 24 IVs):**
     - **Altaria** (Adamant @ Lum Berry) – Natural Cure: *Dragon Dance, Aerial Ace, Earthquake, Dragon Breath* (252 HP / 136 Atk / 120 Spe)
