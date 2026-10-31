@@ -966,7 +966,8 @@ struct TrainerHillSave
                u16 lvlMode:1; // FRONTIER_LVL_50 or FRONTIER_LVL_OPEN
                u16 hasDefeatedSilver:1;
                u16 hasDefeatedGold:1;
-               //u16 padding:5;
+               u16 wonBrainChallenge:1;
+               //u16 padding:4;
     u16 gaugeCredits;
     u16 nextBrainThreshold;
     u8 runBP;

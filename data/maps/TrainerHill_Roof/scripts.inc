@@ -1,5 +1,13 @@
 .set LOCALID_OWNER, 1
 .set LOCALID_WALLY, 2
+.set LOCALID_SPEC_1, 3
+.set LOCALID_SPEC_2, 4
+.set LOCALID_SPEC_3, 5
+.set LOCALID_SPEC_4, 6
+.set LOCALID_SPEC_5, 7
+.set LOCALID_SPEC_6, 8
+.set LOCALID_SPEC_7, 9
+.set LOCALID_SPEC_8, 10
 
 TrainerHill_Roof_MapScripts::
 	map_script MAP_SCRIPT_ON_RESUME, TrainerHill_OnResume
@@ -8,6 +16,7 @@ TrainerHill_Roof_MapScripts::
 	.byte 0
 
 TrainerHill_Roof_OnTransition:
+	trainerhill_setspectatorgfx
 	trainerhill_getspoketoowner
 	copyvar VAR_TEMP_5, VAR_RESULT
 	end
@@ -77,9 +86,74 @@ TrainerHill_Roof_EventScript_ReceivePrize::
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	goto TrainerHill_Roof_EventScript_CheckFinalTime
 
-TrainerHill_Roof_EventScript_BattleWallySilver::
-	msgbox TrainerHill_Roof_Text_OwnerAnnounceWallySilver, MSGBOX_DEFAULT
+TrainerHill_Roof_EventScript_SpectatorsEnter::
+	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_SPECTATORS
+	@ Wave 1: Floor 1 trainers
+	addobject LOCALID_SPEC_1
+	playse SE_EXIT
+	applymovement LOCALID_SPEC_1, TrainerHill_Roof_Movement_Spec1Enter
+	delay 16
+	addobject LOCALID_SPEC_4
+	applymovement LOCALID_SPEC_4, TrainerHill_Roof_Movement_Spec4Enter
+	waitmovement LOCALID_SPEC_1
+	waitmovement LOCALID_SPEC_4
+	@ Wave 2: Floor 2 trainers
+	addobject LOCALID_SPEC_2
+	playse SE_EXIT
+	applymovement LOCALID_SPEC_2, TrainerHill_Roof_Movement_Spec2Enter
+	delay 16
+	addobject LOCALID_SPEC_5
+	applymovement LOCALID_SPEC_5, TrainerHill_Roof_Movement_Spec5Enter
+	waitmovement LOCALID_SPEC_2
+	waitmovement LOCALID_SPEC_5
+	@ Wave 3: Floor 3 trainers
+	addobject LOCALID_SPEC_3
+	playse SE_EXIT
+	applymovement LOCALID_SPEC_3, TrainerHill_Roof_Movement_Spec3Enter
+	delay 16
+	addobject LOCALID_SPEC_6
+	applymovement LOCALID_SPEC_6, TrainerHill_Roof_Movement_Spec6Enter
+	waitmovement LOCALID_SPEC_3
+	waitmovement LOCALID_SPEC_6
+	@ Wave 4: Floor 4 trainers
+	addobject LOCALID_SPEC_7
+	playse SE_EXIT
+	applymovement LOCALID_SPEC_7, TrainerHill_Roof_Movement_Spec7Enter
+	delay 16
+	addobject LOCALID_SPEC_8
+	applymovement LOCALID_SPEC_8, TrainerHill_Roof_Movement_Spec8Enter
+	waitmovement LOCALID_SPEC_7
+	waitmovement LOCALID_SPEC_8
+	playse SE_M_ENCORE2
+	delay 30
+	return
+
+TrainerHill_Roof_EventScript_SpectatorsReactVictory::
+	playse SE_M_ENCORE2
+	applymovement LOCALID_SPEC_1, TrainerHill_Roof_Movement_SpecJumpRight
+	applymovement LOCALID_SPEC_2, TrainerHill_Roof_Movement_SpecLookAroundLeft
+	applymovement LOCALID_SPEC_3, TrainerHill_Roof_Movement_SpecJumpRight
+	applymovement LOCALID_SPEC_4, TrainerHill_Roof_Movement_SpecJumpLeft
+	applymovement LOCALID_SPEC_5, TrainerHill_Roof_Movement_SpecLookAroundRight
+	applymovement LOCALID_SPEC_6, TrainerHill_Roof_Movement_SpecJumpLeft
+	applymovement LOCALID_SPEC_7, TrainerHill_Roof_Movement_SpecJumpUp
+	applymovement LOCALID_SPEC_8, TrainerHill_Roof_Movement_SpecLookAroundUp
+	waitmovement 0
+	delay 30
+	playse SE_M_ENCORE2
+	return
+
+TrainerHill_Roof_EventScript_PrepareArenaAndWally::
+	call TrainerHill_Roof_EventScript_SpectatorsEnter
+	msgbox TrainerHill_Roof_Text_OwnerTakeBattlePosition, MSGBOX_DEFAULT
 	closemessage
+	applymovement LOCALID_PLAYER, TrainerHill_Roof_Movement_PlayerTakePosition
+	waitmovement 0
+	applymovement LOCALID_OWNER, Common_Movement_WalkInPlaceFasterRight
+	waitmovement 0
+	msgbox TrainerHill_Roof_Text_OwnerIntroduceWally, MSGBOX_DEFAULT
+	closemessage
+	playse SE_M_ENCORE2
 	playse SE_ELEVATOR
 	delay 30
 	opendoor 15, 5
@@ -90,145 +164,81 @@ TrainerHill_Roof_EventScript_BattleWallySilver::
 	waitmovement 0
 	closedoor 15, 5
 	waitdooranim
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
+	applymovement LOCALID_OWNER, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
+	return
+
+TrainerHill_Roof_EventScript_BattleWallySilver::
+	msgbox TrainerHill_Roof_Text_OwnerAnnounceWallySilver, MSGBOX_DEFAULT
+	closemessage
+	call TrainerHill_Roof_EventScript_PrepareArenaAndWally
 	msgbox TrainerHill_Roof_Text_WallySilverIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
 	trainerbattle_no_intro_double TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, TrainerHill_Roof_EventScript_LostToWally
+	call TrainerHill_Roof_EventScript_SpectatorsReactVictory
 	msgbox TrainerHill_Roof_Text_WallySilverAwardSymbol, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
 	message TrainerHill_Roof_Text_ReceivedAgilitySymbol
 	waitmessage
 	waitfanfare
 	msgbox TrainerHill_Roof_Text_WallySilverPostBattle, MSGBOX_DEFAULT
-	trainerhill_givebrainprize
-	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallySilverFarewell, MSGBOX_DEFAULT
 	closemessage
-	opendoor 15, 5
-	waitdooranim
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitToElevator
-	waitmovement 0
-	closedoor 15, 5
-	waitdooranim
-	playse SE_ELEVATOR
-	removeobject LOCALID_WALLY
-	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
-	waitmovement 0
-	msgbox TrainerHill_Roof_Text_OwnerPostBrain, MSGBOX_DEFAULT
-	goto TrainerHill_Roof_EventScript_CheckFinalTime
+	goto TrainerHill_Roof_EventScript_WallyDepartsAndOwnerAwards
 
 TrainerHill_Roof_EventScript_BattleWallySilverStreak::
 	msgbox TrainerHill_Roof_Text_OwnerAnnounceWallySilver, MSGBOX_DEFAULT
 	closemessage
-	playse SE_ELEVATOR
-	delay 30
-	opendoor 15, 5
-	waitdooranim
-	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
-	addobject LOCALID_WALLY
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitElevator
-	waitmovement 0
-	closedoor 15, 5
-	waitdooranim
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
-	waitmovement 0
+	call TrainerHill_Roof_EventScript_PrepareArenaAndWally
 	msgbox TrainerHill_Roof_Text_WallySilverStreakIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
 	trainerbattle_no_intro_double TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, TrainerHill_Roof_EventScript_LostToWally
+	call TrainerHill_Roof_EventScript_SpectatorsReactVictory
 	msgbox TrainerHill_Roof_Text_WallySilverStreakPostBattle, MSGBOX_DEFAULT
-	trainerhill_givebrainprize
-	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallySilverFarewell, MSGBOX_DEFAULT
 	closemessage
-	opendoor 15, 5
-	waitdooranim
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitToElevator
-	waitmovement 0
-	closedoor 15, 5
-	waitdooranim
-	playse SE_ELEVATOR
-	removeobject LOCALID_WALLY
-	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
-	waitmovement 0
-	msgbox TrainerHill_Roof_Text_OwnerPostBrain, MSGBOX_DEFAULT
-	goto TrainerHill_Roof_EventScript_CheckFinalTime
+	goto TrainerHill_Roof_EventScript_WallyDepartsAndOwnerAwards
 
 TrainerHill_Roof_EventScript_BattleWallyGold::
 	msgbox TrainerHill_Roof_Text_OwnerAnnounceWallyGold, MSGBOX_DEFAULT
 	closemessage
-	playse SE_ELEVATOR
-	delay 30
-	opendoor 15, 5
-	waitdooranim
-	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
-	addobject LOCALID_WALLY
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitElevator
-	waitmovement 0
-	closedoor 15, 5
-	waitdooranim
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
-	waitmovement 0
+	call TrainerHill_Roof_EventScript_PrepareArenaAndWally
 	msgbox TrainerHill_Roof_Text_WallyGoldIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
 	trainerbattle_no_intro_double TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, TrainerHill_Roof_EventScript_LostToWally
+	call TrainerHill_Roof_EventScript_SpectatorsReactVictory
 	msgbox TrainerHill_Roof_Text_WallyGoldAwardSymbol, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
 	message TrainerHill_Roof_Text_AgilitySymbolTookGoldenShine
 	waitmessage
 	waitfanfare
 	msgbox TrainerHill_Roof_Text_WallyGoldPostBattle, MSGBOX_DEFAULT
-	trainerhill_givebrainprize
-	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallyGoldFarewell, MSGBOX_DEFAULT
 	closemessage
-	opendoor 15, 5
-	waitdooranim
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitToElevator
-	waitmovement 0
-	closedoor 15, 5
-	waitdooranim
-	playse SE_ELEVATOR
-	removeobject LOCALID_WALLY
-	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
-	waitmovement 0
-	msgbox TrainerHill_Roof_Text_OwnerPostBrain, MSGBOX_DEFAULT
-	goto TrainerHill_Roof_EventScript_CheckFinalTime
+	goto TrainerHill_Roof_EventScript_WallyDepartsAndOwnerAwards
 
 TrainerHill_Roof_EventScript_BattleWallyGoldStreak::
 	msgbox TrainerHill_Roof_Text_OwnerAnnounceWallyGold, MSGBOX_DEFAULT
 	closemessage
-	playse SE_ELEVATOR
-	delay 30
-	opendoor 15, 5
-	waitdooranim
-	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
-	addobject LOCALID_WALLY
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitElevator
-	waitmovement 0
-	closedoor 15, 5
-	waitdooranim
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
-	waitmovement 0
+	call TrainerHill_Roof_EventScript_PrepareArenaAndWally
 	msgbox TrainerHill_Roof_Text_WallyGoldStreakIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
 	trainerbattle_no_intro_double TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, TrainerHill_Roof_EventScript_LostToWally
+	call TrainerHill_Roof_EventScript_SpectatorsReactVictory
 	msgbox TrainerHill_Roof_Text_WallyGoldStreakPostBattle, MSGBOX_DEFAULT
-	trainerhill_givebrainprize
-	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallyGoldFarewell, MSGBOX_DEFAULT
 	closemessage
+	goto TrainerHill_Roof_EventScript_WallyDepartsAndOwnerAwards
+
+TrainerHill_Roof_EventScript_WallyDepartsAndOwnerAwards::
 	opendoor 15, 5
 	waitdooranim
 	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitToElevator
@@ -238,28 +248,207 @@ TrainerHill_Roof_EventScript_BattleWallyGoldStreak::
 	playse SE_ELEVATOR
 	removeobject LOCALID_WALLY
 	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
+	playse SE_M_ENCORE2
+	applymovement LOCALID_OWNER, TrainerHill_Roof_Movement_OwnerApproachPlayer
 	waitmovement 0
-	msgbox TrainerHill_Roof_Text_OwnerPostBrain, MSGBOX_DEFAULT
-	goto TrainerHill_Roof_EventScript_CheckFinalTime
+	msgbox TrainerHill_Roof_Text_OwnerPostVictory, MSGBOX_DEFAULT
+	trainerhill_finaltime
+	switch VAR_RESULT
+	case 0, TrainerHill_Roof_EventScript_BrainNewRecord
+	case 1, TrainerHill_Roof_EventScript_BrainNoNewRecord
+	case 2, TrainerHill_Roof_EventScript_BrainGivePrize
+
+TrainerHill_Roof_EventScript_BrainNewRecord::
+	msgbox TrainerHill_Roof_Text_GotHereMarvelouslyQuickly, MSGBOX_DEFAULT
+	goto TrainerHill_Roof_EventScript_BrainGivePrize
+
+TrainerHill_Roof_EventScript_BrainNoNewRecord::
+	msgbox TrainerHill_Roof_Text_YouWerentVeryQuick, MSGBOX_DEFAULT
+	goto TrainerHill_Roof_EventScript_BrainGivePrize
+
+TrainerHill_Roof_EventScript_BrainGivePrize::
+	trainerhill_givebrainprize
+	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
+	msgbox TrainerHill_Roof_Text_OwnerReturnToReception, MSGBOX_DEFAULT
+	closemessage
+	warp MAP_TRAINER_HILL_ENTRANCE, 9, 6
+	waitstate
+	end
 
 TrainerHill_Roof_EventScript_LostToWally::
 	goto TrainerHill_1F_EventScript_Lost
+
+TrainerHill_Roof_Movement_PlayerTakePosition:
+	walk_down
+	walk_left
+	walk_left
+	walk_in_place_faster_right
+	step_end
+
+TrainerHill_Roof_Movement_OwnerApproachPlayer:
+	walk_down
+	walk_down
+	walk_left
+	walk_in_place_faster_left
+	step_end
 
 TrainerHill_Roof_Movement_WallyExitElevator:
 	walk_down
 	walk_down
 	walk_down
+	walk_down
 	walk_left
-	walk_left
+	walk_in_place_faster_left
 	step_end
 
 TrainerHill_Roof_Movement_WallyExitToElevator:
 	walk_right
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	step_end
+
+TrainerHill_Roof_Movement_Spec1Enter:
+	walk_down
+	walk_left
+	walk_down
+	walk_down
+	walk_left
+	walk_in_place_faster_right
+	step_end
+
+TrainerHill_Roof_Movement_Spec2Enter:
+	walk_down
+	walk_left
+	walk_down
+	walk_down
+	walk_down
+	walk_left
+	walk_in_place_faster_right
+	step_end
+
+TrainerHill_Roof_Movement_Spec3Enter:
+	walk_down
+	walk_left
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_left
+	walk_in_place_faster_right
+	step_end
+
+TrainerHill_Roof_Movement_Spec4Enter:
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
 	walk_right
 	walk_up
-	walk_up
-	walk_up
+	walk_right
+	walk_in_place_faster_left
+	step_end
+
+TrainerHill_Roof_Movement_Spec5Enter:
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_in_place_faster_left
+	step_end
+
+TrainerHill_Roof_Movement_Spec6Enter:
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_down
+	walk_right
+	walk_in_place_faster_left
+	step_end
+
+TrainerHill_Roof_Movement_Spec7Enter:
+	walk_down
+	walk_left
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_right
+	walk_right
+	walk_right
+	walk_in_place_faster_up
+	step_end
+
+TrainerHill_Roof_Movement_Spec8Enter:
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_down
+	walk_in_place_faster_up
+	step_end
+
+TrainerHill_Roof_Movement_SpecJumpRight:
+	emote_double_exclamation_mark
+	jump_in_place_right
+	step_end
+
+TrainerHill_Roof_Movement_SpecJumpLeft:
+	emote_double_exclamation_mark
+	jump_in_place_left
+	step_end
+
+TrainerHill_Roof_Movement_SpecLookAroundLeft:
+	emote_exclamation_mark
+	walk_in_place_fast_right
+	walk_in_place_fast_up
+	walk_in_place_fast_right
+	step_end
+
+TrainerHill_Roof_Movement_SpecLookAroundRight:
+	emote_exclamation_mark
+	walk_in_place_fast_left
+	walk_in_place_fast_down
+	walk_in_place_fast_left
+	step_end
+
+TrainerHill_Roof_Movement_SpecJumpUp:
+	emote_double_exclamation_mark
+	jump_in_place_up
+	step_end
+
+TrainerHill_Roof_Movement_SpecLookAroundUp:
+	emote_exclamation_mark
+	walk_in_place_fast_left
+	walk_in_place_fast_right
+	walk_in_place_fast_up
 	step_end
 
 TrainerHill_Roof_EventScript_CheckFinalTime::

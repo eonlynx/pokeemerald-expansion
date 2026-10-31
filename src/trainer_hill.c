@@ -77,6 +77,7 @@ static void TrainerHillSetLvlMode(void);
 static void TrainerHillCheckFrontierBrain(void);
 static void TrainerHillGiveBrainPrize(void);
 static void TrainerHillGetSpokeToOwner(void);
+static void TrainerHillSetRoofSpectatorGraphics(void);
 static void SetUpDataStruct(void);
 static void FreeDataStruct(void);
 static void TrainerHillDummy(void);
@@ -204,6 +205,7 @@ static void (*const sHillFunctions[])(void) =
     [TRAINER_HILL_FUNC_CHECK_BRAIN]           = TrainerHillCheckFrontierBrain,
     [TRAINER_HILL_FUNC_GIVE_BRAIN_PRIZE]      = TrainerHillGiveBrainPrize,
     [TRAINER_HILL_FUNC_GET_SPOKE_TO_OWNER]    = TrainerHillGetSpokeToOwner,
+    [TRAINER_HILL_FUNC_SET_SPECTATOR_GFX]     = TrainerHillSetRoofSpectatorGraphics,
 };
 
 static const u8 *const sModeStrings[NUM_TRAINER_HILL_MODES] =
@@ -566,7 +568,9 @@ static void TrainerHillStartChallenge(void)
     gBattleOutcome = 0;
     gSaveBlock1Ptr->trainerHill.receivedPrize = 0;
     gSaveBlock1Ptr->trainerHill.runBP = 0;
+    gSaveBlock1Ptr->trainerHill.wonBrainChallenge = 0;
     FlagSet(FLAG_HIDE_TRAINER_HILL_ROOF_WALLY);
+    FlagSet(FLAG_HIDE_TRAINER_HILL_ROOF_SPECTATORS);
 #endif //FREE_TRAINER_HILL
 }
 
@@ -724,6 +728,11 @@ static void TrainerHillGetChallengeStatus(void)
         // The player lost their last match.
         gSaveBlock1Ptr->trainerHill.hasLost = FALSE;
         gSpecialVar_Result = TRAINER_HILL_PLAYER_STATUS_LOST;
+    }
+    else if (gSaveBlock1Ptr->trainerHill.wonBrainChallenge)
+    {
+        gSaveBlock1Ptr->trainerHill.wonBrainChallenge = FALSE;
+        gSpecialVar_Result = TRAINER_HILL_PLAYER_STATUS_BRAIN_WON;
     }
     else if (gSaveBlock1Ptr->trainerHill.maybeECardScanDuringChallenge)
     {
@@ -1383,6 +1392,7 @@ static void TrainerHillGiveBrainPrize(void)
     }
 
     gSaveBlock1Ptr->trainerHill.receivedPrize = TRUE;
+    gSaveBlock1Ptr->trainerHill.wonBrainChallenge = TRUE;
     gSaveBlock2Ptr->frontier.unk_EF9 = 0;
 #endif //FREE_TRAINER_HILL
 }
@@ -1395,5 +1405,38 @@ static void TrainerHillGetSpokeToOwner(void)
     gSpecialVar_Result = TRUE;
 #endif
 }
+
+static void TrainerHillSetRoofSpectatorGraphics(void)
+{
+#if FREE_TRAINER_HILL == FALSE
+    u8 mode = gSaveBlock1Ptr->trainerHill.mode;
+    u8 f, j;
+    const struct TrainerHillCandidate *pool;
+
+    if (mode >= NUM_TRAINER_HILL_MODES)
+        mode = HILL_MODE_NORMAL;
+
+    if ((gSaveBlock1Ptr->trainerHill.currentFloorTrainers[0][0] & 0x7F) >= 17)
+        GenerateTrainerHillChallenge(mode);
+
+    pool = sTrainerHillCandidates[mode];
+    for (f = 0; f < NUM_TRAINER_HILL_FLOORS; f++)
+    {
+        for (j = 0; j < HILL_TRAINERS_PER_FLOOR; j++)
+        {
+            u8 cand = gSaveBlock1Ptr->trainerHill.currentFloorTrainers[f][j];
+            bool8 isAlt = (cand & 0x80) != 0;
+            cand &= 0x7F;
+            if (cand < 17)
+            {
+                u8 facilityClass = (isAlt && pool[cand].altTrainer != NULL) ? pool[cand].altTrainer->facilityClass : pool[cand].trainer.facilityClass;
+                u16 gfxId = FacilityClassToGraphicsId(facilityClass);
+                VarSet(VAR_OBJ_GFX_ID_0 + (f * 2 + j), gfxId);
+            }
+        }
+    }
+#endif //FREE_TRAINER_HILL
+}
+
 
 

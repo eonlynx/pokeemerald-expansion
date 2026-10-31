@@ -72,8 +72,15 @@ TrainerHill_Entrance_EventScript_ExitChallenge::
 	trainerhill_getstatus
 	switch VAR_RESULT
 	case TRAINER_HILL_PLAYER_STATUS_LOST, TrainerHill_Entrance_EventScript_ExitChallengeLost
+	case TRAINER_HILL_PLAYER_STATUS_BRAIN_WON, TrainerHill_Entrance_EventScript_ExitChallengeBrainWon
 	case TRAINER_HILL_PLAYER_STATUS_ECARD_SCANNED, TrainerHill_Entrance_EventScript_ExitChallengeECard
 	case TRAINER_HILL_PLAYER_STATUS_NORMAL, TrainerHill_Entrance_EventScript_EndExitChallenge
+
+TrainerHill_Entrance_EventScript_ExitChallengeBrainWon::
+	lockall
+	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
+	msgbox TrainerHill_Entrance_Text_BrainVictoryReception, MSGBOX_DEFAULT
+	goto TrainerHill_Entrance_EventScript_PlayerExitChallenge
 
 TrainerHill_Entrance_EventScript_ExitChallengeLost::
 	lockall
@@ -424,19 +431,30 @@ TrainerHill_Roof_Text_HaveTheMostMarvelousGift:
 	.string "take these marvelous Battle Points!$"
 
 TrainerHill_Roof_Text_OwnerAnnounceWallySilver:
-	.string "Bravo! But hold on… look who's here!\p"
-	.string "In recognition of your marvelous talent,\n"
-	.string "a very special TRAINER has stepped\l"
-	.string "forward to challenge you!\p"
-	.string "Please welcome our FRONTIER BRAIN,\n"
-	.string "WALLY the HILL PRODIGY!$"
+	.string "Bravo! But hold on… look behind you!\p"
+	.string "The TRAINERS you overcame across each\n"
+	.string "floor have ascended to the rooftop!\p"
+	.string "They've come to witness your ultimate test!\p"
+	.string "In recognition of your marvelous speed,\n"
+	.string "our FRONTIER BRAIN has arrived to\l"
+	.string "challenge you!$"
 
 TrainerHill_Roof_Text_OwnerAnnounceWallyGold:
 	.string "Incredible! Absolutely extraordinary!\p"
-	.string "Your supreme mastery through the Hill\n"
-	.string "has brought back our finest champion!\p"
-	.string "Prepare yourself for our FRONTIER\n"
-	.string "BRAIN, WALLY the HILL PRODIGY!$"
+	.string "Look around you! The defeated TRAINERS\n"
+	.string "from all four floors have gathered here\l"
+	.string "to watch history in the making!\p"
+	.string "Prepare yourself! Our supreme champion,\n"
+	.string "the FRONTIER BRAIN, is stepping forth!$"
+
+TrainerHill_Roof_Text_OwnerTakeBattlePosition:
+	.string "Challenger! Step forward to the center\n"
+	.string "of the arena and take your battle stance!$"
+
+TrainerHill_Roof_Text_OwnerIntroduceWally:
+	.string "Ladies and gentlemen, challengers of the\n"
+	.string "Hill! Please welcome our FRONTIER BRAIN,\l"
+	.string "WALLY the HILL PRODIGY!$"
 
 TrainerHill_Roof_Text_WallySilverIntro:
 	.string "WALLY: Hi, {PLAYER}!\p"
@@ -543,6 +561,31 @@ TrainerHill_Roof_Text_WallyGoldFarewell:
 TrainerHill_Roof_Text_OwnerPostBrain:
 	.string "Marvelous! Simply breathtaking!\n"
 	.string "Now, let us record your final time!$"
+
+TrainerHill_Roof_Text_OwnerPostVictory:
+	.string "Stupendous! Magnificent! A performance\n"
+	.string "of unmatched brilliance!\p"
+	.string "To conquer the entire BATTLE HILL and\n"
+	.string "defeat our HILL PRODIGY before such an\l"
+	.string "electrified audience…\p"
+	.string "You are truly a master of agility!\p"
+	.string "As the proprietor of this facility, it is\n"
+	.string "my great privilege to present your\l"
+	.string "hard-earned Battle Points!$"
+
+TrainerHill_Roof_Text_OwnerReturnToReception:
+	.string "Now, let us return to the reception hall\n"
+	.string "below so that everyone may celebrate\l"
+	.string "your crowning achievement!$"
+
+TrainerHill_Entrance_Text_BrainVictoryReception:
+	.string "Welcome back, {PLAYER}!\p"
+	.string "The thunderous cheers from the rooftop\n"
+	.string "could be heard all the way down here!\p"
+	.string "Defeating the HILL PRODIGY WALLY and\n"
+	.string "conquering the BATTLE HILL is a feat\l"
+	.string "worthy of the greatest champions!\p"
+	.string "Congratulations on your marvelous victory!$"
 
 TrainerHill_Roof_Text_GotHereMarvelouslyQuickly:
 	.string "Oh, hold on here! Did you possibly get\n"
