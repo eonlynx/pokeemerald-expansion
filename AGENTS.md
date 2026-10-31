@@ -29,6 +29,7 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
 
 ### 2.2. JP Default Trainer Fusion & Alternation
 - **JP Default 1:** `AUTUMN` and `SHAWN` share their original map. They count as a single candidate slot: their teams are merged (Shawn's 3 Pokémon + Autumn's 3 Pokémon) and one of the two is randomly chosen to occupy Trainer 1 for the floor.
+    - *Layout adjustment:* In vanilla `floor_0`, the corridor at (X=7, Y=4) was blocked by an obstacle tile. The obstacle at (7, 4) was replaced with a clean passable floor tile (`0x3B`, identical to (8, 5), also updating (7, 3) to `0x3B` to eliminate the top obstacle corner artifact, while keeping (7, 5) as `0x35` to preserve the natural top edge of the obstacle below) to ensure proper routing and pathing across the floor.
 - **JP Default 2:** `SIMON` and `NAOMI` share their original map identically, merging their Pokémon and alternating randomly in the Trainer 1 slot.
 - The second trainer of the floor is picked randomly from the remaining candidates in that mode.
 
