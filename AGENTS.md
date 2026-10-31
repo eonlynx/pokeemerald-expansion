@@ -141,25 +141,22 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
   - Wally arrives via the elevator (`FLAG_HIDE_TRAINER_HILL_ROOF_WALLY`), heals the player's entire party (`special HealPlayerParty`), and delivers pre-battle dialogue.
   - Plays `MUS_VS_FRONTIER_BRAIN` and uses the standard Battle Frontier battle transition (`sBattleTransitionTable_BattleFrontier`).
   - Upon defeat, Wally presents the Agility Symbol (if first time) and combined Battle Points, shares farewell dialogue, and departs via elevator before the Owner updates the Time Board.
-- **Teams & Battle Properties (Strictly Hoenn 386):**
+- **Teams & Battle Properties (Strictly Hoenn 386 - 6v6 Double Battle):**
+  - All Wally battles are **Double Battles (6 vs 6)** triggered via `trainerbattle_no_intro_double`.
   - **Silver Team (Level 50 or Open Level, 24 IVs):**
-    - **Altaria** (Adamant @ Lum Berry) – Natural Cure: *Dragon Dance, Aerial Ace, Earthquake, Dragon Breath* (252 HP / 136 Atk / 120 Spe)
+    - **Altaria** (Adamant @ Lum Berry) – Natural Cure: *Dragon Dance, Aerial Ace, Earthquake, Protect* (252 HP / 136 Atk / 120 Spe)
+    - **Kecleon** (Brave @ Sitrus Berry) – Color Change: *Fake Out, Shadow Ball, Brick Break, Protect* (252 HP / 252 Atk / 6 SpD)
     - **Magneton** (Modest @ Bright Powder) – Magnet Pull: *Thunderbolt, Thunder Wave, Tri Attack, Protect* (128 HP / 252 SpA / 128 Spe)
-    - **Gardevoir** (Modest @ Sitrus Berry) – Trace: *Calm Mind, Psychic, Thunderbolt, Will-O-Wisp* (128 HP / 252 SpA / 128 Spe)
+    - **Roselia** (Calm @ Focus Band) – Natural Cure: *Giga Drain, Sludge Bomb, Leech Seed, Protect* (252 HP / 128 Def / 128 SpA)
+    - **Azumarill** (Adamant @ Mystic Water) – Huge Power: *Double-Edge, Hydro Pump, Brick Break, Protect* (252 HP / 252 Atk / 6 Spe)
+    - **Gardevoir** (Modest @ Leftovers) – Trace: *Calm Mind, Psychic, Thunderbolt, Protect* (128 HP / 252 SpA / 128 Spe)
   - **Gold Team (Level 50 or Open Level, 31 IVs):**
-    - **Altaria** (Adamant @ Leftovers) – Natural Cure: *Dragon Dance, Earthquake, Aerial Ace, Rest* (252 HP / 136 Atk / 120 Spe)
-    - **Magneton** (Modest @ Quick Claw) – Magnet Pull: *Thunderbolt, Tri Attack, Thunder Wave, Metal Sound* (6 HP / 252 SpA / 252 Spe)
-    - **Gardevoir** (Timid @ Lum Berry) – Trace: *Calm Mind, Psychic, Thunderbolt, Ice Punch* (6 HP / 252 SpA / 252 Spe)
-  - **Dynamic Level Scaling:** In Level 50 mode, Wally's Pokémon are Level 50. In Open Level mode, they dynamically scale to match the player party's highest level (minimum 60 via `GetHighestLevelInPlayerParty`).
-- **Teams & Battle Properties (Strictly Hoenn 386):**
-  - **Silver Team (Level 50 or Open Level, 24 IVs):**
-    - **Altaria** (Adamant @ Lum Berry) – Natural Cure: *Dragon Dance, Aerial Ace, Earthquake, Dragon Breath* (252 HP / 136 Atk / 120 Spe)
-    - **Magneton** (Modest @ Bright Powder) – Magnet Pull: *Thunderbolt, Thunder Wave, Tri Attack, Protect* (128 HP / 252 SpA / 128 Spe)
-    - **Gardevoir** (Modest @ Sitrus Berry) – Trace: *Calm Mind, Psychic, Thunderbolt, Will-O-Wisp* (128 HP / 252 SpA / 128 Spe)
-  - **Gold Team (Level 50 or Open Level, 31 IVs):**
-    - **Altaria** (Adamant @ Leftovers) – Natural Cure: *Dragon Dance, Earthquake, Aerial Ace, Rest* (252 HP / 136 Atk / 120 Spe)
-    - **Magneton** (Modest @ Quick Claw) – Magnet Pull: *Thunderbolt, Tri Attack, Thunder Wave, Metal Sound* (6 HP / 252 SpA / 252 Spe)
-    - **Gardevoir** (Timid @ Lum Berry) – Trace: *Calm Mind, Psychic, Thunderbolt, Ice Punch* (6 HP / 252 SpA / 252 Spe)
+    - **Salamence** (Adamant @ Lum Berry) – Intimidate: *Dragon Dance, Rock Slide, Aerial Ace, Protect* (6 HP / 252 Atk / 252 Spe)
+    - **Flygon** (Jolly @ Soft Sand) – Levitate: *Earthquake, Rock Slide, Dragon Claw, Protect* (6 HP / 252 Atk / 252 Spe)
+    - **Cacturne** (Brave @ Quick Claw) – Sand Veil: *Needle Arm, Faint Attack, Brick Break, Protect* (252 HP / 252 Atk / 6 SpA)
+    - **Sceptile** (Timid @ White Herb) – Overgrow: *Leaf Blade, Dragon Claw, Crunch, Protect* (6 HP / 252 SpA / 252 Spe)
+    - **Milotic** (Bold @ Leftovers) – Marvel Scale: *Surf, Ice Beam, Recover, Toxic* (252 HP / 252 Def / 6 SpA)
+    - **Gardevoir** (Timid @ Chesto Berry) – Trace: *Calm Mind, Psychic, Thunderbolt, Ice Punch* (6 HP / 252 SpA / 252 Spe)
   - **Dynamic Level Scaling:** In Level 50 mode, Wally's Pokémon are Level 50. In Open Level mode, they dynamically scale to match the player party's highest level (minimum 60 via `GetHighestLevelInPlayerParty`).
 
 ---

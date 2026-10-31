@@ -44,7 +44,7 @@ TrainerHill_Roof_EventScript_BattleWallySilver::
 	waitmovement 0
 	msgbox TrainerHill_Roof_Text_WallySilverIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
-	trainerbattle_no_intro TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
+	trainerbattle_no_intro_double TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
 	msgbox TrainerHill_Roof_Text_WallySilverAwardSymbol, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
 	message TrainerHill_Roof_Text_ReceivedAgilitySymbol
@@ -75,7 +75,7 @@ TrainerHill_Roof_EventScript_BattleWallySilverStreak::
 	waitmovement 0
 	msgbox TrainerHill_Roof_Text_WallySilverStreakIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
-	trainerbattle_no_intro TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
+	trainerbattle_no_intro_double TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
 	msgbox TrainerHill_Roof_Text_WallySilverStreakPostBattle, MSGBOX_DEFAULT
 	trainerhill_givebrainprize
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
@@ -101,7 +101,7 @@ TrainerHill_Roof_EventScript_BattleWallyGold::
 	waitmovement 0
 	msgbox TrainerHill_Roof_Text_WallyGoldIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
-	trainerbattle_no_intro TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
+	trainerbattle_no_intro_double TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
 	msgbox TrainerHill_Roof_Text_WallyGoldAwardSymbol, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
 	message TrainerHill_Roof_Text_AgilitySymbolTookGoldenShine
@@ -132,7 +132,7 @@ TrainerHill_Roof_EventScript_BattleWallyGoldStreak::
 	waitmovement 0
 	msgbox TrainerHill_Roof_Text_WallyGoldStreakIntro, MSGBOX_DEFAULT
 	special HealPlayerParty
-	trainerbattle_no_intro TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
+	trainerbattle_no_intro_double TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
 	msgbox TrainerHill_Roof_Text_WallyGoldStreakPostBattle, MSGBOX_DEFAULT
 	trainerhill_givebrainprize
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS

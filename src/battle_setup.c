@@ -495,7 +495,7 @@ static void DoTrainerBattle(void)
     CreateNPCTrainerParty(&gParties[B_TRAINER_OPPONENT_A][0], TRAINER_BATTLE_PARAM.opponentA);
     if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS && !BATTLE_TWO_VS_ONE_OPPONENT)
         CreateNPCTrainerParty(&gParties[B_TRAINER_OPPONENT_B][0], TRAINER_BATTLE_PARAM.opponentB);
-    if (InTrainerHillChallenge() && (TRAINER_BATTLE_PARAM.opponentA == TRAINER_WALLY_HILL_SILVER || TRAINER_BATTLE_PARAM.opponentA == TRAINER_WALLY_HILL_GOLD))
+    if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_WALLY_HILL_SILVER || TRAINER_BATTLE_PARAM.opponentA == TRAINER_WALLY_HILL_GOLD)
     {
         u8 level;
         u32 i;
