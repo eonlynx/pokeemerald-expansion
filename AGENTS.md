@@ -121,6 +121,7 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
   - Fixed-point integer arithmetic (`credits * 100`) is used to ensure precision without floating-point overhead on the GBA.
   - Gauge credits are stored in `gSaveBlock1Ptr->trainerHill.gaugeCredits` and persist across runs.
 - **Brain Appearances & Agility Symbols:**
+  - **Legitimate Challenge Validation:** To challenge Wally or earn Battle Points/records, all 8 trainers across all 4 floors must be legitimately defeated (`trainerFlags == 0xFF`). If trainers are skipped or bypassed via cheats/warps, Wally's appearance is blocked, no prize points are granted, and no record is logged.
   - **Agility Symbol:** Defeating Wally awards the **Agility Symbol** on the player's Frontier Pass (`FLAG_SYS_HILL_SILVER` and `FLAG_SYS_HILL_GOLD`), accompanied by `MUS_OBTAIN_SYMBOL` fanfare and commemorative messages.
   - **Silver Brain (`TRAINER_WALLY_HILL_SILVER`):** Appears when gauge credits reach $\ge 2.0$ (200 units).
     - If Silver Symbol is not yet earned: awards the Silver Agility Symbol + combined Battle Points.

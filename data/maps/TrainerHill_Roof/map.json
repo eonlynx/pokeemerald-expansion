@@ -168,7 +168,7 @@
       "x": 12,
       "y": 8,
       "elevation": 3,
-      "var": "VAR_TEMP_2",
+      "var": "VAR_TEMP_4",
       "var_value": "0",
       "script": "TrainerHill_Roof_EventScript_TriggerTile8"
     },
@@ -177,7 +177,7 @@
       "x": 12,
       "y": 9,
       "elevation": 3,
-      "var": "VAR_TEMP_2",
+      "var": "VAR_TEMP_4",
       "var_value": "0",
       "script": "TrainerHill_Roof_EventScript_TriggerTile9"
     },
@@ -186,7 +186,7 @@
       "x": 12,
       "y": 10,
       "elevation": 3,
-      "var": "VAR_TEMP_2",
+      "var": "VAR_TEMP_4",
       "var_value": "0",
       "script": "TrainerHill_Roof_EventScript_TriggerTile10"
     }

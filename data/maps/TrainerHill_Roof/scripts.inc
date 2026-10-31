@@ -16,33 +16,32 @@ TrainerHill_Roof_MapScripts::
 	.byte 0
 
 TrainerHill_Roof_OnResume:
-	setvar VAR_TEMP_2, 0
 	trainerhill_resumetimer
 	end
 
 TrainerHill_Roof_OnTransition:
 	trainerhill_setspectatorgfx
 	trainerhill_getspoketoowner
-	copyvar VAR_TEMP_2, VAR_RESULT
+	copyvar VAR_TEMP_4, VAR_RESULT
 	end
 
 TrainerHill_Roof_EventScript_TriggerTile8::
 	lockall
-	setvar VAR_TEMP_2, 1
+	setvar VAR_TEMP_4, 1
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
 	goto TrainerHill_Roof_EventScript_OwnerProcess
 
 TrainerHill_Roof_EventScript_TriggerTile9::
 	lockall
-	setvar VAR_TEMP_2, 1
+	setvar VAR_TEMP_4, 1
 	applymovement LOCALID_PLAYER, TrainerHill_Roof_Movement_PlayerApproachOwner1
 	waitmovement 0
 	goto TrainerHill_Roof_EventScript_OwnerProcess
 
 TrainerHill_Roof_EventScript_TriggerTile10::
 	lockall
-	setvar VAR_TEMP_2, 1
+	setvar VAR_TEMP_4, 1
 	applymovement LOCALID_PLAYER, TrainerHill_Roof_Movement_PlayerApproachOwner2
 	waitmovement 0
 	goto TrainerHill_Roof_EventScript_OwnerProcess
@@ -57,14 +56,12 @@ TrainerHill_Roof_Movement_PlayerApproachOwner2:
 	step_end
 
 TrainerHill_Roof_EventScript_Owner::
-	setvar VAR_TEMP_2, 1
-	trainerhill_settrainerflags
+	setvar VAR_TEMP_4, 1
 	lock
 	faceplayer
 	goto TrainerHill_Roof_EventScript_OwnerProcessNoFace
 
 TrainerHill_Roof_EventScript_OwnerProcess::
-	trainerhill_settrainerflags
 	applymovement LOCALID_OWNER, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 TrainerHill_Roof_EventScript_OwnerProcessNoFace::

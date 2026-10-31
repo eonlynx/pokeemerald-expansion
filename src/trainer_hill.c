@@ -648,7 +648,7 @@ static void GiveChallengePrize(void)
 #if FREE_TRAINER_HILL == FALSE
     u16 points, cardPoints;
 
-    if (sHillData->challenge.numFloors != NUM_TRAINER_HILL_FLOORS || gSaveBlock1Ptr->trainerHill.receivedPrize)
+    if (sHillData->challenge.numFloors != NUM_TRAINER_HILL_FLOORS || gSaveBlock1Ptr->trainerHill.receivedPrize || gSaveBlock2Ptr->frontier.trainerFlags != 0xFF)
     {
         gSpecialVar_Result = 2;
         return;
@@ -673,6 +673,7 @@ static void GiveChallengePrize(void)
 
     ConvertIntToDecimalStringN(gStringVar1, points, STR_CONV_MODE_LEFT_ALIGN, 2);
 
+    SetAllTrainerFlags();
     gSaveBlock1Ptr->trainerHill.receivedPrize = TRUE;
     gSaveBlock2Ptr->frontier.savedGame = FALSE;
     gSaveBlock2Ptr->frontier.unk_EF9 = 0;
@@ -685,7 +686,7 @@ static void GiveChallengePrize(void)
 static void CheckFinalTime(void)
 {
 #if FREE_TRAINER_HILL == FALSE
-    if (gSaveBlock1Ptr->trainerHill.checkedFinalTime)
+    if (gSaveBlock1Ptr->trainerHill.checkedFinalTime || gSaveBlock2Ptr->frontier.trainerFlags != 0xFF)
     {
         gSpecialVar_Result = 2;
     }
@@ -1302,7 +1303,10 @@ static void TrainerHillCheckFrontierBrain(void)
     u16 earned;
     u8 mode;
 
-    if (sHillData->challenge.numFloors != NUM_TRAINER_HILL_FLOORS || gSaveBlock1Ptr->trainerHill.hasLost || gSaveBlock1Ptr->trainerHill.receivedPrize)
+    if (sHillData->challenge.numFloors != NUM_TRAINER_HILL_FLOORS 
+        || gSaveBlock1Ptr->trainerHill.hasLost 
+        || gSaveBlock1Ptr->trainerHill.receivedPrize
+        || gSaveBlock2Ptr->frontier.trainerFlags != 0xFF)
     {
         gSpecialVar_Result = TRAINER_HILL_BRAIN_NONE;
         return;
@@ -1411,6 +1415,7 @@ static void TrainerHillGiveBrainPrize(void)
         gSaveBlock1Ptr->trainerHill.nextBrainThreshold += HILL_GAUGE_GOLD_INCREMENT; // +4.5 credits
     }
 
+    SetAllTrainerFlags();
     gSaveBlock1Ptr->trainerHill.receivedPrize = TRUE;
     gSaveBlock1Ptr->trainerHill.wonBrainChallenge = TRUE;
     gSaveBlock2Ptr->frontier.savedGame = FALSE;

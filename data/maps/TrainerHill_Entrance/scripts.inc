@@ -12,8 +12,9 @@ TrainerHill_Entrance_OnWarpTable:
 	.2byte 0
 
 TrainerHill_Entrance_EventScript_CheckPlayerOrientation::
-	goto_if_eq VAR_TRAINER_HILL_IS_ACTIVE, 1, TrainerHill_Entrance_EventScript_TurnPlayerEast
 	getplayerxy VAR_TEMP_2, VAR_TEMP_3
+	goto_if_le VAR_TEMP_3, 5, TrainerHill_Entrance_EventScript_TurnPlayerSouth
+	goto_if_eq VAR_TRAINER_HILL_IS_ACTIVE, 1, TrainerHill_Entrance_EventScript_TurnPlayerEast
 	goto_if_eq VAR_TEMP_3, 7, TrainerHill_Entrance_EventScript_TurnPlayerSouth
 	end
 
@@ -37,6 +38,8 @@ TrainerHill_Entrance_OnWarp:
 TrainerHill_Entrance_OnResume:
 	trainerhill_resumetimer
 	setvar VAR_TEMP_0, 0
+	getplayerxy VAR_TEMP_2, VAR_TEMP_3
+	goto_if_le VAR_TEMP_3, 5, TrainerHill_Entrance_EventScript_PlayerDontFaceAttendant
 	goto_if_eq VAR_TRAINER_HILL_IS_ACTIVE, 0, TrainerHill_Entrance_EventScript_PlayerDontFaceAttendant
 	trainerhill_getusingereader
 	goto_if_eq VAR_RESULT, FALSE, TrainerHill_Entrance_EventScript_TryFaceAttendant  @ VAR_RESULT always FALSE here
@@ -89,6 +92,8 @@ TrainerHill_Entrance_EventScript_ExitElevator::
 
 TrainerHill_Entrance_EventScript_ExitChallenge::
 	setvar VAR_TEMP_0, 1
+	getplayerxy VAR_TEMP_2, VAR_TEMP_3
+	goto_if_le VAR_TEMP_3, 5, TrainerHill_Entrance_EventScript_EndExitChallenge
 	trainerhill_getstatus
 	switch VAR_RESULT
 	case TRAINER_HILL_PLAYER_STATUS_LOST, TrainerHill_Entrance_EventScript_ExitChallengeLost
