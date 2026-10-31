@@ -117,6 +117,15 @@
       "var": "VAR_TRAINER_HILL_IS_ACTIVE",
       "var_value": "0",
       "script": "TrainerHill_Entrance_EventScript_EntryTrigger"
+    },
+    {
+      "type": "trigger",
+      "x": 9,
+      "y": 6,
+      "elevation": 3,
+      "var": "VAR_TRAINER_HILL_IS_ACTIVE",
+      "var_value": "1",
+      "script": "TrainerHill_Entrance_EventScript_RetireTrigger"
     }
   ],
   "bg_events": [

@@ -8,8 +8,18 @@ TrainerHill_Entrance_MapScripts::
 	.byte 0
 
 TrainerHill_Entrance_OnWarpTable:
-	map_script_2 VAR_TEMP_0, 0, TrainerHill_Entrance_EventScript_TurnPlayerEast
+	map_script_2 VAR_TEMP_0, 0, TrainerHill_Entrance_EventScript_CheckPlayerOrientation
 	.2byte 0
+
+TrainerHill_Entrance_EventScript_CheckPlayerOrientation::
+	goto_if_eq VAR_TRAINER_HILL_IS_ACTIVE, 1, TrainerHill_Entrance_EventScript_TurnPlayerEast
+	getplayerxy VAR_TEMP_2, VAR_TEMP_3
+	goto_if_eq VAR_TEMP_3, 7, TrainerHill_Entrance_EventScript_TurnPlayerSouth
+	end
+
+TrainerHill_Entrance_EventScript_TurnPlayerSouth::
+	turnobject LOCALID_PLAYER, DIR_SOUTH
+	end
 
 TrainerHill_Entrance_EventScript_TurnPlayerEast::
 	turnobject LOCALID_PLAYER, DIR_EAST
@@ -27,6 +37,7 @@ TrainerHill_Entrance_OnWarp:
 TrainerHill_Entrance_OnResume:
 	trainerhill_resumetimer
 	setvar VAR_TEMP_0, 0
+	goto_if_eq VAR_TRAINER_HILL_IS_ACTIVE, 0, TrainerHill_Entrance_EventScript_PlayerDontFaceAttendant
 	trainerhill_getusingereader
 	goto_if_eq VAR_RESULT, FALSE, TrainerHill_Entrance_EventScript_TryFaceAttendant  @ VAR_RESULT always FALSE here
 	setobjectxy LOCALID_PLAYER, 9, 6
@@ -83,7 +94,28 @@ TrainerHill_Entrance_EventScript_ExitChallenge::
 	case TRAINER_HILL_PLAYER_STATUS_LOST, TrainerHill_Entrance_EventScript_ExitChallengeLost
 	case TRAINER_HILL_PLAYER_STATUS_BRAIN_WON, TrainerHill_Entrance_EventScript_ExitChallengeBrainWon
 	case TRAINER_HILL_PLAYER_STATUS_ECARD_SCANNED, TrainerHill_Entrance_EventScript_ExitChallengeECard
+	case TRAINER_HILL_PLAYER_STATUS_DIDNT_SAVE, TrainerHill_Entrance_EventScript_ExitChallengeDidntSave
 	case TRAINER_HILL_PLAYER_STATUS_NORMAL, TrainerHill_Entrance_EventScript_EndExitChallenge
+
+TrainerHill_Entrance_EventScript_ExitChallengeDidntSave::
+	lockall
+	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
+	msgbox TrainerHill_Entrance_Text_FailedToSaveBeforeQuitting, MSGBOX_DEFAULT
+	message TrainerHill_Entrance_Text_RecordWillBeSaved
+	waitmessage
+	setvar VAR_TRAINER_HILL_IS_ACTIVE, 0
+	setvar VAR_TEMP_5, 0
+	special HealPlayerParty
+	callnative UpdateFollowingPokemon
+	trainerhill_savechallenge
+	playse SE_SAVE
+	waitse
+	msgbox TrainerHill_Entrance_Text_HopeToSeeYouAgain, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PushPlayerBackFromCounter
+	waitmovement 0
+	releaseall
+	end
 
 TrainerHill_Entrance_EventScript_ExitChallengeBrainWon::
 	lockall
@@ -98,6 +130,10 @@ TrainerHill_Entrance_EventScript_ExitChallengeLost::
 	goto TrainerHill_Entrance_EventScript_AskRecordBattle
 
 TrainerHill_Entrance_EventScript_AskRecordBattle::
+	setvar VAR_TRAINER_HILL_IS_ACTIVE, 0
+	setvar VAR_TEMP_5, 0
+	special HealPlayerParty
+	callnative UpdateFollowingPokemon
 	message TrainerHill_Entrance_Text_RecordWillBeSaved
 	waitmessage
 	trainerhill_savechallenge
@@ -123,14 +159,14 @@ TrainerHill_Entrance_EventScript_ExitChallengeECard::
 	lockall
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
 	msgbox TrainerHill_Entrance_Text_MovedReceptionHereForSwitch, MSGBOX_DEFAULT
-TrainerHill_Entrance_EventScript_PlayerExitChallenge::
-	closemessage
-	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PushPlayerBackFromCounter
-	waitmovement 0
 	setvar VAR_TRAINER_HILL_IS_ACTIVE, 0
 	setvar VAR_TEMP_5, 0
 	special HealPlayerParty
 	callnative UpdateFollowingPokemon
+TrainerHill_Entrance_EventScript_PlayerExitChallenge::
+	closemessage
+	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PushPlayerBackFromCounter
+	waitmovement 0
 	releaseall
 TrainerHill_Entrance_EventScript_EndExitChallenge::
 	end
@@ -162,8 +198,6 @@ TrainerHill_Entrance_EventScript_EntryTrigger::
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
 	goto_if_unset FLAG_SYS_GAME_CLEAR, TrainerHill_Entrance_EventScript_Closed
 	msgbox TrainerHill_Entrance_Text_WelcomeToTrainerHill, MSGBOX_DEFAULT
-	trainerhill_getsaved
-	call_if_eq VAR_RESULT, FALSE, TrainerHill_Entrance_EventScript_SaveGame
 	trainerhill_allfloorsused
 	goto_if_eq VAR_RESULT, TRUE, TrainerHill_Entrance_EventScript_AllFloorsUsed
 	msgbox TrainerHill_Entrance_Text_TrainersUpToFloorX, MSGBOX_DEFAULT
@@ -226,15 +260,35 @@ TrainerHill_Entrance_EventScript_PartyLevelTooHigh50::
 	end
 
 TrainerHill_Entrance_EventScript_EnterChallenge::
+	msgbox TrainerHill_Entrance_Text_SaveBeforeChallenge, MSGBOX_YESNO
+	switch VAR_RESULT
+	case NO, TrainerHill_Entrance_EventScript_CancelEntry
+	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_CancelEntry
+	closemessage
+	trainerhill_setsaved
 	trainerhill_setmode VAR_0x8006
 	setvar VAR_TRAINER_HILL_IS_ACTIVE, 1
+	call Common_EventScript_SaveGame
+	goto_if_eq VAR_RESULT, FALSE, TrainerHill_Entrance_EventScript_CancelChallengeSaveFailed
 	setvar VAR_TEMP_5, 0
 	special HealPlayerParty
 	callnative UpdateFollowingPokemon
 	msgbox TrainerHill_Entrance_Text_TimeProgessGetSetGo, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerWalkUp
+	waitmovement 0
 	trainerhill_start
 	releaseall
 	end
+
+TrainerHill_Entrance_EventScript_CancelChallengeSaveFailed::
+	trainerhill_clearsaved
+	setvar VAR_TRAINER_HILL_IS_ACTIVE, 0
+	goto TrainerHill_Entrance_EventScript_CancelEntry
+
+TrainerHill_Entrance_Movement_PlayerWalkUp:
+	walk_up
+	step_end
 
 TrainerHill_Entrance_EventScript_CancelEntry::
 	setvar VAR_TEMP_5, 0
@@ -245,19 +299,45 @@ TrainerHill_Entrance_EventScript_CancelEntry::
 	releaseall
 	end
 
-TrainerHill_Entrance_EventScript_SaveGame::
-	msgbox TrainerHill_Entrance_Text_SaveGameBeforeEnter, MSGBOX_DEFAULT
-	trainerhill_setsaved
-	setvar VAR_TEMP_5, 1
-	call Common_EventScript_SaveGame
-	goto_if_eq VAR_RESULT, FALSE, TrainerHill_Entrance_EventScript_SaveFailed
-	trainerhill_setsaved
-	return
-
-TrainerHill_Entrance_EventScript_SaveFailed::
-	trainerhill_clearsaved
-	goto TrainerHill_Entrance_EventScript_CancelEntry
+TrainerHill_Entrance_EventScript_RetireTrigger::
+	lockall
+	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
+	waitmovement 0
+	msgbox TrainerHill_Entrance_Text_RetireFromChallenge, MSGBOX_YESNO
+	switch VAR_RESULT
+	case YES, TrainerHill_Entrance_EventScript_Retire
+	case NO, TrainerHill_Entrance_EventScript_DontRetire
+	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_DontRetire
 	end
+
+TrainerHill_Entrance_EventScript_Retire::
+	message TrainerHill_Entrance_Text_RecordWillBeSaved
+	waitmessage
+	trainerhill_retire
+	setvar VAR_TRAINER_HILL_IS_ACTIVE, 0
+	setvar VAR_TEMP_5, 0
+	special HealPlayerParty
+	callnative UpdateFollowingPokemon
+	trainerhill_savechallenge
+	playse SE_SAVE
+	waitse
+	msgbox TrainerHill_Entrance_Text_HopeToSeeYouAgain, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PushPlayerBackFromCounter
+	waitmovement 0
+	releaseall
+	end
+
+TrainerHill_Entrance_EventScript_DontRetire::
+	closemessage
+	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PushPlayerBackFromExit
+	waitmovement 0
+	releaseall
+	end
+
+TrainerHill_Entrance_Movement_PushPlayerBackFromExit:
+	walk_up
+	step_end
 
 TrainerHill_Entrance_EventScript_Closed::
 	msgbox TrainerHill_Entrance_Text_StillGettingReady, MSGBOX_DEFAULT
@@ -373,10 +453,22 @@ TrainerHill_Entrance_Text_WelcomeToTrainerHill:
 	.string "I am your guide to the Time Attack\n"
 	.string "Tag Battle Challenge.$"
 
-TrainerHill_Entrance_Text_SaveGameBeforeEnter:
-	.string "Is this your first visit here?\p"
-	.string "Before you enter, please save\n"
-	.string "your game.$"
+TrainerHill_Entrance_Text_SaveBeforeChallenge:
+	.string "Before you begin your BATTLE HILL\n"
+	.string "challenge, I must save the game.\l"
+	.string "Is that okay?$"
+
+TrainerHill_Entrance_Text_FailedToSaveBeforeQuitting:
+	.string "Excuse me!\p"
+	.string "You didn't save before you quit\n"
+	.string "your challenge last time.\p"
+	.string "Because of that, your challenge\n"
+	.string "so far has been disqualified.\l"
+	.string "Sorry!$"
+
+TrainerHill_Entrance_Text_RetireFromChallenge:
+	.string "Would you like to retire from your\n"
+	.string "BATTLE HILL challenge?$"
 
 TrainerHill_Entrance_Text_TrainersUpToFloorX:
 	.string "Let's see…\n"

@@ -80,6 +80,7 @@ static void TrainerHillGetSpokeToOwner(void);
 static void TrainerHillSetRoofSpectatorGraphics(void);
 static void TrainerHillBufferModeName(void);
 static void TrainerHillSaveChallenge(void);
+static void TrainerHillRetire(void);
 static void SetUpDataStruct(void);
 static void FreeDataStruct(void);
 static void TrainerHillDummy(void);
@@ -210,6 +211,7 @@ static void (*const sHillFunctions[])(void) =
     [TRAINER_HILL_FUNC_SET_SPECTATOR_GFX]     = TrainerHillSetRoofSpectatorGraphics,
     [TRAINER_HILL_FUNC_BUFFER_MODE_NAME]      = TrainerHillBufferModeName,
     [TRAINER_HILL_FUNC_SAVE_CHALLENGE]        = TrainerHillSaveChallenge,
+    [TRAINER_HILL_FUNC_RETIRE]                = TrainerHillRetire,
 };
 
 static const u8 *const sModeStrings[NUM_TRAINER_HILL_MODES] =
@@ -672,6 +674,7 @@ static void GiveChallengePrize(void)
     ConvertIntToDecimalStringN(gStringVar1, points, STR_CONV_MODE_LEFT_ALIGN, 2);
 
     gSaveBlock1Ptr->trainerHill.receivedPrize = TRUE;
+    gSaveBlock2Ptr->frontier.savedGame = FALSE;
     gSaveBlock2Ptr->frontier.unk_EF9 = 0;
     gSpecialVar_Result = 0;
 #endif //FREE_TRAINER_HILL
@@ -721,6 +724,7 @@ static void TrainerHillSetPlayerLost(void)
     gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
     gSaveBlock1Ptr->trainerHill.nextBrainThreshold = 200;
     gSaveBlock1Ptr->trainerHill.runBP = 0;
+    gSaveBlock2Ptr->frontier.savedGame = FALSE;
 #endif //FREE_TRAINER_HILL
 }
 
@@ -731,18 +735,30 @@ static void TrainerHillGetChallengeStatus(void)
     {
         // The player lost their last match.
         gSaveBlock1Ptr->trainerHill.hasLost = FALSE;
+        gSaveBlock2Ptr->frontier.savedGame = FALSE;
         gSpecialVar_Result = TRAINER_HILL_PLAYER_STATUS_LOST;
     }
     else if (gSaveBlock1Ptr->trainerHill.wonBrainChallenge)
     {
         gSaveBlock1Ptr->trainerHill.wonBrainChallenge = FALSE;
+        gSaveBlock2Ptr->frontier.savedGame = FALSE;
         gSpecialVar_Result = TRAINER_HILL_PLAYER_STATUS_BRAIN_WON;
     }
     else if (gSaveBlock1Ptr->trainerHill.maybeECardScanDuringChallenge)
     {
         // Unreachable code. Something relating to eCards?
         gSaveBlock1Ptr->trainerHill.maybeECardScanDuringChallenge = 0;
+        gSaveBlock2Ptr->frontier.savedGame = FALSE;
         gSpecialVar_Result = TRAINER_HILL_PLAYER_STATUS_ECARD_SCANNED;
+    }
+    else if (gSaveBlock2Ptr->frontier.savedGame)
+    {
+        // Player quit or reset without finishing the challenge.
+        gSaveBlock2Ptr->frontier.savedGame = FALSE;
+        gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
+        gSaveBlock1Ptr->trainerHill.nextBrainThreshold = 200;
+        gSaveBlock1Ptr->trainerHill.runBP = 0;
+        gSpecialVar_Result = TRAINER_HILL_PLAYER_STATUS_DIDNT_SAVE;
     }
     else
     {
@@ -1397,6 +1413,7 @@ static void TrainerHillGiveBrainPrize(void)
 
     gSaveBlock1Ptr->trainerHill.receivedPrize = TRUE;
     gSaveBlock1Ptr->trainerHill.wonBrainChallenge = TRUE;
+    gSaveBlock2Ptr->frontier.savedGame = FALSE;
     gSaveBlock2Ptr->frontier.unk_EF9 = 0;
 #endif //FREE_TRAINER_HILL
 }
@@ -1453,8 +1470,28 @@ static void TrainerHillBufferModeName(void)
 static void TrainerHillSaveChallenge(void)
 {
 #if FREE_TRAINER_HILL == FALSE
-    SetDynamicWarp(0, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE);
+    s16 x = gSaveBlock1Ptr->pos.x;
+    s16 y = gSaveBlock1Ptr->pos.y;
+
+    if (GetCurrentTrainerHillMapId() == TRAINER_HILL_ENTRANCE)
+    {
+        x = 9;
+        y = 7;
+    }
+
+    SetDynamicWarpWithCoords(0, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, x, y);
     SaveGameFrontier();
+#endif
+}
+
+static void TrainerHillRetire(void)
+{
+#if FREE_TRAINER_HILL == FALSE
+    gSaveBlock1Ptr->trainerHill.hasLost = FALSE;
+    gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
+    gSaveBlock1Ptr->trainerHill.nextBrainThreshold = 200;
+    gSaveBlock1Ptr->trainerHill.runBP = 0;
+    gSaveBlock2Ptr->frontier.savedGame = FALSE;
 #endif
 }
 

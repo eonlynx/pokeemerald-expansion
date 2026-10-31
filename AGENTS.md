@@ -168,6 +168,15 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
     - **Gardevoir** (Timid @ Chesto Berry) – Trace: *Calm Mind, Psychic, Thunderbolt, Ice Punch* (6 HP / 252 SpA / 252 Spe)
   - **Dynamic Level Scaling:** In Level 50 mode, Wally's Pokémon are Level 50. In Open Level mode, they dynamically scale to match the player party's highest level (minimum 60 via `GetHighestLevelInPlayerParty`).
 
+### 2.12. Battle Frontier Save Constraints & Challenge Lifecycle
+- **Mandatory Entry Save:** Prior to entering the challenge, players are required to save their game via the canonical Battle Frontier prompt (*"Before you begin your BATTLE HILL\nchallenge, I must save the game.\lIs that okay?"* matching Battle Dome/Factory/Tower). If declined or if saving fails, entry is aborted.
+- **Corridor Entry Step:** Upon finishing reception dialogue (*"Get set! Go!"*), the player automatically steps one tile North (`walk_up`) past the counter line into the entrance hallway (X=9, Y=5).
+- **In-Facility Save Prohibition:** While inside Battle Hill (`InTrainerHillChallenge()`), saving is blocked in `src/start_menu.c` via `BuildTrainerHillStartMenu()`, removing `MENU_ACTION_SAVE` from the Start Menu identically to Battle Pike and Battle Pyramid.
+- **Quit / Reset Disqualification:** If the player soft-resets or powers off without completing the run, upon reloading at reception the attendant intercepts them with the canonical Battle Frontier disqualification message (*"Excuse me!\pYou didn't save before you quit\nyour challenge last time.\pBecause of that, your challenge\nso far has been disqualified.\lSorry!"*) and saves progress, clearing streak credits and ending the run.
+- **Retirement Interception:** Coordinate trigger at (9, 6) on the counter line prevents the player from walking back into the lobby while a challenge is active (`VAR_TRAINER_HILL_IS_ACTIVE == 1`). The attendant prompts (*"Would you like to retire from your\nBATTLE HILL challenge?"*):
+  - **Yes:** Challenge is retired via `trainerhill_retire`, resetting winning streaks/gauge credits, saving progress (anchoring the player's saved spawn coordinates to X=9, Y=7 facing South in the lobby), stepping the player down into the lobby, and clearing `VAR_TRAINER_HILL_IS_ACTIVE`.
+  - **No:** The player is stepped one tile back North (`walk_up`) into the hallway towards the challenge.
+
 ---
 
 ## 3. Key Source Files

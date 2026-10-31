@@ -155,3 +155,9 @@
 	setvar VAR_0x8004, TRAINER_HILL_FUNC_SAVE_CHALLENGE
 	special CallTrainerHillFunction
 	.endm
+
+	@ Retires player from the challenge and resets streak
+	.macro trainerhill_retire
+	setvar VAR_0x8004, TRAINER_HILL_FUNC_RETIRE
+	special CallTrainerHillFunction
+	.endm
