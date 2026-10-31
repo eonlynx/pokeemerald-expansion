@@ -5138,6 +5138,8 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_CHAMPION:
             return MUS_VS_CHAMPION;
         case TRAINER_CLASS_RIVAL:
+            if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_WALLY_HILL_SILVER || TRAINER_BATTLE_PARAM.opponentA == TRAINER_WALLY_HILL_GOLD)
+                return MUS_VS_FRONTIER_BRAIN;
             if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
                 return MUS_VS_RIVAL;
             if (!StringCompare(GetTrainerNameFromId(TRAINER_BATTLE_PARAM.opponentA), gText_BattleWallyName))

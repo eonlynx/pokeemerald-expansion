@@ -119,3 +119,15 @@
 	setvar VAR_0x8005, \lvlMode
 	special CallTrainerHillFunction
 	.endm
+
+	@ Evaluates run timer, updates gauge credits, and checks if Wally appears (0 = none, 1 = silver, 2 = gold)
+	.macro trainerhill_checkbrain
+	setvar VAR_0x8004, TRAINER_HILL_FUNC_CHECK_BRAIN
+	special CallTrainerHillFunction
+	.endm
+
+	@ Awards +10 BP for defeating Wally, updates completion flag, and resets gauge to 0 if Gold
+	.macro trainerhill_givebrainprize
+	setvar VAR_0x8004, TRAINER_HILL_FUNC_GIVE_BRAIN_PRIZE
+	special CallTrainerHillFunction
+	.endm

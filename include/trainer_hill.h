@@ -79,5 +79,6 @@ u8 GetTrainerEncounterMusicIdInTrainerHill(u16 trainerId);
 u8 GetNumFloorsInTrainerHillChallenge(void);
 void TryLoadTrainerHillEReaderPalette(void);
 bool32 OnTrainerHillEReaderChallengeFloor(void);
+void SetTrainerHillMonLevel(struct Pokemon *mon, u8 level);
 
 #endif // GUARD_TRAINER_HILL_H

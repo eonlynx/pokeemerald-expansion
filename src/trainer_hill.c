@@ -74,6 +74,8 @@ static void GetChallengeWon(void);
 static void TrainerHillSetMode(void);
 static void TrainerHillGetPartyMaxLevel(void);
 static void TrainerHillSetLvlMode(void);
+static void TrainerHillCheckFrontierBrain(void);
+static void TrainerHillGiveBrainPrize(void);
 static void SetUpDataStruct(void);
 static void FreeDataStruct(void);
 static void TrainerHillDummy(void);
@@ -81,7 +83,7 @@ static void TrainerHillDummy(void);
 static void SetTimerValue(u32 *dst, u32 val);
 static u32 GetTimerValue(u32 *src);
 #endif //FREE_TRAINER_HILL
-static void SetTrainerHillMonLevel(struct Pokemon *mon, u8 level);
+void SetTrainerHillMonLevel(struct Pokemon *mon, u8 level);
 
 // const data
 #include "data/battle_frontier/trainer_hill.h"
@@ -198,6 +200,8 @@ static void (*const sHillFunctions[])(void) =
     [TRAINER_HILL_FUNC_SET_MODE]              = TrainerHillSetMode,
     [TRAINER_HILL_FUNC_GET_PARTY_MAX_LEVEL]   = TrainerHillGetPartyMaxLevel,
     [TRAINER_HILL_FUNC_SET_LVL_MODE]          = TrainerHillSetLvlMode,
+    [TRAINER_HILL_FUNC_CHECK_BRAIN]           = TrainerHillCheckFrontierBrain,
+    [TRAINER_HILL_FUNC_GIVE_BRAIN_PRIZE]      = TrainerHillGiveBrainPrize,
 };
 
 static const u8 *const sModeStrings[NUM_TRAINER_HILL_MODES] =
@@ -252,6 +256,9 @@ void ResetTrainerHillResults(void)
         SetTimerValue(&gSaveBlock1Ptr->trainerHillTimes[i], HILL_MAX_TIME);
     memset(gSaveBlock1Ptr->trainerHill.prevFirstTrainers, 0xFF, sizeof(gSaveBlock1Ptr->trainerHill.prevFirstTrainers));
     memset(gSaveBlock1Ptr->trainerHill.currentFloorTrainers, 0xFF, sizeof(gSaveBlock1Ptr->trainerHill.currentFloorTrainers));
+    gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
+    gSaveBlock1Ptr->trainerHill.hasDefeatedSilver = FALSE;
+    gSaveBlock1Ptr->trainerHill.hasDefeatedGold = FALSE;
 #endif //FREE_TRAINER_HILL
 }
 
@@ -554,6 +561,7 @@ static void TrainerHillStartChallenge(void)
     gSaveBlock2Ptr->frontier.trainerFlags = 0;
     gBattleOutcome = 0;
     gSaveBlock1Ptr->trainerHill.receivedPrize = 0;
+    FlagSet(FLAG_HIDE_TRAINER_HILL_ROOF_WALLY);
 #endif //FREE_TRAINER_HILL
 }
 
@@ -691,6 +699,7 @@ static void TrainerHillSetPlayerLost(void)
 {
 #if FREE_TRAINER_HILL == FALSE
     gSaveBlock1Ptr->trainerHill.hasLost = TRUE;
+    gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
 #endif //FREE_TRAINER_HILL
 }
 
@@ -1146,7 +1155,7 @@ u8 GetTrainerEncounterMusicIdInTrainerHill(u16 trainerId)
     return 0;
 }
 
-static void SetTrainerHillMonLevel(struct Pokemon *mon, u8 level)
+void SetTrainerHillMonLevel(struct Pokemon *mon, u8 level)
 {
     enum Species species = GetMonData(mon, MON_DATA_SPECIES);
     u32 exp = gExperienceTables[gSpeciesInfo[species].growthRate][level];
@@ -1235,6 +1244,118 @@ static void TrainerHillSetLvlMode(void)
 #if FREE_TRAINER_HILL == FALSE
     gSaveBlock1Ptr->trainerHill.lvlMode = gSpecialVar_0x8005;
     gSaveBlock2Ptr->frontier.lvlMode = gSpecialVar_0x8005;
+#endif //FREE_TRAINER_HILL
+}
+
+#define HILL_GAUGE_SILVER_THRESHOLD 200 // 2.0 credits
+#define HILL_GAUGE_GOLD_THRESHOLD   450 // 4.5 credits
+
+static void TrainerHillCheckFrontierBrain(void)
+{
+#if FREE_TRAINER_HILL == FALSE
+    u32 minutes;
+    u16 baseCredits;
+    u16 multiplier;
+    u16 earned;
+    u8 mode;
+
+    if (sHillData->challenge.numFloors != NUM_TRAINER_HILL_FLOORS || gSaveBlock1Ptr->trainerHill.hasLost)
+    {
+        gSpecialVar_Result = TRAINER_HILL_BRAIN_NONE;
+        return;
+    }
+
+    mode = gSaveBlock1Ptr->trainerHill.mode;
+    if (mode >= NUM_TRAINER_HILL_MODES)
+        mode = HILL_MODE_NORMAL;
+
+    minutes = gSaveBlock1Ptr->trainerHill.timer / (60 * 60);
+
+    // Base credits by time bracket:
+    // <12 min: 1.0 (100)
+    // 12-13:   0.8 (80)
+    // 13-14:   0.6 (60)
+    // 14-16:   0.4 (40)
+    // 16-18:   0.2 (20)
+    // >18:     0.0 (0)
+    if (minutes >= 18)
+        baseCredits = 0;
+    else if (minutes >= 16)
+        baseCredits = 20;
+    else if (minutes >= 14)
+        baseCredits = 40;
+    else if (minutes >= 13)
+        baseCredits = 60;
+    else if (minutes >= 12)
+        baseCredits = 80;
+    else
+        baseCredits = 100;
+
+    // Mode multipliers:
+    // Normal:  x0.5  (50)
+    // Variety: x0.75 (75)
+    // Unique:  x1.0  (100)
+    // Expert:  x1.5  (150)
+    static const u16 sModeMultipliers[NUM_TRAINER_HILL_MODES] = { 50, 75, 100, 150 };
+    multiplier = sModeMultipliers[mode];
+
+    earned = (baseCredits * multiplier) / 100;
+    gSaveBlock1Ptr->trainerHill.gaugeCredits += earned;
+    if (gSaveBlock1Ptr->trainerHill.gaugeCredits > 1000)
+        gSaveBlock1Ptr->trainerHill.gaugeCredits = 1000;
+
+    // Check Brain appearance:
+    if (!gSaveBlock1Ptr->trainerHill.hasDefeatedSilver)
+    {
+        if (gSaveBlock1Ptr->trainerHill.gaugeCredits >= HILL_GAUGE_SILVER_THRESHOLD)
+        {
+            gSpecialVar_Result = TRAINER_HILL_BRAIN_SILVER;
+            return;
+        }
+    }
+    else
+    {
+        if (gSaveBlock1Ptr->trainerHill.gaugeCredits >= HILL_GAUGE_GOLD_THRESHOLD)
+        {
+            gSpecialVar_Result = TRAINER_HILL_BRAIN_GOLD;
+            return;
+        }
+    }
+
+    gSpecialVar_Result = TRAINER_HILL_BRAIN_NONE;
+#endif //FREE_TRAINER_HILL
+}
+
+static void TrainerHillGiveBrainPrize(void)
+{
+#if FREE_TRAINER_HILL == FALSE
+    u16 points = 10;
+    u16 cardPoints;
+
+    gSaveBlock2Ptr->frontier.battlePoints += points;
+    if (gSaveBlock2Ptr->frontier.battlePoints > MAX_BATTLE_FRONTIER_POINTS)
+        gSaveBlock2Ptr->frontier.battlePoints = MAX_BATTLE_FRONTIER_POINTS;
+
+    cardPoints = gSaveBlock2Ptr->frontier.cardBattlePoints;
+    cardPoints += points;
+    if (cardPoints > 0xFFFF)
+        cardPoints = 0xFFFF;
+    gSaveBlock2Ptr->frontier.cardBattlePoints = cardPoints;
+
+    IncrementDailyBattlePoints(points);
+
+    ConvertIntToDecimalStringN(gStringVar1, points, STR_CONV_MODE_LEFT_ALIGN, 2);
+
+    if (!gSaveBlock1Ptr->trainerHill.hasDefeatedSilver)
+    {
+        gSaveBlock1Ptr->trainerHill.hasDefeatedSilver = TRUE;
+    }
+    else
+    {
+        gSaveBlock1Ptr->trainerHill.hasDefeatedGold = TRUE;
+        // After Gold: the gauge resets to 0.
+        gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
+    }
 #endif //FREE_TRAINER_HILL
 }
 

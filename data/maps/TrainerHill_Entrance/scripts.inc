@@ -422,6 +422,82 @@ TrainerHill_Roof_Text_HaveTheMostMarvelousGift:
 	.string "For a marvelous someone like you,\n"
 	.string "take these marvelous Battle Points!$"
 
+TrainerHill_Roof_Text_OwnerAnnounceWallySilver:
+	.string "Bravo! But hold on… look who's here!\p"
+	.string "In recognition of your marvelous talent,\n"
+	.string "a very special Trainer has stepped\l"
+	.string "forward to challenge you!\p"
+	.string "Please welcome our Frontier Brain, Wally!$"
+
+TrainerHill_Roof_Text_OwnerAnnounceWallyGold:
+	.string "Incredible! Absolutely extraordinary!\p"
+	.string "Your supreme mastery through the Hill\n"
+	.string "has brought back our finest champion!\p"
+	.string "Prepare yourself for our Frontier\n"
+	.string "Brain, Wally!$"
+
+TrainerHill_Roof_Text_WallySilverIntro:
+	.string "WALLY: Hi, {PLAYER}!\p"
+	.string "I've been training tirelessly with my\n"
+	.string "Pokémon ever since our battle on\l"
+	.string "Victory Road.\p"
+	.string "When the Owner told me someone with such\n"
+	.string "an incredible pace was climbing the\l"
+	.string "Trainer Hill, I knew it had to be you!\p"
+	.string "I won't hold anything back.\n"
+	.string "Let's see just how strong we've\l"
+	.string "both become!$"
+
+TrainerHill_Roof_Text_WallySilverDefeat:
+	.string "Aha… You're still as amazing\n"
+	.string "as ever, {PLAYER}!$"
+
+TrainerHill_Roof_Text_WallySilverPostBattle:
+	.string "WALLY: That was a breathtaking battle!\p"
+	.string "I can really feel how much you love\n"
+	.string "and trust your Pokémon.\p"
+	.string "As proof of your victory, please\n"
+	.string "accept these extra Battle Points!$"
+
+TrainerHill_Roof_Text_WallySilverFarewell:
+	.string "WALLY: I'm going to keep training hard\n"
+	.string "with my team.\p"
+	.string "Next time, we'll be even stronger!$"
+
+TrainerHill_Roof_Text_WallyGoldIntro:
+	.string "WALLY: Hi again, {PLAYER}!\p"
+	.string "I knew you'd make it back here!\n"
+	.string "Your speed and technique through the\l"
+	.string "Hill are truly unmatched.\p"
+	.string "My Pokémon and I have pushed beyond our\n"
+	.string "limits, learning from every challenge.\p"
+	.string "We're going all out this time with\n"
+	.string "everything we've got!\p"
+	.string "Here we go, {PLAYER}!$"
+
+TrainerHill_Roof_Text_WallyGoldDefeat:
+	.string "Incredible…! I gave it everything,\n"
+	.string "and you still surpassed me!$"
+
+TrainerHill_Roof_Text_WallyGoldPostBattle:
+	.string "WALLY: Thank you for such an inspiring\n"
+	.string "battle, {PLAYER}!\p"
+	.string "Standing on this rooftop with you\n"
+	.string "reminds me of how far we've both\l"
+	.string "traveled since Petalburg.\p"
+	.string "You truly are a master Trainer!\n"
+	.string "Please, take these extra Battle Points!$"
+
+TrainerHill_Roof_Text_WallyGoldFarewell:
+	.string "WALLY: No matter how high we climb,\n"
+	.string "there's always a new peak to reach.\p"
+	.string "I'll never stop growing, and I know\n"
+	.string "you won't either!$"
+
+TrainerHill_Roof_Text_OwnerPostBrain:
+	.string "Marvelous! Simply breathtaking!\n"
+	.string "Now, let us record your final time!$"
+
 TrainerHill_Roof_Text_GotHereMarvelouslyQuickly:
 	.string "Oh, hold on here! Did you possibly get\n"
 	.string "here marvelously quickly?\p"

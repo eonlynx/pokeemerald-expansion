@@ -102,6 +102,45 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
 - **Zero EXP & Zero Prize Money:** Like all Battle Frontier facilities, Trainer Hill awards 0 EXP and 0 battle money upon defeating trainers, ensuring total economic and progression parity.
 - **Legacy Cleanup:** Unused item prize list structures and lookup functions (`sPrizeListSets`, `GetPrizeItemId`, `GetPrizeListId`) were safely decommissioned to ensure clean, warning-free compilation.
 
+### 2.11. Frontier Brain Wally & Gauge Credits System
+- **Frontier Brain Integration:** Wally serves as the Frontier Brain of Trainer Hill, challenging players who consistently achieve swift completion times.
+- **Gauge Credits Accumulation:**
+  - Challengers earn base gauge credits depending on their clear time:
+    - `< 12 min`: 1.0 credit (100 internal units)
+    - `12–13 min`: 0.8 credits (80 internal units)
+    - `13–14 min`: 0.6 credits (60 internal units)
+    - `14–16 min`: 0.4 credits (40 internal units)
+    - `16–18 min`: 0.2 credits (20 internal units)
+    - `> 18 min`: 0.0 credits (0 internal units)
+  - Base credits are scaled by the selected mode multiplier:
+    - **Normal:** $\times 0.5$
+    - **Variety:** $\times 0.75$
+    - **Unique:** $\times 1.0$
+    - **Expert:** $\times 1.5$
+  - Fixed-point integer arithmetic (`credits * 100`) is used to ensure precision without floating-point overhead on the GBA.
+  - Gauge credits are stored in `gSaveBlock1Ptr->trainerHill.gaugeCredits` and persist across runs.
+  - **Gauge Resets:** Any failed run (`TrainerHillSetPlayerLost` and `ResetTrainerHillResults`) completely resets the gauge to 0. Defeating Gold Wally also resets the gauge to 0.
+- **Brain Appearances & Rewards:**
+  - **Silver Brain (`TRAINER_WALLY_HILL_SILVER`):** Appears when gauge credits reach $\ge 2.0$ (200 units) and Silver has not yet been defeated (`!hasDefeatedSilver`).
+  - **Gold Brain (`TRAINER_WALLY_HILL_GOLD`):** Appears when gauge credits reach $\ge 4.5$ (450 units) after Silver has been cleared (`hasDefeatedSilver && !hasDefeatedGold`).
+  - Defeating Wally awards an extra **+10 Battle Points (BP)** directly added to the player's Battle Frontier tally on top of the standard run BP reward.
+- **Rooftop Presentation & Cutscene:**
+  - Upon clearing 4F and arriving at the roof, the Owner awards the standard completion BP.
+  - If the gauge threshold is met, the Owner alerts the player of a special challenger.
+  - Wally arrives via the elevator (`FLAG_HIDE_TRAINER_HILL_ROOF_WALLY`), heals the player's entire party (`special HealPlayerParty`), and delivers pre-battle dialogue.
+  - Plays `MUS_VS_FRONTIER_BRAIN` and uses the standard Battle Frontier battle transition (`sBattleTransitionTable_BattleFrontier`).
+  - Upon defeat, Wally presents +10 BP, shares farewell dialogue, and departs via elevator before the Owner updates the Time Board.
+- **Teams & Battle Properties (Strictly Hoenn 386):**
+  - **Silver Team (Level 50 or Open Level, 24 IVs):**
+    - **Altaria** (Adamant @ Lum Berry) – Natural Cure: *Dragon Dance, Aerial Ace, Earthquake, Dragon Breath* (252 HP / 136 Atk / 120 Spe)
+    - **Magneton** (Modest @ Bright Powder) – Magnet Pull: *Thunderbolt, Thunder Wave, Tri Attack, Protect* (128 HP / 252 SpA / 128 Spe)
+    - **Gardevoir** (Modest @ Sitrus Berry) – Trace: *Calm Mind, Psychic, Thunderbolt, Will-O-Wisp* (128 HP / 252 SpA / 128 Spe)
+  - **Gold Team (Level 50 or Open Level, 31 IVs):**
+    - **Altaria** (Adamant @ Leftovers) – Natural Cure: *Dragon Dance, Earthquake, Aerial Ace, Rest* (252 HP / 136 Atk / 120 Spe)
+    - **Magneton** (Modest @ Quick Claw) – Magnet Pull: *Thunderbolt, Tri Attack, Thunder Wave, Metal Sound* (6 HP / 252 SpA / 252 Spe)
+    - **Gardevoir** (Timid @ Lum Berry) – Trace: *Calm Mind, Psychic, Thunderbolt, Ice Punch* (6 HP / 252 SpA / 252 Spe)
+  - **Dynamic Level Scaling:** In Level 50 mode, Wally's Pokémon are Level 50. In Open Level mode, they dynamically scale to match the player party's highest level (minimum 60 via `GetHighestLevelInPlayerParty`).
+
 ---
 
 ## 3. Key Source Files
