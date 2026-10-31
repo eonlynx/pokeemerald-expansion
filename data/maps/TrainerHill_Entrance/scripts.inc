@@ -428,14 +428,15 @@ TrainerHill_Roof_Text_OwnerAnnounceWallySilver:
 	.string "In recognition of your marvelous talent,\n"
 	.string "a very special Trainer has stepped\l"
 	.string "forward to challenge you!\p"
-	.string "Please welcome our Frontier Brain, Wally!$"
+	.string "Please welcome our Frontier Brain,\n"
+	.string "Wally the Hill Prodigy!$"
 
 TrainerHill_Roof_Text_OwnerAnnounceWallyGold:
 	.string "Incredible! Absolutely extraordinary!\p"
 	.string "Your supreme mastery through the Hill\n"
 	.string "has brought back our finest champion!\p"
 	.string "Prepare yourself for our Frontier\n"
-	.string "Brain, Wally!$"
+	.string "Brain, Wally the Hill Prodigy!$"
 
 TrainerHill_Roof_Text_WallySilverIntro:
 	.string "WALLY: Hi, {PLAYER}!\p"
@@ -460,8 +461,8 @@ TrainerHill_Roof_Text_WallySilverAwardSymbol:
 	.string "Your FRONTIER PASS, please…\n"
 	.string "I want to present you with this!$"
 
-TrainerHill_Roof_Text_ReceivedSpeedSymbol:
-	.string "The Speed Symbol was embossed on\n"
+TrainerHill_Roof_Text_ReceivedAgilitySymbol:
+	.string "The Agility Symbol was embossed on\n"
 	.string "the FRONTIER PASS!$"
 
 TrainerHill_Roof_Text_WallySilverPostBattle:
@@ -512,8 +513,8 @@ TrainerHill_Roof_Text_WallyGoldAwardSymbol:
 	.string "Your FRONTIER PASS, please…\n"
 	.string "You've earned the ultimate honor here!$"
 
-TrainerHill_Roof_Text_SpeedSymbolTookGoldenShine:
-	.string "The Speed Symbol took on\n"
+TrainerHill_Roof_Text_AgilitySymbolTookGoldenShine:
+	.string "The Agility Symbol took on\n"
 	.string "a golden shine!$"
 
 TrainerHill_Roof_Text_WallyGoldPostBattle:

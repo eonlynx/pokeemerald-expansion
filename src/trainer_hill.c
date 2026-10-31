@@ -259,7 +259,8 @@ void ResetTrainerHillResults(void)
     gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
     gSaveBlock1Ptr->trainerHill.hasDefeatedSilver = FALSE;
     gSaveBlock1Ptr->trainerHill.hasDefeatedGold = FALSE;
-    gSaveBlock1Ptr->trainerHill.foughtSilverThisStreak = FALSE;
+    gSaveBlock1Ptr->trainerHill.nextBrainThreshold = 200;
+    gSaveBlock1Ptr->trainerHill.runBP = 0;
 #endif //FREE_TRAINER_HILL
 }
 
@@ -562,6 +563,7 @@ static void TrainerHillStartChallenge(void)
     gSaveBlock2Ptr->frontier.trainerFlags = 0;
     gBattleOutcome = 0;
     gSaveBlock1Ptr->trainerHill.receivedPrize = 0;
+    gSaveBlock1Ptr->trainerHill.runBP = 0;
     FlagSet(FLAG_HIDE_TRAINER_HILL_ROOF_WALLY);
 #endif //FREE_TRAINER_HILL
 }
@@ -580,24 +582,14 @@ static void GetOwnerState(void)
 #endif //FREE_TRAINER_HILL
 }
 
-static void GiveChallengePrize(void)
+static u8 GetRunBP(u8 mode, u32 timer)
 {
-#if FREE_TRAINER_HILL == FALSE
-    u16 points, cardPoints;
     u32 minutes;
-    u8 mode;
 
-    if (sHillData->challenge.numFloors != NUM_TRAINER_HILL_FLOORS || gSaveBlock1Ptr->trainerHill.receivedPrize)
-    {
-        gSpecialVar_Result = 2;
-        return;
-    }
-
-    mode = gSaveBlock1Ptr->trainerHill.mode;
     if (mode >= NUM_TRAINER_HILL_MODES)
         mode = HILL_MODE_NORMAL;
 
-    minutes = gSaveBlock1Ptr->trainerHill.timer / (60 * 60);
+    minutes = timer / (60 * 60);
 
     // BP per run table by Time and Mode:
     // Time       Normal  Variety  Unique  Expert
@@ -610,33 +602,49 @@ static void GiveChallengePrize(void)
     if (minutes >= 18)
     {
         static const u8 sBP_Over18[NUM_TRAINER_HILL_MODES] = { 2, 2, 3, 4 };
-        points = sBP_Over18[mode];
+        return sBP_Over18[mode];
     }
     else if (minutes >= 16) // 16-18
     {
         static const u8 sBP_16To18[NUM_TRAINER_HILL_MODES] = { 2, 3, 4, 6 };
-        points = sBP_16To18[mode];
+        return sBP_16To18[mode];
     }
     else if (minutes >= 14) // 14-16
     {
         static const u8 sBP_14To16[NUM_TRAINER_HILL_MODES] = { 3, 4, 6, 8 };
-        points = sBP_14To16[mode];
+        return sBP_14To16[mode];
     }
     else if (minutes >= 13) // 13-14
     {
         static const u8 sBP_13To14[NUM_TRAINER_HILL_MODES] = { 4, 6, 7, 10 };
-        points = sBP_13To14[mode];
+        return sBP_13To14[mode];
     }
     else if (minutes >= 12) // 12-13
     {
         static const u8 sBP_12To13[NUM_TRAINER_HILL_MODES] = { 5, 7, 9, 12 };
-        points = sBP_12To13[mode];
+        return sBP_12To13[mode];
     }
     else // <12
     {
         static const u8 sBP_Under12[NUM_TRAINER_HILL_MODES] = { 6, 8, 10, 14 };
-        points = sBP_Under12[mode];
+        return sBP_Under12[mode];
     }
+}
+
+static void GiveChallengePrize(void)
+{
+#if FREE_TRAINER_HILL == FALSE
+    u16 points, cardPoints;
+
+    if (sHillData->challenge.numFloors != NUM_TRAINER_HILL_FLOORS || gSaveBlock1Ptr->trainerHill.receivedPrize)
+    {
+        gSpecialVar_Result = 2;
+        return;
+    }
+
+    points = gSaveBlock1Ptr->trainerHill.runBP;
+    if (points == 0)
+        points = GetRunBP(gSaveBlock1Ptr->trainerHill.mode, gSaveBlock1Ptr->trainerHill.timer);
 
     // Award Battle Points
     gSaveBlock2Ptr->frontier.battlePoints += points;
@@ -701,7 +709,8 @@ static void TrainerHillSetPlayerLost(void)
 #if FREE_TRAINER_HILL == FALSE
     gSaveBlock1Ptr->trainerHill.hasLost = TRUE;
     gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
-    gSaveBlock1Ptr->trainerHill.foughtSilverThisStreak = FALSE;
+    gSaveBlock1Ptr->trainerHill.nextBrainThreshold = 200;
+    gSaveBlock1Ptr->trainerHill.runBP = 0;
 #endif //FREE_TRAINER_HILL
 }
 
@@ -1250,7 +1259,8 @@ static void TrainerHillSetLvlMode(void)
 }
 
 #define HILL_GAUGE_SILVER_THRESHOLD 200 // 2.0 credits
-#define HILL_GAUGE_GOLD_THRESHOLD   450 // 4.5 credits
+#define HILL_GAUGE_GOLD_THRESHOLD   650 // 6.5 credits
+#define HILL_GAUGE_GOLD_INCREMENT   450 // +4.5 credits per subsequent Gold
 
 static void TrainerHillCheckFrontierBrain(void)
 {
@@ -1261,7 +1271,7 @@ static void TrainerHillCheckFrontierBrain(void)
     u16 earned;
     u8 mode;
 
-    if (sHillData->challenge.numFloors != NUM_TRAINER_HILL_FLOORS || gSaveBlock1Ptr->trainerHill.hasLost)
+    if (sHillData->challenge.numFloors != NUM_TRAINER_HILL_FLOORS || gSaveBlock1Ptr->trainerHill.hasLost || gSaveBlock1Ptr->trainerHill.receivedPrize)
     {
         gSpecialVar_Result = TRAINER_HILL_BRAIN_NONE;
         return;
@@ -1270,6 +1280,9 @@ static void TrainerHillCheckFrontierBrain(void)
     mode = gSaveBlock1Ptr->trainerHill.mode;
     if (mode >= NUM_TRAINER_HILL_MODES)
         mode = HILL_MODE_NORMAL;
+
+    // Cache the BP for this run so Wally can award it combined with the 10 BP
+    gSaveBlock1Ptr->trainerHill.runBP = GetRunBP(mode, gSaveBlock1Ptr->trainerHill.timer);
 
     minutes = gSaveBlock1Ptr->trainerHill.timer / (60 * 60);
 
@@ -1303,25 +1316,31 @@ static void TrainerHillCheckFrontierBrain(void)
 
     earned = (baseCredits * multiplier) / 100;
     gSaveBlock1Ptr->trainerHill.gaugeCredits += earned;
-    if (gSaveBlock1Ptr->trainerHill.gaugeCredits > 1000)
-        gSaveBlock1Ptr->trainerHill.gaugeCredits = 1000;
+    if (gSaveBlock1Ptr->trainerHill.gaugeCredits > 60000)
+        gSaveBlock1Ptr->trainerHill.gaugeCredits = 60000;
+
+    if (gSaveBlock1Ptr->trainerHill.nextBrainThreshold < HILL_GAUGE_SILVER_THRESHOLD)
+        gSaveBlock1Ptr->trainerHill.nextBrainThreshold = HILL_GAUGE_SILVER_THRESHOLD;
 
     // Check Brain appearance:
-    if (gSaveBlock1Ptr->trainerHill.gaugeCredits >= HILL_GAUGE_GOLD_THRESHOLD)
+    if (gSaveBlock1Ptr->trainerHill.gaugeCredits >= gSaveBlock1Ptr->trainerHill.nextBrainThreshold)
     {
-        if (!gSaveBlock1Ptr->trainerHill.hasDefeatedGold)
-            gSpecialVar_Result = TRAINER_HILL_BRAIN_GOLD;
-        else
-            gSpecialVar_Result = TRAINER_HILL_BRAIN_STREAK_LONG;
-        return;
-    }
-    else if (gSaveBlock1Ptr->trainerHill.gaugeCredits >= HILL_GAUGE_SILVER_THRESHOLD && !gSaveBlock1Ptr->trainerHill.foughtSilverThisStreak)
-    {
-        if (!gSaveBlock1Ptr->trainerHill.hasDefeatedSilver)
-            gSpecialVar_Result = TRAINER_HILL_BRAIN_SILVER;
-        else
-            gSpecialVar_Result = TRAINER_HILL_BRAIN_STREAK;
-        return;
+        if (gSaveBlock1Ptr->trainerHill.nextBrainThreshold == HILL_GAUGE_SILVER_THRESHOLD)
+        {
+            if (!gSaveBlock1Ptr->trainerHill.hasDefeatedSilver)
+                gSpecialVar_Result = TRAINER_HILL_BRAIN_SILVER;
+            else
+                gSpecialVar_Result = TRAINER_HILL_BRAIN_STREAK;
+            return;
+        }
+        else // Gold (6.5 credits, 11.0 credits, etc.)
+        {
+            if (!gSaveBlock1Ptr->trainerHill.hasDefeatedGold)
+                gSpecialVar_Result = TRAINER_HILL_BRAIN_GOLD;
+            else
+                gSpecialVar_Result = TRAINER_HILL_BRAIN_STREAK_LONG;
+            return;
+        }
     }
 
     gSpecialVar_Result = TRAINER_HILL_BRAIN_NONE;
@@ -1331,7 +1350,7 @@ static void TrainerHillCheckFrontierBrain(void)
 static void TrainerHillGiveBrainPrize(void)
 {
 #if FREE_TRAINER_HILL == FALSE
-    u16 points = 10;
+    u16 points = 10 + gSaveBlock1Ptr->trainerHill.runBP;
     u16 cardPoints;
 
     gSaveBlock2Ptr->frontier.battlePoints += points;
@@ -1348,22 +1367,21 @@ static void TrainerHillGiveBrainPrize(void)
 
     ConvertIntToDecimalStringN(gStringVar1, points, STR_CONV_MODE_LEFT_ALIGN, 2);
 
-    if (gSaveBlock1Ptr->trainerHill.gaugeCredits >= HILL_GAUGE_GOLD_THRESHOLD)
-    {
-        gSaveBlock1Ptr->trainerHill.hasDefeatedGold = TRUE;
-        FlagSet(FLAG_SYS_HILL_GOLD);
-        // After Gold: the gauge resets to 0.
-        gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
-        // Keep foughtSilverThisStreak true so that continuing this streak advances straight toward Gold again
-        gSaveBlock1Ptr->trainerHill.foughtSilverThisStreak = TRUE;
-    }
-    else
+    if (gSaveBlock1Ptr->trainerHill.nextBrainThreshold == HILL_GAUGE_SILVER_THRESHOLD)
     {
         gSaveBlock1Ptr->trainerHill.hasDefeatedSilver = TRUE;
         FlagSet(FLAG_SYS_HILL_SILVER);
-        gSaveBlock1Ptr->trainerHill.foughtSilverThisStreak = TRUE;
-        // Silver does not reset gauge, allowing streak to continue towards Gold
+        gSaveBlock1Ptr->trainerHill.nextBrainThreshold = HILL_GAUGE_GOLD_THRESHOLD; // 6.5 credits
     }
+    else
+    {
+        gSaveBlock1Ptr->trainerHill.hasDefeatedGold = TRUE;
+        FlagSet(FLAG_SYS_HILL_GOLD);
+        gSaveBlock1Ptr->trainerHill.nextBrainThreshold += HILL_GAUGE_GOLD_INCREMENT; // +4.5 credits
+    }
+
+    gSaveBlock1Ptr->trainerHill.receivedPrize = TRUE;
+    gSaveBlock2Ptr->frontier.unk_EF9 = 0;
 #endif //FREE_TRAINER_HILL
 }
 

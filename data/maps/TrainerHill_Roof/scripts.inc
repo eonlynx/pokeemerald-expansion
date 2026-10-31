@@ -18,6 +18,12 @@ TrainerHill_Roof_EventScript_Owner::
 TrainerHill_Roof_EventScript_Arrived::
 	msgbox TrainerHill_Roof_Text_YouFinallyCameBravo, MSGBOX_DEFAULT
 TrainerHill_Roof_EventScript_GivePrize::
+	trainerhill_checkbrain
+	switch VAR_RESULT
+	case TRAINER_HILL_BRAIN_SILVER, TrainerHill_Roof_EventScript_BattleWallySilver
+	case TRAINER_HILL_BRAIN_GOLD, TrainerHill_Roof_EventScript_BattleWallyGold
+	case TRAINER_HILL_BRAIN_STREAK, TrainerHill_Roof_EventScript_BattleWallySilverStreak
+	case TRAINER_HILL_BRAIN_STREAK_LONG, TrainerHill_Roof_EventScript_BattleWallyGoldStreak
 	trainerhill_giveprize
 	switch VAR_RESULT
 	case 0, TrainerHill_Roof_EventScript_ReceivePrize
@@ -25,12 +31,6 @@ TrainerHill_Roof_EventScript_GivePrize::
 TrainerHill_Roof_EventScript_ReceivePrize::
 	msgbox TrainerHill_Roof_Text_HaveTheMostMarvelousGift, MSGBOX_DEFAULT
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
-	trainerhill_checkbrain
-	switch VAR_RESULT
-	case TRAINER_HILL_BRAIN_SILVER, TrainerHill_Roof_EventScript_BattleWallySilver
-	case TRAINER_HILL_BRAIN_GOLD, TrainerHill_Roof_EventScript_BattleWallyGold
-	case TRAINER_HILL_BRAIN_STREAK, TrainerHill_Roof_EventScript_BattleWallySilverStreak
-	case TRAINER_HILL_BRAIN_STREAK_LONG, TrainerHill_Roof_EventScript_BattleWallyGoldStreak
 	goto TrainerHill_Roof_EventScript_CheckFinalTime
 
 TrainerHill_Roof_EventScript_BattleWallySilver::
@@ -47,7 +47,7 @@ TrainerHill_Roof_EventScript_BattleWallySilver::
 	trainerbattle_no_intro TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
 	msgbox TrainerHill_Roof_Text_WallySilverAwardSymbol, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
-	message TrainerHill_Roof_Text_ReceivedSpeedSymbol
+	message TrainerHill_Roof_Text_ReceivedAgilitySymbol
 	waitmessage
 	waitfanfare
 	msgbox TrainerHill_Roof_Text_WallySilverPostBattle, MSGBOX_DEFAULT
@@ -104,7 +104,7 @@ TrainerHill_Roof_EventScript_BattleWallyGold::
 	trainerbattle_no_intro TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
 	msgbox TrainerHill_Roof_Text_WallyGoldAwardSymbol, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_SYMBOL
-	message TrainerHill_Roof_Text_SpeedSymbolTookGoldenShine
+	message TrainerHill_Roof_Text_AgilitySymbolTookGoldenShine
 	waitmessage
 	waitfanfare
 	msgbox TrainerHill_Roof_Text_WallyGoldPostBattle, MSGBOX_DEFAULT
