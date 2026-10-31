@@ -3,13 +3,57 @@
 
 TrainerHill_Roof_MapScripts::
 	map_script MAP_SCRIPT_ON_RESUME, TrainerHill_OnResume
+	map_script MAP_SCRIPT_ON_TRANSITION, TrainerHill_Roof_OnTransition
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, TrainerHill_OnFrame
 	.byte 0
 
+TrainerHill_Roof_OnTransition:
+	trainerhill_getspoketoowner
+	copyvar VAR_TEMP_5, VAR_RESULT
+	end
+
+TrainerHill_Roof_EventScript_TriggerTile8::
+	lockall
+	setvar VAR_TEMP_5, 1
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
+	waitmovement 0
+	goto TrainerHill_Roof_EventScript_OwnerProcess
+
+TrainerHill_Roof_EventScript_TriggerTile9::
+	lockall
+	setvar VAR_TEMP_5, 1
+	applymovement LOCALID_PLAYER, TrainerHill_Roof_Movement_PlayerApproachOwner1
+	waitmovement 0
+	goto TrainerHill_Roof_EventScript_OwnerProcess
+
+TrainerHill_Roof_EventScript_TriggerTile10::
+	lockall
+	setvar VAR_TEMP_5, 1
+	applymovement LOCALID_PLAYER, TrainerHill_Roof_Movement_PlayerApproachOwner2
+	waitmovement 0
+	goto TrainerHill_Roof_EventScript_OwnerProcess
+
+TrainerHill_Roof_Movement_PlayerApproachOwner1:
+	walk_up
+	step_end
+
+TrainerHill_Roof_Movement_PlayerApproachOwner2:
+	walk_up
+	walk_up
+	step_end
+
 TrainerHill_Roof_EventScript_Owner::
+	setvar VAR_TEMP_5, 1
 	trainerhill_settrainerflags
 	lock
 	faceplayer
+	goto TrainerHill_Roof_EventScript_OwnerProcessNoFace
+
+TrainerHill_Roof_EventScript_OwnerProcess::
+	trainerhill_settrainerflags
+	applymovement LOCALID_OWNER, Common_Movement_WalkInPlaceFasterDown
+	waitmovement 0
+TrainerHill_Roof_EventScript_OwnerProcessNoFace::
 	trainerhill_getownerstate
 	switch VAR_RESULT
 	case 0, TrainerHill_Roof_EventScript_Arrived
@@ -36,9 +80,11 @@ TrainerHill_Roof_EventScript_ReceivePrize::
 TrainerHill_Roof_EventScript_BattleWallySilver::
 	msgbox TrainerHill_Roof_Text_OwnerAnnounceWallySilver, MSGBOX_DEFAULT
 	closemessage
+	playse SE_ELEVATOR
+	delay 30
 	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
 	addobject LOCALID_WALLY
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyApproach
+	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitElevator
 	waitmovement 0
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
@@ -55,8 +101,9 @@ TrainerHill_Roof_EventScript_BattleWallySilver::
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallySilverFarewell, MSGBOX_DEFAULT
 	closemessage
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExit
+	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitToElevator
 	waitmovement 0
+	playse SE_ELEVATOR
 	removeobject LOCALID_WALLY
 	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
@@ -67,9 +114,11 @@ TrainerHill_Roof_EventScript_BattleWallySilver::
 TrainerHill_Roof_EventScript_BattleWallySilverStreak::
 	msgbox TrainerHill_Roof_Text_OwnerAnnounceWallySilver, MSGBOX_DEFAULT
 	closemessage
+	playse SE_ELEVATOR
+	delay 30
 	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
 	addobject LOCALID_WALLY
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyApproach
+	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitElevator
 	waitmovement 0
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
@@ -81,8 +130,9 @@ TrainerHill_Roof_EventScript_BattleWallySilverStreak::
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallySilverFarewell, MSGBOX_DEFAULT
 	closemessage
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExit
+	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitToElevator
 	waitmovement 0
+	playse SE_ELEVATOR
 	removeobject LOCALID_WALLY
 	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
@@ -93,9 +143,11 @@ TrainerHill_Roof_EventScript_BattleWallySilverStreak::
 TrainerHill_Roof_EventScript_BattleWallyGold::
 	msgbox TrainerHill_Roof_Text_OwnerAnnounceWallyGold, MSGBOX_DEFAULT
 	closemessage
+	playse SE_ELEVATOR
+	delay 30
 	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
 	addobject LOCALID_WALLY
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyApproach
+	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitElevator
 	waitmovement 0
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
@@ -112,8 +164,9 @@ TrainerHill_Roof_EventScript_BattleWallyGold::
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallyGoldFarewell, MSGBOX_DEFAULT
 	closemessage
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExit
+	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitToElevator
 	waitmovement 0
+	playse SE_ELEVATOR
 	removeobject LOCALID_WALLY
 	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
@@ -124,9 +177,11 @@ TrainerHill_Roof_EventScript_BattleWallyGold::
 TrainerHill_Roof_EventScript_BattleWallyGoldStreak::
 	msgbox TrainerHill_Roof_Text_OwnerAnnounceWallyGold, MSGBOX_DEFAULT
 	closemessage
+	playse SE_ELEVATOR
+	delay 30
 	clearflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
 	addobject LOCALID_WALLY
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyApproach
+	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitElevator
 	waitmovement 0
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
@@ -138,8 +193,9 @@ TrainerHill_Roof_EventScript_BattleWallyGoldStreak::
 	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	msgbox TrainerHill_Roof_Text_WallyGoldFarewell, MSGBOX_DEFAULT
 	closemessage
-	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExit
+	applymovement LOCALID_WALLY, TrainerHill_Roof_Movement_WallyExitToElevator
 	waitmovement 0
+	playse SE_ELEVATOR
 	removeobject LOCALID_WALLY
 	setflag FLAG_HIDE_TRAINER_HILL_ROOF_WALLY
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
@@ -147,17 +203,20 @@ TrainerHill_Roof_EventScript_BattleWallyGoldStreak::
 	msgbox TrainerHill_Roof_Text_OwnerPostBrain, MSGBOX_DEFAULT
 	goto TrainerHill_Roof_EventScript_CheckFinalTime
 
-TrainerHill_Roof_Movement_WallyApproach:
-	walk_left
-	walk_left
+TrainerHill_Roof_Movement_WallyExitElevator:
 	walk_down
-	walk_in_place_faster_left
+	walk_down
+	walk_down
+	walk_left
+	walk_left
 	step_end
 
-TrainerHill_Roof_Movement_WallyExit:
+TrainerHill_Roof_Movement_WallyExitToElevator:
+	walk_right
+	walk_right
 	walk_up
-	walk_right
-	walk_right
+	walk_up
+	walk_up
 	step_end
 
 TrainerHill_Roof_EventScript_CheckFinalTime::
@@ -178,11 +237,10 @@ TrainerHill_Roof_EventScript_NoNewRecord::
 
 TrainerHill_Roof_EventScript_EndSpeakToOwner::
 	msgbox TrainerHill_Roof_Text_ArriveZippierNextTime, MSGBOX_DEFAULT
-	release
+	releaseall
 	end
 
 TrainerHill_Roof_EventScript_AlreadyReceivedPrize::
 	msgbox TrainerHill_Roof_Text_ArriveZippierNextTime, MSGBOX_DEFAULT
-	release
+	releaseall
 	end
-

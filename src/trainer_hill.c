@@ -76,6 +76,7 @@ static void TrainerHillGetPartyMaxLevel(void);
 static void TrainerHillSetLvlMode(void);
 static void TrainerHillCheckFrontierBrain(void);
 static void TrainerHillGiveBrainPrize(void);
+static void TrainerHillGetSpokeToOwner(void);
 static void SetUpDataStruct(void);
 static void FreeDataStruct(void);
 static void TrainerHillDummy(void);
@@ -202,6 +203,7 @@ static void (*const sHillFunctions[])(void) =
     [TRAINER_HILL_FUNC_SET_LVL_MODE]          = TrainerHillSetLvlMode,
     [TRAINER_HILL_FUNC_CHECK_BRAIN]           = TrainerHillCheckFrontierBrain,
     [TRAINER_HILL_FUNC_GIVE_BRAIN_PRIZE]      = TrainerHillGiveBrainPrize,
+    [TRAINER_HILL_FUNC_GET_SPOKE_TO_OWNER]    = TrainerHillGetSpokeToOwner,
 };
 
 static const u8 *const sModeStrings[NUM_TRAINER_HILL_MODES] =
@@ -1383,6 +1385,15 @@ static void TrainerHillGiveBrainPrize(void)
     gSaveBlock1Ptr->trainerHill.receivedPrize = TRUE;
     gSaveBlock2Ptr->frontier.unk_EF9 = 0;
 #endif //FREE_TRAINER_HILL
+}
+
+static void TrainerHillGetSpokeToOwner(void)
+{
+#if FREE_TRAINER_HILL == FALSE
+    gSpecialVar_Result = gSaveBlock1Ptr->trainerHill.spokeToOwner;
+#else
+    gSpecialVar_Result = TRUE;
+#endif
 }
 
 

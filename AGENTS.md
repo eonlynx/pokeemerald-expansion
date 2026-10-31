@@ -136,11 +136,12 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
   - Instead, the Owner introduces Wally, and upon victory, Wally awards **10 BP + the run BP that the Owner would have given**, presenting the combined total all at once.
   - On runs where Wally does not appear, the Owner awards the standard completion BP as usual.
 - **Rooftop Presentation & Cutscene:**
-  - Upon clearing 4F and arriving at the roof, the Owner checks for Wally's arrival.
-  - If the threshold is met, the Owner alerts the player of the Frontier Brain.
-  - Wally arrives via the elevator (`FLAG_HIDE_TRAINER_HILL_ROOF_WALLY`), heals the player's entire party (`special HealPlayerParty`), and delivers pre-battle dialogue.
+  - Upon clearing 4F and arriving at the roof, 3 coordinate triggers placed at (12, 8), (12, 9), and (12, 10) directly south of the Owner prevent the player from bypassing the Owner to reach the elevator. Stepping on (12, 8) turns the player up, while stepping on (12, 9) or (12, 10) approaches the Owner (1 or 2 steps up) to ensure the Owner encounter always triggers before elevator access.
+  - The Owner checks for Wally's arrival. If the threshold is met, the Owner alerts the player of the Frontier Brain.
+  - With an elevator chime (`SE_ELEVATOR`), Wally exits the elevator doorway at (15, 5), walks down onto the roof plaza, and approaches adjacent to the player at (13, 8).
+  - Wally heals the player's entire party (`special HealPlayerParty`) and delivers pre-battle dialogue before starting the battle.
   - Plays `MUS_VS_FRONTIER_BRAIN` and uses the standard Battle Frontier battle transition (`sBattleTransitionTable_BattleFrontier`).
-  - Upon defeat, Wally presents the Agility Symbol (if first time) and combined Battle Points, shares farewell dialogue, and departs via elevator before the Owner updates the Time Board.
+  - Upon defeat, Wally presents the Agility Symbol (if first time) and combined Battle Points, shares farewell dialogue, and returns into the elevator with elevator chime before the Owner updates the Time Board. Once completed, the triggers are cleared so the player can take the elevator.
 - **Teams & Battle Properties (Strictly Hoenn 386 - 6v6 Double Battle):**
   - All Wally battles are **Double Battles (6 vs 6)** triggered via `trainerbattle_no_intro_double`.
   - **Silver Team (Level 50 or Open Level, 24 IVs):**
