@@ -420,11 +420,7 @@ TrainerHill_Roof_Text_YouFinallyCameBravo:
 
 TrainerHill_Roof_Text_HaveTheMostMarvelousGift:
 	.string "For a marvelous someone like you,\n"
-	.string "I have the most marvelous gift!$"
-
-TrainerHill_Roof_Text_FullUpBeBackLaterForThis:
-	.string "Oh, no, full up with things!\n"
-	.string "You'll be back later for this!$"
+	.string "take these marvelous Battle Points!$"
 
 TrainerHill_Roof_Text_GotHereMarvelouslyQuickly:
 	.string "Oh, hold on here! Did you possibly get\n"

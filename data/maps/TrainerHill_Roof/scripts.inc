@@ -18,20 +18,10 @@ TrainerHill_Roof_EventScript_GivePrize::
 	trainerhill_giveprize
 	switch VAR_RESULT
 	case 0, TrainerHill_Roof_EventScript_ReceivePrize
-	case 1, TrainerHill_Roof_EventScript_NoRoomForPrize
 	case 2, TrainerHill_Roof_EventScript_CheckFinalTime
 TrainerHill_Roof_EventScript_ReceivePrize::
 	msgbox TrainerHill_Roof_Text_HaveTheMostMarvelousGift, MSGBOX_DEFAULT
-	playfanfare MUS_LEVEL_UP
-	message gText_ObtainedTheItem
-	waitfanfare
-	waitmessage
-	goto TrainerHill_Roof_EventScript_CheckFinalTime
-
-TrainerHill_Roof_EventScript_NoRoomForPrize::
-	msgbox TrainerHill_Roof_Text_HaveTheMostMarvelousGift, MSGBOX_DEFAULT
-	msgbox gText_TheBagIsFull, MSGBOX_DEFAULT
-	msgbox TrainerHill_Roof_Text_FullUpBeBackLaterForThis, MSGBOX_DEFAULT
+	msgbox BattleFrontier_Text_ObtainedXBattlePoints, MSGBOX_GETPOINTS
 	goto TrainerHill_Roof_EventScript_CheckFinalTime
 
 TrainerHill_Roof_EventScript_CheckFinalTime::

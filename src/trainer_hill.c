@@ -22,6 +22,7 @@
 #include "strings.h"
 #include "text.h"
 #include "trainer_hill.h"
+#include "tv.h"
 #include "window.h"
 #include "util.h"
 #include "constants/battle_ai.h"
@@ -81,9 +82,6 @@ static void SetTimerValue(u32 *dst, u32 val);
 static u32 GetTimerValue(u32 *src);
 #endif //FREE_TRAINER_HILL
 static void SetTrainerHillMonLevel(struct Pokemon *mon, u8 level);
-#if FREE_TRAINER_HILL == FALSE
-static enum Item GetPrizeItemId(void);
-#endif //FREE_TRAINER_HILL
 
 // const data
 #include "data/battle_frontier/trainer_hill.h"
@@ -148,62 +146,6 @@ struct
     {TRAINER_CLASS_HIKER, TRAINER_ENCOUNTER_MUSIC_HIKER},
     {TRAINER_CLASS_LEADER, TRAINER_ENCOUNTER_MUSIC_FEMALE},
     {TRAINER_CLASS_SCHOOL_KID, TRAINER_ENCOUNTER_MUSIC_MALE},
-};
-
-static const enum Item sPrizeListRareCandy1[]  = {ITEM_RARE_CANDY,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListLuxuryBall1[] = {ITEM_LUXURY_BALL,      ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListMaxRevive1[]  = {ITEM_MAX_REVIVE,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListMaxEther1[]   = {ITEM_MAX_ETHER,        ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListElixir1[]     = {ITEM_ELIXIR,           ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListRoar[]        = {ITEM_TM_ROAR,          ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListSludgeBomb[]  = {ITEM_TM_SLUDGE_BOMB,   ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListToxic[]       = {ITEM_TM_TOXIC,         ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListSunnyDay[]    = {ITEM_TM_SUNNY_DAY,     ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListEarthQuake[]  = {ITEM_TM_EARTHQUAKE,    ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-
-static const enum Item sPrizeListRareCandy2[]  = {ITEM_RARE_CANDY,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListLuxuryBall2[] = {ITEM_LUXURY_BALL,      ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListMaxRevive2[]  = {ITEM_MAX_REVIVE,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListMaxEther2[]   = {ITEM_MAX_ETHER,        ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListElixir2[]     = {ITEM_ELIXIR,           ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListBrickBreak[]  = {ITEM_TM_BRICK_BREAK,   ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListTorment[]     = {ITEM_TM_TORMENT,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListSkillSwap[]   = {ITEM_TM_SKILL_SWAP,    ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListGigaDrain[]   = {ITEM_TM_GIGA_DRAIN,    ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-static const enum Item sPrizeListAttract[]     = {ITEM_TM_ATTRACT,       ITEM_ETHER, ITEM_MAX_POTION, ITEM_REVIVE, ITEM_FLUFFY_TAIL, ITEM_GREAT_BALL};
-
-static const enum Item *const sPrizeLists1[NUM_TRAINER_HILL_PRIZE_LISTS] =
-{
-    sPrizeListRareCandy1,
-    sPrizeListLuxuryBall1,
-    sPrizeListMaxRevive1,
-    sPrizeListMaxEther1,
-    sPrizeListElixir1,
-    sPrizeListRoar,
-    sPrizeListSludgeBomb,
-    sPrizeListToxic,
-    sPrizeListSunnyDay,
-    sPrizeListEarthQuake
-};
-
-static const enum Item *const sPrizeLists2[NUM_TRAINER_HILL_PRIZE_LISTS] =
-{
-    sPrizeListRareCandy2,
-    sPrizeListLuxuryBall2,
-    sPrizeListMaxRevive2,
-    sPrizeListMaxEther2,
-    sPrizeListElixir2,
-    sPrizeListBrickBreak,
-    sPrizeListTorment,
-    sPrizeListSkillSwap,
-    sPrizeListGigaDrain,
-    sPrizeListAttract
-};
-
-static const enum Item *const *const sPrizeListSets[] =
-{
-    sPrizeLists1,
-    sPrizeLists2
 };
 
 static const u16 sEReader_Pal[] = INCGFX_U16("graphics/trainer_hill/ereader.pal", ".gbapal");
@@ -632,23 +574,79 @@ static void GetOwnerState(void)
 static void GiveChallengePrize(void)
 {
 #if FREE_TRAINER_HILL == FALSE
-    enum Item itemId = GetPrizeItemId();
+    u16 points, cardPoints;
+    u32 minutes;
+    u8 mode;
 
     if (sHillData->challenge.numFloors != NUM_TRAINER_HILL_FLOORS || gSaveBlock1Ptr->trainerHill.receivedPrize)
     {
         gSpecialVar_Result = 2;
+        return;
     }
-    else if (AddBagItem(itemId, 1) == TRUE)
+
+    mode = gSaveBlock1Ptr->trainerHill.mode;
+    if (mode >= NUM_TRAINER_HILL_MODES)
+        mode = HILL_MODE_NORMAL;
+
+    minutes = gSaveBlock1Ptr->trainerHill.timer / (60 * 60);
+
+    // BP per run table by Time and Mode:
+    // Time       Normal  Variety  Unique  Expert
+    // >18 min       2       2        3       4
+    // 16-18         2       3        4       6
+    // 14-16         3       4        6       8
+    // 13-14         4       6        7      10
+    // 12-13         5       7        9      12
+    // <12           6       8       10      14
+    if (minutes >= 18)
     {
-        CopyItemName(itemId, gStringVar2);
-        gSaveBlock1Ptr->trainerHill.receivedPrize = TRUE;
-        gSaveBlock2Ptr->frontier.unk_EF9 = 0;
-        gSpecialVar_Result = 0;
+        static const u8 sBP_Over18[NUM_TRAINER_HILL_MODES] = { 2, 2, 3, 4 };
+        points = sBP_Over18[mode];
     }
-    else
+    else if (minutes >= 16) // 16-18
     {
-        gSpecialVar_Result = 1;
+        static const u8 sBP_16To18[NUM_TRAINER_HILL_MODES] = { 2, 3, 4, 6 };
+        points = sBP_16To18[mode];
     }
+    else if (minutes >= 14) // 14-16
+    {
+        static const u8 sBP_14To16[NUM_TRAINER_HILL_MODES] = { 3, 4, 6, 8 };
+        points = sBP_14To16[mode];
+    }
+    else if (minutes >= 13) // 13-14
+    {
+        static const u8 sBP_13To14[NUM_TRAINER_HILL_MODES] = { 4, 6, 7, 10 };
+        points = sBP_13To14[mode];
+    }
+    else if (minutes >= 12) // 12-13
+    {
+        static const u8 sBP_12To13[NUM_TRAINER_HILL_MODES] = { 5, 7, 9, 12 };
+        points = sBP_12To13[mode];
+    }
+    else // <12
+    {
+        static const u8 sBP_Under12[NUM_TRAINER_HILL_MODES] = { 6, 8, 10, 14 };
+        points = sBP_Under12[mode];
+    }
+
+    // Award Battle Points
+    gSaveBlock2Ptr->frontier.battlePoints += points;
+    if (gSaveBlock2Ptr->frontier.battlePoints > MAX_BATTLE_FRONTIER_POINTS)
+        gSaveBlock2Ptr->frontier.battlePoints = MAX_BATTLE_FRONTIER_POINTS;
+
+    cardPoints = gSaveBlock2Ptr->frontier.cardBattlePoints;
+    cardPoints += points;
+    if (cardPoints > 0xFFFF)
+        cardPoints = 0xFFFF;
+    gSaveBlock2Ptr->frontier.cardBattlePoints = cardPoints;
+
+    IncrementDailyBattlePoints(points);
+
+    ConvertIntToDecimalStringN(gStringVar1, points, STR_CONV_MODE_LEFT_ALIGN, 2);
+
+    gSaveBlock1Ptr->trainerHill.receivedPrize = TRUE;
+    gSaveBlock2Ptr->frontier.unk_EF9 = 0;
+    gSpecialVar_Result = 0;
 #endif //FREE_TRAINER_HILL
 }
 
@@ -1240,97 +1238,4 @@ static void TrainerHillSetLvlMode(void)
 #endif //FREE_TRAINER_HILL
 }
 
-// Determines which prize list to use from the set of prize lists.
-#if FREE_TRAINER_HILL == FALSE
-static u8 GetPrizeListId(bool8 allowTMs)
-{
-    u8 prizeListId, i, modBy;
 
-    // The initial selection depends on the trainer numbers for the completed challenge.
-    // These don't change with the available challenge modes, so Normal/Unique will always
-    // have a prizeListId of 8, and Variety/Expert will have a prizeListId of 24.
-    prizeListId = 0;
-    for (i = 0; i < NUM_TRAINER_HILL_FLOORS; i++)
-    {
-        prizeListId ^= sHillData->floors[i].trainerNum1 & 0x1F;
-        prizeListId ^= sHillData->floors[i].trainerNum2 & 0x1F;
-    }
-
-    // In practice, the conditional below is always true.
-    // The 2nd half of the lists in both sets of lists all have a TM as the "grand prize", while the 1st half do not,
-    // so taking the mod of the (total / 2) ensures that a prize list without a TM will be used.
-    if (allowTMs)
-        modBy = NUM_TRAINER_HILL_PRIZE_LISTS;
-    else
-        modBy = NUM_TRAINER_HILL_PRIZE_LISTS / 2;
-
-    prizeListId %= modBy;
-    return prizeListId;
-}
-
-static enum Item GetPrizeItemId(void)
-{
-    u8 i;
-    const u16 *prizeList;
-    s32 trainerNumSum = 0, prizeListSetId, minutes, id;
-
-    // First determine which set of prize lists to use. The sets of lists only differ in
-    // what TMs they can offer as the "grand prize" for a time under 12 minutes.
-    // Which set of lists gets used is based on the sum of all the trainer numbers for that
-    // challenge. These don't change with the available challenge modes, so Normal will always
-    // have a prizeListSetId of 0, and Unique/Variety/Expert will have a prizeListSetId of 1.
-    for (i = 0; i < NUM_TRAINER_HILL_FLOORS; i++)
-    {
-        trainerNumSum += sHillData->floors[i].trainerNum1;
-        trainerNumSum += sHillData->floors[i].trainerNum2;
-    }
-    prizeListSetId = trainerNumSum / 256;
-    prizeListSetId %= (int)ARRAY_COUNT(sPrizeListSets);
-
-    // Now get which prize list to use from the set. See GetPrizeListId for details.
-    // The below conditional will always be true, because a Trainer Hill challenge can't be entered
-    // until the player has entered the Hall of Fame (FLAG_SYS_GAME_CLEAR is set) and because all
-    // of the available challenge modes have the full 8 trainers (NUM_TRAINER_HILL_TRAINERS).
-    if (FlagGet(FLAG_SYS_GAME_CLEAR) && sHillData->challenge.numTrainers == NUM_TRAINER_HILL_TRAINERS)
-        i = GetPrizeListId(TRUE);
-    else
-        i = GetPrizeListId(FALSE);
-
-    // 1 is added to Expert mode's prize list selection because otherwise it has the same prizes as Variety
-    if (gSaveBlock1Ptr->trainerHill.mode == HILL_MODE_EXPERT)
-        i = (i + 1) % NUM_TRAINER_HILL_PRIZE_LISTS;
-
-    // After the above (non-random) calculations, the following are the possible prize list selections:
-    // sPrizeListSets[0][8] (Normal)
-    // sPrizeListSets[1][4] (Variety)
-    // sPrizeListSets[1][8] (Unique)
-    // sPrizeListSets[1][5] (Expert)
-    prizeList = sPrizeListSets[prizeListSetId][i];
-
-    // Which prize is given from the list depends on the time scored.
-    // The prize for any time after 12 minutes is the same in every list.
-    // The prizes for a time under 12 minutes are:
-    // - ITEM_TM_SUNNY_DAY     (Normal)
-    // - ITEM_ELIXIR           (Variety)
-    // - ITEM_TM_GIGA_DRAIN    (Unique)
-    // - ITEM_TM_BRICK_BREAK   (Expert)
-    // As an additional note, if players were allowed to enter a Trainer Hill challenge before
-    // entering the Hall of Fame, there would be 1 additional prize possibility (ITEM_MAX_ETHER)
-    // as Normal / Unique modes would use sPrizeListSets[0][3] / sPrizeListSets[1][3] respectively.
-    minutes = (signed)(gSaveBlock1Ptr->trainerHill.timer) / (60 * 60);
-    if (minutes < 12)
-        id = 0; // Depends on list
-    else if (minutes < 13)
-        id = 1; // ITEM_ETHER
-    else if (minutes < 14)
-        id = 2; // ITEM_MAX_POTION
-    else if (minutes < 16)
-        id = 3; // ITEM_REVIVE
-    else if (minutes < 18)
-        id = 4; // ITEM_FLUFFY_TAIL
-    else
-        id = 5; // ITEM_GREAT_BALL
-
-    return prizeList[id];
-}
-#endif //FREE_TRAINER_HILL

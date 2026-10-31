@@ -86,6 +86,22 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
   - **Open Level (`FRONTIER_LVL_OPEN`):** Enemies scale to match the player's highest party level, with a minimum level of 60 (`FRONTIER_MIN_LEVEL_OPEN`).
 - **Map Non-Repetition Decoupling:** Floor anti-repetition memory is tracked per mode (Normal, Variety, etc.) independently of the level mode chosen. Switching between Level 50 and Open Level preserves the non-repetition rules.
 
+### 2.10. Battle Points (BP) Rewards System
+- **Integration with Battle Frontier:** Rooftop item and TM rewards have been replaced with Battle Points (BP) directly credited to `gSaveBlock2Ptr->frontier.battlePoints` and `cardBattlePoints`, as well as tracking daily gains via `IncrementDailyBattlePoints`.
+- **BP Payout Table:** The amount of BP awarded upon completing a challenge depends on the challenge mode and completion time:
+
+| Time | Normal | Variety | Unique | Expert |
+| :--- | :--- | :--- | :--- | :--- |
+| > 18 min | 2 | 2 | 3 | 4 |
+| 16–18 min | 2 | 3 | 4 | 6 |
+| 14–16 min | 3 | 4 | 6 | 8 |
+| 13–14 min | 4 | 6 | 7 | 10 |
+| 12–13 min | 5 | 7 | 9 | 12 |
+| < 12 min | 6 | 8 | 10 | 14 |
+
+- **Zero EXP & Zero Prize Money:** Like all Battle Frontier facilities, Trainer Hill awards 0 EXP and 0 battle money upon defeating trainers, ensuring total economic and progression parity.
+- **Legacy Cleanup:** Unused item prize list structures and lookup functions (`sPrizeListSets`, `GetPrizeItemId`, `GetPrizeListId`) were safely decommissioned to ensure clean, warning-free compilation.
+
 ---
 
 ## 3. Key Source Files
