@@ -11,6 +11,7 @@ u32 GetCurrentFacilityWinStreak(void);
 void ResetFrontierTrainerIds(void);
 u8 GetPlayerSymbolCountForFacility(u8 facility);
 void ShowRankingHallRecordsWindow(void);
+void ShowTrainerHillResultsWindow(u8 mode);
 void ScrollRankingHallRecordsWindow(void);
 void ClearRankingHallRecords(void);
 void SaveGameFrontier(void);

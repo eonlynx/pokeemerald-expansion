@@ -19,6 +19,8 @@
 
 #define NUM_TRAINER_HILL_PRIZE_LISTS 10
 
+#define HILL_MAX_TIME 215999 // 60 * 60 * 60 - 1
+
 #define TRAINER_HILL_FUNC_START                 0
 #define TRAINER_HILL_FUNC_GET_OWNER_STATE       1
 #define TRAINER_HILL_FUNC_GIVE_PRIZE            2

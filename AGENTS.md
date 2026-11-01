@@ -183,6 +183,31 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
   - **No:** The player is stepped one tile back North (`walk_up` to `(3, 8)`) into the hallway towards the challenge, while the attendant remains at `(2, 9)`.
   - **Reset / Elevator Parity:** If the game is soft-reset or the player exits via the elevator, the attendant is positioned at her default initial post at `(3, 10)` facing down (`DIR_SOUTH`).
 
+### 2.13. Records Boards System (Battle Frontier Results Window Parity)
+- **4 Dedicated Mode Record Signs:** The legacy single time board script was replaced with 4 dedicated results boards in `data/maps/TrainerHill_Entrance/scripts.inc`:
+  - `TrainerHill_Entrance_EventScript_ShowNormalResults`
+  - `TrainerHill_Entrance_EventScript_ShowVarietyResults`
+  - `TrainerHill_Entrance_EventScript_ShowUniqueResults`
+  - `TrainerHill_Entrance_EventScript_ShowExpertResults`
+  - Integrated into `data/maps/TrainerHill_Entrance/map.json` and `events.inc` at coordinate `(5, 10)` facing North.
+- **Battle Frontier Pop-up Window Parity:** Uses the canonical Battle Frontier results window framework (`sFrontierResultsWindowTemplate`, `FRONTIER_FACILITY_HILL` / `10`, invoked via `frontier_results` and dismissed with `special RemoveRecordsWindow`).
+- **3-Column Layout Matching Battle Factory Parity:**
+  - Header: `{PLAYER}'s Battle Tag [Mode] Results` centered at top (`y = 0`).
+  - **Column 1 (`x = 8`):** Section and row labels (`LV. 50`, `PREV.`, `RECORD`, `OPEN LV.`).
+  - **Column 2 (`x = 64`):** Challenge clear times formatted via `FormatTrainerHillTime` (`Time: 0'0"00` default, or minutes, seconds, hundredths `Time: 12'34"56`), aligned on the same horizontal column as Battle Factory's `Win streak:`.
+  - **Column 3 (`x = 154`):** Winning streak counts (`Streak:    0`), right-aligned to match Battle Factory's `Times:`.
+  - **Top Row (`y = 33` and `y = 97`):** `LV. 50` / `OPEN LV.` on the left, balanced on the right with `Times cleared:    0` at `x = 118` (digits vertically aligned with `Streak:` at `212px`).
+  - Separator hyphens (`PrintHyphens(10)`) dividing the Level 50 and Open Level sections.
+- **Statistics Tracking & Storage:** Persisted in `gSaveBlock1Ptr->trainerHill` across all 4 modes and 2 level modes (`FRONTIER_LVL_50` and `FRONTIER_LVL_OPEN`):
+  - `u32 recordTimes[NUM_TRAINER_HILL_MODES][FRONTIER_LVL_MODE_COUNT]`
+  - `u32 prevTimes[NUM_TRAINER_HILL_MODES][FRONTIER_LVL_MODE_COUNT]`
+  - `u16 recordStreaks[NUM_TRAINER_HILL_MODES][FRONTIER_LVL_MODE_COUNT]`
+  - `u16 prevStreaks[NUM_TRAINER_HILL_MODES][FRONTIER_LVL_MODE_COUNT]`
+  - `u16 winStreaks[NUM_TRAINER_HILL_MODES][FRONTIER_LVL_MODE_COUNT]`
+  - `u16 timesCleared[NUM_TRAINER_HILL_MODES][FRONTIER_LVL_MODE_COUNT]`
+  - Updated upon rooftop victory via `UpdateTrainerHillClearRecords()`, with `winStreaks` reset to 0 upon defeat or retirement.
+- **Legacy Cleanup:** Decommissioned obsolete string `TrainerHill_Entrance_Text_ChallengeTime` and old static single-sign scripts.
+
 ---
 
 ## 3. Key Source Files

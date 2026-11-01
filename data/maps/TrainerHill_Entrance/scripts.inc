@@ -373,11 +373,35 @@ TrainerHill_Entrance_Movement_PlayerExitElevator:
 	walk_down
 	step_end
 
-TrainerHill_Entrance_EventScript_Records::
+TrainerHill_Entrance_EventScript_ShowNormalResults::
 	lockall
-	fadescreen FADE_TO_BLACK
-	setvar VAR_0x8004, 0
-	special ShowTrainerHillRecords
+	frontier_results FRONTIER_FACILITY_HILL, HILL_MODE_NORMAL
+	waitbuttonpress
+	special RemoveRecordsWindow
+	releaseall
+	end
+
+TrainerHill_Entrance_EventScript_ShowVarietyResults::
+	lockall
+	frontier_results FRONTIER_FACILITY_HILL, HILL_MODE_VARIETY
+	waitbuttonpress
+	special RemoveRecordsWindow
+	releaseall
+	end
+
+TrainerHill_Entrance_EventScript_ShowUniqueResults::
+	lockall
+	frontier_results FRONTIER_FACILITY_HILL, HILL_MODE_UNIQUE
+	waitbuttonpress
+	special RemoveRecordsWindow
+	releaseall
+	end
+
+TrainerHill_Entrance_EventScript_ShowExpertResults::
+	lockall
+	frontier_results FRONTIER_FACILITY_HILL, HILL_MODE_EXPERT
+	waitbuttonpress
+	special RemoveRecordsWindow
 	releaseall
 	end
 

@@ -41,6 +41,8 @@
 #include "constants/moves.h"
 #include "constants/items.h"
 #include "constants/event_objects.h"
+#include "constants/characters.h"
+#include "constants/trainer_hill.h"
 #include "party_menu.h"
 #include "list_menu.h"
 
@@ -1035,6 +1037,9 @@ static void ShowFacilityResultsWindow(void)
     case FACILITY_LINK_CONTEST:
         ShowLinkContestResultsWindow();
         break;
+    case FRONTIER_FACILITY_HILL:
+        ShowTrainerHillResultsWindow(gSpecialVar_0x8006);
+        break;
     }
 }
 
@@ -1501,6 +1506,110 @@ static void ShowFactoryResultsWindow(u8 battleMode)
     FactoryPrintRecordStreak(battleMode, FRONTIER_LVL_50, 8, 64, 158, 65);
     FactoryPrintPrevOrCurrentStreak(battleMode, FRONTIER_LVL_OPEN, 8, 64, 158, 113);
     FactoryPrintRecordStreak(battleMode, FRONTIER_LVL_OPEN, 8, 64, 158, 129);
+    PutWindowTilemap(gRecordsWindowId);
+    CopyWindowToVram(gRecordsWindowId, COPYWIN_FULL);
+}
+
+static u8 *FormatTrainerHillTime(u8 *dst, u32 timer)
+{
+    u32 minutes, secondsWhole, secondsFraction;
+
+    if (timer == 0 || timer >= HILL_MAX_TIME)
+    {
+        minutes = 0;
+        secondsWhole = 0;
+        secondsFraction = 0;
+    }
+    else
+    {
+        minutes = timer / (60 * 60);
+        timer %= (60 * 60);
+        secondsWhole = timer / 60;
+        secondsFraction = ((timer % 60) * 168) / 100;
+    }
+
+    dst = ConvertIntToDecimalStringN(dst, minutes, STR_CONV_MODE_LEFT_ALIGN, 2);
+    *(dst++) = CHAR_SGL_QUOTE_RIGHT;
+    dst = ConvertIntToDecimalStringN(dst, secondsWhole, (secondsWhole < 10 && minutes == 0 && timer == 0) ? STR_CONV_MODE_LEFT_ALIGN : STR_CONV_MODE_LEADING_ZEROS, 2);
+    *(dst++) = CHAR_DBL_QUOTE_RIGHT;
+    dst = ConvertIntToDecimalStringN(dst, secondsFraction, STR_CONV_MODE_LEADING_ZEROS, 2);
+    *dst = EOS;
+    return dst;
+}
+
+static void TrainerHillPrintStreak(const u8 *str, u32 timer, u16 streak, u8 x1, u8 x2, u8 x3, u8 y)
+{
+    u8 timeStr[16];
+
+    AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, str, x1, y, TEXT_SKIP_DRAW, NULL);
+
+    FormatTrainerHillTime(timeStr, timer);
+    StringCopy(gStringVar1, timeStr);
+    StringExpandPlaceholders(gStringVar4, gText_TrainerHillTime);
+    AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gStringVar4, x2, y, TEXT_SKIP_DRAW, NULL);
+
+    if (streak > MAX_STREAK)
+        streak = MAX_STREAK;
+    ConvertIntToDecimalStringN(gStringVar1, streak, STR_CONV_MODE_RIGHT_ALIGN, 4);
+    StringExpandPlaceholders(gStringVar4, gText_TrainerHillStreak);
+    AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gStringVar4, x3, y, TEXT_SKIP_DRAW, NULL);
+}
+
+static void TrainerHillPrintTimesCleared(u16 count, u8 x, u8 y)
+{
+    if (count > MAX_STREAK)
+        count = MAX_STREAK;
+    ConvertIntToDecimalStringN(gStringVar1, count, STR_CONV_MODE_RIGHT_ALIGN, 4);
+    StringExpandPlaceholders(gStringVar4, gText_TrainerHillTimesCleared);
+    AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gStringVar4, x, y, TEXT_SKIP_DRAW, NULL);
+}
+
+void ShowTrainerHillResultsWindow(u8 mode)
+{
+    const u8 *titleText;
+
+    if (mode >= NUM_TRAINER_HILL_MODES)
+        mode = HILL_MODE_NORMAL;
+
+    switch (mode)
+    {
+    default:
+    case HILL_MODE_NORMAL:
+        titleText = gText_BattleTagNormalResults;
+        break;
+    case HILL_MODE_VARIETY:
+        titleText = gText_BattleTagVarietyResults;
+        break;
+    case HILL_MODE_UNIQUE:
+        titleText = gText_BattleTagUniqueResults;
+        break;
+    case HILL_MODE_EXPERT:
+        titleText = gText_BattleTagExpertResults;
+        break;
+    }
+
+    gRecordsWindowId = AddWindow(&sFrontierResultsWindowTemplate);
+    DrawStdWindowFrame(gRecordsWindowId, FALSE);
+    FillWindowPixelBuffer(gRecordsWindowId, PIXEL_FILL(1));
+
+    StringExpandPlaceholders(gStringVar4, titleText);
+    PrintAligned(gStringVar4, 0);
+
+    // LV. 50 section
+    AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gText_Lv502, 8, 33, TEXT_SKIP_DRAW, NULL);
+    TrainerHillPrintTimesCleared(gSaveBlock1Ptr->trainerHill.timesCleared[mode][FRONTIER_LVL_50], 118, 33);
+    TrainerHillPrintStreak(gText_Prev, gSaveBlock1Ptr->trainerHill.prevTimes[mode][FRONTIER_LVL_50], gSaveBlock1Ptr->trainerHill.prevStreaks[mode][FRONTIER_LVL_50], 8, 64, 154, 49);
+    TrainerHillPrintStreak(gText_Record, gSaveBlock1Ptr->trainerHill.recordTimes[mode][FRONTIER_LVL_50], gSaveBlock1Ptr->trainerHill.recordStreaks[mode][FRONTIER_LVL_50], 8, 64, 154, 65);
+
+    // Separator
+    PrintHyphens(10);
+
+    // OPEN LV. section
+    AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gText_OpenLv, 8, 97, TEXT_SKIP_DRAW, NULL);
+    TrainerHillPrintTimesCleared(gSaveBlock1Ptr->trainerHill.timesCleared[mode][FRONTIER_LVL_OPEN], 118, 97);
+    TrainerHillPrintStreak(gText_Prev, gSaveBlock1Ptr->trainerHill.prevTimes[mode][FRONTIER_LVL_OPEN], gSaveBlock1Ptr->trainerHill.prevStreaks[mode][FRONTIER_LVL_OPEN], 8, 64, 154, 113);
+    TrainerHillPrintStreak(gText_Record, gSaveBlock1Ptr->trainerHill.recordTimes[mode][FRONTIER_LVL_OPEN], gSaveBlock1Ptr->trainerHill.recordStreaks[mode][FRONTIER_LVL_OPEN], 8, 64, 154, 129);
+
     PutWindowTilemap(gRecordsWindowId);
     CopyWindowToVram(gRecordsWindowId, COPYWIN_FULL);
 }
