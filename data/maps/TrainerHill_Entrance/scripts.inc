@@ -509,23 +509,24 @@ TrainerHill_Roof_Text_HaveTheMostMarvelousGift:
 TrainerHill_Roof_Text_OwnerAnnounceWallySilver:
 	.string "Bravo! Welcome to the summit!\p"
 	.string "I watched your ascent, and your speed\n"
-	.string "across every floor was astonishing!\p"
+	.string "across each floor was astonishing!\p"
 	.string "A challenge so marvelous warrants\n"
 	.string "an exhibition of the highest order!\p"
-	.string "Our FRONTIER BRAIN has arrived!$"
+	.string "Look! The TRAINERS you defeated\n"
+	.string "have come to watch the match!$"
 
 TrainerHill_Roof_Text_OwnerAnnounceWallyGold:
-	.string "Bravo! Welcome back to the summit!\p"
-	.string "Your agility has reached a realm\n"
-	.string "few TRAINERS ever attain!\p"
-	.string "The crowd eagerly awaits this clash!\n"
-	.string "Our FRONTIER BRAIN is here!$"
+	.string "Magnifico! The champion returns!\p"
+	.string "Your breathtaking streak has set\n"
+	.string "the entire hill ablaze with hype!\p"
+	.string "Every single TRAINER you conquered\n"
+	.string "has rushed to the roof for this!\p"
+	.string "Prepare for the ultimate clash at\n"
+	.string "the highest pinnacle of agility!$"
 
 TrainerHill_Roof_Text_OwnerRestoreParty:
-	.string "The TRAINERS you defeated have\n"
-	.string "gathered around the arena to watch!\p"
-	.string "First, I shall restore your\n"
-	.string "POKéMON to full health!$"
+	.string "Now that everyone is gathered, I will\n"
+	.string "restore your POKéMON to full health!$"
 
 TrainerHill_Roof_Text_OwnerTakeBattlePosition:
 	.string "Challenger! Step forward to the\n"
@@ -533,8 +534,9 @@ TrainerHill_Roof_Text_OwnerTakeBattlePosition:
 
 TrainerHill_Roof_Text_OwnerIntroduceWally:
 	.string "Ladies and gentlemen!\p"
-	.string "Please welcome our FRONTIER BRAIN,\n"
-	.string "WALLY the HILL PRODIGY!$"
+	.string "Our FRONTIER BRAIN has arrived!\p"
+	.string "Please welcome WALLY,\n"
+	.string "the HILL PRODIGY!$"
 
 TrainerHill_Roof_Text_WallySilverIntro:
 	.string "WALLY: Hi, {PLAYER}!\p"
