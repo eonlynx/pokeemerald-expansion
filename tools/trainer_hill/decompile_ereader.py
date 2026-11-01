@@ -1099,7 +1099,7 @@ def main():
         tbody = western_trainers[card_num] if card_num in western_trainers else format_trainer_c(cdata, indent=12)
         unique_cands.append(format_candidate_c(idx, card_num, True, tbody, mdata))
 
-    # 4. Expert Mode Candidates (P002 + A049..A064) = 17 trainers (15 layouts)
+    # 4. Expert Mode Candidates (P002 + A049..A064) = 17 layouts
     expert_cands = []
     p2_data = decompiled_cards[("P", 2)]
     p2_map = card_to_map_data(p2_data, "p002")
@@ -1107,28 +1107,10 @@ def main():
     expert_cands.append(format_candidate_c(0, p2_data["trainerNum"], True, p2_body, p2_map))
     for idx in range(1, 17):
         card_num = 48 + idx
-        cdata = decompiled_cards.get(("A", card_num))
-        if cdata is not None:
-            mdata = card_to_map_data(cdata, f"a{card_num:03d}")
-            if card_num in (58, 59, 64):
-                tbody = format_trainer_c(cdata, indent=12)
-            else:
-                tbody = western_trainers[card_num] if card_num in western_trainers else format_trainer_c(cdata, indent=12)
-            expert_cands.append(format_candidate_c(idx, card_num, True, tbody, mdata))
-        else:
-            if card_num == 59:
-                mdata = {
-                    "floor_map_rel": "graphics/trainer_hill/maps_expert/floor_1",
-                    "c1_x": 7, "c1_y": 10, "c2_x": 7, "c2_y": 14,
-                    "raw_dirs": 0x01, # DIR_SOUTH (T1=1), DIR_NORTH (T2=0)
-                    "raw_ranges": 0x33 # Range T1=3, Range T2=3
-                }
-                tbody = western_trainers[59]
-                expert_cands.append(format_candidate_c(idx, 59, True, tbody, mdata))
-            else:
-                # 58 (Edie) and 64 (Gav): no map
-                tbody = western_trainers[card_num]
-                expert_cands.append(format_candidate_c(idx, card_num, False, tbody, None))
+        cdata = decompiled_cards[("A", card_num)]
+        mdata = card_to_map_data(cdata, f"a{card_num:03d}")
+        tbody = western_trainers[card_num] if card_num in western_trainers else format_trainer_c(cdata, indent=12)
+        expert_cands.append(format_candidate_c(idx, card_num, True, tbody, mdata))
 
     c_output_parts = [
         f"static const struct TrainerHillTrainer sTrainer_Autumn = {{\n{autumn_body}\n}};\n",

@@ -8711,7 +8711,7 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
     },
     [10] = {
         .trainerNum = 58,
-        .hasMap = FALSE,
+        .hasMap = TRUE,
         .trainer = {
             .name = _("EDIE"),
             .facilityClass = FACILITY_CLASS_PSYCHIC_F,
@@ -8845,11 +8845,11 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
         },
         .altTrainer = NULL,
         .map = {
-            .metatileData = {0},
-            .collisionData = {0},
-            .trainerCoords = {0},
-            .trainerDirections = 0,
-            .trainerRanges = 0
+            .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a058/metatiles.bin"),
+            .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a058/collision.bin"),
+            .trainerCoords = { COORDS_XY(7,13), COORDS_XY(7,15) },
+            .trainerDirections = 0x01,
+            .trainerRanges = 0x11
         }
     },
     [11] = {
@@ -8988,8 +8988,8 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
         },
         .altTrainer = NULL,
         .map = {
-            .metatileData = INCBIN_U8("graphics/trainer_hill/maps_expert/floor_1/metatiles.bin"),
-            .collisionData = INCBIN_U16("graphics/trainer_hill/maps_expert/floor_1/collision.bin"),
+            .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a059/metatiles.bin"),
+            .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a059/collision.bin"),
             .trainerCoords = { COORDS_XY(7,10), COORDS_XY(7,14) },
             .trainerDirections = 0x01,
             .trainerRanges = 0x33
@@ -9565,7 +9565,7 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
     },
     [16] = {
         .trainerNum = 64,
-        .hasMap = FALSE,
+        .hasMap = TRUE,
         .trainer = {
             .name = _("GAV"),
             .facilityClass = FACILITY_CLASS_PKMN_RANGER_M,
@@ -9695,11 +9695,11 @@ const struct TrainerHillCandidate sTrainerHillCandidates_Expert[17] = {
         },
         .altTrainer = NULL,
         .map = {
-            .metatileData = {0},
-            .collisionData = {0},
-            .trainerCoords = {0},
-            .trainerDirections = 0,
-            .trainerRanges = 0
+            .metatileData = INCBIN_U8("graphics/trainer_hill/maps_ereader/card_a064/metatiles.bin"),
+            .collisionData = INCBIN_U16("graphics/trainer_hill/maps_ereader/card_a064/collision.bin"),
+            .trainerCoords = { COORDS_XY(3,9), COORDS_XY(11,9) },
+            .trainerDirections = 0x23,
+            .trainerRanges = 0x77
         }
     },
 };
