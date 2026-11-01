@@ -259,7 +259,7 @@ TrainerHill_Roof_EventScript_WallyDepartsAndOwnerAwards::
 	msgbox TrainerHill_Roof_Text_OwnerReturnToReception, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_TEMP_5, 0
-	warp MAP_TRAINER_HILL_ENTRANCE, 9, 6
+	warp MAP_TRAINER_HILL_ENTRANCE, 3, 11
 	waitstate
 	end
 

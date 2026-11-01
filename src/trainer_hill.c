@@ -1475,13 +1475,13 @@ static void TrainerHillBufferModeName(void)
 static void TrainerHillSaveChallenge(void)
 {
 #if FREE_TRAINER_HILL == FALSE
-    s16 x = 17;
-    s16 y = 8;
+    s16 x = 19;
+    s16 y = 1;
 
     if (GetCurrentTrainerHillMapId() == TRAINER_HILL_ENTRANCE)
     {
-        x = 9;
-        y = 7;
+        x = 3;
+        y = 11;
     }
 
     SetDynamicWarpWithCoords(0, MAP_GROUP(MAP_TRAINER_HILL_ENTRANCE), MAP_NUM(MAP_TRAINER_HILL_ENTRANCE), WARP_ID_NONE, x, y);

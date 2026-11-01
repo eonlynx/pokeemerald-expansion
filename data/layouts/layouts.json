@@ -4547,7 +4547,7 @@
     {
       "id": "LAYOUT_TRAINER_HILL_ENTRANCE",
       "name": "TrainerHill_Entrance_Layout",
-      "width": 19,
+      "width": 24,
       "height": 17,
       "primary_tileset": "gTileset_Building",
       "secondary_tileset": "gTileset_TrainerHill",

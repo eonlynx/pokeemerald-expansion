@@ -34,7 +34,7 @@ TrainerHill_Elevator_EventScript_EnterElevator::
 	delay 25
 	applymovement LOCALID_PLAYER, TrainerHill_Elevator_Movement_PlayerExitElevator
 	waitmovement 0
-	warp MAP_TRAINER_HILL_ENTRANCE, 17, 8
+	warp MAP_TRAINER_HILL_ENTRANCE, 19, 1
 	waitstate
 	end
 
