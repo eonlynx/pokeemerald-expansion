@@ -2107,7 +2107,9 @@ static bool32 BattleTypeAllowsExp(void)
               | BATTLE_TYPE_FRONTIER
               | BATTLE_TYPE_SAFARI
               | BATTLE_TYPE_BATTLE_TOWER
-              | BATTLE_TYPE_EREADER_TRAINER))
+              | BATTLE_TYPE_EREADER_TRAINER)
+          || TRAINER_BATTLE_PARAM.opponentA == TRAINER_WALLY_HILL_SILVER
+          || TRAINER_BATTLE_PARAM.opponentA == TRAINER_WALLY_HILL_GOLD)
         return FALSE;
     else
         return TRUE;
@@ -4015,9 +4017,9 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
     u32 moneyReward;
     u8 trainerMoney = 0;
 
-    if (trainerId == TRAINER_SECRET_BASE)
+    if (trainerId == TRAINER_SECRET_BASE || trainerId == TRAINER_WALLY_HILL_SILVER || trainerId == TRAINER_WALLY_HILL_GOLD)
     {
-        moneyReward = 20 * gBattleResources->secretBase->party.levels[0] * gBattleStruct->moneyMultiplier;
+        moneyReward = (trainerId == TRAINER_SECRET_BASE) ? (20 * gBattleResources->secretBase->party.levels[0] * gBattleStruct->moneyMultiplier) : 0;
     }
     else
     {

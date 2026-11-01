@@ -176,9 +176,12 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
   - The continue game warp is anchored to the lobby elevator exit at `(19, 1)` in `MAP_TRAINER_HILL_ENTRANCE`, with `VAR_TRAINER_HILL_IS_ACTIVE` set to 0. If the player resets or turns off the game on the roof or inside the elevator, reloading respawns cleanly in the lobby outside the elevator door without disqualification.
   - Upon riding the elevator down to the lobby, the elevator door animation finishes and control is immediately restored without prompting unwanted dialogues.
 - **Quit / Reset Disqualification:** If the player soft-resets or powers off mid-climb (floors 1F–4F) without completing the run, upon reloading at reception the player spawns at `(3, 11)` facing North towards the attendant at `(3, 10)`. The attendant intercepts them with the canonical Battle Frontier disqualification message (*"Excuse me!\pYou didn't save before you quit\nyour challenge last time.\pBecause of that, your challenge\nso far has been disqualified.\lSorry!"*) and saves progress, clearing streak credits and ending the run without stepping back (as the attendant already blocks the entrance corridor).
-- **Retirement Interception:** Coordinate trigger at `(3, 9)` inside the corridor prevents the player from walking back into the lobby while a challenge is active (`VAR_TRAINER_HILL_IS_ACTIVE == 1`). The attendant prompts (*"Would you like to retire from your\nBATTLE HILL challenge?"*):
+- **Retirement Interception & Attendant Corridor Persistence:**
+  - When returning from 1F into the Entrance hallway while a challenge is active (`VAR_TRAINER_HILL_IS_ACTIVE == 1` and $Y \le 8$), `OnTransition` and `OnWarpTable` maintain the attendant in her stepped-aside position at `(2, 9)` facing right (`DIR_EAST`).
+  - Coordinate trigger at `(3, 9)` inside the corridor prevents the player from walking back into the lobby while a challenge is active (`VAR_TRAINER_HILL_IS_ACTIVE == 1`). The attendant prompts (*"Would you like to retire from your\nBATTLE HILL challenge?"*):
   - **Yes:** Challenge is retired via `trainerhill_retire`, resetting winning streaks/gauge credits, saving progress (anchoring the player's saved spawn coordinates to X=3, Y=11 facing North in the lobby), stepping the player two tiles down into the lobby (`walk_down`, `walk_down` to `(3, 11)`), returning the attendant to her post (`walk_right`, `walk_down`, `face_down` to `(3, 10)`), and clearing `VAR_TRAINER_HILL_IS_ACTIVE`.
-  - **No:** The player is stepped one tile back North (`walk_up` to `(3, 8)`) into the hallway towards the challenge.
+  - **No:** The player is stepped one tile back North (`walk_up` to `(3, 8)`) into the hallway towards the challenge, while the attendant remains at `(2, 9)`.
+  - **Reset / Elevator Parity:** If the game is soft-reset or the player exits via the elevator, the attendant is positioned at her default initial post at `(3, 10)` facing down (`DIR_SOUTH`).
 
 ---
 

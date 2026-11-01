@@ -1510,7 +1510,7 @@ void BattleSetup_StartTrainerBattle(void)
 
         MarkApproachingPyramidTrainersAsBattled();
     }
-    else if (InTrainerHillChallenge())
+    else if (InTrainerHillChallenge() && TRAINER_BATTLE_PARAM.opponentA != TRAINER_WALLY_HILL_SILVER && TRAINER_BATTLE_PARAM.opponentA != TRAINER_WALLY_HILL_GOLD)
     {
         gBattleTypeFlags |= BATTLE_TYPE_TRAINER_HILL;
 
@@ -1532,7 +1532,7 @@ void BattleSetup_StartTrainerBattle(void)
     gWhichTrainerToFaceAfterBattle = 0;
     gMain.savedCallback = CB2_EndTrainerBattle;
 
-    if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || InTrainerHillChallenge())
+    if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || (InTrainerHillChallenge() && TRAINER_BATTLE_PARAM.opponentA != TRAINER_WALLY_HILL_SILVER && TRAINER_BATTLE_PARAM.opponentA != TRAINER_WALLY_HILL_GOLD))
         DoBattlePyramidTrainerHillBattle();
     else
         DoTrainerBattle();

@@ -13,13 +13,19 @@ TrainerHill_Entrance_OnWarpTable:
 
 TrainerHill_Entrance_EventScript_CheckPlayerOrientation::
 	getplayerxy VAR_TEMP_2, VAR_TEMP_3
-	goto_if_le VAR_TEMP_3, 8, TrainerHill_Entrance_EventScript_TurnPlayerSouth
+	goto_if_le VAR_TEMP_3, 8, TrainerHill_Entrance_EventScript_PlayerInCorridor
 	goto_if_eq VAR_TEMP_3, 11, TrainerHill_Entrance_EventScript_TurnPlayerNorth
 	end
 
-TrainerHill_Entrance_EventScript_TurnPlayerSouth::
+TrainerHill_Entrance_EventScript_PlayerInCorridor::
 	turnobject LOCALID_PLAYER, DIR_SOUTH
+	call_if_eq VAR_TRAINER_HILL_IS_ACTIVE, 1, TrainerHill_Entrance_EventScript_AttendantAsideInCorridor
 	end
+
+TrainerHill_Entrance_EventScript_AttendantAsideInCorridor::
+	setobjectxy LOCALID_TRAINER_HILL_ATTENDANT, 2, 9
+	turnobject LOCALID_TRAINER_HILL_ATTENDANT, DIR_EAST
+	return
 
 TrainerHill_Entrance_EventScript_TurnPlayerNorth::
 	turnobject LOCALID_PLAYER, DIR_NORTH
@@ -27,8 +33,21 @@ TrainerHill_Entrance_EventScript_TurnPlayerNorth::
 
 TrainerHill_Entrance_OnTransition:
 	setflag FLAG_LANDMARK_TRAINER_HILL
-	getplayerxy VAR_TEMP_D, VAR_RESULT
+	getplayerxy VAR_TEMP_D, VAR_TEMP_E
+	call TrainerHill_Entrance_EventScript_PositionAttendant
 	end
+
+TrainerHill_Entrance_EventScript_PositionAttendant::
+	goto_if_ne VAR_TRAINER_HILL_IS_ACTIVE, 1, TrainerHill_Entrance_EventScript_AttendantInitialPos
+	goto_if_gt VAR_TEMP_E, 8, TrainerHill_Entrance_EventScript_AttendantInitialPos
+	setobjectxyperm LOCALID_TRAINER_HILL_ATTENDANT, 2, 9
+	setobjectmovementtype LOCALID_TRAINER_HILL_ATTENDANT, MOVEMENT_TYPE_FACE_RIGHT
+	return
+
+TrainerHill_Entrance_EventScript_AttendantInitialPos::
+	setobjectxyperm LOCALID_TRAINER_HILL_ATTENDANT, 3, 10
+	setobjectmovementtype LOCALID_TRAINER_HILL_ATTENDANT, MOVEMENT_TYPE_FACE_DOWN
+	return
 
 TrainerHill_Entrance_OnResume:
 	trainerhill_resumetimer
@@ -246,6 +265,8 @@ TrainerHill_Entrance_EventScript_EnterChallenge::
 	applymovement LOCALID_TRAINER_HILL_ATTENDANT, TrainerHill_Entrance_Movement_AttendantStepAside
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerStepInCorridor
 	waitmovement 0
+	setobjectxyperm LOCALID_TRAINER_HILL_ATTENDANT, 2, 9
+	setobjectmovementtype LOCALID_TRAINER_HILL_ATTENDANT, MOVEMENT_TYPE_FACE_RIGHT
 	msgbox TrainerHill_Entrance_Text_TimeProgessGetSetGo, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerWalkUp
@@ -310,6 +331,8 @@ TrainerHill_Entrance_EventScript_Retire::
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerExitCorridor
 	applymovement LOCALID_TRAINER_HILL_ATTENDANT, TrainerHill_Entrance_Movement_AttendantReturnToPost
 	waitmovement 0
+	setobjectxyperm LOCALID_TRAINER_HILL_ATTENDANT, 3, 10
+	setobjectmovementtype LOCALID_TRAINER_HILL_ATTENDANT, MOVEMENT_TYPE_FACE_DOWN
 	releaseall
 	end
 
