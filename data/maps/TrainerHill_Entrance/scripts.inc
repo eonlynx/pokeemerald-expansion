@@ -484,9 +484,8 @@ TrainerHill_Entrance_Text_PleaseVisitUsAgain:
 	.string "another challenge!$"
 
 TrainerHill_Entrance_Text_TooBadTremendousEffort:
-	.string "That was too bad.\p"
-	.string "I think you put in a tremendous\n"
-	.string "effort in your battling.$"
+	.string "Thank you for participating!\n"
+	.string "I commend your valiant effort.$"
 
 TrainerHill_Entrance_Text_HopeYouGiveItYourBest:
 	.string "I hope you give it your best.$"
@@ -546,19 +545,25 @@ TrainerHill_Roof_Text_HaveTheMostMarvelousGift:
 	.string "take these marvelous Battle Points!$"
 
 TrainerHill_Roof_Text_OwnerAnnounceWallySilver:
-	.string "Bravo! But hold on…\n"
-	.string "Look behind you!\p"
-	.string "The TRAINERS you beat have\n"
-	.string "ascended to the rooftop to watch!\p"
-	.string "In honor of your marvelous speed,\n"
-	.string "our FRONTIER BRAIN has arrived!$"
+	.string "Bravo! Welcome to the summit!\p"
+	.string "I watched your ascent, and your speed\n"
+	.string "across every floor was astonishing!\p"
+	.string "A challenge so marvelous warrants\n"
+	.string "an exhibition of the highest order!\p"
+	.string "Our FRONTIER BRAIN has arrived!$"
 
 TrainerHill_Roof_Text_OwnerAnnounceWallyGold:
-	.string "Incredible! What a feat!\p"
-	.string "Challengers from all four floors\n"
-	.string "have gathered to watch this match!\p"
-	.string "Prepare yourself! Our champion,\n"
-	.string "the FRONTIER BRAIN, is here!$"
+	.string "Bravo! Welcome back to the summit!\p"
+	.string "Your agility has reached a realm\n"
+	.string "few TRAINERS ever attain!\p"
+	.string "The crowd eagerly awaits this clash!\n"
+	.string "Our FRONTIER BRAIN is here!$"
+
+TrainerHill_Roof_Text_OwnerRestoreParty:
+	.string "The TRAINERS you defeated have\n"
+	.string "gathered around the arena to watch!\p"
+	.string "First, I shall restore your\n"
+	.string "POKéMON to full health!$"
 
 TrainerHill_Roof_Text_OwnerTakeBattlePosition:
 	.string "Challenger! Step forward to the\n"
@@ -683,9 +688,9 @@ TrainerHill_Roof_Text_OwnerReturnToReception:
 	.string "counter below!$"
 
 TrainerHill_Entrance_Text_BrainVictoryReception:
-	.string "Congratulations!\p"
+	.string "Splendid!\p"
 	.string "You defeated the HILL PRODIGY and\n"
-	.string "conquered the BATTLE HILL!$"
+	.string "conquered the summit of BATTLE HILL!$"
 
 TrainerHill_Entrance_Text_RecordWillBeSaved:
 	.string "Your record will be saved.\n"
@@ -696,7 +701,8 @@ TrainerHill_Entrance_Text_RecordLastMatch:
 	.string "match on your FRONTIER PASS?$"
 
 TrainerHill_Entrance_Text_HopeToSeeYouAgain:
-	.string "We hope to see you again.$"
+	.string "We look forward to your\n"
+	.string "next challenge!$"
 
 TrainerHill_Roof_Text_GotHereMarvelouslyQuickly:
 	.string "Oh, hold on here! Did you possibly get\n"

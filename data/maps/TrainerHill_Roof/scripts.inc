@@ -65,6 +65,12 @@ TrainerHill_Roof_EventScript_OwnerProcess::
 	applymovement LOCALID_OWNER, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 TrainerHill_Roof_EventScript_OwnerProcessNoFace::
+	trainerhill_checkbrain
+	switch VAR_RESULT
+	case TRAINER_HILL_BRAIN_SILVER, TrainerHill_Roof_EventScript_BattleWallySilver
+	case TRAINER_HILL_BRAIN_GOLD, TrainerHill_Roof_EventScript_BattleWallyGold
+	case TRAINER_HILL_BRAIN_STREAK, TrainerHill_Roof_EventScript_BattleWallySilverStreak
+	case TRAINER_HILL_BRAIN_STREAK_LONG, TrainerHill_Roof_EventScript_BattleWallyGoldStreak
 	trainerhill_getownerstate
 	switch VAR_RESULT
 	case 0, TrainerHill_Roof_EventScript_Arrived
@@ -73,12 +79,6 @@ TrainerHill_Roof_EventScript_OwnerProcessNoFace::
 TrainerHill_Roof_EventScript_Arrived::
 	msgbox TrainerHill_Roof_Text_YouFinallyCameBravo, MSGBOX_DEFAULT
 TrainerHill_Roof_EventScript_GivePrize::
-	trainerhill_checkbrain
-	switch VAR_RESULT
-	case TRAINER_HILL_BRAIN_SILVER, TrainerHill_Roof_EventScript_BattleWallySilver
-	case TRAINER_HILL_BRAIN_GOLD, TrainerHill_Roof_EventScript_BattleWallyGold
-	case TRAINER_HILL_BRAIN_STREAK, TrainerHill_Roof_EventScript_BattleWallySilverStreak
-	case TRAINER_HILL_BRAIN_STREAK_LONG, TrainerHill_Roof_EventScript_BattleWallyGoldStreak
 	trainerhill_giveprize
 	switch VAR_RESULT
 	case 0, TrainerHill_Roof_EventScript_ReceivePrize
@@ -147,6 +147,10 @@ TrainerHill_Roof_EventScript_SpectatorsReactVictory::
 
 TrainerHill_Roof_EventScript_PrepareArenaAndWally::
 	call TrainerHill_Roof_EventScript_SpectatorsEnter
+	msgbox TrainerHill_Roof_Text_OwnerRestoreParty, MSGBOX_DEFAULT
+	playfanfare MUS_HEAL
+	waitfanfare
+	special HealPlayerParty
 	msgbox TrainerHill_Roof_Text_OwnerTakeBattlePosition, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_PLAYER, TrainerHill_Roof_Movement_PlayerTakePosition
@@ -175,7 +179,6 @@ TrainerHill_Roof_EventScript_BattleWallySilver::
 	closemessage
 	call TrainerHill_Roof_EventScript_PrepareArenaAndWally
 	msgbox TrainerHill_Roof_Text_WallySilverIntro, MSGBOX_DEFAULT
-	special HealPlayerParty
 	trainerbattle_no_intro_double TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, TrainerHill_Roof_EventScript_LostToWally
@@ -194,7 +197,6 @@ TrainerHill_Roof_EventScript_BattleWallySilverStreak::
 	closemessage
 	call TrainerHill_Roof_EventScript_PrepareArenaAndWally
 	msgbox TrainerHill_Roof_Text_WallySilverStreakIntro, MSGBOX_DEFAULT
-	special HealPlayerParty
 	trainerbattle_no_intro_double TRAINER_WALLY_HILL_SILVER, TrainerHill_Roof_Text_WallySilverDefeat
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, TrainerHill_Roof_EventScript_LostToWally
@@ -208,7 +210,6 @@ TrainerHill_Roof_EventScript_BattleWallyGold::
 	closemessage
 	call TrainerHill_Roof_EventScript_PrepareArenaAndWally
 	msgbox TrainerHill_Roof_Text_WallyGoldIntro, MSGBOX_DEFAULT
-	special HealPlayerParty
 	trainerbattle_no_intro_double TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, TrainerHill_Roof_EventScript_LostToWally
@@ -227,7 +228,6 @@ TrainerHill_Roof_EventScript_BattleWallyGoldStreak::
 	closemessage
 	call TrainerHill_Roof_EventScript_PrepareArenaAndWally
 	msgbox TrainerHill_Roof_Text_WallyGoldStreakIntro, MSGBOX_DEFAULT
-	special HealPlayerParty
 	trainerbattle_no_intro_double TRAINER_WALLY_HILL_GOLD, TrainerHill_Roof_Text_WallyGoldDefeat
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, TrainerHill_Roof_EventScript_LostToWally
