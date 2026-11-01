@@ -1475,8 +1475,8 @@ static void TrainerHillBufferModeName(void)
 static void TrainerHillSaveChallenge(void)
 {
 #if FREE_TRAINER_HILL == FALSE
-    s16 x = gSaveBlock1Ptr->pos.x;
-    s16 y = gSaveBlock1Ptr->pos.y;
+    s16 x = 17;
+    s16 y = 8;
 
     if (GetCurrentTrainerHillMapId() == TRAINER_HILL_ENTRANCE)
     {
@@ -1484,7 +1484,8 @@ static void TrainerHillSaveChallenge(void)
         y = 7;
     }
 
-    SetDynamicWarpWithCoords(0, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, x, y);
+    SetDynamicWarpWithCoords(0, MAP_GROUP(MAP_TRAINER_HILL_ENTRANCE), MAP_NUM(MAP_TRAINER_HILL_ENTRANCE), WARP_ID_NONE, x, y);
+    gSaveBlock2Ptr->frontier.savedGame = FALSE;
     SaveGameFrontier();
 #endif
 }

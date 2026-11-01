@@ -12,7 +12,7 @@ The project expands Pokémon Emerald's **Trainer Hill** facility by replacing it
 - **Normal:** JP Default 1 + A001 through A016 (17 candidates/layouts)
 - **Variety:** JP Default 2 + A017 through A032 (17 candidates/layouts)
 - **Unique:** P001 + A033 through A048 (17 candidates/layouts)
-- **Expert:** P002 + A049 through A064 (17 candidates; currently 15 layouts available due to missing card dumps for cards 58 and 64)
+- **Expert:** P002 + A049 through A064 (all 17 candidates/layouts fully available and integrated)
 
 Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers per floor).
 
@@ -20,12 +20,10 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
 
 ## 2. Requirements & Implementations
 
-### 2.1. Handling Missing Cards & Maps (Cards 58, 59, and 64)
-- **Card 59 (Roderick):** Its floor layout corresponds to the Expert 2F map; properly bound.
-- **Cards 58 (Edie) and 64 (Gav):** Missing `.raw` card dumps.
-  - Trainer data (3 Pokémon each) extracted from `src/data/battle_frontier/trainer_hill.h`.
-  - **Floor position constraint:** Lacking map dumps, trainers 58 and 64 **can only appear as the second trainer (`trainerNum2` / right-side trainer)** of any floor, never as the first trainer (`trainerNum1`), avoiding requests for non-existent maps.
-  - The pipeline is prepared so that if `.raw` dumps for 58 or 64 are added in the future, their maps will automatically load and allow them to appear as first trainers.
+### 2.1. Integration of Cards 58, 59, and 64
+- **Cards 58 (Edie), 59 (Roderick), and 64 (Gav):** Raw card dumps (`08-A058.raw`, `08-A059.raw`, `08-A064.raw`) were decompiled and fully integrated into the e-Reader candidate pools with `.hasMap = TRUE`.
+  - All 17 candidates in Expert mode now possess complete metatile maps and collision layouts, allowing cards 58 and 64 to appear as either Trainer 1 (floor layout provider) or Trainer 2 on any floor.
+  - Generates full layout visual grids and line-of-sight checks in `tools/trainer_hill/export_ascii_layouts/`.
 
 ### 2.2. JP Default Trainer Fusion & Alternation
 - **JP Default 1:** `AUTUMN` and `SHAWN` share their original map. They count as a single candidate slot: their teams are merged (Shawn's 3 Pokémon + Autumn's 3 Pokémon) and one of the two is randomly chosen to occupy Trainer 1 for the floor.
@@ -173,8 +171,12 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
 - **Mandatory Entry Save:** Prior to entering the challenge, players are required to save their game via the canonical Battle Frontier prompt (*"Before you begin your BATTLE HILL\nchallenge, I must save the game.\lIs that okay?"* matching Battle Dome/Factory/Tower). If declined or if saving fails, entry is aborted.
 - **Corridor Entry Step:** Upon finishing reception dialogue (*"Get set! Go!"*), the player automatically steps one tile North (`walk_up`) past the counter line into the entrance hallway (X=9, Y=5).
 - **In-Facility Save Prohibition:** While inside Battle Hill (`InTrainerHillChallenge()`), saving is blocked in `src/start_menu.c` via `BuildTrainerHillStartMenu()`, removing `MENU_ACTION_SAVE` from the Start Menu identically to Battle Pike and Battle Pyramid.
-- **Quit / Reset Disqualification:** If the player soft-resets or powers off without completing the run, upon reloading at reception the attendant intercepts them with the canonical Battle Frontier disqualification message (*"Excuse me!\pYou didn't save before you quit\nyour challenge last time.\pBecause of that, your challenge\nso far has been disqualified.\lSorry!"*) and saves progress, clearing streak credits and ending the run.
-- **Retirement Interception:** Coordinate trigger at (9, 6) on the counter line prevents the player from walking back into the lobby while a challenge is active (`VAR_TRAINER_HILL_IS_ACTIVE == 1`). The attendant prompts (*"Would you like to retire from your\nBATTLE HILL challenge?"*):
+- **Rooftop Save & Elevator Exit Flow:**
+  - When the player completes a run without facing Wally, the Owner awards BP and checks the clear time. At the end of the conversation, the Owner displays *"Your record will be saved.\nPlease wait."*, executes `trainerhill_savechallenge` with sound effect `SE_SAVE`, and releases control.
+  - The continue game warp is anchored to the lobby elevator exit at `(17, 8)` in `MAP_TRAINER_HILL_ENTRANCE`, with `VAR_TRAINER_HILL_IS_ACTIVE` set to 0. If the player resets or turns off the game on the roof or inside the elevator, reloading respawns cleanly in the lobby outside the elevator door without disqualification.
+  - Upon riding the elevator down to the lobby, the elevator door animation finishes and control is immediately restored without prompting unwanted dialogues.
+- **Quit / Reset Disqualification:** If the player soft-resets or powers off mid-climb (floors 1F–4F) without completing the run, upon reloading at reception the attendant intercepts them with the canonical Battle Frontier disqualification message (*"Excuse me!\pYou didn't save before you quit\nyour challenge last time.\pBecause of that, your challenge\nso far has been disqualified.\lSorry!"*) and saves progress, clearing streak credits and ending the run.
+- **Retirement Interception:** Coordinate trigger at (9, 6) on the counter line prevents the player from walking back into the lobby while a challenge is active (`VAR_TRAINER_HILL_IS_ACTIVE == 1`). Redundant triggers originally at `(9, 15)` and `(10, 15)` were removed. The attendant prompts (*"Would you like to retire from your\nBATTLE HILL challenge?"*):
   - **Yes:** Challenge is retired via `trainerhill_retire`, resetting winning streaks/gauge credits, saving progress (anchoring the player's saved spawn coordinates to X=9, Y=7 facing South in the lobby), stepping the player down into the lobby, and clearing `VAR_TRAINER_HILL_IS_ACTIVE`.
   - **No:** The player is stepped one tile back North (`walk_up`) into the hallway towards the challenge.
 

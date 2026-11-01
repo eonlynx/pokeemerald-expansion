@@ -720,7 +720,9 @@ TrainerHill_Roof_Text_ArriveZippierNextTime:
 	.string "Perhaps it would please me more if you\n"
 	.string "arrived zippier next time.\p"
 	.string "Then, I should be pleased to form\n"
-	.string "a tag team with you!\p"
+	.string "a tag team with you!$"
+
+TrainerHill_Roof_Text_UntilWeMeetAgain:
 	.string "Until we meet again, amigo!$"
 
 @ Unused

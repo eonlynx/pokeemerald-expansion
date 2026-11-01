@@ -439,7 +439,7 @@ TrainerHill_Roof_EventScript_CheckFinalTime::
 	switch VAR_RESULT
 	case 0, TrainerHill_Roof_EventScript_NewRecord
 	case 1, TrainerHill_Roof_EventScript_NoNewRecord
-	case 2, TrainerHill_Roof_EventScript_EndSpeakToOwner
+	case 2, TrainerHill_Roof_EventScript_AlreadyReceivedPrize
 TrainerHill_Roof_EventScript_NewRecord::
 	msgbox TrainerHill_Roof_Text_GotHereMarvelouslyQuickly, MSGBOX_DEFAULT
 	goto TrainerHill_Roof_EventScript_EndSpeakToOwner
@@ -452,10 +452,17 @@ TrainerHill_Roof_EventScript_NoNewRecord::
 
 TrainerHill_Roof_EventScript_EndSpeakToOwner::
 	msgbox TrainerHill_Roof_Text_ArriveZippierNextTime, MSGBOX_DEFAULT
+	message TrainerHill_Entrance_Text_RecordWillBeSaved
+	waitmessage
+	setvar VAR_TRAINER_HILL_IS_ACTIVE, 0
+	trainerhill_savechallenge
+	playse SE_SAVE
+	waitse
+	msgbox TrainerHill_Roof_Text_UntilWeMeetAgain, MSGBOX_DEFAULT
 	releaseall
 	end
 
 TrainerHill_Roof_EventScript_AlreadyReceivedPrize::
-	msgbox TrainerHill_Roof_Text_ArriveZippierNextTime, MSGBOX_DEFAULT
+	msgbox TrainerHill_Roof_Text_UntilWeMeetAgain, MSGBOX_DEFAULT
 	releaseall
 	end
