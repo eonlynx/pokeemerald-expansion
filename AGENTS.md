@@ -192,7 +192,7 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
   - Integrated into `data/maps/TrainerHill_Entrance/map.json` facing North (`BG_EVENT_PLAYER_FACING_NORTH`).
 - **Battle Frontier Pop-up Window Parity:** Uses the canonical Battle Frontier results window framework (`sFrontierResultsWindowTemplate`, `FRONTIER_FACILITY_HILL` / `10`, invoked via `frontier_results` and dismissed with `special RemoveRecordsWindow`).
 - **3-Column Layout Matching Battle Factory Parity:**
-  - Header: `{PLAYER}'s Battle Tag [Mode] Results` centered at top (`y = 0`).
+  - Header: `{PLAYER}'s [Mode] Tag Match Results` centered at top (`y = 0`).
   - **Column 1 (`x = 8`):** Section and row labels (`LV. 50`, `PREV.` / `CURRENT`, `RECORD`, `OPEN LV.`). Dynamically displays `CURRENT` (`gText_Current`) when the player has an active winning streak (`winStreaks[mode][lvlMode] > 0`) and `PREV.` (`gText_Prev`) when unplayed or after a streak ends via defeat, retirement, or disqualification, matching the rest of the Battle Frontier facilities.
   - **Column 2 (`x = 64`):** Challenge clear times formatted via `FormatTrainerHillTime(dst, total, hasCleared)` using the exact vanilla time calculation (`PrintOnTrainerHillRecordsWindow` / `BufferChallengeTime`). Displays `Time: --'--" --` when `timesCleared[mode][lvlMode] == 0`, and two-digit leading-zero minutes, seconds, and hundredths `Time: 12'34" 56` (clamped at `HILL_MAX_TIME = 215999` / `59'59" 99`) once cleared (`timesCleared[mode][lvlMode] > 0`), aligned on the same horizontal column as Battle Factory's `Win streak:`.
   - **Column 3 (`x = 154`):** Winning streak counts (`Streak:    0`), right-aligned to match Battle Factory's `Times:`.

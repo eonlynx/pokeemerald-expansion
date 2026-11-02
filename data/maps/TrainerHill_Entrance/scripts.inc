@@ -1013,7 +1013,7 @@ TrainerHill_Elevator_Text_ReturnToReception:
 	.string "the reception counter?$"
 
 TrainerHill_Entrance_Text_WhichLevelMode:
-	.string "The BATTLE HILL offers two levels\n"
+	.string "The TAG MATCH offers two levels\n"
 	.string "of challenge, Level 50 and Open Level.\l"
 	.string "Which is your choice?$"
 
