@@ -23,8 +23,28 @@ TrainerHill_Entrance_EventScript_PlayerInCorridor::
 	end
 
 TrainerHill_Entrance_EventScript_AttendantAsideInCorridor::
-	setobjectxy LOCALID_TRAINER_HILL_ATTENDANT, 2, 9
-	turnobject LOCALID_TRAINER_HILL_ATTENDANT, DIR_EAST
+	trainerhill_getmode
+	switch VAR_RESULT
+	case 1, TrainerHill_Entrance_EventScript_AttendantAsideVariety
+	case 2, TrainerHill_Entrance_EventScript_AttendantAsideUnique
+	case 3, TrainerHill_Entrance_EventScript_AttendantAsideExpert
+	setobjectxy LOCALID_ATTENDANT_NORMAL, 2, 9
+	turnobject LOCALID_ATTENDANT_NORMAL, DIR_EAST
+	return
+
+TrainerHill_Entrance_EventScript_AttendantAsideVariety:
+	setobjectxy LOCALID_ATTENDANT_VARIETY, 6, 9
+	turnobject LOCALID_ATTENDANT_VARIETY, DIR_EAST
+	return
+
+TrainerHill_Entrance_EventScript_AttendantAsideUnique:
+	setobjectxy LOCALID_ATTENDANT_UNIQUE, 10, 9
+	turnobject LOCALID_ATTENDANT_UNIQUE, DIR_EAST
+	return
+
+TrainerHill_Entrance_EventScript_AttendantAsideExpert:
+	setobjectxy LOCALID_ATTENDANT_EXPERT, 14, 9
+	turnobject LOCALID_ATTENDANT_EXPERT, DIR_EAST
 	return
 
 TrainerHill_Entrance_EventScript_TurnPlayerNorth::
@@ -34,19 +54,45 @@ TrainerHill_Entrance_EventScript_TurnPlayerNorth::
 TrainerHill_Entrance_OnTransition:
 	setflag FLAG_LANDMARK_TRAINER_HILL
 	getplayerxy VAR_TEMP_D, VAR_TEMP_E
-	call TrainerHill_Entrance_EventScript_PositionAttendant
+	call TrainerHill_Entrance_EventScript_PositionAttendants
 	end
 
-TrainerHill_Entrance_EventScript_PositionAttendant::
-	goto_if_ne VAR_TRAINER_HILL_IS_ACTIVE, 1, TrainerHill_Entrance_EventScript_AttendantInitialPos
-	goto_if_gt VAR_TEMP_E, 8, TrainerHill_Entrance_EventScript_AttendantInitialPos
-	setobjectxyperm LOCALID_TRAINER_HILL_ATTENDANT, 2, 9
-	setobjectmovementtype LOCALID_TRAINER_HILL_ATTENDANT, MOVEMENT_TYPE_FACE_RIGHT
+TrainerHill_Entrance_EventScript_PositionAttendants::
+	setobjectxyperm LOCALID_ATTENDANT_NORMAL, 3, 10
+	setobjectmovementtype LOCALID_ATTENDANT_NORMAL, MOVEMENT_TYPE_FACE_DOWN
+	setobjectxyperm LOCALID_ATTENDANT_VARIETY, 7, 10
+	setobjectmovementtype LOCALID_ATTENDANT_VARIETY, MOVEMENT_TYPE_FACE_DOWN
+	setobjectxyperm LOCALID_ATTENDANT_UNIQUE, 11, 10
+	setobjectmovementtype LOCALID_ATTENDANT_UNIQUE, MOVEMENT_TYPE_FACE_DOWN
+	setobjectxyperm LOCALID_ATTENDANT_EXPERT, 15, 10
+	setobjectmovementtype LOCALID_ATTENDANT_EXPERT, MOVEMENT_TYPE_FACE_DOWN
+	goto_if_ne VAR_TRAINER_HILL_IS_ACTIVE, 1, TrainerHill_Entrance_EventScript_PositionAttendantsDone
+	goto_if_gt VAR_TEMP_E, 8, TrainerHill_Entrance_EventScript_PositionAttendantsDone
+	trainerhill_getmode
+	switch VAR_RESULT
+	case 1, TrainerHill_Entrance_EventScript_PositionAttendantVariety
+	case 2, TrainerHill_Entrance_EventScript_PositionAttendantUnique
+	case 3, TrainerHill_Entrance_EventScript_PositionAttendantExpert
+	setobjectxyperm LOCALID_ATTENDANT_NORMAL, 2, 9
+	setobjectmovementtype LOCALID_ATTENDANT_NORMAL, MOVEMENT_TYPE_FACE_RIGHT
 	return
 
-TrainerHill_Entrance_EventScript_AttendantInitialPos::
-	setobjectxyperm LOCALID_TRAINER_HILL_ATTENDANT, 3, 10
-	setobjectmovementtype LOCALID_TRAINER_HILL_ATTENDANT, MOVEMENT_TYPE_FACE_DOWN
+TrainerHill_Entrance_EventScript_PositionAttendantVariety:
+	setobjectxyperm LOCALID_ATTENDANT_VARIETY, 6, 9
+	setobjectmovementtype LOCALID_ATTENDANT_VARIETY, MOVEMENT_TYPE_FACE_RIGHT
+	return
+
+TrainerHill_Entrance_EventScript_PositionAttendantUnique:
+	setobjectxyperm LOCALID_ATTENDANT_UNIQUE, 10, 9
+	setobjectmovementtype LOCALID_ATTENDANT_UNIQUE, MOVEMENT_TYPE_FACE_RIGHT
+	return
+
+TrainerHill_Entrance_EventScript_PositionAttendantExpert:
+	setobjectxyperm LOCALID_ATTENDANT_EXPERT, 14, 9
+	setobjectmovementtype LOCALID_ATTENDANT_EXPERT, MOVEMENT_TYPE_FACE_RIGHT
+	return
+
+TrainerHill_Entrance_EventScript_PositionAttendantsDone:
 	return
 
 TrainerHill_Entrance_OnResume:
@@ -57,7 +103,7 @@ TrainerHill_Entrance_OnResume:
 	goto_if_eq VAR_TRAINER_HILL_IS_ACTIVE, 0, TrainerHill_Entrance_EventScript_PlayerDontFaceAttendant
 	trainerhill_getusingereader
 	goto_if_eq VAR_RESULT, FALSE, TrainerHill_Entrance_EventScript_TryFaceAttendant  @ VAR_RESULT always FALSE here
-	setobjectxy LOCALID_PLAYER, 3, 11
+	call TrainerHill_Entrance_EventScript_SetPlayerWarpCoords
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
 	end
 
@@ -70,8 +116,32 @@ TrainerHill_Entrance_EventScript_TryFaceAttendant::
 TrainerHill_Entrance_EventScript_PlayerDontFaceAttendant::
 	end
 
+TrainerHill_Entrance_EventScript_SetPlayerWarpCoords::
+	trainerhill_getmode
+	switch VAR_RESULT
+	case 1, TrainerHill_Entrance_EventScript_SetPlayerCoordsVariety
+	case 2, TrainerHill_Entrance_EventScript_SetPlayerCoordsUnique
+	case 3, TrainerHill_Entrance_EventScript_SetPlayerCoordsExpert
+	setobjectxy LOCALID_PLAYER, 3, 11
+	return
+
+TrainerHill_Entrance_EventScript_SetPlayerCoordsVariety:
+	setobjectxy LOCALID_PLAYER, 7, 11
+	return
+
+TrainerHill_Entrance_EventScript_SetPlayerCoordsUnique:
+	setobjectxy LOCALID_PLAYER, 11, 11
+	return
+
+TrainerHill_Entrance_EventScript_SetPlayerCoordsExpert:
+	setobjectxy LOCALID_PLAYER, 15, 11
+	return
+
 TrainerHill_Entrance_OnReturn:
-	addobject LOCALID_TRAINER_HILL_ATTENDANT
+	addobject LOCALID_ATTENDANT_NORMAL
+	addobject LOCALID_ATTENDANT_VARIETY
+	addobject LOCALID_ATTENDANT_UNIQUE
+	addobject LOCALID_ATTENDANT_EXPERT
 	addobject LOCALID_TRAINER_HILL_MAN
 	addobject LOCALID_TRAINER_HILL_GIRL
 	end
@@ -116,7 +186,8 @@ TrainerHill_Entrance_EventScript_ExitChallenge::
 
 TrainerHill_Entrance_EventScript_ExitChallengeDidntSave::
 	lockall
-	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
+	trainerhill_getmode
+	call TrainerHill_Entrance_EventScript_FaceCurrentAttendant
 	msgbox TrainerHill_Entrance_Text_FailedToSaveBeforeQuitting, MSGBOX_DEFAULT
 	message TrainerHill_Entrance_Text_RecordWillBeSaved
 	waitmessage
@@ -134,15 +205,22 @@ TrainerHill_Entrance_EventScript_ExitChallengeDidntSave::
 
 TrainerHill_Entrance_EventScript_ExitChallengeBrainWon::
 	lockall
-	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
+	trainerhill_getmode
+	call TrainerHill_Entrance_EventScript_FaceCurrentAttendant
 	msgbox TrainerHill_Entrance_Text_BrainVictoryReception, MSGBOX_DEFAULT
 	goto TrainerHill_Entrance_EventScript_AskRecordBattle
 
 TrainerHill_Entrance_EventScript_ExitChallengeLost::
 	lockall
-	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
+	trainerhill_getmode
+	call TrainerHill_Entrance_EventScript_FaceCurrentAttendant
 	msgbox TrainerHill_Entrance_Text_TooBadTremendousEffort, MSGBOX_DEFAULT
 	goto TrainerHill_Entrance_EventScript_AskRecordBattle
+
+TrainerHill_Entrance_EventScript_FaceCurrentAttendant::
+	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerFaceAttendant
+	waitmovement 0
+	return
 
 TrainerHill_Entrance_EventScript_AskRecordBattle::
 	setvar VAR_TRAINER_HILL_IS_ACTIVE, 0
@@ -184,21 +262,100 @@ TrainerHill_Entrance_EventScript_PlayerExitChallenge::
 TrainerHill_Entrance_EventScript_EndExitChallenge::
 	end
 
-TrainerHill_Entrance_EventScript_Attendant::
+TrainerHill_Entrance_EventScript_AttendantNormal::
 	lock
 	faceplayer
+	setvar VAR_0x8006, HILL_MODE_NORMAL
+	setvar VAR_LAST_TALKED, LOCALID_ATTENDANT_NORMAL
 	trainerhill_inchallenge
 	goto_if_eq VAR_RESULT, TRUE, TrainerHill_Entrance_EventScript_HopeYouGiveItYourBest
-	msgbox TrainerHill_Entrance_Text_WelcomeToTrainerHill, MSGBOX_DEFAULT
-TrainerHill_Entrance_EventScript_AskChallengeTrainers::
+	msgbox TrainerHill_Entrance_Text_WelcomeNormalTagMatch, MSGBOX_DEFAULT
+TrainerHill_Entrance_EventScript_AskEnterNormal::
 	message TrainerHill_Entrance_Text_LikeToChallengeTrainers
 	waitmessage
 	multichoice 17, 6, MULTI_CHALLENGEINFO, FALSE
 	switch VAR_RESULT
-	case 0, TrainerHill_Entrance_EventScript_ChooseChallenge
-	case 1, TrainerHill_Entrance_EventScript_Info
+	case 0, TrainerHill_Entrance_EventScript_ChooseLevelMode
+	case 1, TrainerHill_Entrance_EventScript_ExplainNormal
 	case 2, TrainerHill_Entrance_EventScript_CancelEntry
 	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_CancelEntry
+	end
+
+TrainerHill_Entrance_EventScript_ExplainNormal::
+	msgbox TrainerHill_Entrance_Text_ExplainNormalTagMatch, MSGBOX_DEFAULT
+	goto TrainerHill_Entrance_EventScript_AskEnterNormal
+	end
+
+TrainerHill_Entrance_EventScript_AttendantVariety::
+	lock
+	faceplayer
+	setvar VAR_0x8006, HILL_MODE_VARIETY
+	setvar VAR_LAST_TALKED, LOCALID_ATTENDANT_VARIETY
+	trainerhill_inchallenge
+	goto_if_eq VAR_RESULT, TRUE, TrainerHill_Entrance_EventScript_HopeYouGiveItYourBest
+	msgbox TrainerHill_Entrance_Text_WelcomeVarietyTagMatch, MSGBOX_DEFAULT
+TrainerHill_Entrance_EventScript_AskEnterVariety::
+	message TrainerHill_Entrance_Text_LikeToChallengeTrainers
+	waitmessage
+	multichoice 17, 6, MULTI_CHALLENGEINFO, FALSE
+	switch VAR_RESULT
+	case 0, TrainerHill_Entrance_EventScript_ChooseLevelMode
+	case 1, TrainerHill_Entrance_EventScript_ExplainVariety
+	case 2, TrainerHill_Entrance_EventScript_CancelEntry
+	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_CancelEntry
+	end
+
+TrainerHill_Entrance_EventScript_ExplainVariety::
+	msgbox TrainerHill_Entrance_Text_ExplainVarietyTagMatch, MSGBOX_DEFAULT
+	goto TrainerHill_Entrance_EventScript_AskEnterVariety
+	end
+
+TrainerHill_Entrance_EventScript_AttendantUnique::
+	lock
+	faceplayer
+	setvar VAR_0x8006, HILL_MODE_UNIQUE
+	setvar VAR_LAST_TALKED, LOCALID_ATTENDANT_UNIQUE
+	trainerhill_inchallenge
+	goto_if_eq VAR_RESULT, TRUE, TrainerHill_Entrance_EventScript_HopeYouGiveItYourBest
+	msgbox TrainerHill_Entrance_Text_WelcomeUniqueTagMatch, MSGBOX_DEFAULT
+TrainerHill_Entrance_EventScript_AskEnterUnique::
+	message TrainerHill_Entrance_Text_LikeToChallengeTrainers
+	waitmessage
+	multichoice 17, 6, MULTI_CHALLENGEINFO, FALSE
+	switch VAR_RESULT
+	case 0, TrainerHill_Entrance_EventScript_ChooseLevelMode
+	case 1, TrainerHill_Entrance_EventScript_ExplainUnique
+	case 2, TrainerHill_Entrance_EventScript_CancelEntry
+	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_CancelEntry
+	end
+
+TrainerHill_Entrance_EventScript_ExplainUnique::
+	msgbox TrainerHill_Entrance_Text_ExplainUniqueTagMatch, MSGBOX_DEFAULT
+	goto TrainerHill_Entrance_EventScript_AskEnterUnique
+	end
+
+TrainerHill_Entrance_EventScript_AttendantExpert::
+	lock
+	faceplayer
+	setvar VAR_0x8006, HILL_MODE_EXPERT
+	setvar VAR_LAST_TALKED, LOCALID_ATTENDANT_EXPERT
+	trainerhill_inchallenge
+	goto_if_eq VAR_RESULT, TRUE, TrainerHill_Entrance_EventScript_HopeYouGiveItYourBest
+	msgbox TrainerHill_Entrance_Text_WelcomeExpertTagMatch, MSGBOX_DEFAULT
+TrainerHill_Entrance_EventScript_AskEnterExpert::
+	message TrainerHill_Entrance_Text_LikeToChallengeTrainers
+	waitmessage
+	multichoice 17, 6, MULTI_CHALLENGEINFO, FALSE
+	switch VAR_RESULT
+	case 0, TrainerHill_Entrance_EventScript_ChooseLevelMode
+	case 1, TrainerHill_Entrance_EventScript_ExplainExpert
+	case 2, TrainerHill_Entrance_EventScript_CancelEntry
+	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_CancelEntry
+	end
+
+TrainerHill_Entrance_EventScript_ExplainExpert::
+	msgbox TrainerHill_Entrance_Text_ExplainExpertTagMatch, MSGBOX_DEFAULT
+	goto TrainerHill_Entrance_EventScript_AskEnterExpert
 	end
 
 TrainerHill_Entrance_EventScript_HopeYouGiveItYourBest::
@@ -206,17 +363,7 @@ TrainerHill_Entrance_EventScript_HopeYouGiveItYourBest::
 	release
 	end
 
-TrainerHill_Entrance_EventScript_Info::
-	msgbox TrainerHill_Entrance_Text_ExplainTrainerHill, MSGBOX_DEFAULT
-	goto TrainerHill_Entrance_EventScript_AskChallengeTrainers
-	end
-
-TrainerHill_Entrance_EventScript_ChooseChallenge::
-	multichoice 13, 2, MULTI_TAG_MATCH_TYPE, FALSE
-	switch VAR_RESULT
-	case 4, TrainerHill_Entrance_EventScript_CancelEntry
-	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_CancelEntry
-	copyvar VAR_0x8006, VAR_RESULT
+TrainerHill_Entrance_EventScript_ChooseLevelMode::
 	message TrainerHill_Entrance_Text_WhichLevelMode
 	waitmessage
 	multichoice 17, 6, MULTI_LEVEL_MODE, FALSE
@@ -261,11 +408,10 @@ TrainerHill_Entrance_EventScript_EnterChallenge::
 	setvar VAR_TEMP_5, 0
 	special HealPlayerParty
 	callnative UpdateFollowingPokemon
-	applymovement LOCALID_TRAINER_HILL_ATTENDANT, TrainerHill_Entrance_Movement_AttendantStepAside
+	applymovement VAR_LAST_TALKED, TrainerHill_Entrance_Movement_AttendantStepAside
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerStepInCorridor
 	waitmovement 0
-	setobjectxyperm LOCALID_TRAINER_HILL_ATTENDANT, 2, 9
-	setobjectmovementtype LOCALID_TRAINER_HILL_ATTENDANT, MOVEMENT_TYPE_FACE_RIGHT
+	call TrainerHill_Entrance_EventScript_SetAttendantAsidePerm
 	msgbox TrainerHill_Entrance_Text_TimeProgessGetSetGo, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerWalkUp
@@ -273,6 +419,30 @@ TrainerHill_Entrance_EventScript_EnterChallenge::
 	trainerhill_start
 	releaseall
 	end
+
+TrainerHill_Entrance_EventScript_SetAttendantAsidePerm::
+	switch VAR_0x8006
+	case 1, TrainerHill_Entrance_EventScript_SetAttendantAsideVarietyPerm
+	case 2, TrainerHill_Entrance_EventScript_SetAttendantAsideUniquePerm
+	case 3, TrainerHill_Entrance_EventScript_SetAttendantAsideExpertPerm
+	setobjectxyperm LOCALID_ATTENDANT_NORMAL, 2, 9
+	setobjectmovementtype LOCALID_ATTENDANT_NORMAL, MOVEMENT_TYPE_FACE_RIGHT
+	return
+
+TrainerHill_Entrance_EventScript_SetAttendantAsideVarietyPerm:
+	setobjectxyperm LOCALID_ATTENDANT_VARIETY, 6, 9
+	setobjectmovementtype LOCALID_ATTENDANT_VARIETY, MOVEMENT_TYPE_FACE_RIGHT
+	return
+
+TrainerHill_Entrance_EventScript_SetAttendantAsideUniquePerm:
+	setobjectxyperm LOCALID_ATTENDANT_UNIQUE, 10, 9
+	setobjectmovementtype LOCALID_ATTENDANT_UNIQUE, MOVEMENT_TYPE_FACE_RIGHT
+	return
+
+TrainerHill_Entrance_EventScript_SetAttendantAsideExpertPerm:
+	setobjectxyperm LOCALID_ATTENDANT_EXPERT, 14, 9
+	setobjectmovementtype LOCALID_ATTENDANT_EXPERT, MOVEMENT_TYPE_FACE_RIGHT
+	return
 
 TrainerHill_Entrance_EventScript_CancelChallengeSaveFailed::
 	trainerhill_clearsaved
@@ -304,8 +474,10 @@ TrainerHill_Entrance_EventScript_CancelEntry::
 
 TrainerHill_Entrance_EventScript_RetireTrigger::
 	lockall
+	trainerhill_getmode
+	call TrainerHill_Entrance_EventScript_SetupRetireAttendant
 	applymovement LOCALID_PLAYER, Common_Movement_FaceLeft
-	applymovement LOCALID_TRAINER_HILL_ATTENDANT, Common_Movement_FaceRight
+	applymovement VAR_LAST_TALKED, Common_Movement_FaceRight
 	waitmovement 0
 	msgbox TrainerHill_Entrance_Text_RetireFromChallenge, MSGBOX_YESNO
 	switch VAR_RESULT
@@ -313,6 +485,26 @@ TrainerHill_Entrance_EventScript_RetireTrigger::
 	case NO, TrainerHill_Entrance_EventScript_DontRetire
 	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_DontRetire
 	end
+
+TrainerHill_Entrance_EventScript_SetupRetireAttendant::
+	switch VAR_RESULT
+	case 1, TrainerHill_Entrance_EventScript_SetupRetireAttendantVariety
+	case 2, TrainerHill_Entrance_EventScript_SetupRetireAttendantUnique
+	case 3, TrainerHill_Entrance_EventScript_SetupRetireAttendantExpert
+	setvar VAR_LAST_TALKED, LOCALID_ATTENDANT_NORMAL
+	return
+
+TrainerHill_Entrance_EventScript_SetupRetireAttendantVariety:
+	setvar VAR_LAST_TALKED, LOCALID_ATTENDANT_VARIETY
+	return
+
+TrainerHill_Entrance_EventScript_SetupRetireAttendantUnique:
+	setvar VAR_LAST_TALKED, LOCALID_ATTENDANT_UNIQUE
+	return
+
+TrainerHill_Entrance_EventScript_SetupRetireAttendantExpert:
+	setvar VAR_LAST_TALKED, LOCALID_ATTENDANT_EXPERT
+	return
 
 TrainerHill_Entrance_EventScript_Retire::
 	message TrainerHill_Entrance_Text_RecordWillBeSaved
@@ -328,12 +520,36 @@ TrainerHill_Entrance_EventScript_Retire::
 	msgbox TrainerHill_Entrance_Text_HopeToSeeYouAgain, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_PLAYER, TrainerHill_Entrance_Movement_PlayerExitCorridor
-	applymovement LOCALID_TRAINER_HILL_ATTENDANT, TrainerHill_Entrance_Movement_AttendantReturnToPost
+	applymovement VAR_LAST_TALKED, TrainerHill_Entrance_Movement_AttendantReturnToPost
 	waitmovement 0
-	setobjectxyperm LOCALID_TRAINER_HILL_ATTENDANT, 3, 10
-	setobjectmovementtype LOCALID_TRAINER_HILL_ATTENDANT, MOVEMENT_TYPE_FACE_DOWN
+	call TrainerHill_Entrance_EventScript_RestoreAttendantDefaultPos
 	releaseall
 	end
+
+TrainerHill_Entrance_EventScript_RestoreAttendantDefaultPos::
+	trainerhill_getmode
+	switch VAR_RESULT
+	case 1, TrainerHill_Entrance_EventScript_RestoreAttendantVariety
+	case 2, TrainerHill_Entrance_EventScript_RestoreAttendantUnique
+	case 3, TrainerHill_Entrance_EventScript_RestoreAttendantExpert
+	setobjectxyperm LOCALID_ATTENDANT_NORMAL, 3, 10
+	setobjectmovementtype LOCALID_ATTENDANT_NORMAL, MOVEMENT_TYPE_FACE_DOWN
+	return
+
+TrainerHill_Entrance_EventScript_RestoreAttendantVariety:
+	setobjectxyperm LOCALID_ATTENDANT_VARIETY, 7, 10
+	setobjectmovementtype LOCALID_ATTENDANT_VARIETY, MOVEMENT_TYPE_FACE_DOWN
+	return
+
+TrainerHill_Entrance_EventScript_RestoreAttendantUnique:
+	setobjectxyperm LOCALID_ATTENDANT_UNIQUE, 11, 10
+	setobjectmovementtype LOCALID_ATTENDANT_UNIQUE, MOVEMENT_TYPE_FACE_DOWN
+	return
+
+TrainerHill_Entrance_EventScript_RestoreAttendantExpert:
+	setobjectxyperm LOCALID_ATTENDANT_EXPERT, 15, 10
+	setobjectmovementtype LOCALID_ATTENDANT_EXPERT, MOVEMENT_TYPE_FACE_DOWN
+	return
 
 TrainerHill_Entrance_EventScript_DontRetire::
 	closemessage
@@ -449,12 +665,66 @@ TrainerHill_Entrance_EventScript_Girl::
 	msgbox TrainerHill_Entrance_Text_FriendsTryingToReachTimeBoardTop, MSGBOX_NPC
 	end
 
-TrainerHill_Entrance_Text_WelcomeToTrainerHill:
+TrainerHill_Entrance_Text_WelcomeNormalTagMatch:
 	.string "Where the speed of TRAINERS\n"
 	.string "is put to the test!\p"
 	.string "Welcome to the BATTLE HILL!\p"
-	.string "I am your guide to the Time Attack\n"
-	.string "Tag Battle Challenge.$"
+	.string "I am your guide to the NORMAL\n"
+	.string "TAG MATCH challenge.$"
+
+TrainerHill_Entrance_Text_WelcomeVarietyTagMatch:
+	.string "Where the speed of TRAINERS\n"
+	.string "is put to the test!\p"
+	.string "Welcome to the BATTLE HILL!\p"
+	.string "I am your guide to the VARIETY\n"
+	.string "TAG MATCH challenge.$"
+
+TrainerHill_Entrance_Text_WelcomeUniqueTagMatch:
+	.string "Where the speed of TRAINERS\n"
+	.string "is put to the test!\p"
+	.string "Welcome to the BATTLE HILL!\p"
+	.string "I am your guide to the UNIQUE\n"
+	.string "TAG MATCH challenge.$"
+
+TrainerHill_Entrance_Text_WelcomeExpertTagMatch:
+	.string "Where the speed of TRAINERS\n"
+	.string "is put to the test!\p"
+	.string "Welcome to the BATTLE HILL!\p"
+	.string "I am your guide to the EXPERT\n"
+	.string "TAG MATCH challenge.$"
+
+TrainerHill_Entrance_Text_ExplainNormalTagMatch:
+	.string "The NORMAL TAG MATCH is the classic\n"
+	.string "BATTLE HILL challenge.\p"
+	.string "Across four floors, eight balanced\n"
+	.string "TRAINERS will test your agility\l"
+	.string "in fast-paced tag battles.\p"
+	.string "Reach the roof as swiftly as you can\n"
+	.string "to earn Battle Points!$"
+
+TrainerHill_Entrance_Text_ExplainVarietyTagMatch:
+	.string "The VARIETY TAG MATCH features\n"
+	.string "a colorful cast of competitors.\p"
+	.string "A diverse assortment of POKéMON\n"
+	.string "types and unexpected battle combos\l"
+	.string "await across all four floors.\p"
+	.string "Adapt quickly to clear each room!$"
+
+TrainerHill_Entrance_Text_ExplainUniqueTagMatch:
+	.string "The UNIQUE TAG MATCH tests your\n"
+	.string "mastery against specialized teams.\p"
+	.string "Floor layouts and opponent lineups\n"
+	.string "employ tricky tactics and rare\l"
+	.string "synergies that demand sharp thinking.\p"
+	.string "Push forward with your finest team!$"
+
+TrainerHill_Entrance_Text_ExplainExpertTagMatch:
+	.string "The EXPERT TAG MATCH is the ultimate\n"
+	.string "test of agility and coordination.\p"
+	.string "Veterans with optimized strategies\n"
+	.string "and formidable lineups will fiercely\l"
+	.string "contest every step of your climb.\p"
+	.string "Only the swiftest champions prevail!$"
 
 TrainerHill_Entrance_Text_SaveBeforeChallenge:
 	.string "Before you begin your BATTLE HILL\n"
@@ -504,23 +774,6 @@ TrainerHill_Entrance_Text_MovedReceptionHereForSwitch:
 
 TrainerHill_Entrance_Text_ThankYouForPlaying:
 	.string "Thank you for playing!$"
-
-TrainerHill_Entrance_Text_ExplainTrainerHill:
-	.string "At the BATTLE HILL, we conduct\n"
-	.string "the Time Attack Tag Challenge.\p"
-	.string "It is an endurance race measuring\n"
-	.string "how quickly you can scale all four\l"
-	.string "floors to reach the rooftop arena.\p"
-	.string "On each floor, you will face two\n"
-	.string "TRAINERS in a TAG BATTLE.\p"
-	.string "You may enter with a full team of\n"
-	.string "six POKéMON, and no species or\l"
-	.string "held items are restricted.\p"
-	.string "Battle Points are awarded on the\n"
-	.string "roof based on your clear time.\p"
-	.string "Saving inside is prohibited.\p"
-	.string "If you quit without finishing,\n"
-	.string "your challenge is disqualified.$"
 
 @ Unused
 TrainerHill_Entrance_Text_NeedAtLeastTwoPokemon:

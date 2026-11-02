@@ -49,7 +49,27 @@ TrainerHill_1F_EventScript_Lost::
 
 TrainerHill_EventScript_WarpToEntranceCounter::
 	setvar VAR_TEMP_1, 0
+	trainerhill_getmode
+	switch VAR_RESULT
+	case 1, TrainerHill_EventScript_WarpToEntranceCounterVariety
+	case 2, TrainerHill_EventScript_WarpToEntranceCounterUnique
+	case 3, TrainerHill_EventScript_WarpToEntranceCounterExpert
 	warp MAP_TRAINER_HILL_ENTRANCE, 3, 11
+	waitstate
+	end
+
+TrainerHill_EventScript_WarpToEntranceCounterVariety:
+	warp MAP_TRAINER_HILL_ENTRANCE, 7, 11
+	waitstate
+	end
+
+TrainerHill_EventScript_WarpToEntranceCounterUnique:
+	warp MAP_TRAINER_HILL_ENTRANCE, 11, 11
+	waitstate
+	end
+
+TrainerHill_EventScript_WarpToEntranceCounterExpert:
+	warp MAP_TRAINER_HILL_ENTRANCE, 15, 11
 	waitstate
 	end
 

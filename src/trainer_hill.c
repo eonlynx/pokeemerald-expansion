@@ -79,6 +79,7 @@ static void TrainerHillSetRoofSpectatorGraphics(void);
 static void TrainerHillBufferModeName(void);
 static void TrainerHillSaveChallenge(void);
 static void TrainerHillRetire(void);
+static void TrainerHillGetMode(void);
 static void SetUpDataStruct(void);
 static void FreeDataStruct(void);
 static void TrainerHillDummy(void);
@@ -210,6 +211,7 @@ static void (*const sHillFunctions[])(void) =
     [TRAINER_HILL_FUNC_BUFFER_MODE_NAME]      = TrainerHillBufferModeName,
     [TRAINER_HILL_FUNC_SAVE_CHALLENGE]        = TrainerHillSaveChallenge,
     [TRAINER_HILL_FUNC_RETIRE]                = TrainerHillRetire,
+    [TRAINER_HILL_FUNC_GET_MODE]              = TrainerHillGetMode,
 };
 
 static const u8 *const sModeStrings[NUM_TRAINER_HILL_MODES] =
@@ -1148,6 +1150,27 @@ const struct WarpEvent* SetWarpDestinationTrainerHill4F(void)
     return &header->events->warps[1];
 }
 
+const struct WarpEvent* SetWarpDestinationTrainerHill1F(void)
+{
+    static struct WarpEvent sDynamicEntranceWarp;
+    u8 mode = gSaveBlock1Ptr->trainerHill.mode;
+    if (mode >= NUM_TRAINER_HILL_MODES)
+        mode = HILL_MODE_NORMAL;
+
+    sDynamicEntranceWarp.x = 2; // Matches 1F staircase tile
+    sDynamicEntranceWarp.y = 1;
+    sDynamicEntranceWarp.elevation = 3;
+    sDynamicEntranceWarp.warpId = WARP_ID_NONE;
+    sDynamicEntranceWarp.mapNum = MAP_NUM(MAP_TRAINER_HILL_ENTRANCE);
+    sDynamicEntranceWarp.mapGroup = MAP_GROUP(MAP_TRAINER_HILL_ENTRANCE);
+
+    // Calculate landing coords in entrance corridor: X = 3 + mode * 4, Y = 7
+    SetDynamicWarpWithCoords(0, MAP_GROUP(MAP_TRAINER_HILL_ENTRANCE), MAP_NUM(MAP_TRAINER_HILL_ENTRANCE), WARP_ID_NONE, 3 + (mode * 4), 7);
+    sDynamicEntranceWarp.mapNum = MAP_NUM(MAP_DYNAMIC);
+
+    return &sDynamicEntranceWarp;
+}
+
 // For warping from the roof in challenges where the 4F is not the final challenge floor
 // This would only occur in the JP-exclusive Default and E-Reader challenges
 const struct WarpEvent* SetWarpDestinationTrainerHillFinalFloor(u8 warpEventId)
@@ -1589,7 +1612,10 @@ static void TrainerHillSaveChallenge(void)
 
     if (GetCurrentTrainerHillMapId() == TRAINER_HILL_ENTRANCE)
     {
-        x = 3;
+        u8 mode = gSaveBlock1Ptr->trainerHill.mode;
+        if (mode >= NUM_TRAINER_HILL_MODES)
+            mode = HILL_MODE_NORMAL;
+        x = 3 + (mode * 4);
         y = 11;
     }
 
@@ -1616,6 +1642,13 @@ static void TrainerHillRetire(void)
     gSaveBlock1Ptr->trainerHill.runBP = 0;
     gSaveBlock2Ptr->frontier.savedGame = FALSE;
 #endif
+}
+
+static void TrainerHillGetMode(void)
+{
+    gSpecialVar_Result = gSaveBlock1Ptr->trainerHill.mode;
+    if (gSpecialVar_Result >= NUM_TRAINER_HILL_MODES)
+        gSpecialVar_Result = HILL_MODE_NORMAL;
 }
 
 

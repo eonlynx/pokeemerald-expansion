@@ -161,3 +161,9 @@
 	setvar VAR_0x8004, TRAINER_HILL_FUNC_RETIRE
 	special CallTrainerHillFunction
 	.endm
+
+	@ Gets the active challenge mode (HILL_MODE_NORMAL..EXPERT) into VAR_RESULT
+	.macro trainerhill_getmode
+	setvar VAR_0x8004, TRAINER_HILL_FUNC_GET_MODE
+	special CallTrainerHillFunction
+	.endm

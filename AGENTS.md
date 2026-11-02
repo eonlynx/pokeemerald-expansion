@@ -220,6 +220,29 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
   - `TrainerHill_Roof_Text_GotHereMarvelouslyQuickly` was refined (*"That is simply delightful! Truly a marvelous feat of agility!"*) to avoid redundant references to reception time boards before the game save prompt.
   - Lobby NPCs updated to reference the **Results boards** and describe tag battle synergy and speed instead of repeating vanilla placeholder phrases.
 
+### 2.15. Quadruple Receptionists & Mode-Dedicated Corridors (Battle Tower Parity)
+- **4 Dedicated Receptionists:** Matching Battle Tower's 4 receptionists (Singles, Doubles, Multis, Link), Battle Hill features 4 dedicated attendants in `TrainerHill_Entrance/map.json`:
+  - **Normal (`LOCALID_ATTENDANT_NORMAL`):** Stationed at `(3, 10)` offering Normal Tag Match.
+  - **Variety (`LOCALID_ATTENDANT_VARIETY`):** Stationed at `(7, 10)` offering Variety Tag Match.
+  - **Unique (`LOCALID_ATTENDANT_UNIQUE`):** Stationed at `(11, 10)` offering Unique Tag Match.
+  - **Expert (`LOCALID_ATTENDANT_EXPERT`):** Stationed at `(15, 10)` offering Expert Tag Match.
+  - Legacy `MULTI_TAG_MATCH_TYPE` menu and generic introduction texts were deprecated; each attendant introduces and explains her mode directly with authentic Battle Frontier dialogue.
+- **Dedicated Corridor Warps & Stepping Sequences:**
+  - When challenging a mode, only that mode's attendant steps into her corridor alcove `(X-1, 9)` facing East (`DIR_EAST`), while the player steps into `(X, 9)` and walks up to warp at `(X, 6)` towards `TrainerHill_1F`. The remaining three attendants remain stationary at their desks.
+- **Dynamic 1F Floor Return (`SetWarpDestinationTrainerHill1F`):**
+  - When descending the stairs from 1F into the Entrance lobby, `SetWarpDestinationTrainerHill1F()` in `src/trainer_hill.c` and `src/field_control_avatar.c` calculates the player's landing coordinates dynamically:
+    $$X = 3 + (\text{mode} \times 4),\quad Y = 7$$
+    returning the player cleanly into the exact corridor belonging to their active challenge mode.
+- **Independent Retirement Triggers:**
+  - Dedicated coordinate triggers placed at `(3, 9)`, `(7, 9)`, `(11, 9)`, and `(15, 9)` intercept the player if attempting to return south into the lobby during an active challenge (`VAR_TRAINER_HILL_IS_ACTIVE == 1`).
+  - The mode's attendant interacts with the player via `VAR_LAST_TALKED`:
+    - **Retire:** Saves challenge data, steps the player down to `(X, 11)`, returns that attendant to her desk at `(X, 10)`, and clears active challenge state.
+    - **Continue:** Steps the player 1 tile north towards 1F (`walk_up`) while the attendant stays stepped aside.
+- **Mode-Specific Defeat, Wally Victory & Save Respawn Anchoring:**
+  - **Defeat / Loss:** `TrainerHill_EventScript_WarpToEntranceCounter` warps the player to `(X, 11)` facing their mode's attendant.
+  - **Rooftop Wally Victory:** Warps the player to `(X, 11)` facing their mode's attendant.
+  - **Mid-Climb Disqualification / Reset:** `TrainerHillSaveChallenge` anchors flash save respawn coordinates to `X = 3 + (mode * 4), Y = 11`. Upon reloading, `OnResume` positions the player facing North directly before their mode's attendant, who delivers the disqualification notice and saves progress.
+
 ---
 
 ## 3. Key Source Files
