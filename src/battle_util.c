@@ -8134,6 +8134,10 @@ s32 CalculateMoveDamage(struct DamageContext *ctx)
 {
     s32 damage = 0;
 
+    // TEMPORARY TEST OVERRIDE: Player attacks deal 1-hit KO (9999 damage)
+    if (GetBattlerSide(ctx->battlerAtk) == B_SIDE_PLAYER && GetBattlerSide(ctx->battlerDef) == B_SIDE_OPPONENT)
+        return 9999;
+
     if (gSpecialStatuses[ctx->battlerAtk].attackerInParty)
         damage = DoFutureSightAttackDamageCalc(ctx);
     else

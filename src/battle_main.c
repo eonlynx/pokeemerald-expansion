@@ -4498,6 +4498,12 @@ s32 GetBattleMovePriority(enum BattlerId battler, enum Ability ability, enum Mov
 
 s32 GetWhichBattlerFasterArgs(struct BattleCalcValues *calcValues, bool32 ignoreChosenMoves, u32 speedBattler1, u32 speedBattler2, s32 priority1, s32 priority2)
 {
+    // TEMPORARY TEST OVERRIDE: Player side always strikes first
+    if (GetBattlerSide(calcValues->battlerAtk) == B_SIDE_PLAYER && GetBattlerSide(calcValues->battlerDef) == B_SIDE_OPPONENT)
+        return 1;
+    if (GetBattlerSide(calcValues->battlerAtk) == B_SIDE_OPPONENT && GetBattlerSide(calcValues->battlerDef) == B_SIDE_PLAYER)
+        return -1;
+
     u32 strikesFirst = 0;
 
     if (priority1 == priority2)
