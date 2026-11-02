@@ -1615,7 +1615,7 @@ void ShowTrainerHillResultsWindow(u8 mode)
     // LV. 50 section
     AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gText_Lv502, 8, 33, TEXT_SKIP_DRAW, NULL);
     TrainerHillPrintTimesCleared(cleared50, 118, 33);
-    TrainerHillPrintStreak(gText_Prev, gSaveBlock1Ptr->trainerHill.prevTimes[mode][FRONTIER_LVL_50], gSaveBlock1Ptr->trainerHill.prevStreaks[mode][FRONTIER_LVL_50], cleared50 > 0, 8, 64, 154, 49);
+    TrainerHillPrintStreak((gSaveBlock1Ptr->trainerHill.winStreaks[mode][FRONTIER_LVL_50] > 0) ? gText_Current : gText_Prev, gSaveBlock1Ptr->trainerHill.prevTimes[mode][FRONTIER_LVL_50], gSaveBlock1Ptr->trainerHill.prevStreaks[mode][FRONTIER_LVL_50], cleared50 > 0, 8, 64, 154, 49);
     TrainerHillPrintStreak(gText_Record, gSaveBlock1Ptr->trainerHill.recordTimes[mode][FRONTIER_LVL_50], gSaveBlock1Ptr->trainerHill.recordStreaks[mode][FRONTIER_LVL_50], cleared50 > 0, 8, 64, 154, 65);
 
     // Separator
@@ -1624,7 +1624,7 @@ void ShowTrainerHillResultsWindow(u8 mode)
     // OPEN LV. section
     AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gText_OpenLv, 8, 97, TEXT_SKIP_DRAW, NULL);
     TrainerHillPrintTimesCleared(clearedOpen, 118, 97);
-    TrainerHillPrintStreak(gText_Prev, gSaveBlock1Ptr->trainerHill.prevTimes[mode][FRONTIER_LVL_OPEN], gSaveBlock1Ptr->trainerHill.prevStreaks[mode][FRONTIER_LVL_OPEN], clearedOpen > 0, 8, 64, 154, 113);
+    TrainerHillPrintStreak((gSaveBlock1Ptr->trainerHill.winStreaks[mode][FRONTIER_LVL_OPEN] > 0) ? gText_Current : gText_Prev, gSaveBlock1Ptr->trainerHill.prevTimes[mode][FRONTIER_LVL_OPEN], gSaveBlock1Ptr->trainerHill.prevStreaks[mode][FRONTIER_LVL_OPEN], clearedOpen > 0, 8, 64, 154, 113);
     TrainerHillPrintStreak(gText_Record, gSaveBlock1Ptr->trainerHill.recordTimes[mode][FRONTIER_LVL_OPEN], gSaveBlock1Ptr->trainerHill.recordStreaks[mode][FRONTIER_LVL_OPEN], clearedOpen > 0, 8, 64, 154, 129);
 
     PutWindowTilemap(gRecordsWindowId);

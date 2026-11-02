@@ -567,7 +567,16 @@ static void TrainerHillStartChallenge(void)
 {
     TrainerHillDummy();
 #if FREE_TRAINER_HILL == FALSE
-    GenerateTrainerHillChallenge(gSaveBlock1Ptr->trainerHill.mode);
+    u8 mode = gSaveBlock1Ptr->trainerHill.mode;
+    u8 lvlMode = gSaveBlock1Ptr->trainerHill.lvlMode;
+
+    GenerateTrainerHillChallenge(mode);
+
+    if (mode < NUM_TRAINER_HILL_MODES && lvlMode < FRONTIER_LVL_MODE_COUNT)
+    {
+        if (gSaveBlock1Ptr->trainerHill.winStreaks[mode][lvlMode] == 0)
+            gSaveBlock1Ptr->trainerHill.prevStreaks[mode][lvlMode] = 0;
+    }
 
     if (!ReadTrainerHillAndValidate())
         gSaveBlock1Ptr->trainerHill.field_3D6E_0f = 1;
@@ -830,7 +839,12 @@ static void TrainerHillGetChallengeStatus(void)
     else if (gSaveBlock2Ptr->frontier.savedGame)
     {
         // Player quit or reset without finishing the challenge.
+        u8 mode = gSaveBlock1Ptr->trainerHill.mode;
+        u8 lvlMode = gSaveBlock1Ptr->trainerHill.lvlMode;
+
         ClearTrainerHillVBlankCounter();
+        if (mode < NUM_TRAINER_HILL_MODES && lvlMode < FRONTIER_LVL_MODE_COUNT)
+            gSaveBlock1Ptr->trainerHill.winStreaks[mode][lvlMode] = 0;
         gSaveBlock2Ptr->frontier.savedGame = FALSE;
         gSaveBlock1Ptr->trainerHill.gaugeCredits = 0;
         gSaveBlock1Ptr->trainerHill.nextBrainThreshold = 200;

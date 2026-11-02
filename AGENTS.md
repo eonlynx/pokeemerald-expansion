@@ -193,7 +193,7 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
 - **Battle Frontier Pop-up Window Parity:** Uses the canonical Battle Frontier results window framework (`sFrontierResultsWindowTemplate`, `FRONTIER_FACILITY_HILL` / `10`, invoked via `frontier_results` and dismissed with `special RemoveRecordsWindow`).
 - **3-Column Layout Matching Battle Factory Parity:**
   - Header: `{PLAYER}'s Battle Tag [Mode] Results` centered at top (`y = 0`).
-  - **Column 1 (`x = 8`):** Section and row labels (`LV. 50`, `PREV.`, `RECORD`, `OPEN LV.`).
+  - **Column 1 (`x = 8`):** Section and row labels (`LV. 50`, `PREV.` / `CURRENT`, `RECORD`, `OPEN LV.`). Dynamically displays `CURRENT` (`gText_Current`) when the player has an active winning streak (`winStreaks[mode][lvlMode] > 0`) and `PREV.` (`gText_Prev`) when unplayed or after a streak ends via defeat, retirement, or disqualification, matching the rest of the Battle Frontier facilities.
   - **Column 2 (`x = 64`):** Challenge clear times formatted via `FormatTrainerHillTime(dst, total, hasCleared)` using the exact vanilla time calculation (`PrintOnTrainerHillRecordsWindow` / `BufferChallengeTime`). Displays `Time: --'--" --` when `timesCleared[mode][lvlMode] == 0`, and two-digit leading-zero minutes, seconds, and hundredths `Time: 12'34" 56` (clamped at `HILL_MAX_TIME = 215999` / `59'59" 99`) once cleared (`timesCleared[mode][lvlMode] > 0`), aligned on the same horizontal column as Battle Factory's `Win streak:`.
   - **Column 3 (`x = 154`):** Winning streak counts (`Streak:    0`), right-aligned to match Battle Factory's `Times:`.
   - **Top Row (`y = 33` and `y = 97`):** `LV. 50` / `OPEN LV.` on the left, balanced on the right with `Times cleared:    0` at `x = 118` (digits vertically aligned with `Streak:` at `212px`).
@@ -206,7 +206,7 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
   - `u16 winStreaks[NUM_TRAINER_HILL_MODES][FRONTIER_LVL_MODE_COUNT]`
   - `u16 timesCleared[NUM_TRAINER_HILL_MODES][FRONTIER_LVL_MODE_COUNT]`
   - `ResetTrainerHillResults()` initializes `recordTimes` and `prevTimes` to `HILL_MAX_TIME` (`215999`), and `TrainerHillSetMode()` loads `gSaveBlock1Ptr->trainerHill.bestTime` from `recordTimes[mode][lvlMode]` (defaulting to `HILL_MAX_TIME` if uninitialized).
-  - Updated upon rooftop victory via `UpdateTrainerHillClearRecords()` (comparing `bestTime > timer` just like vanilla `CheckFinalTime()`), with `winStreaks` reset to 0 upon defeat (`TrainerHillSetPlayerLost()`) or retirement (`TrainerHillRetire()`).
+  - Updated upon rooftop victory via `UpdateTrainerHillClearRecords()` (comparing `bestTime > timer` just like vanilla `CheckFinalTime()`), with `winStreaks` reset to 0 upon defeat (`TrainerHillSetPlayerLost()`), retirement (`TrainerHillRetire()`), or quit/reset disqualification (`TrainerHillGetChallengeStatus()`), and `prevStreaks` cleared at the start of a new challenge (`TrainerHillStartChallenge()`) if no streak is active.
   - **Timer Stop Safeguards:** `TrainerHillCheckFrontierBrain()` immediately calls `ClearTrainerHillVBlankCounter()` upon reaching the Owner on the roof and sets `spokeToOwner = TRUE` when Wally appears, ensuring the timer never runs during Wally's rooftop entrance cutscene, battle, or post-battle sequence. `TrainerHillResumeTimer()` and `InitTrainerHillBattleStruct()` likewise verify `!spokeToOwner` and `timer < HILL_MAX_TIME` before enabling the VBlank counter.
 
 ---
