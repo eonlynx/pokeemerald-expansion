@@ -1514,26 +1514,38 @@ static u8 *FormatTrainerHillTime(u8 *dst, u32 timer)
 {
     u32 minutes, secondsWhole, secondsFraction;
 
-    if (timer == 0 || timer >= HILL_MAX_TIME)
+    if (timer == 0)
     {
-        minutes = 0;
-        secondsWhole = 0;
-        secondsFraction = 0;
+        *(dst++) = CHAR_HYPHEN;
+        *(dst++) = CHAR_HYPHEN;
+        *(dst++) = CHAR_SGL_QUOTE_RIGHT;
+        *(dst++) = CHAR_HYPHEN;
+        *(dst++) = CHAR_HYPHEN;
+        *(dst++) = CHAR_DBL_QUOTE_RIGHT;
+        *(dst++) = CHAR_SPACE;
+        *(dst++) = CHAR_HYPHEN;
+        *(dst++) = CHAR_HYPHEN;
+        *dst = EOS;
     }
     else
     {
+        if (timer > HILL_MAX_TIME)
+            timer = HILL_MAX_TIME;
+
         minutes = timer / (60 * 60);
         timer %= (60 * 60);
         secondsWhole = timer / 60;
         secondsFraction = ((timer % 60) * 168) / 100;
+
+        dst = ConvertIntToDecimalStringN(dst, minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+        *(dst++) = CHAR_SGL_QUOTE_RIGHT;
+        dst = ConvertIntToDecimalStringN(dst, secondsWhole, STR_CONV_MODE_LEADING_ZEROS, 2);
+        *(dst++) = CHAR_DBL_QUOTE_RIGHT;
+        *(dst++) = CHAR_SPACE;
+        dst = ConvertIntToDecimalStringN(dst, secondsFraction, STR_CONV_MODE_LEADING_ZEROS, 2);
+        *dst = EOS;
     }
 
-    dst = ConvertIntToDecimalStringN(dst, minutes, STR_CONV_MODE_LEFT_ALIGN, 2);
-    *(dst++) = CHAR_SGL_QUOTE_RIGHT;
-    dst = ConvertIntToDecimalStringN(dst, secondsWhole, (secondsWhole < 10 && minutes == 0 && timer == 0) ? STR_CONV_MODE_LEFT_ALIGN : STR_CONV_MODE_LEADING_ZEROS, 2);
-    *(dst++) = CHAR_DBL_QUOTE_RIGHT;
-    dst = ConvertIntToDecimalStringN(dst, secondsFraction, STR_CONV_MODE_LEADING_ZEROS, 2);
-    *dst = EOS;
     return dst;
 }
 
@@ -1588,6 +1600,8 @@ void ShowTrainerHillResultsWindow(u8 mode)
         break;
     }
 
+    u32 recordTime50, recordTimeOpen;
+
     gRecordsWindowId = AddWindow(&sFrontierResultsWindowTemplate);
     DrawStdWindowFrame(gRecordsWindowId, FALSE);
     FillWindowPixelBuffer(gRecordsWindowId, PIXEL_FILL(1));
@@ -1595,11 +1609,23 @@ void ShowTrainerHillResultsWindow(u8 mode)
     StringExpandPlaceholders(gStringVar4, titleText);
     PrintAligned(gStringVar4, 0);
 
+    recordTime50 = gSaveBlock1Ptr->trainerHill.recordTimes[mode][FRONTIER_LVL_50];
+    if (gSaveBlock1Ptr->trainerHill.timesCleared[mode][FRONTIER_LVL_50] == 0 && recordTime50 >= HILL_MAX_TIME)
+        recordTime50 = 0;
+    if (recordTime50 == 0 && gSaveBlock1Ptr->trainerHillTimes[mode] > 0 && gSaveBlock1Ptr->trainerHillTimes[mode] < HILL_MAX_TIME)
+        recordTime50 = gSaveBlock1Ptr->trainerHillTimes[mode];
+
+    recordTimeOpen = gSaveBlock1Ptr->trainerHill.recordTimes[mode][FRONTIER_LVL_OPEN];
+    if (gSaveBlock1Ptr->trainerHill.timesCleared[mode][FRONTIER_LVL_OPEN] == 0 && recordTimeOpen >= HILL_MAX_TIME)
+        recordTimeOpen = 0;
+    if (recordTimeOpen == 0 && gSaveBlock1Ptr->trainerHillTimes[mode] > 0 && gSaveBlock1Ptr->trainerHillTimes[mode] < HILL_MAX_TIME)
+        recordTimeOpen = gSaveBlock1Ptr->trainerHillTimes[mode];
+
     // LV. 50 section
     AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gText_Lv502, 8, 33, TEXT_SKIP_DRAW, NULL);
     TrainerHillPrintTimesCleared(gSaveBlock1Ptr->trainerHill.timesCleared[mode][FRONTIER_LVL_50], 118, 33);
     TrainerHillPrintStreak(gText_Prev, gSaveBlock1Ptr->trainerHill.prevTimes[mode][FRONTIER_LVL_50], gSaveBlock1Ptr->trainerHill.prevStreaks[mode][FRONTIER_LVL_50], 8, 64, 154, 49);
-    TrainerHillPrintStreak(gText_Record, gSaveBlock1Ptr->trainerHill.recordTimes[mode][FRONTIER_LVL_50], gSaveBlock1Ptr->trainerHill.recordStreaks[mode][FRONTIER_LVL_50], 8, 64, 154, 65);
+    TrainerHillPrintStreak(gText_Record, recordTime50, gSaveBlock1Ptr->trainerHill.recordStreaks[mode][FRONTIER_LVL_50], 8, 64, 154, 65);
 
     // Separator
     PrintHyphens(10);
@@ -1608,7 +1634,7 @@ void ShowTrainerHillResultsWindow(u8 mode)
     AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gText_OpenLv, 8, 97, TEXT_SKIP_DRAW, NULL);
     TrainerHillPrintTimesCleared(gSaveBlock1Ptr->trainerHill.timesCleared[mode][FRONTIER_LVL_OPEN], 118, 97);
     TrainerHillPrintStreak(gText_Prev, gSaveBlock1Ptr->trainerHill.prevTimes[mode][FRONTIER_LVL_OPEN], gSaveBlock1Ptr->trainerHill.prevStreaks[mode][FRONTIER_LVL_OPEN], 8, 64, 154, 113);
-    TrainerHillPrintStreak(gText_Record, gSaveBlock1Ptr->trainerHill.recordTimes[mode][FRONTIER_LVL_OPEN], gSaveBlock1Ptr->trainerHill.recordStreaks[mode][FRONTIER_LVL_OPEN], 8, 64, 154, 129);
+    TrainerHillPrintStreak(gText_Record, recordTimeOpen, gSaveBlock1Ptr->trainerHill.recordStreaks[mode][FRONTIER_LVL_OPEN], 8, 64, 154, 129);
 
     PutWindowTilemap(gRecordsWindowId);
     CopyWindowToVram(gRecordsWindowId, COPYWIN_FULL);
