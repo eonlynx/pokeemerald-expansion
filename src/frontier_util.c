@@ -1510,11 +1510,11 @@ static void ShowFactoryResultsWindow(u8 battleMode)
     CopyWindowToVram(gRecordsWindowId, COPYWIN_FULL);
 }
 
-static u8 *FormatTrainerHillTime(u8 *dst, u32 timer)
+static u8 *FormatTrainerHillTime(u8 *dst, u32 total, bool8 hasCleared)
 {
     u32 minutes, secondsWhole, secondsFraction;
 
-    if (timer == 0)
+    if (!hasCleared)
     {
         *(dst++) = CHAR_HYPHEN;
         *(dst++) = CHAR_HYPHEN;
@@ -1529,13 +1529,14 @@ static u8 *FormatTrainerHillTime(u8 *dst, u32 timer)
     }
     else
     {
-        if (timer > HILL_MAX_TIME)
-            timer = HILL_MAX_TIME;
+        if (total >= HILL_MAX_TIME)
+            total = HILL_MAX_TIME;
 
-        minutes = timer / (60 * 60);
-        timer %= (60 * 60);
-        secondsWhole = timer / 60;
-        secondsFraction = ((timer % 60) * 168) / 100;
+        minutes = total / (60 * 60);
+        total %= (60 * 60);
+        secondsWhole = total / 60;
+        total %= 60;
+        secondsFraction = (total * 168) / 100;
 
         dst = ConvertIntToDecimalStringN(dst, minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
         *(dst++) = CHAR_SGL_QUOTE_RIGHT;
@@ -1549,13 +1550,13 @@ static u8 *FormatTrainerHillTime(u8 *dst, u32 timer)
     return dst;
 }
 
-static void TrainerHillPrintStreak(const u8 *str, u32 timer, u16 streak, u8 x1, u8 x2, u8 x3, u8 y)
+static void TrainerHillPrintStreak(const u8 *str, u32 timer, u16 streak, bool8 hasCleared, u8 x1, u8 x2, u8 x3, u8 y)
 {
     u8 timeStr[16];
 
     AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, str, x1, y, TEXT_SKIP_DRAW, NULL);
 
-    FormatTrainerHillTime(timeStr, timer);
+    FormatTrainerHillTime(timeStr, timer, hasCleared);
     StringCopy(gStringVar1, timeStr);
     StringExpandPlaceholders(gStringVar4, gText_TrainerHillTime);
     AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gStringVar4, x2, y, TEXT_SKIP_DRAW, NULL);
@@ -1579,6 +1580,7 @@ static void TrainerHillPrintTimesCleared(u16 count, u8 x, u8 y)
 void ShowTrainerHillResultsWindow(u8 mode)
 {
     const u8 *titleText;
+    u16 cleared50, clearedOpen;
 
     if (mode >= NUM_TRAINER_HILL_MODES)
         mode = HILL_MODE_NORMAL;
@@ -1600,8 +1602,6 @@ void ShowTrainerHillResultsWindow(u8 mode)
         break;
     }
 
-    u32 recordTime50, recordTimeOpen;
-
     gRecordsWindowId = AddWindow(&sFrontierResultsWindowTemplate);
     DrawStdWindowFrame(gRecordsWindowId, FALSE);
     FillWindowPixelBuffer(gRecordsWindowId, PIXEL_FILL(1));
@@ -1609,32 +1609,23 @@ void ShowTrainerHillResultsWindow(u8 mode)
     StringExpandPlaceholders(gStringVar4, titleText);
     PrintAligned(gStringVar4, 0);
 
-    recordTime50 = gSaveBlock1Ptr->trainerHill.recordTimes[mode][FRONTIER_LVL_50];
-    if (gSaveBlock1Ptr->trainerHill.timesCleared[mode][FRONTIER_LVL_50] == 0 && recordTime50 >= HILL_MAX_TIME)
-        recordTime50 = 0;
-    if (recordTime50 == 0 && gSaveBlock1Ptr->trainerHillTimes[mode] > 0 && gSaveBlock1Ptr->trainerHillTimes[mode] < HILL_MAX_TIME)
-        recordTime50 = gSaveBlock1Ptr->trainerHillTimes[mode];
-
-    recordTimeOpen = gSaveBlock1Ptr->trainerHill.recordTimes[mode][FRONTIER_LVL_OPEN];
-    if (gSaveBlock1Ptr->trainerHill.timesCleared[mode][FRONTIER_LVL_OPEN] == 0 && recordTimeOpen >= HILL_MAX_TIME)
-        recordTimeOpen = 0;
-    if (recordTimeOpen == 0 && gSaveBlock1Ptr->trainerHillTimes[mode] > 0 && gSaveBlock1Ptr->trainerHillTimes[mode] < HILL_MAX_TIME)
-        recordTimeOpen = gSaveBlock1Ptr->trainerHillTimes[mode];
+    cleared50 = gSaveBlock1Ptr->trainerHill.timesCleared[mode][FRONTIER_LVL_50];
+    clearedOpen = gSaveBlock1Ptr->trainerHill.timesCleared[mode][FRONTIER_LVL_OPEN];
 
     // LV. 50 section
     AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gText_Lv502, 8, 33, TEXT_SKIP_DRAW, NULL);
-    TrainerHillPrintTimesCleared(gSaveBlock1Ptr->trainerHill.timesCleared[mode][FRONTIER_LVL_50], 118, 33);
-    TrainerHillPrintStreak(gText_Prev, gSaveBlock1Ptr->trainerHill.prevTimes[mode][FRONTIER_LVL_50], gSaveBlock1Ptr->trainerHill.prevStreaks[mode][FRONTIER_LVL_50], 8, 64, 154, 49);
-    TrainerHillPrintStreak(gText_Record, recordTime50, gSaveBlock1Ptr->trainerHill.recordStreaks[mode][FRONTIER_LVL_50], 8, 64, 154, 65);
+    TrainerHillPrintTimesCleared(cleared50, 118, 33);
+    TrainerHillPrintStreak(gText_Prev, gSaveBlock1Ptr->trainerHill.prevTimes[mode][FRONTIER_LVL_50], gSaveBlock1Ptr->trainerHill.prevStreaks[mode][FRONTIER_LVL_50], cleared50 > 0, 8, 64, 154, 49);
+    TrainerHillPrintStreak(gText_Record, gSaveBlock1Ptr->trainerHill.recordTimes[mode][FRONTIER_LVL_50], gSaveBlock1Ptr->trainerHill.recordStreaks[mode][FRONTIER_LVL_50], cleared50 > 0, 8, 64, 154, 65);
 
     // Separator
     PrintHyphens(10);
 
     // OPEN LV. section
     AddTextPrinterParameterized(gRecordsWindowId, FONT_NORMAL, gText_OpenLv, 8, 97, TEXT_SKIP_DRAW, NULL);
-    TrainerHillPrintTimesCleared(gSaveBlock1Ptr->trainerHill.timesCleared[mode][FRONTIER_LVL_OPEN], 118, 97);
-    TrainerHillPrintStreak(gText_Prev, gSaveBlock1Ptr->trainerHill.prevTimes[mode][FRONTIER_LVL_OPEN], gSaveBlock1Ptr->trainerHill.prevStreaks[mode][FRONTIER_LVL_OPEN], 8, 64, 154, 113);
-    TrainerHillPrintStreak(gText_Record, recordTimeOpen, gSaveBlock1Ptr->trainerHill.recordStreaks[mode][FRONTIER_LVL_OPEN], 8, 64, 154, 129);
+    TrainerHillPrintTimesCleared(clearedOpen, 118, 97);
+    TrainerHillPrintStreak(gText_Prev, gSaveBlock1Ptr->trainerHill.prevTimes[mode][FRONTIER_LVL_OPEN], gSaveBlock1Ptr->trainerHill.prevStreaks[mode][FRONTIER_LVL_OPEN], clearedOpen > 0, 8, 64, 154, 113);
+    TrainerHillPrintStreak(gText_Record, gSaveBlock1Ptr->trainerHill.recordTimes[mode][FRONTIER_LVL_OPEN], gSaveBlock1Ptr->trainerHill.recordStreaks[mode][FRONTIER_LVL_OPEN], clearedOpen > 0, 8, 64, 154, 129);
 
     PutWindowTilemap(gRecordsWindowId);
     CopyWindowToVram(gRecordsWindowId, COPYWIN_FULL);

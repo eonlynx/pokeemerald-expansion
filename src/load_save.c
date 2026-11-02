@@ -98,7 +98,6 @@ void MoveSaveBlocks_ResetHeap(void)
     struct SaveBlock2 *saveBlock2Copy;
     struct SaveBlock1 *saveBlock1Copy;
     struct PokemonStorage *pokemonStorageCopy;
-    bool8 hadHillCounter = (gTrainerHillVBlankCounter != NULL);
 
     // save interrupt functions and turn them off
     vblankCB = gMain.vblankCallback;
@@ -135,10 +134,6 @@ void MoveSaveBlocks_ResetHeap(void)
     // restore interrupt functions
     gMain.hblankCallback = hblankCB;
     gMain.vblankCallback = vblankCB;
-#if FREE_TRAINER_HILL == FALSE
-    if (hadHillCounter)
-        gTrainerHillVBlankCounter = &gSaveBlock1Ptr->trainerHill.timer;
-#endif
 
     // create a new encryption key
     encryptionKey = Random32();

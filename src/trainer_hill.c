@@ -265,8 +265,8 @@ void ResetTrainerHillResults(void)
         SetTimerValue(&gSaveBlock1Ptr->trainerHillTimes[i], HILL_MAX_TIME);
         for (j = 0; j < FRONTIER_LVL_MODE_COUNT; j++)
         {
-            SetTimerValue(&gSaveBlock1Ptr->trainerHill.recordTimes[i][j], 0);
-            SetTimerValue(&gSaveBlock1Ptr->trainerHill.prevTimes[i][j], 0);
+            SetTimerValue(&gSaveBlock1Ptr->trainerHill.recordTimes[i][j], HILL_MAX_TIME);
+            SetTimerValue(&gSaveBlock1Ptr->trainerHill.prevTimes[i][j], HILL_MAX_TIME);
             gSaveBlock1Ptr->trainerHill.recordStreaks[i][j] = 0;
             gSaveBlock1Ptr->trainerHill.prevStreaks[i][j] = 0;
             gSaveBlock1Ptr->trainerHill.winStreaks[i][j] = 0;
@@ -660,29 +660,30 @@ static void UpdateTrainerHillClearRecords(void)
     u8 mode = gSaveBlock1Ptr->trainerHill.mode;
     u8 lvlMode = gSaveBlock1Ptr->trainerHill.lvlMode;
     u32 timer = gSaveBlock1Ptr->trainerHill.timer;
-    u32 prevRecord;
+    u32 bestTime;
 
     if (mode >= NUM_TRAINER_HILL_MODES)
         mode = HILL_MODE_NORMAL;
     if (lvlMode >= FRONTIER_LVL_MODE_COUNT)
         lvlMode = FRONTIER_LVL_50;
 
-    if (timer > HILL_MAX_TIME)
+    if (timer >= HILL_MAX_TIME)
         timer = HILL_MAX_TIME;
-    if (timer == 0)
-        timer = 1;
 
     if (gSaveBlock1Ptr->trainerHill.timesCleared[mode][lvlMode] < 0xFFFF)
         gSaveBlock1Ptr->trainerHill.timesCleared[mode][lvlMode]++;
 
     SetTimerValue(&gSaveBlock1Ptr->trainerHill.prevTimes[mode][lvlMode], timer);
 
-    prevRecord = GetTimerValue(&gSaveBlock1Ptr->trainerHill.recordTimes[mode][lvlMode]);
-    if (prevRecord == 0 || prevRecord > HILL_MAX_TIME || timer < prevRecord)
+    bestTime = GetTimerValue(&gSaveBlock1Ptr->trainerHill.recordTimes[mode][lvlMode]);
+    if (bestTime == 0 || bestTime > HILL_MAX_TIME)
+        bestTime = HILL_MAX_TIME;
+
+    if (bestTime > timer || gSaveBlock1Ptr->trainerHill.timesCleared[mode][lvlMode] == 1)
     {
-        sIsNewRecord = TRUE;
-        SetTimerValue(&gSaveBlock1Ptr->trainerHill.recordTimes[mode][lvlMode], timer);
+        sIsNewRecord = (bestTime > timer);
         SetTimerValue(&gSaveBlock1Ptr->trainerHill.bestTime, timer);
+        SetTimerValue(&gSaveBlock1Ptr->trainerHill.recordTimes[mode][lvlMode], timer);
         gSaveBlock1Ptr->trainerHillTimes[mode] = gSaveBlock1Ptr->trainerHill.bestTime;
     }
     else
@@ -1347,8 +1348,20 @@ static void GetChallengeWon(void)
 static void TrainerHillSetMode(void)
 {
 #if FREE_TRAINER_HILL == FALSE
-    gSaveBlock1Ptr->trainerHill.mode = gSpecialVar_0x8005;
-    gSaveBlock1Ptr->trainerHill.bestTime = gSaveBlock1Ptr->trainerHillTimes[gSpecialVar_0x8005];
+    u8 mode = gSpecialVar_0x8005;
+    u8 lvlMode = gSaveBlock1Ptr->trainerHill.lvlMode;
+    u32 bestTime;
+
+    if (mode >= NUM_TRAINER_HILL_MODES)
+        mode = HILL_MODE_NORMAL;
+    if (lvlMode >= FRONTIER_LVL_MODE_COUNT)
+        lvlMode = FRONTIER_LVL_50;
+
+    gSaveBlock1Ptr->trainerHill.mode = mode;
+    bestTime = GetTimerValue(&gSaveBlock1Ptr->trainerHill.recordTimes[mode][lvlMode]);
+    if (bestTime == 0 || bestTime > HILL_MAX_TIME)
+        bestTime = HILL_MAX_TIME;
+    gSaveBlock1Ptr->trainerHill.bestTime = bestTime;
 #endif //FREE_TRAINER_HILL
 }
 
