@@ -728,6 +728,15 @@ static const struct MenuAction MultichoiceList_BattlePikeRules[] =
     {gText_Exit},
 };
 
+static const struct MenuAction MultichoiceList_BattleHillRules[] =
+{
+    {COMPOUND_STRING("HILL INFO")},
+    {COMPOUND_STRING("TAG BATTLES")},
+    {COMPOUND_STRING("CHALLENGE MODES")},
+    {COMPOUND_STRING("POKéMON & ITEMS")},
+    {gText_Exit},
+};
+
 const u8 gText_GoOn[] = _("GO ON");
 
 static const struct MenuAction MultichoiceList_GoOnRecordRestRetire[] =
@@ -1238,6 +1247,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_BATTLE_PALACE_RULES]        = MULTICHOICE(MultichoiceList_BattlePalaceRules),
     [MULTI_BATTLE_PYRAMID_RULES]       = MULTICHOICE(MultichoiceList_BattlePyramidRules),
     [MULTI_BATTLE_PIKE_RULES]          = MULTICHOICE(MultichoiceList_BattlePikeRules),
+    [MULTI_BATTLE_HILL_RULES]          = MULTICHOICE(MultichoiceList_BattleHillRules),
     [MULTI_GO_ON_RECORD_REST_RETIRE]   = MULTICHOICE(MultichoiceList_GoOnRecordRestRetire),
     [MULTI_GO_ON_REST_RETIRE]          = MULTICHOICE(MultichoiceList_GoOnRestRetire),
     [MULTI_GO_ON_RECORD_RETIRE]        = MULTICHOICE(MultichoiceList_GoOnRecordRetire),

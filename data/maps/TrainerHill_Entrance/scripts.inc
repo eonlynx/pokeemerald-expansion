@@ -189,7 +189,6 @@ TrainerHill_Entrance_EventScript_Attendant::
 	faceplayer
 	trainerhill_inchallenge
 	goto_if_eq VAR_RESULT, TRUE, TrainerHill_Entrance_EventScript_HopeYouGiveItYourBest
-	goto_if_unset FLAG_SYS_GAME_CLEAR, TrainerHill_Entrance_EventScript_Closed
 	msgbox TrainerHill_Entrance_Text_WelcomeToTrainerHill, MSGBOX_DEFAULT
 TrainerHill_Entrance_EventScript_AskChallengeTrainers::
 	message TrainerHill_Entrance_Text_LikeToChallengeTrainers
@@ -358,12 +357,6 @@ TrainerHill_Entrance_Movement_PushPlayerBackFromExit:
 	walk_up
 	step_end
 
-TrainerHill_Entrance_EventScript_Closed::
-	msgbox TrainerHill_Entrance_Text_StillGettingReady, MSGBOX_DEFAULT
-	closemessage
-	releaseall
-	end
-
 TrainerHill_Entrance_Movement_PlayerFaceAttendant:
 	face_up
 	step_end
@@ -405,30 +398,56 @@ TrainerHill_Entrance_EventScript_ShowExpertResults::
 	releaseall
 	end
 
+TrainerHill_Entrance_EventScript_RulesBoard::
+	lockall
+	msgbox TrainerHill_Entrance_Text_RulesAreListed, MSGBOX_DEFAULT
+	goto TrainerHill_Entrance_EventScript_ReadRulesBoard
+	end
+
+TrainerHill_Entrance_EventScript_ReadRulesBoard::
+	message TrainerHill_Entrance_Text_ReadWhichHeading
+	waitmessage
+	multichoice 15, 2, MULTI_BATTLE_HILL_RULES, FALSE
+	switch VAR_RESULT
+	case 0, TrainerHill_Entrance_EventScript_RulesHillInfo
+	case 1, TrainerHill_Entrance_EventScript_RulesTagBattles
+	case 2, TrainerHill_Entrance_EventScript_RulesChallengeModes
+	case 3, TrainerHill_Entrance_EventScript_RulesPokemonItems
+	case 4, TrainerHill_Entrance_EventScript_ExitRules
+	case MULTI_B_PRESSED, TrainerHill_Entrance_EventScript_ExitRules
+	end
+
+TrainerHill_Entrance_EventScript_RulesHillInfo::
+	msgbox TrainerHill_Entrance_Text_ExplainRulesHillInfo, MSGBOX_DEFAULT
+	goto TrainerHill_Entrance_EventScript_ReadRulesBoard
+	end
+
+TrainerHill_Entrance_EventScript_RulesTagBattles::
+	msgbox TrainerHill_Entrance_Text_ExplainRulesTagBattles, MSGBOX_DEFAULT
+	goto TrainerHill_Entrance_EventScript_ReadRulesBoard
+	end
+
+TrainerHill_Entrance_EventScript_RulesChallengeModes::
+	msgbox TrainerHill_Entrance_Text_ExplainRulesChallengeModes, MSGBOX_DEFAULT
+	goto TrainerHill_Entrance_EventScript_ReadRulesBoard
+	end
+
+TrainerHill_Entrance_EventScript_RulesPokemonItems::
+	msgbox TrainerHill_Entrance_Text_ExplainRulesPokemonItems, MSGBOX_DEFAULT
+	goto TrainerHill_Entrance_EventScript_ReadRulesBoard
+	end
+
+TrainerHill_Entrance_EventScript_ExitRules::
+	releaseall
+	end
+
 TrainerHill_Entrance_EventScript_Man::
-	goto_if_unset FLAG_SYS_GAME_CLEAR, TrainerHill_Entrance_EventScript_ManTrainerHillClosed
 	msgbox TrainerHill_Entrance_Text_WhatSortOfTrainersAreAhead, MSGBOX_NPC
 	end
 
-TrainerHill_Entrance_EventScript_ManTrainerHillClosed::
-	msgbox TrainerHill_Entrance_Text_CantWaitToTestTheWaters, MSGBOX_NPC
-	end
-
 TrainerHill_Entrance_EventScript_Girl::
-	goto_if_unset FLAG_SYS_GAME_CLEAR, TrainerHill_Entrance_EventScript_GirlTrainerHillClosed
 	msgbox TrainerHill_Entrance_Text_FriendsTryingToReachTimeBoardTop, MSGBOX_NPC
 	end
-
-TrainerHill_Entrance_EventScript_GirlTrainerHillClosed::
-	msgbox TrainerHill_Entrance_Text_DoYouKnowWhenTheyOpen, MSGBOX_NPC
-	end
-
-TrainerHill_Entrance_Text_StillGettingReady:
-	.string "Where the speed of TRAINERS\n"
-	.string "is put to the test…\p"
-	.string "This is the BATTLE HILL.\p"
-	.string "Unfortunately, we're still getting\n"
-	.string "things ready. Please come back later!$"
 
 TrainerHill_Entrance_Text_WelcomeToTrainerHill:
 	.string "Where the speed of TRAINERS\n"
@@ -697,8 +716,8 @@ TrainerHill_Roof_Text_GotHereMarvelouslyQuickly:
 	.string "here marvelously quickly?\p"
 	.string "How splendid! You needn't have\n"
 	.string "hurried so to see me!\p"
-	.string "That is so delightful. I'll have the Time\n"
-	.string "Board at the reception updated!$"
+	.string "That is simply delightful! Truly a\n"
+	.string "marvelous feat of agility!$"
 
 TrainerHill_Roof_Text_YouWerentVeryQuick:
 	.string "But, oh…\n"
@@ -724,28 +743,17 @@ TrainerHill_Entrance_Text_ChallengeTime:
 	.string "{STR_VAR_1} min. {STR_VAR_2}.{STR_VAR_3} sec.$"
 
 TrainerHill_Entrance_Text_WhatSortOfTrainersAreAhead:
-	.string "Who knows what sort of TRAINERS\n"
-	.string "and POKéMON combos are ahead?\p"
-	.string "All I know is that I'll knock aside\n"
-	.string "anyone that stands in my way!$"
-
-TrainerHill_Entrance_Text_CantWaitToTestTheWaters:
-	.string "I heard tough TRAINERS come to this\n"
-	.string "BATTLE HILL from all over.\p"
-	.string "I can't wait to test the waters!\p"
-	.string "I'll knock aside anyone that stands\n"
-	.string "in my way!$"
+	.string "Every floor throws a tag team at you\n"
+	.string "with different POKéMON combos!\p"
+	.string "You need both speed and coordination\n"
+	.string "if you hope to reach the summit!$"
 
 TrainerHill_Entrance_Text_FriendsTryingToReachTimeBoardTop:
-	.string "Do you see the Time Board over there?\p"
-	.string "My friends and I are trying to see who\n"
-	.string "can reach the top in the least time.$"
-
-TrainerHill_Entrance_Text_DoYouKnowWhenTheyOpen:
-	.string "Do you know when they're opening\n"
-	.string "this place up?\p"
-	.string "I'm waiting here to be the first\n"
-	.string "challenger ever!$"
+	.string "Do you see the Results boards\n"
+	.string "over there?\p"
+	.string "My friends and I are competing to see\n"
+	.string "who can conquer each challenge mode\l"
+	.string "with the longest winning streak!$"
 
 TrainerHill_Elevator_Text_ReturnToReception:
 	.string "Would you like to return to\n"
@@ -763,3 +771,44 @@ TrainerHill_Entrance_Text_PartyLevelTooHigh50:
 	.string "All POKéMON in your party must be\n"
 	.string "Level 50 or less to enter Level 50.\p"
 	.string "Please come see me when you are ready.$"
+
+TrainerHill_Entrance_Text_RulesAreListed:
+	.string "The BATTLE HILL rules are listed.$"
+
+TrainerHill_Entrance_Text_ReadWhichHeading:
+	.string "Which heading do you want to read?$"
+
+TrainerHill_Entrance_Text_ExplainRulesHillInfo:
+	.string "The BATTLE HILL is a test of speed\n"
+	.string "and endurance across four floors.\p"
+	.string "A timer begins the moment you enter\n"
+	.string "the challenge and stops on the roof.\p"
+	.string "The quicker you reach the summit,\n"
+	.string "the more Battle Points you will earn.\p"
+	.string "Take the swiftest path to victory!$"
+
+TrainerHill_Entrance_Text_ExplainRulesTagBattles:
+	.string "On every floor, two TRAINERS await.\p"
+	.string "When you cross their lines of sight,\n"
+	.string "they team up in a TAG BATTLE.\p"
+	.string "You must defeat both TRAINERS on\n"
+	.string "each floor to unlock the staircase.\p"
+	.string "Knock out all opposing POKéMON\n"
+	.string "to clear the floor and advance!$"
+
+TrainerHill_Entrance_Text_ExplainRulesChallengeModes:
+	.string "There are four challenge modes:\n"
+	.string "NORMAL, VARIETY, UNIQUE, and EXPERT.\p"
+	.string "Each mode features different floor\n"
+	.string "layouts, TRAINERS, and POKéMON combos.\p"
+	.string "Conquering tougher modes rewards you\n"
+	.string "with greater praise and honors!$"
+
+TrainerHill_Entrance_Text_ExplainRulesPokemonItems:
+	.string "Unlike other FRONTIER facilities,\n"
+	.string "you may enter the BATTLE HILL with\l"
+	.string "a full party of six POKéMON.\p"
+	.string "There are no banned species, and your\n"
+	.string "POKéMON may hold any items you like.\p"
+	.string "Even duplicate POKéMON and duplicate\n"
+	.string "held items are freely permitted!$"

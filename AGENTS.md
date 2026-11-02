@@ -209,6 +209,17 @@ Each run randomly selects **8 trainers distributed across 4 floors** (2 trainers
   - Updated upon rooftop victory via `UpdateTrainerHillClearRecords()` (comparing `bestTime > timer` just like vanilla `CheckFinalTime()`), with `winStreaks` reset to 0 upon defeat (`TrainerHillSetPlayerLost()`), retirement (`TrainerHillRetire()`), or quit/reset disqualification (`TrainerHillGetChallengeStatus()`), and `prevStreaks` cleared at the start of a new challenge (`TrainerHillStartChallenge()`) if no streak is active.
   - **Timer Stop Safeguards:** `TrainerHillCheckFrontierBrain()` immediately calls `ClearTrainerHillVBlankCounter()` upon reaching the Owner on the roof and sets `spokeToOwner = TRUE` when Wally appears, ensuring the timer never runs during Wally's rooftop entrance cutscene, battle, or post-battle sequence. `TrainerHillResumeTimer()` and `InitTrainerHillBattleStruct()` likewise verify `!spokeToOwner` and `timer < HILL_MAX_TIME` before enabling the VBlank counter.
 
+### 2.14. Rules Board & Early Game Access Parity
+- **Unrestricted Early-Game Access:** All pre-Champion checks (`FLAG_SYS_GAME_CLEAR`) were decommissioned in `TrainerHill_Entrance`. Battle Hill is now accessible from the start of the adventure upon reaching Route 111, with the attendant open for challenges and lobby NPCs actively conversing about the facility.
+- **Dedicated Rules Board (`MULTI_BATTLE_HILL_RULES`):** Placed at `(1, 10)` in `TrainerHill_Entrance/map.json` matching Battle Frontier convention, featuring interactive headings tailored to Battle Hill's unique gameplay:
+  - **`HILL INFO`:** Explains the 4-floor speed and endurance ascent and how clear times award Battle Points on the roof.
+  - **`TAG BATTLES`:** Details the 2-on-1 tag battle mechanic triggered by trainers' crossing vision cones.
+  - **`CHALLENGE MODES`:** Explains the differences across Normal, Variety, Unique, and Expert modes.
+  - **`POKéMON & ITEMS`:** Highlights Battle Hill's unique rule allowing a full party of 6 Pokémon, all legendary/mythical species, and duplicate held items.
+- **Dialogue Consistency & De-duplication:**
+  - `TrainerHill_Roof_Text_GotHereMarvelouslyQuickly` was refined (*"That is simply delightful! Truly a marvelous feat of agility!"*) to avoid redundant references to reception time boards before the game save prompt.
+  - Lobby NPCs updated to reference the **Results boards** and describe tag battle synergy and speed instead of repeating vanilla placeholder phrases.
+
 ---
 
 ## 3. Key Source Files
