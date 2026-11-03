@@ -1264,8 +1264,6 @@ MossdeepCity_GameCorner_1F_EventScript_OldMan2::
 	faceplayer
 	message MossdeepCity_GameCorner_1F_Text_WelcomeCanYouWait
 	waitmessage
-	specialvar VAR_RESULT, IsWirelessAdapterConnected
-	goto_if_eq VAR_RESULT, FALSE, MossdeepCity_GameCorner_1F_EventScript_AdapterNotConnected
 	delay 60
 	message MossdeepCity_GameCorner_1F_Text_PlayWhichGame
 	waitmessage
@@ -1281,28 +1279,93 @@ MossdeepCity_GameCorner_1F_EventScript_PlayPokemonJump::
 	setvar VAR_0x8005, 0
 	special IsPokemonJumpSpeciesInParty
 	goto_if_eq VAR_RESULT, FALSE, MossdeepCity_GameCorner_1F_EventScript_DontHaveRequiredMon
-	msgbox MossdeepCity_GameCorner_1F_Text_EnterWhichPokemon, MSGBOX_DEFAULT
-	fadescreen FADE_TO_BLACK
-	setvar VAR_0x8005, 0
-	special ChooseMonForWirelessMinigame
-	goto_if_ge VAR_0x8004, PARTY_SIZE, MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
-	call Common_EventScript_SaveGame
-	goto_if_eq VAR_RESULT, 0, MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
-	setvar VAR_0x8004, LINK_GROUP_POKEMON_JUMP
-	goto MossdeepCity_GameCorner_1F_EventScript_ChooseLinkLeader
-	end
+	goto MossdeepCity_GameCorner_1F_EventScript_ChooseMinigameMode
 
 MossdeepCity_GameCorner_1F_EventScript_PlayDodrioBerryPicking::
 	setvar VAR_0x8005, 1
 	special IsDodrioInParty
 	goto_if_eq VAR_RESULT, FALSE, MossdeepCity_GameCorner_1F_EventScript_DontHaveRequiredMon
+	goto MossdeepCity_GameCorner_1F_EventScript_ChooseMinigameMode
+
+MossdeepCity_GameCorner_1F_EventScript_ChooseMinigameMode::
+	message MossdeepCity_GameCorner_1F_Text_PlaySoloOrLink
+	waitmessage
+	multichoice 0, 0, MULTI_MINIGAME_MODE, FALSE
+	switch VAR_RESULT
+	case 0, MossdeepCity_GameCorner_1F_EventScript_ChooseDifficultySolo
+	case 1, MossdeepCity_GameCorner_1F_EventScript_PlayMinigameWireless
+	case 2, MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
+	case MULTI_B_PRESSED, MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
+	end
+
+MossdeepCity_GameCorner_1F_EventScript_ChooseDifficultySolo::
+	message MossdeepCity_GameCorner_1F_Text_ChooseDifficulty
+	waitmessage
+	multichoice 0, 0, MULTI_MINIGAME_DIFFICULTY, FALSE
+	switch VAR_RESULT
+	case 0, MossdeepCity_GameCorner_1F_EventScript_PlayMinigameSolo
+	case 1, MossdeepCity_GameCorner_1F_EventScript_PlayMinigameSolo
+	case 2, MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
+	case MULTI_B_PRESSED, MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
+	end
+
+MossdeepCity_GameCorner_1F_EventScript_PlayMinigameSolo::
+	copyvar VAR_0x8006, VAR_RESULT
 	msgbox MossdeepCity_GameCorner_1F_Text_EnterWhichPokemon, MSGBOX_DEFAULT
 	fadescreen FADE_TO_BLACK
-	setvar VAR_0x8005, 1
+	special ChooseMonForWirelessMinigame
+	goto_if_ge VAR_0x8004, PARTY_SIZE, MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
+	copyvar VAR_0x8008, VAR_0x8004
+	call Common_EventScript_SaveGame
+	goto_if_eq VAR_RESULT, 0, MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
+	copyvar VAR_0x8004, VAR_0x8008
+	messageautoscroll MossdeepCity_GameCorner_1F_Text_AllGoodToGo
+	waitmessage
+	delay 60
+	closemessage
+	copyvar VAR_0x8007, VAR_LAST_TALKED
+	call EventScript_OpenMossdeepGameCornerBarrier
+	special DrawWholeMapView
+	playse SE_CLICK
+	delay 60
+	applymovement VAR_LAST_TALKED, Movement_AttendantFaceLeft
+	waitmovement 0
+	closemessage
+	applymovement LOCALID_PLAYER, Movement_PlayerEnterMinigameRoom
+	waitmovement 0
+	hideplayer
+	call_if_eq VAR_0x8005, 0, MossdeepCity_GameCorner_1F_EventScript_StartPokemonJumpSolo
+	call_if_eq VAR_0x8005, 1, MossdeepCity_GameCorner_1F_EventScript_StartDodrioBerryPickingSolo
+	waitstate
+	end
+
+MossdeepCity_GameCorner_1F_EventScript_StartPokemonJumpSolo::
+	special StartPokemonJumpSolo
+	return
+
+MossdeepCity_GameCorner_1F_EventScript_StartDodrioBerryPickingSolo::
+	special StartDodrioBerryPickingSolo
+	return
+
+MossdeepCity_GameCorner_1F_EventScript_PlayMinigameWireless::
+	specialvar VAR_RESULT, IsWirelessAdapterConnected
+	goto_if_eq VAR_RESULT, FALSE, MossdeepCity_GameCorner_1F_EventScript_AdapterNotConnected
+	msgbox MossdeepCity_GameCorner_1F_Text_EnterWhichPokemon, MSGBOX_DEFAULT
+	fadescreen FADE_TO_BLACK
 	special ChooseMonForWirelessMinigame
 	goto_if_ge VAR_0x8004, PARTY_SIZE, MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
 	call Common_EventScript_SaveGame
 	goto_if_eq VAR_RESULT, 0, MossdeepCity_GameCorner_1F_EventScript_AbortMinigame
+	goto_if_eq VAR_0x8005, 0, MossdeepCity_GameCorner_1F_EventScript_SetupLinkPokemonJump
+	goto_if_eq VAR_0x8005, 1, MossdeepCity_GameCorner_1F_EventScript_SetupLinkDodrioBerryPicking
+	end
+
+MossdeepCity_GameCorner_1F_EventScript_SetupLinkPokemonJump::
+	setvar VAR_0x8004, LINK_GROUP_POKEMON_JUMP
+	goto MossdeepCity_GameCorner_1F_EventScript_ChooseLinkLeader
+	end
+
+MossdeepCity_GameCorner_1F_EventScript_SetupLinkDodrioBerryPicking::
 	setvar VAR_0x8004, LINK_GROUP_BERRY_PICKING
 	goto MossdeepCity_GameCorner_1F_EventScript_ChooseLinkLeader
 	end

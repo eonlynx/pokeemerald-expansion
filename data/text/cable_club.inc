@@ -294,6 +294,12 @@ MossdeepCity_GameCorner_1F_Text_PlayWhichGame:
 	.string "All right, which game did you want\n"
 	.string "to play?$"
 
+MossdeepCity_GameCorner_1F_Text_PlaySoloOrLink:
+	.string "Which mode would you like to play?$"
+
+MossdeepCity_GameCorner_1F_Text_ChooseDifficulty:
+	.string "Please select a difficulty level.$"
+
 MossdeepCity_GameCorner_1F_Text_EnterWhichPokemon:
 	.string "Which POKéMON would you like to\n"
 	.string "enter?$"

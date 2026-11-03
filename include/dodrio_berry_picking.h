@@ -4,6 +4,7 @@
 #include "main.h"
 
 void StartDodrioBerryPicking(u16 partyId, MainCallback exitCallback);
+void StartDodrioBerryPickingSolo(void);
 void IsDodrioInParty(void);
 void ShowDodrioBerryPickingRecords(void);
 

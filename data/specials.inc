@@ -446,8 +446,10 @@ gSpecials::
 	def_special HasAtLeastOneBerry
 	def_special IsPokemonJumpSpeciesInParty
 	def_special ShowPokemonJumpRecords, waitstate=1
+	def_special StartPokemonJumpSolo, waitstate=1
 	def_special IsDodrioInParty
 	def_special ShowDodrioBerryPickingRecords, waitstate=1
+	def_special StartDodrioBerryPickingSolo, waitstate=1
 	def_special OffsetCameraForBattle
 	def_special GetDeptStoreDefaultFloorChoice
 	def_special BufferVarsForIVRater
