@@ -1,6 +1,7 @@
 #include "global.h"
 #include "battle_anim.h"
 #include "berry.h"
+#include "berry_crush.h"
 #include "berry_powder.h"
 #include "bg.h"
 #include "decompress.h"
@@ -37,6 +38,7 @@
 #include "constants/items.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "constants/cable_club.h"
 
 #define MAX_TIME (10 * 60 * 60) // Timer can go up to 9:59:59
 
@@ -950,6 +952,35 @@ static struct BerryCrushGame * GetBerryCrushGame(void)
     return sGame;
 }
 
+static bool8 sIsSoloMinigame = FALSE;
+static u8 sSoloDifficulty = 0;
+
+static const u8 sCpuName_Laddie[] = _("LADDIE");
+static const u8 sCpuName_Lassie[] = _("LASSIE");
+static const u8 sCpuName_Dude[]   = _("DUDE");
+static const u8 sCpuName_Miss[]   = _("MISS");
+
+static const u8 *const sCpuNames[MAX_RFU_PLAYERS - 1] =
+{
+    sCpuName_Laddie,
+    sCpuName_Lassie,
+    sCpuName_Dude,
+    sCpuName_Miss
+};
+
+static u8 sCpuPressTimers[MAX_RFU_PLAYERS - 1];
+static u8 sCpuHoldTimers[MAX_RFU_PLAYERS - 1];
+
+static void InitCpuPressTimers(void)
+{
+    u8 i;
+    for (i = 0; i < MAX_RFU_PLAYERS - 1; i++)
+    {
+        sCpuPressTimers[i] = i * 2 + (Random() % 3);
+        sCpuHoldTimers[i] = 0;
+    }
+}
+
 static u32 QuitBerryCrush(MainCallback exitCallback)
 {
     if (!sGame)
@@ -960,6 +991,7 @@ static u32 QuitBerryCrush(MainCallback exitCallback)
 
     DestroyTask(sGame->taskId);
     FREE_AND_SET_NULL(sGame);
+    sIsSoloMinigame = FALSE;
     SetMainCallback2(exitCallback);
     if (exitCallback == CB2_ReturnToField)
     {
@@ -979,25 +1011,45 @@ static u32 QuitBerryCrush(MainCallback exitCallback)
         gRfu.errorState = RFU_ERROR_STATE_OCCURRED; \
     }
 
+void StartBerryCrushSolo(void)
+{
+    sIsSoloMinigame = TRUE;
+    sSoloDifficulty = gSpecialVar_0x8006;
+    VarSet(VAR_CABLE_CLUB_STATE, USING_MINIGAME);
+    SetWarpDestination(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, 5, 1);
+    SetDynamicWarpWithCoords(0, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, 5, 1);
+    WarpIntoMap();
+    SetWirelessCommType0();
+    StartBerryCrush(CB2_LoadMap);
+}
+
 void StartBerryCrush(MainCallback exitCallback)
 {
     u8 playerCount = 0;
     u8 multiplayerId;
 
-    if (!gReceivedRemoteLinkPlayers || gWirelessCommType == 0)
+    if (!sIsSoloMinigame && (!gReceivedRemoteLinkPlayers || gWirelessCommType == 0))
     {
         // Link disconnected
         ERROR_EXIT(exitCallback);
         return;
     }
 
-    playerCount = GetLinkPlayerCount();
-    multiplayerId = GetMultiplayerId();
-    if (playerCount < 2 || multiplayerId >= playerCount)
+    if (sIsSoloMinigame)
     {
-        // Too few players, or invalid id
-        ERROR_EXIT(exitCallback);
-        return;
+        playerCount = MAX_RFU_PLAYERS;
+        multiplayerId = 0;
+    }
+    else
+    {
+        playerCount = GetLinkPlayerCount();
+        multiplayerId = GetMultiplayerId();
+        if (playerCount < 2 || multiplayerId >= playerCount)
+        {
+            // Too few players, or invalid id
+            ERROR_EXIT(exitCallback);
+            return;
+        }
     }
 
     sGame = AllocZeroed(sizeof(*sGame));
@@ -1007,6 +1059,9 @@ void StartBerryCrush(MainCallback exitCallback)
         ERROR_EXIT(exitCallback);
         return;
     }
+
+    if (sIsSoloMinigame)
+        InitCpuPressTimers();
 
     sGame->exitCallback = exitCallback;
     sGame->localId = multiplayerId;
@@ -1142,12 +1197,21 @@ static void MainTask(u8 taskId)
 static void SetNamesAndTextSpeed(struct BerryCrushGame *game)
 {
     u8 i;
-    for (i = 0; i < game->playerCount; i++)
-        StringCopy(game->players[i].name, gLinkPlayers[i].name);
-    for (; i < MAX_RFU_PLAYERS; i++)
+    if (sIsSoloMinigame)
     {
-        memset(game->players[i].name, 1, PLAYER_NAME_LENGTH);
-        game->players[i].name[PLAYER_NAME_LENGTH] = EOS;
+        StringCopy(game->players[0].name, gSaveBlock2Ptr->playerName);
+        for (i = 1; i < MAX_RFU_PLAYERS; i++)
+            StringCopy(game->players[i].name, sCpuNames[i - 1]);
+    }
+    else
+    {
+        for (i = 0; i < game->playerCount; i++)
+            StringCopy(game->players[i].name, gLinkPlayers[i].name);
+        for (; i < MAX_RFU_PLAYERS; i++)
+        {
+            memset(game->players[i].name, 1, PLAYER_NAME_LENGTH);
+            game->players[i].name[PLAYER_NAME_LENGTH] = EOS;
+        }
     }
 
     game->textSpeed = GetPlayerTextSpeedDelay();
@@ -2196,6 +2260,11 @@ static u32 Cmd_WaitPaletteFade(struct BerryCrushGame *game, u8 *args)
     case 0:
         if (UpdatePaletteFade())
             return 0;
+        if (sIsSoloMinigame)
+        {
+            game->cmdState = 3;
+            return 0;
+        }
         if (args[0] != 0)
             game->cmdState++;
         else
@@ -2287,6 +2356,14 @@ static u32 Cmd_SignalReadyToBegin(struct BerryCrushGame *game, u8 *args)
     switch (game->cmdState)
     {
     case 0:
+        if (sIsSoloMinigame)
+        {
+            PlayNewMapMusic(MUS_RG_GAME_CORNER);
+            RunOrScheduleCommand(CMD_ASK_PICK_BERRY, SCHEDULE_CMD, NULL);
+            game->gameState = STATE_PICK_BERRY;
+            game->cmdState = 0;
+            return 0;
+        }
         Rfu_SetLinkStandbyCallback();
         break;
     case 1:
@@ -2344,6 +2421,29 @@ static u32 Cmd_WaitForOthersToPickBerries(struct BerryCrushGame *game, u8 *args)
         RunOrScheduleCommand(CMD_PRINT_MSG, SCHEDULE_CMD, NULL);
         return 0;
     case 1:
+        if (sIsSoloMinigame)
+        {
+            static const enum BerryId sCpuBerries[MAX_RFU_PLAYERS - 1] = {
+                BERRY_ID_CHERI,
+                BERRY_ID_CHESTO,
+                BERRY_ID_PECHA,
+                BERRY_ID_RAWST
+            };
+            for (i = 1; i < game->playerCount; i++)
+                game->players[i].berryId = sCpuBerries[i - 1];
+
+            for (i = 0; i < game->playerCount; i++)
+            {
+                if (game->players[i].berryId > NUM_BERRIES || game->players[i].berryId == 0)
+                    game->players[i].berryId = 1;
+                game->targetAPresses += gBerries[game->players[i].berryId].berryCrushDifficulty;
+                game->powder += gBerries[game->players[i].berryId].berryCrushPowder;
+            }
+            game->cmdTimer = 0;
+            game->targetDepth = MathUtil_Div32(Q_24_8(game->targetAPresses), Q_24_8(32));
+            game->cmdState = 5;
+            return 0;
+        }
         Rfu_SetLinkStandbyCallback();
         break;
     case 2:
@@ -2395,6 +2495,15 @@ static u32 Cmd_DropBerriesIntoCrusher(struct BerryCrushGame *game, u8 *args)
     {
     case 0:
         CreateBerrySprites(game, &game->gfx);
+        if (sIsSoloMinigame)
+        {
+            game->gfx.counter = 0;
+            game->gfx.vibrationIdx = 0;
+            game->gfx.numVibrations = 0;
+            game->gfx.vibrating = FALSE;
+            game->cmdState = 2;
+            return 0;
+        }
         Rfu_SetLinkStandbyCallback();
         break;
     case 1:
@@ -2415,6 +2524,17 @@ static u32 Cmd_DropBerriesIntoCrusher(struct BerryCrushGame *game, u8 *args)
             return 0;
         game->gfx.berrySprites[game->gfx.counter] = NULL;
         game->gfx.counter++;
+        if (sIsSoloMinigame)
+        {
+            if (game->gfx.counter < game->playerCount)
+            {
+                game->cmdState = 2;
+                return 0;
+            }
+            game->gfx.counter = 0;
+            game->cmdState = 5;
+            return 0;
+        }
         Rfu_SetLinkStandbyCallback();
         break;
     case 4:
@@ -2429,6 +2549,14 @@ static u32 Cmd_DropBerriesIntoCrusher(struct BerryCrushGame *game, u8 *args)
         break;
     case 5:
         BerryCrushFreeBerrySpriteGfx(game, &game->gfx);
+        if (sIsSoloMinigame)
+        {
+            PlaySE(SE_FALL);
+            RunOrScheduleCommand(CMD_DROP_LID, SCHEDULE_CMD, NULL);
+            game->gameState = STATE_DROP_LID;
+            game->cmdState = 0;
+            return 0;
+        }
         Rfu_SetLinkStandbyCallback();
         break;
     case 6:
@@ -2477,6 +2605,13 @@ static u32 Cmd_DropLid(struct BerryCrushGame *game,  u8 *args)
         SetGpuReg(REG_OFFSET_BG0VOFS, 0);
         SetGpuReg(REG_OFFSET_BG2VOFS, 0);
         SetGpuReg(REG_OFFSET_BG3VOFS, 0);
+        if (sIsSoloMinigame)
+        {
+            RunOrScheduleCommand(CMD_COUNTDOWN, SCHEDULE_CMD, NULL);
+            game->gameState = STATE_COUNTDOWN;
+            game->cmdState = 0;
+            return 0;
+        }
         Rfu_SetLinkStandbyCallback();
         break;
     case 3:
@@ -2495,6 +2630,15 @@ static u32 Cmd_Countdown(struct BerryCrushGame *game,  u8 *args)
 {
     switch (game->cmdState)
     {
+    case 0:
+        if (sIsSoloMinigame)
+        {
+            StartMinigameCountdown(TAG_COUNTDOWN, TAG_COUNTDOWN, 120, 80, 0);
+            game->cmdState = 2;
+            return 0;
+        }
+        Rfu_SetLinkStandbyCallback();
+        break;
     case 1:
         if (!IsLinkTaskFinished())
             return 0;
@@ -2503,9 +2647,18 @@ static u32 Cmd_Countdown(struct BerryCrushGame *game,  u8 *args)
     case 2:
         if (IsMinigameCountdownRunning())
             return 0;
-        // fallthrough
-    case 0:
-        Rfu_SetLinkStandbyCallback();
+        if (sIsSoloMinigame)
+        {
+            game->gfx.counter = 0;
+            game->gfx.vibrationIdx = 0;
+            game->gfx.numVibrations = 0;
+            game->gfx.vibrating = FALSE;
+            game->cmdTimer = 0;
+            RunOrScheduleCommand(CMD_PLAY_GAME_LEADER, SCHEDULE_CMD, NULL);
+            game->gameState = STATE_PLAYING;
+            game->cmdState = 0;
+            return 0;
+        }
         break;
     case 3:
         if (!IsLinkTaskFinished())
@@ -2804,16 +2957,19 @@ static void RecvLinkData(struct BerryCrushGame *game)
         game->endGame = TRUE;
 }
 
-static u32 Cmd_PlayGame_Leader(struct BerryCrushGame *game, u8 *args)
+static void HandleSoloGameLeader(struct BerryCrushGame *game)
 {
-    memset(&game->localState, 0, sizeof(game->localState));
-    memset(&game->recvCmd, 0, sizeof(game->recvCmd));
-    RecvLinkData(game);
-    SetGpuReg(REG_OFFSET_BG0VOFS, -game->vibration);
-    SetGpuReg(REG_OFFSET_BG2VOFS, -game->vibration);
-    SetGpuReg(REG_OFFSET_BG3VOFS, -game->vibration);
+    u8 i;
+    u8 numPlayersPressed = 0;
+    u16 timeDiff;
+    s32 temp = 0;
+    bool8 pushedA[MAX_RFU_PLAYERS] = {FALSE};
+
     if (game->endGame)
     {
+        SetGpuReg(REG_OFFSET_BG0VOFS, 0);
+        SetGpuReg(REG_OFFSET_BG2VOFS, 0);
+        SetGpuReg(REG_OFFSET_BG3VOFS, 0);
         if (game->timer >= MAX_TIME)
         {
             game->timer = MAX_TIME;
@@ -2825,15 +2981,201 @@ static u32 Cmd_PlayGame_Leader(struct BerryCrushGame *game, u8 *args)
         }
         game->cmdTimer = 0;
         game->cmdState = 0;
+        return;
+    }
+
+    game->leaderTimer++;
+    game->timer = game->leaderTimer;
+
+    // Check player 0 input
+    if (JOY_NEW(A_BUTTON))
+    {
+        pushedA[0] = TRUE;
+        game->localState.pushedAButton = TRUE;
+    }
+    if (JOY_HELD(A_BUTTON))
+    {
+        if (game->players[0].timePressingA < game->timer)
+            game->players[0].timePressingA++;
+    }
+
+    // Update CPU players (1..4)
+    for (i = 1; i < game->playerCount; i++)
+    {
+        if (sCpuPressTimers[i - 1] > 0)
+        {
+            sCpuPressTimers[i - 1]--;
+            if (sCpuHoldTimers[i - 1] > 0)
+            {
+                sCpuHoldTimers[i - 1]--;
+                if (game->players[i].timePressingA < game->timer)
+                    game->players[i].timePressingA++;
+            }
+        }
+        else
+        {
+            pushedA[i] = TRUE;
+            sCpuHoldTimers[i - 1] = 2;
+            sCpuPressTimers[i - 1] = 7 + (Random() % 6);
+        }
+    }
+
+    // Process inputs for all players
+    for (i = 0; i < game->playerCount; i++)
+    {
+        if (pushedA[i])
+        {
+            game->localState.playerPressedAFlags |= sBitTable[i];
+            game->players[i].inputState = INPUT_STATE_HIT;
+            game->players[i].numAPresses++;
+            numPlayersPressed++;
+            timeDiff = game->timer - game->players[i].inputTime;
+
+            if (timeDiff >= game->players[i].timeSincePrevInput - 1
+             && timeDiff <= game->players[i].timeSincePrevInput + 1)
+            {
+                game->players[i].neatInputStreak++;
+                game->players[i].timeSincePrevInput = timeDiff;
+                if (game->players[i].neatInputStreak > game->players[i].maxNeatInputStreak)
+                    game->players[i].maxNeatInputStreak = game->players[i].neatInputStreak;
+            }
+            else
+            {
+                game->players[i].neatInputStreak = 0;
+                game->players[i].timeSincePrevInput = timeDiff;
+            }
+
+            game->players[i].inputTime = game->timer;
+            game->players[i].inputFlags++;
+            if (game->players[i].inputFlags > F_INPUT_HIT_B)
+                game->players[i].inputFlags = 0;
+        }
+        else
+        {
+            game->players[i].inputState = INPUT_STATE_NONE;
+        }
+    }
+
+    if (numPlayersPressed > 1)
+    {
+        for (i = 0; i < game->playerCount; i++)
+        {
+            if (game->players[i].inputState == INPUT_STATE_NONE)
+                continue;
+            game->players[i].inputState |= INPUT_STATE_HIT_SYNC;
+            game->players[i].numSyncedAPresses++;
+        }
+    }
+
+    if (numPlayersPressed > 0)
+    {
+        game->bigSparkleCounter += numPlayersPressed;
+        numPlayersPressed += sSyncPressBonus[numPlayersPressed - 1];
+        game->sparkleCounter += numPlayersPressed;
+        game->totalAPresses += numPlayersPressed;
+        if (game->targetAPresses - game->totalAPresses > 0)
+        {
+            temp = (s32)game->totalAPresses;
+            temp = Q_24_8(temp);
+            temp = MathUtil_Div32(temp, game->targetDepth);
+            temp = Q_24_8_TO_INT(temp);
+            game->newDepth = (u8)temp;
+        }
+        else
+        {
+            game->newDepth = 32;
+            game->localState.endGame = TRUE;
+        }
+    }
+
+    if (game->timer % 30 == 0)
+    {
+        if (game->bigSparkleCounter > sBigSparkleThresholds[game->playerCount - 2])
+        {
+            game->numBigSparkles++;
+            game->bigSparkle = TRUE;
+        }
+        else
+        {
+            game->bigSparkle = FALSE;
+        }
+        game->bigSparkleCounter = 0;
+        game->numBigSparkleChecks++;
+    }
+
+    if (game->timer % 15 == 0)
+    {
+        if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][0])
+            game->sparkleAmount = 0;
+        else if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][1])
+            game->sparkleAmount = 1;
+        else if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][2])
+            game->sparkleAmount = 2;
+        else if (game->sparkleCounter < sSparkleThresholds[game->playerCount - 2][3])
+            game->sparkleAmount = 3;
+        else
+            game->sparkleAmount = 4;
+        game->sparkleCounter = 0;
+    }
+
+    if (game->timer >= MAX_TIME)
+        game->localState.endGame = TRUE;
+
+    UpdateLeaderGameState(game);
+
+    game->depth = game->newDepth;
+    game->vibration = (s16)game->localState.vibration;
+    game->localState.bigSparkle = game->bigSparkle;
+    game->localState.sparkleAmount = game->sparkleAmount;
+    memcpy(game->recvCmd, &game->localState, sizeof(game->recvCmd));
+    UpdateInputEffects(game, &(game->gfx));
+
+    if (game->localState.endGame)
+        game->endGame = TRUE;
+
+    SetGpuReg(REG_OFFSET_BG0VOFS, -game->vibration);
+    SetGpuReg(REG_OFFSET_BG2VOFS, -game->vibration);
+    SetGpuReg(REG_OFFSET_BG3VOFS, -game->vibration);
+}
+
+static u32 Cmd_PlayGame_Leader(struct BerryCrushGame *game, u8 *args)
+{
+    memset(&game->localState, 0, sizeof(game->localState));
+    memset(&game->recvCmd, 0, sizeof(game->recvCmd));
+    if (sIsSoloMinigame)
+    {
+        HandleSoloGameLeader(game);
         return 0;
     }
     else
     {
-        game->leaderTimer++;
-        HandlePartnerInput(game);
-        UpdateLeaderGameState(game);
-        HandlePlayerInput(game);
-        return 0;
+        RecvLinkData(game);
+        SetGpuReg(REG_OFFSET_BG0VOFS, -game->vibration);
+        SetGpuReg(REG_OFFSET_BG2VOFS, -game->vibration);
+        SetGpuReg(REG_OFFSET_BG3VOFS, -game->vibration);
+        if (game->endGame)
+        {
+            if (game->timer >= MAX_TIME)
+            {
+                game->timer = MAX_TIME;
+                RunOrScheduleCommand(CMD_TIMES_UP, SCHEDULE_CMD, NULL);
+            }
+            else
+            {
+                RunOrScheduleCommand(CMD_FINISH_GAME, SCHEDULE_CMD, NULL);
+            }
+            game->cmdTimer = 0;
+            game->cmdState = 0;
+            return 0;
+        }
+        else
+        {
+            game->leaderTimer++;
+            HandlePartnerInput(game);
+            UpdateLeaderGameState(game);
+            HandlePlayerInput(game);
+            return 0;
+        }
     }
 }
 
@@ -2910,6 +3252,13 @@ static u32 Cmd_FinishGame(struct BerryCrushGame *game, u8 *args)
     case 4:
         if (!AreEffectsFinished(game, &game->gfx))
             return 0;
+        if (sIsSoloMinigame)
+        {
+            RunOrScheduleCommand(CMD_CALC_RESULTS, SCHEDULE_CMD, NULL);
+            game->cmdTimer = 0;
+            game->cmdState = 0;
+            return 0;
+        }
         Rfu_SetLinkStandbyCallback();
         game->cmdTimer = 0;
         break;
@@ -2944,11 +3293,21 @@ static u32 Cmd_HandleTimeUp(struct BerryCrushGame *game, u8 *args)
     case 2:
         if (!AreEffectsFinished(game, &game->gfx))
             return 0;
-        Rfu_SetLinkStandbyCallback();
-        game->cmdTimer = 0;
         SetGpuReg(REG_OFFSET_BG0VOFS, 0);
         SetGpuReg(REG_OFFSET_BG2VOFS, 0);
         SetGpuReg(REG_OFFSET_BG3VOFS, 0);
+        if (sIsSoloMinigame)
+        {
+            ConvertIntToDecimalStringN(gStringVar1, game->powder, STR_CONV_MODE_LEFT_ALIGN, 6);
+            SetPrintMessageArgs(args, MSG_TIMES_UP, F_MSG_CLEAR, 0, 0);
+            game->nextCmd = CMD_SAVE;
+            RunOrScheduleCommand(CMD_PRINT_MSG, SCHEDULE_CMD, NULL);
+            game->cmdTimer = 0;
+            game->cmdState = 0;
+            return 0;
+        }
+        Rfu_SetLinkStandbyCallback();
+        game->cmdTimer = 0;
         break;
     case 3:
         if (!IsLinkTaskFinished())
@@ -2974,6 +3333,11 @@ static u32 Cmd_TabulateResults(struct BerryCrushGame *game, u8 *args)
     switch (game->cmdState)
     {
     case 0:
+        if (sIsSoloMinigame)
+        {
+            game->cmdState = 3;
+            return 0;
+        }
         memset(game->sendCmd, 0, 2 * sizeof(u16));
         if (game->players[game->localId].timePressingA > game->timer)
             game->players[game->localId].timePressingA = game->timer;
@@ -3125,6 +3489,11 @@ static u32 Cmd_TabulateResults(struct BerryCrushGame *game, u8 *args)
                 }
             }
         }
+        if (sIsSoloMinigame)
+        {
+            game->cmdState = 7;
+            return 0;
+        }
         SendBlock(0, &game->results, sizeof(game->results));
         break;
     case 5:
@@ -3207,6 +3576,15 @@ static u32 Cmd_SaveGame(struct BerryCrushGame *game, u8 *args)
     case 0:
         if (game->timer >= MAX_TIME)
             HideTimer(&game->gfx);
+        if (sIsSoloMinigame)
+        {
+            DrawDialogueFrame(0, FALSE);
+            AddTextPrinterParameterized2(0, FONT_NORMAL, gText_SavingDontTurnOffPower, 0, 0, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+            CopyWindowToVram(0, COPYWIN_FULL);
+            CreateTask(Task_LinkFullSave, 0);
+            game->cmdState = 3;
+            return 0;
+        }
         SetPrintMessageArgs(args, MSG_COMM_STANDBY, 0, 0, 1);
         game->nextCmd = CMD_SAVE;
         RunOrScheduleCommand(CMD_PRINT_MSG, SCHEDULE_CMD, NULL);
@@ -3291,6 +3669,18 @@ static u32 Cmd_CommunicatePlayAgainResponses(struct BerryCrushGame *game, u8 *ar
     switch (game->cmdState)
     {
     case 0:
+        if (sIsSoloMinigame)
+        {
+            if (game->playAgainState != PLAY_AGAIN_YES)
+                RunOrScheduleCommand(CMD_PLAY_AGAIN_NO, SCHEDULE_CMD, NULL);
+            else
+                RunOrScheduleCommand(CMD_PLAY_AGAIN_YES, SCHEDULE_CMD, NULL);
+            game->sendCmd[0] = 0;
+            game->recvCmd[0] = 0;
+            game->cmdTimer = 0;
+            game->cmdState = 0;
+            return 0;
+        }
         Rfu_SetLinkStandbyCallback();
         break;
     case 1:
@@ -3399,6 +3789,13 @@ static u32 Cmd_CloseLink(struct BerryCrushGame *game, u8 *args)
     switch (game->cmdState)
     {
     case 0:
+        if (sIsSoloMinigame)
+        {
+            game->nextCmd = CMD_QUIT;
+            RunOrScheduleCommand(CMD_HIDE_GAME, SCHEDULE_CMD, NULL);
+            game->cmdState = 2;
+            return 0;
+        }
         Rfu_SetLinkStandbyCallback();
         break;
     case 1:
@@ -3427,6 +3824,9 @@ static u32 Cmd_Quit(struct BerryCrushGame *game, u8 *args)
 static void ResetGame(struct BerryCrushGame *game)
 {
     u8 i = 0;
+
+    if (sIsSoloMinigame)
+        InitCpuPressTimers();
 
     IncrementGameStat(GAME_STAT_PLAYED_BERRY_CRUSH);
     game->unused = 0;

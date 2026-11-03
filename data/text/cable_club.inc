@@ -273,9 +273,23 @@ MossdeepCity_GameCorner_1F_Text_DodrioBerryPickingInfo:
 	.string "To play this game, you must have\n"
 	.string "a DODRIO.$"
 
+MossdeepCity_GameCorner_1F_Text_BerryCrushInfo:
+	.string "“BERRY CRUSH”\p"
+	.string "Work together with everyone to crush\n"
+	.string "BERRIES and make BERRY POWDER!\p"
+	.string "Press the A Button repeatedly and\n"
+	.string "rhythmically to push down the crusher.\p"
+	.string "To play this game, you will need a\n"
+	.string "POWDER JAR and some BERRIES.$"
+
 MossdeepCity_GameCorner_1F_Text_TalkToOldManToPlay:
 	.string "If you want to play a game,\n"
 	.string "please tell the old man beside me.$"
+
+MossdeepCity_GameCorner_1F_Text_Welcome:
+	.string "Hi, welcome to the\n"
+	.string "MOSSDEEP CITY GAME CORNER!\p"
+	.string "Which game would you like to play?$"
 
 MossdeepCity_GameCorner_1F_Text_WelcomeCanYouWait:
 	.string "Hi, welcome!\n"
@@ -331,6 +345,17 @@ MossdeepCity_GameCorner_1F_Text_ShortJumpingPokemonAllowed:
 MossdeepCity_GameCorner_1F_Text_OnlyDodrioAllowed:
 	.string "DODRIO BERRY-PICKING is a game that \n"
 	.string "only DODRIO may enter.$"
+
+MossdeepCity_GameCorner_1F_Text_ExplainPowderJar:
+	.string "It doesn't look like you have a\n"
+	.string "POWDER JAR…\p"
+	.string "Would you like me to explain what\n"
+	.string "is needed for BERRY CRUSH?$"
+
+MossdeepCity_GameCorner_1F_Text_PowderJarInfo:
+	.string "To play BERRY CRUSH, you need a\n"
+	.string "POWDER JAR to store the BERRY POWDER\l"
+	.string "you make, as well as some BERRIES.$"
 
 @ Unused
 MossdeepCity_GameCorner_1F_Text_RetryPlease:

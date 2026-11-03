@@ -1728,7 +1728,11 @@ static void Task_StartActivity(u8 taskId)
         StartPokemonJump(GetCursorSelectionMonId(), CB2_LoadMap);
         break;
     case ACTIVITY_BERRY_CRUSH:
-        WarpForWirelessMinigame(USING_BERRY_CRUSH, 9, 1);
+        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_MOSSDEEP_CITY_GAME_CORNER_1F)
+         && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_MOSSDEEP_CITY_GAME_CORNER_1F))
+            WarpForWirelessMinigame(USING_MINIGAME, 5, 1);
+        else
+            WarpForWirelessMinigame(USING_BERRY_CRUSH, 9, 1);
         StartBerryCrush(CB2_LoadMap);
         break;
     case ACTIVITY_BERRY_PICK:
