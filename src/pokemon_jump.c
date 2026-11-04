@@ -451,7 +451,7 @@ static const u16 sCpuSpeciesPool[] =
     SPECIES_CHARMANDER,
     SPECIES_SQUIRTLE,
     SPECIES_BELLOSSOM,
-    SPECIES_SPINDA
+    SPECIES_PICHU
 };
 
 EWRAM_DATA static struct PokemonJump *sPokemonJump = NULL;
@@ -562,6 +562,8 @@ static void InitPlayerAndJumpTypes(void)
     for (i = 0; i < MAX_RFU_PLAYERS; i++)
     {
         sPokemonJump->players[i].monJumpType = GetSpeciesPokemonJumpType(sPokemonJump->monInfo[i].species);
+        if (sPokemonJump->players[i].monJumpType == PKMN_JUMP_TYPE_NONE)
+            sPokemonJump->players[i].monJumpType = PKMN_JUMP_TYPE_NORMAL;
     }
 
     sPokemonJump->player = &sPokemonJump->players[sPokemonJump->multiplayerId];
@@ -638,7 +640,7 @@ static void InitSoloPokeJumpPlayers(void)
         SWAP(speciesIndices[i], speciesIndices[j], temp);
     }
 
-    if ((Random() % 3) == 0)
+    if ((Random() % 100) < 5)
         masterSlot = Random() % (MAX_RFU_PLAYERS - 1);
 
     StringCopy(sPokemonJump->players[localId].name, gSaveBlock2Ptr->playerName);
@@ -764,8 +766,11 @@ static void SetFunc_Leader(u8 funcId)
     sPokemonJump->helperState = 0;
     sPokemonJump->funcActive = TRUE;
     sPokemonJump->allPlayersReady = FALSE;
-    for (i = 1; i < sPokemonJump->numPlayers; i++)
-        sPokemonJump->players[i].funcFinished = FALSE;
+    for (i = 0; i < sPokemonJump->numPlayers; i++)
+    {
+        if (sIsSoloMinigame || i != 0)
+            sPokemonJump->players[i].funcFinished = FALSE;
+    }
 }
 
 static void RecvLinkData_Leader(void)
@@ -1064,8 +1069,10 @@ static bool32 GameOver_Leader(void)
         if (sIsSoloMinigame)
         {
             int i;
-            for (i = 1; i < sPokemonJump->numPlayers; i++)
+            for (i = 0; i < sPokemonJump->numPlayers; i++)
             {
+                if (i == sPokemonJump->multiplayerId)
+                    continue;
                 if (sPokemonJump->players[i].jumpState == JUMPSTATE_NONE)
                     sPokemonJump->players[i].jumpState = JUMPSTATE_SUCCESS;
             }
@@ -2198,8 +2205,10 @@ static bool32 UpdateVineHitStates(void)
         SetLinkTimeInterval(LINK_INTERVAL_SHORT);
         if (sIsSoloMinigame)
         {
-            for (i = 1; i < sPokemonJump->numPlayers; i++)
+            for (i = 0; i < sPokemonJump->numPlayers; i++)
             {
+                if (i == sPokemonJump->multiplayerId)
+                    continue;
                 if (sPokemonJump->players[i].monState != MONSTATE_HIT)
                     sPokemonJump->players[i].jumpState = JUMPSTATE_SUCCESS;
             }

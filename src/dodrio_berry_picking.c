@@ -802,8 +802,20 @@ static void InitSoloDodrioPlayers(void)
         nameIdx++;
     }
 
-    // Blend Master appears on Hard difficulty using the advanced AI
+    // Blend Master appears 5% of the time on Normal mode, and 10% of the time on Hard mode
+    bool8 blendMasterAppears = FALSE;
     if (sSoloDifficulty == 1)
+    {
+        if ((Random() % 100) < 10)
+            blendMasterAppears = TRUE;
+    }
+    else
+    {
+        if ((Random() % 100) < 5)
+            blendMasterAppears = TRUE;
+    }
+
+    if (blendMasterAppears)
     {
         StringCopy(sGame->players[1].name, sCpuName_Master);
         StringCopy(gLinkPlayers[1].name, sCpuName_Master);
