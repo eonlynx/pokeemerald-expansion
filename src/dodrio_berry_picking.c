@@ -290,15 +290,21 @@ static bool32 sExitingGame;
 static bool8 sIsSoloMinigame;
 static u8 sSoloDifficulty;
 
-static const u8 sCpuNames[4][PLAYER_NAME_LENGTH + 1] =
-{
-    _("LADDIE"),
-    _("LASSIE"),
-    _("DUDE"),
-    _("MISS")
-};
-
+static const u8 sCpuName_Mister[] = _("MISTER");
+static const u8 sCpuName_Laddie[] = _("LADDIE");
+static const u8 sCpuName_Lassie[] = _("LASSIE");
+static const u8 sCpuName_Dude[]   = _("DUDE");
+static const u8 sCpuName_Miss[]   = _("MISS");
 static const u8 sCpuName_Master[] = _("MASTER");
+
+static const u8 *const sRegularCpuNames[] =
+{
+    sCpuName_Mister,
+    sCpuName_Laddie,
+    sCpuName_Lassie,
+    sCpuName_Dude,
+    sCpuName_Miss
+};
 
 static void ResetTasksAndSprites(void);
 static void InitDodrioGame(struct DodrioGame *);
@@ -780,14 +786,20 @@ static void InitDodrioGame(struct DodrioGame *game)
 static void InitSoloDodrioPlayers(void)
 {
     u8 i;
+    u8 omitIdx = Random() % ARRAY_COUNT(sRegularCpuNames);
+    u8 nameIdx = 0;
 
     StringCopy(sGame->players[0].name, gSaveBlock2Ptr->playerName);
     StringCopy(gLinkPlayers[0].name, gSaveBlock2Ptr->playerName);
     for (i = 1; i < MAX_RFU_PLAYERS; i++)
     {
+        if (nameIdx == omitIdx)
+            nameIdx++;
+
         sGame->monInfo[i].isShiny = FALSE;
-        StringCopy(sGame->players[i].name, sCpuNames[i - 1]);
-        StringCopy(gLinkPlayers[i].name, sCpuNames[i - 1]);
+        StringCopy(sGame->players[i].name, sRegularCpuNames[nameIdx]);
+        StringCopy(gLinkPlayers[i].name, sRegularCpuNames[nameIdx]);
+        nameIdx++;
     }
 
     // Blend Master appears on Hard difficulty using the advanced AI

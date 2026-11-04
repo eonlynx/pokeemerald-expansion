@@ -413,26 +413,45 @@ static void UpdateCpuJumpStates(void);
 static bool8 sIsSoloMinigame = FALSE;
 static u8 sCpuJumpDelays[MAX_RFU_PLAYERS];
 
+static const u8 sCpuName_Mister[] = _("MISTER");
 static const u8 sCpuName_Laddie[] = _("LADDIE");
 static const u8 sCpuName_Lassie[] = _("LASSIE");
 static const u8 sCpuName_Dude[]   = _("DUDE");
 static const u8 sCpuName_Miss[]   = _("MISS");
 static const u8 sCpuName_Master[] = _("MASTER");
 
-static const u8 *const sCpuNames[MAX_RFU_PLAYERS - 1] =
+static const u8 *const sRegularCpuNames[] =
 {
+    sCpuName_Mister,
     sCpuName_Laddie,
     sCpuName_Lassie,
     sCpuName_Dude,
     sCpuName_Miss
 };
 
-static const u16 sCpuSpecies[MAX_RFU_PLAYERS - 1] =
+static const u16 sCpuSpeciesPool[] =
 {
     SPECIES_PIKACHU,
     SPECIES_EEVEE,
     SPECIES_TORCHIC,
-    SPECIES_SKITTY
+    SPECIES_TREECKO,
+    SPECIES_MUDKIP,
+    SPECIES_SKITTY,
+    SPECIES_PLUSLE,
+    SPECIES_MINUN,
+    SPECIES_CLEFAIRY,
+    SPECIES_JIGGLYPUFF,
+    SPECIES_MEOWTH,
+    SPECIES_PSYDUCK,
+    SPECIES_POLIWAG,
+    SPECIES_MARILL,
+    SPECIES_TOGEPI,
+    SPECIES_WOOPER,
+    SPECIES_BULBASAUR,
+    SPECIES_CHARMANDER,
+    SPECIES_SQUIRTLE,
+    SPECIES_BELLOSSOM,
+    SPECIES_SPINDA
 };
 
 EWRAM_DATA static struct PokemonJump *sPokemonJump = NULL;
@@ -463,7 +482,7 @@ void StartPokemonJump(u16 partyId, MainCallback exitCallback)
             sPokemonJump->mainState = 0;
             sPokemonJump->exitCallback = exitCallback;
             sPokemonJump->taskId = taskId;
-            sPokemonJump->multiplayerId = sIsSoloMinigame ? 0 : GetMultiplayerId();
+            sPokemonJump->multiplayerId = sIsSoloMinigame ? (Random() % MAX_RFU_PLAYERS) : GetMultiplayerId();
             InitJumpMonInfo(&sPokemonJump->monInfo[sPokemonJump->multiplayerId], &gParties[B_TRAINER_PLAYER][partyId]);
             if (sIsSoloMinigame)
                 InitSoloPokeJumpPlayers();
@@ -601,22 +620,54 @@ static void SetPokeJumpTask(TaskFunc func)
 static void InitSoloPokeJumpPlayers(void)
 {
     int i;
+    u8 localId = sPokemonJump->multiplayerId;
+    u8 omitNameIdx = Random() % ARRAY_COUNT(sRegularCpuNames);
+    u8 nameIdx = 0;
+    u8 speciesIndices[ARRAY_COUNT(sCpuSpeciesPool)];
+    u8 cpuSlot = 0;
+    u8 temp;
+    int masterSlot = -1;
 
-    StringCopy(sPokemonJump->players[0].name, gSaveBlock2Ptr->playerName);
-    for (i = 1; i < MAX_RFU_PLAYERS; i++)
+    for (i = 0; i < ARRAY_COUNT(sCpuSpeciesPool); i++)
+        speciesIndices[i] = i;
+
+    // Fisher-Yates shuffle for unique species selection
+    for (i = ARRAY_COUNT(sCpuSpeciesPool) - 1; i > 0; i--)
     {
-        sPokemonJump->monInfo[i].species = sCpuSpecies[i - 1];
+        u8 j = Random() % (i + 1);
+        SWAP(speciesIndices[i], speciesIndices[j], temp);
+    }
+
+    if ((Random() % 3) == 0)
+        masterSlot = Random() % (MAX_RFU_PLAYERS - 1);
+
+    StringCopy(sPokemonJump->players[localId].name, gSaveBlock2Ptr->playerName);
+
+    for (i = 0; i < MAX_RFU_PLAYERS; i++)
+    {
+        if (i == localId)
+            continue;
+
+        if (nameIdx == omitNameIdx)
+            nameIdx++;
+
+        sPokemonJump->monInfo[i].species = sCpuSpeciesPool[speciesIndices[cpuSlot]];
         sPokemonJump->monInfo[i].otId = 0x12345678 + i;
         sPokemonJump->monInfo[i].isShiny = FALSE;
         sPokemonJump->monInfo[i].personality = i * 1000;
-        StringCopy(sPokemonJump->players[i].name, sCpuNames[i - 1]);
-    }
 
-    // Blend Master appears cosmetically as an opponent
-    if ((Random() % 3) == 0)
-    {
-        StringCopy(sPokemonJump->players[1].name, sCpuName_Master);
-        sCpuJumpDelays[1] = 0; // Blend Master jumps with sharp precision
+        if (cpuSlot == masterSlot)
+        {
+            StringCopy(sPokemonJump->players[i].name, sCpuName_Master);
+            sCpuJumpDelays[i] = 0; // Blend Master jumps with sharp precision
+        }
+        else
+        {
+            StringCopy(sPokemonJump->players[i].name, sRegularCpuNames[nameIdx]);
+        }
+
+        nameIdx++;
+        cpuSlot++;
     }
 
     InitPlayerAndJumpTypes();
@@ -630,9 +681,7 @@ static void Task_StartPokemonJump(u8 taskId)
         SetVBlankCallback(NULL);
         ResetSpriteData();
         FreeAllSpritePalettes();
-        if (sIsSoloMinigame)
-            InitSoloPokeJumpPlayers();
-        else
+        if (!sIsSoloMinigame)
             SetTaskWithPokeJumpStruct(Task_CommunicateMonInfo, 5);
         FadeOutMapMusic(4);
         sPokemonJump->mainState++;
@@ -1333,9 +1382,12 @@ static void UpdateCpuJumpStates(void)
     if (sPokemonJump->prevVineState != VINE_LOWEST && sPokemonJump->vineState == VINE_LOWEST)
     {
         // New swing reached the bottom: stagger reaction delays (0 to 2 frames) for believable human timing
-        for (i = 1; i < sPokemonJump->numPlayers; i++)
+        for (i = 0; i < sPokemonJump->numPlayers; i++)
         {
-            sCpuJumpDelays[i] = (i - 1) % 3;
+            if (i == sPokemonJump->multiplayerId)
+                continue;
+
+            sCpuJumpDelays[i] = (i ^ sPokemonJump->multiplayerId) % 3;
             if (Random() % 2 == 0 && sCpuJumpDelays[i] > 0)
                 sCpuJumpDelays[i]--;
         }
@@ -1343,8 +1395,11 @@ static void UpdateCpuJumpStates(void)
 
     if (sPokemonJump->vineState == VINE_LOWEST)
     {
-        for (i = 1; i < sPokemonJump->numPlayers; i++)
+        for (i = 0; i < sPokemonJump->numPlayers; i++)
         {
+            if (i == sPokemonJump->multiplayerId)
+                continue;
+
             if (sPokemonJump->players[i].monState == MONSTATE_NORMAL)
             {
                 if (sCpuJumpDelays[i] > 0)
@@ -1551,7 +1606,11 @@ static bool32 DoPlayAgainPrompt(void)
         break;
     case 3:
         if (!IsPokeJumpGfxFuncFinished())
+        {
+            if (sIsSoloMinigame)
+                return FALSE;
             sPokemonJump->helperState++;
+        }
         break;
     case 4:
         SetUpPokeJumpGfxFuncById(GFXFUNC_MSG_COMM_STANDBY);

@@ -956,14 +956,16 @@ static struct BerryCrushGame * GetBerryCrushGame(void)
 static bool8 sIsSoloMinigame = FALSE;
 static u8 sSoloDifficulty = 0;
 
+static const u8 sCpuName_Mister[] = _("MISTER");
 static const u8 sCpuName_Laddie[] = _("LADDIE");
 static const u8 sCpuName_Lassie[] = _("LASSIE");
 static const u8 sCpuName_Dude[]   = _("DUDE");
 static const u8 sCpuName_Miss[]   = _("MISS");
 static const u8 sCpuName_Master[] = _("MASTER");
 
-static const u8 *const sCpuNames[MAX_RFU_PLAYERS - 1] =
+static const u8 *const sRegularCpuNames[] =
 {
+    sCpuName_Mister,
     sCpuName_Laddie,
     sCpuName_Lassie,
     sCpuName_Dude,
@@ -1209,9 +1211,17 @@ static void SetNamesAndTextSpeed(struct BerryCrushGame *game)
     u8 i;
     if (sIsSoloMinigame)
     {
+        u8 omitIdx = Random() % ARRAY_COUNT(sRegularCpuNames);
+        u8 nameIdx = 0;
+
         StringCopy(game->players[0].name, gSaveBlock2Ptr->playerName);
         for (i = 1; i < MAX_RFU_PLAYERS; i++)
-            StringCopy(game->players[i].name, sCpuNames[i - 1]);
+        {
+            if (nameIdx == omitIdx)
+                nameIdx++;
+            StringCopy(game->players[i].name, sRegularCpuNames[nameIdx]);
+            nameIdx++;
+        }
     }
     else
     {
@@ -2488,9 +2498,16 @@ static void ChooseCpuBerries(struct BerryCrushGame *game)
     bool8 isDailyFirst = !FlagGet(FLAG_DAILY_BERRY_CRUSH_RECEIVED_BONUS);
     u8 highestCpuTier = 0;
     u8 masterCpuIdx = 0;
+    u8 omitIdx = Random() % ARRAY_COUNT(sRegularCpuNames);
+    u8 nameIdx = 0;
 
     for (i = 1; i < game->playerCount; i++)
-        StringCopy(game->players[i].name, sCpuNames[i - 1]);
+    {
+        if (nameIdx == omitIdx)
+            nameIdx++;
+        StringCopy(game->players[i].name, sRegularCpuNames[nameIdx]);
+        nameIdx++;
+    }
 
     for (i = 1; i < game->playerCount; i++)
     {
