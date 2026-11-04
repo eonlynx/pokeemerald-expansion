@@ -1507,9 +1507,10 @@ static void ResetGame(void)
         CreateDodrioGameTask(Task_NewGameIntro);
         ResetGfxState();
         InitDodrioGame(sGame);
-        if (!gReceivedRemoteLinkPlayers)
+        if (!gReceivedRemoteLinkPlayers && !sIsSoloMinigame)
             sGame->numPlayers = 1;
 
+        GetActiveBerryColumns(sGame->numPlayers, &sGame->berryColStart, &sGame->berryColEnd);
         SetRandomPrize();
         SetCloudInvisibility(FALSE);
         break;

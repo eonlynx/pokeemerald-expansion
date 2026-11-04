@@ -1213,6 +1213,8 @@ static void SetNamesAndTextSpeed(struct BerryCrushGame *game)
     {
         u8 omitIdx = Random() % ARRAY_COUNT(sRegularCpuNames);
         u8 nameIdx = 0;
+        bool8 isDailyFirst = !FlagGet(FLAG_DAILY_BERRY_CRUSH_RECEIVED_BONUS);
+        u8 masterSlot = 0;
 
         StringCopy(game->players[0].name, gSaveBlock2Ptr->playerName);
         for (i = 1; i < MAX_RFU_PLAYERS; i++)
@@ -1221,6 +1223,23 @@ static void SetNamesAndTextSpeed(struct BerryCrushGame *game)
                 nameIdx++;
             StringCopy(game->players[i].name, sRegularCpuNames[nameIdx]);
             nameIdx++;
+        }
+
+        // Blend Master appears on the first game of the day if any CPU rolls Tier 5 or higher
+        if (isDailyFirst)
+        {
+            for (i = 1; i < MAX_RFU_PLAYERS; i++)
+            {
+                rng_value_t rngState = LocalRandomSeed(gSaveBlock1Ptr->dailySeed ^ (0xBC00 + i));
+                u32 rollDaily = LocalRandom(&rngState) % 100;
+                if (rollDaily < 20) // Tier 5 (10%), Tier 6 (5%), Tier 7 (5%)
+                {
+                    masterSlot = i;
+                    break;
+                }
+            }
+            if (masterSlot != 0)
+                StringCopy(game->players[masterSlot].name, sCpuName_Master);
         }
     }
     else
@@ -1344,6 +1363,11 @@ static s32 HideGameDisplay(void)
     switch (game->cmdState)
     {
     case 0:
+        if (sIsSoloMinigame)
+        {
+            game->cmdState = 2;
+            return 0;
+        }
         Rfu_SetLinkStandbyCallback();
         break;
     case 1:
@@ -1569,14 +1593,18 @@ static void UpdateInputEffects(struct BerryCrushGame *game, struct BerryCrushGam
 
         yModifier = (u8)(game->timer % 3);
         xModifier = yModifier;
-        for (i = 0; i < linkState->sparkleAmount * 2 + 3; i++)
+        u8 maxSparkles = min((u8)ARRAY_COUNT(gfx->sparkleSprites), (u8)(linkState->sparkleAmount * 2 + 3));
+        for (i = 0; i < maxSparkles; i++)
         {
             if (gfx->sparkleSprites[i]->invisible)
             {
                 gfx->sparkleSprites[i]->callback = SpriteCB_Sparkle_Init;
                 gfx->sparkleSprites[i]->x = sSparkleCoords[i][0] + 120;
                 gfx->sparkleSprites[i]->y = sSparkleCoords[i][1] + 136 - (yModifier * 4);
-                gfx->sparkleSprites[i]->x2 = sSparkleCoords[i][0] + (sSparkleCoords[i][0] / (xModifier * 4));
+                if (xModifier != 0)
+                    gfx->sparkleSprites[i]->x2 = sSparkleCoords[i][0] + (sSparkleCoords[i][0] / (xModifier * 4));
+                else
+                    gfx->sparkleSprites[i]->x2 = sSparkleCoords[i][0];
                 gfx->sparkleSprites[i]->y2 = sSparkleCoords[i][1];
                 if (linkState->bigSparkle)
                     StartSpriteAnim(gfx->sparkleSprites[i], 1);
@@ -2496,18 +2524,6 @@ static void ChooseCpuBerries(struct BerryCrushGame *game)
     u16 playerBerry = game->players[game->localId].berryId;
     u8 playerTier = GetBerryCrushTier(playerBerry);
     bool8 isDailyFirst = !FlagGet(FLAG_DAILY_BERRY_CRUSH_RECEIVED_BONUS);
-    u8 highestCpuTier = 0;
-    u8 masterCpuIdx = 0;
-    u8 omitIdx = Random() % ARRAY_COUNT(sRegularCpuNames);
-    u8 nameIdx = 0;
-
-    for (i = 1; i < game->playerCount; i++)
-    {
-        if (nameIdx == omitIdx)
-            nameIdx++;
-        StringCopy(game->players[i].name, sRegularCpuNames[nameIdx]);
-        nameIdx++;
-    }
 
     for (i = 1; i < game->playerCount; i++)
     {
@@ -2573,10 +2589,10 @@ static void ChooseCpuBerries(struct BerryCrushGame *game)
             finalTier = normalTier;
         }
 
-        if (finalTier > highestCpuTier)
+        if (StringCompare(game->players[i].name, sCpuName_Master) == 0)
         {
-            highestCpuTier = finalTier;
-            masterCpuIdx = i;
+            if (finalTier < 5)
+                finalTier = 5;
         }
 
         switch (finalTier)
@@ -2607,14 +2623,6 @@ static void ChooseCpuBerries(struct BerryCrushGame *game)
             game->players[i].berryId = sBerriesTier0[Random() % ARRAY_COUNT(sBerriesTier0)];
             break;
         }
-    }
-
-    // Blend Master appears only on the first game of the day if a berry of Tier 5 or higher is chosen
-    if (isDailyFirst && (highestCpuTier >= 5 || playerTier >= 5))
-    {
-        if (masterCpuIdx == 0)
-            masterCpuIdx = 1;
-        StringCopy(game->players[masterCpuIdx].name, sCpuName_Master);
     }
 
     // Mark daily lucky play as consumed
@@ -3397,7 +3405,8 @@ static void HandleSoloGameLeader(struct BerryCrushGame *game)
     game->vibration = (s16)game->localState.vibration;
     game->localState.bigSparkle = game->bigSparkle;
     game->localState.sparkleAmount = game->sparkleAmount;
-    memcpy(game->recvCmd, &game->localState, sizeof(game->recvCmd));
+    game->recvCmd[0] = RFUCMD_SEND_PACKET;
+    memcpy(&game->recvCmd[1], &game->localState, sizeof(game->localState));
     UpdateInputEffects(game, &(game->gfx));
 
     if (game->localState.endGame)
@@ -4117,9 +4126,19 @@ static void ResetGame(struct BerryCrushGame *game)
     u8 i = 0;
 
     if (sIsSoloMinigame)
+    {
         InitCpuPressTimers();
+        for (i = 1; i < MAX_RFU_PLAYERS; i++)
+        {
+            if (StringCompare(game->players[i].name, sCpuName_Master) == 0)
+                StringCopy(game->players[i].name, sCpuName_Mister);
+        }
+    }
 
     IncrementGameStat(GAME_STAT_PLAYED_BERRY_CRUSH);
+    memset(&game->results, 0, sizeof(game->results));
+    memset(&game->localState, 0, sizeof(game->localState));
+    memset(&game->recvCmd, 0, sizeof(game->recvCmd));
     game->unused = 0;
     game->cmdTimer = 0;
     game->gameState = STATE_RESET;

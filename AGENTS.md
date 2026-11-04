@@ -121,15 +121,28 @@ The Info Man provides rule explanations for all 3 games:
     - Berries fall at accelerated velocity (difficulty stage 14).
     - CPUs are sharp and competitive: they catch decisively at `fallDist == 6` and contest shared columns with 40% aggression, putting up a genuine challenge for 1st place using the pre-existing advanced AI.
 
+### 4.3. Replay Persistence & Multi-Round Fix (`ResetGame`)
+- In solo play, selecting "Yes" to "Play again?" previously reset `sGame->numPlayers = 1` because `gReceivedRemoteLinkPlayers` was FALSE, causing all 4 companion Dodrios to vanish in round 2.
+- `ResetGame()` was patched to guard against solo play (`if (!gReceivedRemoteLinkPlayers && !sIsSoloMinigame)`) and recalculate active berry columns with `GetActiveBerryColumns(...)`, allowing endless replay rounds with all 5 Dodrios active.
+- To ensure consistent behavior matching Pokémon Jump and Berry Crush, opponent roster initialization (`InitSoloDodrioPlayers()`) is run only once on game start. Replay rounds maintain the exact same opponent Dodrios and names; players only change when exiting and re-entering the minigame.
+
 ---
 
 ## 5. Berry Crush (`src/berry_crush.c`)
 
-### 5.1. Solo Startup & RFU Decoupling
+### 5.1. Solo Startup, RFU Decoupling & Replay Persistence
 - **`StartBerryCrushSolo(void)`:** Sets `sIsSoloMinigame = TRUE`, configures `VAR_CABLE_CLUB_STATE` to `USING_MINIGAME`, warps to coordinates `(5, 1)`, sets wireless comm type 0, and starts the game with `CB2_LoadMap`.
 - **Decoupled Link Hooks & Clean Exit:**
   - In solo mode, RFU handshake waits (`Rfu_SetLinkStandbyCallback`, `IsLinkTaskFinished`, `SendBlock`) are cleanly bypassed during palette fade, berry dropping, crusher lid fall, countdown, results tabulation, saving, and exiting.
   - When the player selects "NO" on the "Play again?" prompt, offline solo play bypasses `MSG_COMM_STANDBY` ("COMMUNICATION STANDBY...") and `MSG_DROPPED` ("A member dropped out"), transitioning immediately to link cleanup and fading back to the overworld.
+- **Persistent Player Names Across Rounds & Berry Selection:**
+  - In the original implementation, CPU names were re-randomized after exiting the Berry Pouch (`ChooseCpuBerries`), causing the opponent nameplates to change mid-game.
+  - CPU names are now set once during initial startup in `SetNamesAndTextSpeed()` and remain strictly consistent throughout the entire session.
+  - If Blend Master (`MASTER`) was assigned for the daily first play, in subsequent replay rounds `ResetGame()` reverts that slot back to `MISTER` so `MASTER` only plays on the daily lucky run.
+- **Replay Freeze Fix in Round 2:**
+  - In `HandleSoloGameLeader`, `memcpy(game->recvCmd, &game->localState, sizeof(game->recvCmd))` previously wrote at offset 0 of `recvCmd`. Because `struct BerryCrushGame_LinkState` has `u16 rfuCmd` at offset 0 while `struct BerryCrushGame_LocalState` does not, this shifted all fields by 2 bytes and copied 2 bytes past `localState` into `sparkleAmount`.
+  - In round 2, this read the previous match's powder (>1000) into `sparkleAmount`, causing `UpdateInputEffects()` to iterate hundreds of times over `gfx->sparkleSprites[11]` and dereference invalid memory, instantly locking up the GBA on the first A press of round 2.
+  - Fixed by populating `game->recvCmd[0] = RFUCMD_SEND_PACKET;` and copying `sizeof(game->localState)` to `&game->recvCmd[1]`, clamping `maxSparkles = min(ARRAY_COUNT(gfx->sparkleSprites), ...)`, guarding against division by zero in sparkle x-coords, and fully zeroing `results`, `localState`, and `recvCmd` in `ResetGame()`.
 - **Simulated Teammates, Authentic Names & 8-Tier Berry Selection (`ChooseCpuBerries`):**
   - 4 CPU companions join the game using authentic Berry Blender names (`LADDIE`, `LASSIE`, `DUDE`, `MISS`).
   - **Blend Master Condition:** The Blend Master (`MASTER`) appears **only** on the first game of the day (`!FlagGet(FLAG_DAILY_BERRY_CRUSH_RECEIVED_BONUS)`) if any berry in play (either chosen by the player or rolled by a CPU) is Tier 5 or higher (`highestCpuTier >= 5 || playerTier >= 5`).
