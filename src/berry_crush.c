@@ -971,6 +971,10 @@ static const u8 *const sCpuNames[MAX_RFU_PLAYERS - 1] =
 
 static u8 sCpuPressTimers[MAX_RFU_PLAYERS - 1];
 static u8 sCpuHoldTimers[MAX_RFU_PLAYERS - 1];
+static u8 sCpuBaseCadence[MAX_RFU_PLAYERS - 1];
+static u8 sCpuTargetCadence[MAX_RFU_PLAYERS - 1];
+static u8 sCpuRhythmCount[MAX_RFU_PLAYERS - 1];
+static u8 sCpuRhythmTarget[MAX_RFU_PLAYERS - 1];
 
 static void InitCpuPressTimers(void)
 {
@@ -979,6 +983,10 @@ static void InitCpuPressTimers(void)
     {
         sCpuPressTimers[i] = i * 2 + (Random() % 3);
         sCpuHoldTimers[i] = 0;
+        sCpuBaseCadence[i] = 8;
+        sCpuTargetCadence[i] = 8;
+        sCpuRhythmCount[i] = 0;
+        sCpuRhythmTarget[i] = 6;
     }
 }
 
@@ -2575,6 +2583,48 @@ static void ChooseCpuBerries(struct BerryCrushGame *game)
     FlagSet(FLAG_DAILY_BERRY_CRUSH_RECEIVED_BONUS);
 }
 
+static void InitCpuPressCadence(struct BerryCrushGame *game)
+{
+    u8 i;
+    u8 baseCadence;
+
+    // Scale base cadence to match berry difficulty / target presses
+    if (game->targetAPresses > 800)
+        baseCadence = 6;      // ~10.0 presses/sec (top-tier human mashing for 800-1000 presses)
+    else if (game->targetAPresses > 550)
+        baseCadence = 7;      // ~8.6 presses/sec
+    else if (game->targetAPresses > 350)
+        baseCadence = 8;      // ~7.5 presses/sec
+    else
+        baseCadence = 9;      // ~6.7 presses/sec
+
+    for (i = 0; i < MAX_RFU_PLAYERS - 1; i++)
+    {
+        s8 personality = (i == 1) ? -1 : (i == 3) ? 1 : 0;
+        s8 luckyBonus = 0;
+        u8 cpuTier = GetBerryCrushTier(game->players[i + 1].berryId);
+
+        // Motivate CPUs when playing with high-tier berries (especially from lucky daily rolls)
+        if (cpuTier >= 6)
+            luckyBonus = 2; // +2 frame speedup (~8.5-10.5 presses/sec)
+        else if (cpuTier >= 4)
+            luckyBonus = 1; // +1 frame speedup
+
+        s16 cadence = baseCadence + personality - luckyBonus;
+        if (cadence < 5)
+            cadence = 5;      // Human peak mashing limit (~12 presses/sec)
+        if (cadence > 11)
+            cadence = 11;     // Human casual mashing limit (~5.5 presses/sec)
+
+        sCpuBaseCadence[i] = (u8)cadence;
+        sCpuTargetCadence[i] = (u8)cadence;
+        sCpuRhythmCount[i] = 0;
+        sCpuRhythmTarget[i] = 5 + (Random() % 6);
+        sCpuPressTimers[i] = (i * 2) + (Random() % 3);
+        sCpuHoldTimers[i] = 0;
+    }
+}
+
 static u32 Cmd_WaitForOthersToPickBerries(struct BerryCrushGame *game, u8 *args)
 {
     u8 i;
@@ -2598,6 +2648,7 @@ static u32 Cmd_WaitForOthersToPickBerries(struct BerryCrushGame *game, u8 *args)
                 game->targetAPresses += gBerries[game->players[i].berryId].berryCrushDifficulty;
                 game->powder += gBerries[game->players[i].berryId].berryCrushPowder;
             }
+            InitCpuPressCadence(game);
             game->cmdTimer = 0;
             game->targetDepth = MathUtil_Div32(Q_24_8(game->targetAPresses), Q_24_8(32));
             game->cmdState = 5;
@@ -3161,22 +3212,39 @@ static void HandleSoloGameLeader(struct BerryCrushGame *game)
     // Update CPU players (1..4)
     for (i = 1; i < game->playerCount; i++)
     {
-        if (sCpuPressTimers[i - 1] > 0)
+        u8 cpuIdx = i - 1;
+        if (sCpuPressTimers[cpuIdx] > 0)
         {
-            sCpuPressTimers[i - 1]--;
-            if (sCpuHoldTimers[i - 1] > 0)
+            sCpuPressTimers[cpuIdx]--;
+            if (sCpuHoldTimers[cpuIdx] > 0)
             {
-                sCpuHoldTimers[i - 1]--;
+                sCpuHoldTimers[cpuIdx]--;
                 if (game->players[i].timePressingA < game->timer)
                     game->players[i].timePressingA++;
             }
         }
         else
         {
-            u8 baseDelay = (game->targetAPresses > 600) ? 5 : (game->targetAPresses > 400) ? 6 : 7;
             pushedA[i] = TRUE;
-            sCpuHoldTimers[i - 1] = 2;
-            sCpuPressTimers[i - 1] = baseDelay + (Random() % 5);
+            sCpuHoldTimers[cpuIdx] = 2;
+
+            sCpuRhythmCount[cpuIdx]++;
+            if (sCpuRhythmCount[cpuIdx] < sCpuRhythmTarget[cpuIdx])
+            {
+                // Rhythmic streak: maintain cadence within +/- 1 frame of target
+                // This accumulates realistic human "Neatness" streaks!
+                sCpuPressTimers[cpuIdx] = sCpuTargetCadence[cpuIdx];
+                if (Random() % 3 == 0)
+                    sCpuPressTimers[cpuIdx] += (Random() % 2 == 0) ? 1 : -1;
+            }
+            else
+            {
+                // Natural micro-drift / fatigue reset after a good rhythm streak
+                sCpuRhythmCount[cpuIdx] = 0;
+                sCpuRhythmTarget[cpuIdx] = 5 + (Random() % 6);
+                sCpuTargetCadence[cpuIdx] = sCpuBaseCadence[cpuIdx] + (Random() % 3) - 1;
+                sCpuPressTimers[cpuIdx] = sCpuTargetCadence[cpuIdx] + 1;
+            }
         }
     }
 

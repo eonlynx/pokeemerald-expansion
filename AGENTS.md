@@ -81,10 +81,10 @@ The Info Man provides rule explanations for all 3 games:
 
 ### 3.2. CPU AI Logic (`UpdateCpuJumpStates`)
 - Each CPU Pokémon (`sPokemonJump->players[1..4]`) monitors the Venusaur rope swing state (`sPokemonJump->vineState`):
-  - When the rope reaches `VINE_LOWEST` or `VINE_UPSWING_LOWER`, a jump is initiated.
-  - In **Normal Mode**, bots jump with a minor realistic reaction margin.
-  - In **Hard Mode**, bots jump immediately on frame at optimal velocity.
-  - When landing (`jumpOffset == 0`), CPU mon states reset to `MONSTATE_NORMAL` and successfully clear the rope, allowing the team to build streaks and bonus multipliers.
+  - **Human Reaction Staggering:** Rather than jumping on the exact identical frame, each CPU receives a small natural reaction delay (0 to 2 frames) as the vine reaches `VINE_LOWEST`.
+  - Sprites take off with organic, believable stagger rather than robotic unison.
+  - Jump heights remain well above ground level during the `VINE_UPSWING_LOWER` collision check, guaranteeing that CPUs never trip the rope.
+  - Peak jump intervals (`JUMP_PEAK`) overlap dynamically with other CPUs and the player, awarding authentic synchronization combos.
 
 ---
 
@@ -97,24 +97,21 @@ The Info Man provides rule explanations for all 3 games:
   - In solo mode without network packets, `sGame->players[0].berries` remained zeroed, causing `UpdateBerrySprites()` to treat all berries as invisible (`SetBerryInvisibility(i, TRUE)`).
   - Explicit synchronization `sGame->players[0].berries = sGame->player.berries;` was added inside `UpdateBerrySprites()`, `InitFirstWaveOfBerries()`, `RecvLinkData_Gameplay()`, and `RecvLinkData_ReadyToEnd()`, restoring full visibility, falling animations, and collision sounds.
 
-### 4.2. CPU AI Logic (`UpdateCpuDodrioPickStates`)
+### 4.2. CPU AI Logic & Difficulty Calibration (`UpdateCpuDodrioPickStates`)
 - Dodrios 1 through 4 have 3 heads mapped to falling berry columns:
   - Dodrio 0 (Player): Left 4, Mid 5, Right 6
   - Dodrio 1 (CPU 1): Left 6, Mid 7, Right 8
   - Dodrio 2 (CPU 2): Left 8, Mid 9, Right 0
   - Dodrio 3 (CPU 3): Left 0, Mid 1, Right 2
   - Dodrio 4 (CPU 4): Left 2, Mid 3, Right 4
-- **Decision Hierarchy:**
-  1. **Middle Column (Exclusive):** Highest priority. When a falling berry is within reach (`fallDist == 6 || fallDist == 7`), the middle head strikes.
-  2. **Shared Columns with Player 0 (Cols 4 and 6):**
-     - Col 6 is shared between Player 0 (Right) and CPU 1 (Left).
-     - Col 4 is shared between Player 0 (Left) and CPU 4 (Right).
-     - **Player-First Courtesy:** CPU bots wait until `fallDist == 7` before attempting to catch berries in cols 4 and 6. This gives human Player 0 the opportunity to catch them first at `fallDist == 6`. If the player misses or is busy, the CPU saves the berry at `fallDist == 7` to avoid status bar penalty.
-  3. **Shared Columns between Bots (Cols 8, 0, 2):** Caught cleanly at `fallDist == 6 || 7`.
-
-### 4.3. Difficulty Effects
-- **Normal:** Standard initial difficulty stage (stage 0). Berries fall at base speed and difficulty increments naturally as berries are eaten.
-- **Hard:** Starts at difficulty stage 14 (advances by two full cycles of 7 difficulty stages), triggering faster fall delay stages and higher proportion of fast/special berries from the first second.
+- **Difficulty & Reaction Modeling:**
+  - **Normal Mode:**
+    - In middle exclusive columns, CPUs exhibit human reaction distribution: 65% caught at `fallDist == 6`, 35% caught at `fallDist == 7`. 100% of berries are saved from squishing, but without robotic frame-0 snatching.
+    - On shared columns with Player 0 (cols 4 and 6), CPUs hold back at `fallDist == 6` to let the human player score, only catching at `fallDist == 7` if the player missed.
+    - Yields a balanced, winnable match where the human player can win 1st place.
+  - **Hard Mode:**
+    - Berries fall at accelerated velocity (difficulty stage 14).
+    - CPUs are sharp and competitive: they catch decisively at `fallDist == 6` and contest shared columns with 40% aggression, putting up a genuine challenge for 1st place.
 
 ---
 
@@ -146,13 +143,19 @@ The Info Man provides rule explanations for all 3 games:
     - Consuming the daily roll sets `FLAG_DAILY_BERRY_CRUSH_RECEIVED_BONUS`.
   - (Enigma Berry is excluded from CPU selection).
 
-### 5.2. CPU AI & Button Mashing Logic (`HandleSoloGameLeader`)
-- Berry Crush is a purely cooperative minigame where players push down the crusher before the timer runs out.
-- Each CPU companion has its own cadence timer (`sCpuPressTimers[i - 1]`):
-  - **Adaptive Cadence Scaling:** If total target presses exceed 400 or 600 (due to high-tier berries), CPU press delays scale down to maintain high big sparkle frequency, keeping silkiness $S$ near 90-100% and allowing timely completion.
-  - Bots simulate realistic button holds (`sCpuHoldTimers[i - 1] = 2`) to accumulate natural "pressing power" time.
-  - Team pace reaches ~30-45 presses/sec, scoring neat streaks and synchronous hits while rewarding player skill.
-- `localState` is directly copied to `recvCmd` so impact sprites, vibrations, big sparkles, and sound effects trigger dynamically on frame.
+### 5.2. Human Button Mashing & Cadence Scaling (`HandleSoloGameLeader`, `InitCpuPressCadence`)
+- **Berry Difficulty & Target Press Scaling:**
+  - Base cadence scales dynamically with total target presses:
+    - $\le 350$ presses (Tier 0-1): 9 frames (~6.7 presses/sec).
+    - $351-550$ presses (Tier 2-3): 8 frames (~7.5 presses/sec).
+    - $551-800$ presses (Tier 4-5): 7 frames (~8.6 presses/sec).
+    - $> 800$ presses (Tier 6-7): 6 frames (~10.0 presses/sec).
+- **Lucky Daily Roll Reward:**
+  - If a CPU was awarded a rare berry from the daily roll (Tier 4+ or 6+), it receives a motivation boost (reducing cadence by 1-2 frames), rewarding the player with faster times and massive powder!
+- **Human Rhythm & Streak Modeling:**
+  - Rather than randomized intervals on every press, CPUs maintain steady cadence for streaks of 5 to 10 presses within $\pm 1$ frame, generating authentic human "Neatness" scores (40%–70%).
+  - Periodic micro-drifts simulate natural human fatigue.
+  - Button holds are modeled at 2 frames per press.
 - **Results & Powder Reward:** Results pages (Presses, Neatness/Coop/Power, Powder amount) are tabulated and sorted normally. `SaveResults()` awards the player their earned Berry Powder via `GiveBerryPowder()` and saves 5-player speed records to save block 2.
 
 ---

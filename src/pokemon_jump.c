@@ -412,6 +412,7 @@ static void UpdateCpuJumpStates(void);
 
 static bool8 sIsSoloMinigame = FALSE;
 static u8 sSoloDifficulty = 0;
+static u8 sCpuJumpDelays[MAX_RFU_PLAYERS];
 
 static const u8 sCpuName_Laddie[] = _("LADDIE");
 static const u8 sCpuName_Lassie[] = _("LASSIE");
@@ -1326,15 +1327,33 @@ static void UpdateCpuJumpStates(void)
 {
     int i;
 
+    if (sPokemonJump->prevVineState != VINE_LOWEST && sPokemonJump->vineState == VINE_LOWEST)
+    {
+        // New swing reached the bottom: stagger reaction delays (0 to 2 frames) for believable human timing
+        for (i = 1; i < sPokemonJump->numPlayers; i++)
+        {
+            sCpuJumpDelays[i] = (i - 1) % 3;
+            if (Random() % 2 == 0 && sCpuJumpDelays[i] > 0)
+                sCpuJumpDelays[i]--;
+        }
+    }
+
     if (sPokemonJump->vineState == VINE_LOWEST)
     {
         for (i = 1; i < sPokemonJump->numPlayers; i++)
         {
             if (sPokemonJump->players[i].monState == MONSTATE_NORMAL)
             {
-                sPokemonJump->players[i].jumpTimeStart = sPokemonJump->vineTimer;
-                sPokemonJump->players[i].prevMonState = sPokemonJump->players[i].monState;
-                sPokemonJump->players[i].monState = MONSTATE_JUMP;
+                if (sCpuJumpDelays[i] > 0)
+                {
+                    sCpuJumpDelays[i]--;
+                }
+                else
+                {
+                    sPokemonJump->players[i].jumpTimeStart = sPokemonJump->vineTimer;
+                    sPokemonJump->players[i].prevMonState = sPokemonJump->players[i].monState;
+                    sPokemonJump->players[i].monState = MONSTATE_JUMP;
+                }
             }
         }
     }

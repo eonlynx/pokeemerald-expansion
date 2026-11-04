@@ -1564,29 +1564,78 @@ static void UpdateCpuDodrioPickStates(void)
             u8 colRight = sDodrioHeadToColumnMap[4][i][2];
 
             // Middle column is exclusive to this player (highest priority)
-            if (sGame->berryState[colMid] == BERRYSTATE_NONE
-             && (sGame->player.berries.fallDist[colMid] == 6 || sGame->player.berries.fallDist[colMid] == 7))
+            if (sGame->berryState[colMid] == BERRYSTATE_NONE)
             {
-                sGame->players[i].comm.ateBerry = FALSE;
-                sGame->players[i].comm.pickState = PICK_MIDDLE;
+                bool8 shouldPickMid = FALSE;
+                if (sSoloDifficulty == 1)
+                {
+                    if (sGame->player.berries.fallDist[colMid] == 6 || sGame->player.berries.fallDist[colMid] == 7)
+                        shouldPickMid = TRUE;
+                }
+                else
+                {
+                    if (sGame->player.berries.fallDist[colMid] == 7)
+                        shouldPickMid = TRUE;
+                    else if (sGame->player.berries.fallDist[colMid] == 6 && (Random() % 100 < 65))
+                        shouldPickMid = TRUE;
+                }
+
+                if (shouldPickMid)
+                {
+                    sGame->players[i].comm.ateBerry = FALSE;
+                    sGame->players[i].comm.pickState = PICK_MIDDLE;
+                    continue;
+                }
             }
+
             // Left column (colLeft == 6 is shared with Player 0's right head)
-            // If colLeft == 6, let Player 0 try to catch at 6; AI helps at 7 if Player 0 missed
-            else if (sGame->berryState[colLeft] == BERRYSTATE_NONE
-                  && ((colLeft == 6 && sGame->player.berries.fallDist[colLeft] == 7)
-                   || (colLeft != 6 && (sGame->player.berries.fallDist[colLeft] == 6 || sGame->player.berries.fallDist[colLeft] == 7))))
+            if (sGame->berryState[colLeft] == BERRYSTATE_NONE)
             {
-                sGame->players[i].comm.ateBerry = FALSE;
-                sGame->players[i].comm.pickState = PICK_LEFT;
+                bool8 shouldPickLeft = FALSE;
+                if (colLeft == 6)
+                {
+                    if (sGame->player.berries.fallDist[colLeft] == 7)
+                        shouldPickLeft = TRUE;
+                    else if (sSoloDifficulty == 1 && sGame->player.berries.fallDist[colLeft] == 6 && (Random() % 100 < 40))
+                        shouldPickLeft = TRUE;
+                }
+                else
+                {
+                    if (sGame->player.berries.fallDist[colLeft] == 6 || sGame->player.berries.fallDist[colLeft] == 7)
+                        shouldPickLeft = TRUE;
+                }
+
+                if (shouldPickLeft)
+                {
+                    sGame->players[i].comm.ateBerry = FALSE;
+                    sGame->players[i].comm.pickState = PICK_LEFT;
+                    continue;
+                }
             }
+
             // Right column (colRight == 4 is shared with Player 0's left head)
-            // If colRight == 4, let Player 0 try to catch at 6; AI helps at 7 if Player 0 missed
-            else if (sGame->berryState[colRight] == BERRYSTATE_NONE
-                  && ((colRight == 4 && sGame->player.berries.fallDist[colRight] == 7)
-                   || (colRight != 4 && (sGame->player.berries.fallDist[colRight] == 6 || sGame->player.berries.fallDist[colRight] == 7))))
+            if (sGame->berryState[colRight] == BERRYSTATE_NONE)
             {
-                sGame->players[i].comm.ateBerry = FALSE;
-                sGame->players[i].comm.pickState = PICK_RIGHT;
+                bool8 shouldPickRight = FALSE;
+                if (colRight == 4)
+                {
+                    if (sGame->player.berries.fallDist[colRight] == 7)
+                        shouldPickRight = TRUE;
+                    else if (sSoloDifficulty == 1 && sGame->player.berries.fallDist[colRight] == 6 && (Random() % 100 < 40))
+                        shouldPickRight = TRUE;
+                }
+                else
+                {
+                    if (sGame->player.berries.fallDist[colRight] == 6 || sGame->player.berries.fallDist[colRight] == 7)
+                        shouldPickRight = TRUE;
+                }
+
+                if (shouldPickRight)
+                {
+                    sGame->players[i].comm.ateBerry = FALSE;
+                    sGame->players[i].comm.pickState = PICK_RIGHT;
+                    continue;
+                }
             }
         }
     }
