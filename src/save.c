@@ -1002,11 +1002,12 @@ void Task_LinkFullSave(u8 taskId)
         tState = 1;
         break;
     case 1:
-        SetLinkStandbyCallback();
+        if (gReceivedRemoteLinkPlayers)
+            SetLinkStandbyCallback();
         tState = 2;
         break;
     case 2:
-        if (IsLinkTaskFinished())
+        if (!gReceivedRemoteLinkPlayers || IsLinkTaskFinished())
         {
             if (!tInBattleTower)
                 SaveMapView();
@@ -1039,22 +1040,24 @@ void Task_LinkFullSave(u8 taskId)
     case 7:
         if (!tInBattleTower)
             ClearContinueGameWarpStatus2();
-        SetLinkStandbyCallback();
+        if (gReceivedRemoteLinkPlayers)
+            SetLinkStandbyCallback();
         tState = 8;
         break;
     case 8:
-        if (IsLinkTaskFinished())
+        if (!gReceivedRemoteLinkPlayers || IsLinkTaskFinished())
         {
             LinkFullSave_SetLastSectorSignature();
             tState = 9;
         }
         break;
     case 9:
-        SetLinkStandbyCallback();
+        if (gReceivedRemoteLinkPlayers)
+            SetLinkStandbyCallback();
         tState = 10;
         break;
     case 10:
-        if (IsLinkTaskFinished())
+        if (!gReceivedRemoteLinkPlayers || IsLinkTaskFinished())
             tState++;
         break;
     case 11:

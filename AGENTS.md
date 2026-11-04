@@ -19,8 +19,11 @@ In the original game, all three minigames strictly required a Game Boy Advance W
 - **Solo Play with AI Companions:** Allow playing completely offline without a Wireless Adapter or link partners.
 - **Maximum Participant Support:** Run all minigames with the full 5-player maximum (`MAX_RFU_PLAYERS = 5`), populating positions 1 through 4 with intelligent CPU-controlled Pokémon / Dodrios / Trainers (`LADDIE`, `LASSIE`, `DUDE`, `MISS`).
 - **Authentic Atmosphere & Dialogue:** Welcoming greeting mentioning **MOSSDEEP CITY GAME CORNER** without awkward artificial delays or connection-checking text.
-- **Difficulty Selection:** Offer *Normal* and *Hard* difficulty settings prior to launching Pokémon Jump and Dodrio's Berry Picking. (Berry Crush is purely cooperative and runs at a balanced, natural cadence without a redundant difficulty prompt).
-- **Graceful Save and Exit:** Integrate offline saving (`Task_LinkFullSave`) and proper overworld map warp return triggers (`USING_MINIGAME` at coordinates `5, 1`) when exiting the minigames.
+- **Difficulty Selection:**
+  - **Pokémon Jump:** Purely cooperative jumping rope. If ANY Pokémon touches the rope, `UpdateVineHitStates()` returns `FALSE` and triggers an immediate `FUNC_GAME_OVER` for the entire party. A weaker AI would cause frustrating, unavoidable losses for the human player. Therefore, difficulty selection is removed (runs as a single balanced mode where bots jump in sync, leaving the challenge purely up to the player's timing as the vine accelerates).
+  - **Berry Crush:** Purely cooperative button mashing with shared Berry Powder reward ($B \times S \times P$). Better bots only help the team, and difficulty selection is eliminated in favor of an authentic 8-tier Daily Berry Lottery system based on player berry anchoring and daily RTC seeds.
+  - **Dodrio Berry Picking:** Highly competitive for 1st place (only top score wins a berry), yet drops penalize the shared status bar. Difficulty selection (**NORMAL** vs **HARD**) is maintained so players can choose their competitive challenge.
+- **Graceful Save and Exit:** Fixed softlock in `Task_LinkFullSave` (`src/save.c`) which previously stalled forever waiting for wireless link standby packets in offline play. Offline games now save sector-by-sector to flash memory and transition smoothly back to menus.
 - **Wireless Multiplayer Intact:** Keep the original Wireless Link flow fully functional for when players choose to play via Wireless Adapter.
 
 ---
@@ -120,14 +123,35 @@ The Info Man provides rule explanations for all 3 games:
 ### 5.1. Solo Startup & RFU Decoupling
 - **`StartBerryCrushSolo(void)`:** Sets `sIsSoloMinigame = TRUE`, configures `VAR_CABLE_CLUB_STATE` to `USING_MINIGAME`, warps to coordinates `(5, 1)`, sets wireless comm type 0, and starts the game with `CB2_LoadMap`.
 - **Decoupled Link Hooks:** In solo mode, RFU handshake waits (`Rfu_SetLinkStandbyCallback`, `IsLinkTaskFinished`, `SendBlock`) are cleanly bypassed during palette fade, berry dropping, crusher lid fall, countdown, results tabulation, saving, and exiting.
-- **Simulated Teammates:** 4 CPU companions (`LADDIE`, `LASSIE`, `DUDE`, `MISS`) join the game. In `Cmd_WaitForOthersToPickBerries`, each contributes a berry (`BERRY_CHERI`, `BERRY_CHESTO`, `BERRY_PECHA`, `BERRY_RAWST`), calculating total target A presses and powder amount.
+- **Simulated Teammates & 8-Tier Berry Selection (`ChooseCpuBerries`):**
+  - 4 CPU companions (`LADDIE`, `LASSIE`, `DUDE`, `MISS`) join the game.
+  - **Player Berry Anchoring:** The base berry tier of all CPUs is anchored to the player's chosen berry tier (Tier 0 to Tier 7).
+  - **General Sub-Roll (Every Game):** Each CPU independently has an 18.8% chance to elevate tiers above the player's berry tier:
+    - +7 Tiers: 0.1%
+    - +6 Tiers: 0.2%
+    - +5 Tiers: 0.5%
+    - +4 Tiers: 1.0%
+    - +3 Tiers: 2.0%
+    - +2 Tiers: 5.0%
+    - +1 Tier: 10.0%
+    - +0 Tier (Player's Tier): 81.2% (clamped at Tier 7).
+  - **First Game of the Day (Daily Guaranteed High Tier):**
+    - Uses `gSaveBlock1Ptr->dailySeed` for a deterministic lottery roll per CPU (anti-reroll across soft resets):
+      - Tier 7: 5% (Lansat, Starf)
+      - Tier 6: 5% (Liechi, Ganlon, Salac, Petaya, Apicot)
+      - Tier 5: 10% (Spelon, Pamtre, Watmel, Durin, Belue)
+      - Tier 4: 30% (Tamato, Cornn, Magost, Rabuta, Nomel)
+      - Tier 3: 50% (Pomeg, Kelpsy, Qualot, Hondew, Grepa)
+    - **Most Favorable Outcome Rule:** `max(normalTier, dailyTier)` ensures that if the player invests in a higher-tier berry (e.g. Tier 6), the daily roll will never downgrade the CPUs below what the standard roll produces.
+    - Consuming the daily roll sets `FLAG_DAILY_BERRY_CRUSH_RECEIVED_BONUS`.
+  - (Enigma Berry is excluded from CPU selection).
 
 ### 5.2. CPU AI & Button Mashing Logic (`HandleSoloGameLeader`)
 - Berry Crush is a purely cooperative minigame where players push down the crusher before the timer runs out.
 - Each CPU companion has its own cadence timer (`sCpuPressTimers[i - 1]`):
-  - Every 7 to 12 frames (averaging ~9.5 frames, or ~6.3 presses/sec per bot), the bot presses A.
+  - **Adaptive Cadence Scaling:** If total target presses exceed 400 or 600 (due to high-tier berries), CPU press delays scale down to maintain high big sparkle frequency, keeping silkiness $S$ near 90-100% and allowing timely completion.
   - Bots simulate realistic button holds (`sCpuHoldTimers[i - 1] = 2`) to accumulate natural "pressing power" time.
-  - This results in a healthy team pace of ~30-38 presses/sec, scoring neat streaks and synchronous hits while leaving ample room for player skill to shine and beat high scores.
+  - Team pace reaches ~30-45 presses/sec, scoring neat streaks and synchronous hits while rewarding player skill.
 - `localState` is directly copied to `recvCmd` so impact sprites, vibrations, big sparkles, and sound effects trigger dynamically on frame.
 - **Results & Powder Reward:** Results pages (Presses, Neatness/Coop/Power, Powder amount) are tabulated and sorted normally. `SaveResults()` awards the player their earned Berry Powder via `GiveBerryPowder()` and saves 5-player speed records to save block 2.
 

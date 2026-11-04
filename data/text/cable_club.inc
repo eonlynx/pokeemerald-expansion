@@ -288,7 +288,7 @@ MossdeepCity_GameCorner_1F_Text_TalkToOldManToPlay:
 
 MossdeepCity_GameCorner_1F_Text_Welcome:
 	.string "Hi, welcome to the\n"
-	.string "MOSSDEEP CITY GAME CORNER!\p"
+	.string "MOSSDEEP GAME CORNER!\p"
 	.string "Which game would you like to play?$"
 
 MossdeepCity_GameCorner_1F_Text_WelcomeCanYouWait:

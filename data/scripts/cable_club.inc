@@ -1323,8 +1323,9 @@ MossdeepCity_GameCorner_1F_EventScript_ChooseMinigameMode::
 	end
 
 MossdeepCity_GameCorner_1F_EventScript_SelectSoloMode::
-	goto_if_eq VAR_0x8005, 2, MossdeepCity_GameCorner_1F_EventScript_PlayBerryCrushSolo
-	goto MossdeepCity_GameCorner_1F_EventScript_ChooseDifficultySolo
+	goto_if_eq VAR_0x8005, 1, MossdeepCity_GameCorner_1F_EventScript_ChooseDifficultySolo
+	setvar VAR_RESULT, 0
+	goto MossdeepCity_GameCorner_1F_EventScript_PlayMinigameSolo
 
 MossdeepCity_GameCorner_1F_EventScript_ChooseDifficultySolo::
 	message MossdeepCity_GameCorner_1F_Text_ChooseDifficulty

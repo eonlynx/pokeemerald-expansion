@@ -8,6 +8,7 @@
 #include "digit_obj_util.h"
 #include "dynamic_placeholder_text_util.h"
 #include "event_data.h"
+#include "constants/flags.h"
 #include "gpu_regs.h"
 #include "graphics.h"
 #include "international_string_util.h"
@@ -2409,6 +2410,171 @@ static u32 Cmd_GoToBerryPouch(struct BerryCrushGame *game, u8 *args)
     return 0;
 }
 
+static u8 GetBerryCrushTier(enum BerryId berryId)
+{
+    if (berryId >= BERRY_ID_LANSAT && berryId <= BERRY_ID_STARF)
+        return 7;
+    if (berryId >= BERRY_ID_LIECHI && berryId <= BERRY_ID_APICOT)
+        return 6;
+    if (berryId >= BERRY_ID_SPELON && berryId <= BERRY_ID_BELUE)
+        return 5;
+    if (berryId == BERRY_ID_TAMATO || (berryId >= BERRY_ID_CORNN && berryId <= BERRY_ID_NOMEL))
+        return 4;
+    if (berryId >= BERRY_ID_POMEG && berryId <= BERRY_ID_GREPA)
+        return 3;
+    if (berryId >= BERRY_ID_RAZZ && berryId <= BERRY_ID_PINAP)
+        return 2;
+    if (berryId >= BERRY_ID_FIGY && berryId <= BERRY_ID_IAPAPA)
+        return 1;
+    return 0;
+}
+
+static void ChooseCpuBerries(struct BerryCrushGame *game)
+{
+    static const enum BerryId sBerriesTier0[] = {
+        BERRY_ID_CHERI,  BERRY_ID_CHESTO, BERRY_ID_PECHA,
+        BERRY_ID_RAWST,  BERRY_ID_ASPEAR, BERRY_ID_LEPPA,
+        BERRY_ID_ORAN,   BERRY_ID_PERSIM, BERRY_ID_LUM,
+        BERRY_ID_SITRUS
+    };
+
+    static const enum BerryId sBerriesTier1[] = {
+        BERRY_ID_FIGY,   BERRY_ID_WIKI,   BERRY_ID_MAGO,
+        BERRY_ID_AGUAV,  BERRY_ID_IAPAPA
+    };
+
+    static const enum BerryId sBerriesTier2[] = {
+        BERRY_ID_RAZZ,   BERRY_ID_BLUK,   BERRY_ID_NANAB,
+        BERRY_ID_WEPEAR, BERRY_ID_PINAP
+    };
+
+    static const enum BerryId sBerriesTier3[] = {
+        BERRY_ID_POMEG,  BERRY_ID_KELPSY, BERRY_ID_QUALOT,
+        BERRY_ID_HONDEW, BERRY_ID_GREPA
+    };
+
+    static const enum BerryId sBerriesTier4[] = {
+        BERRY_ID_TAMATO, BERRY_ID_CORNN,  BERRY_ID_MAGOST,
+        BERRY_ID_RABUTA, BERRY_ID_NOMEL
+    };
+
+    static const enum BerryId sBerriesTier5[] = {
+        BERRY_ID_SPELON, BERRY_ID_PAMTRE, BERRY_ID_WATMEL,
+        BERRY_ID_DURIN,  BERRY_ID_BELUE
+    };
+
+    static const enum BerryId sBerriesTier6[] = {
+        BERRY_ID_LIECHI, BERRY_ID_GANLON, BERRY_ID_SALAC,
+        BERRY_ID_PETAYA, BERRY_ID_APICOT
+    };
+
+    static const enum BerryId sBerriesTier7[] = {
+        BERRY_ID_LANSAT, BERRY_ID_STARF
+    };
+
+    u8 i;
+    u16 playerBerry = game->players[game->localId].berryId;
+    u8 playerTier = GetBerryCrushTier(playerBerry);
+    bool8 isDailyFirst = !FlagGet(FLAG_DAILY_BERRY_CRUSH_RECEIVED_BONUS);
+
+    for (i = 1; i < game->playerCount; i++)
+    {
+        u8 normalTier = playerTier;
+        u8 finalTier;
+        u32 rollGeneral = Random() % 10000;
+
+        // General roll (applies to all games based on player's chosen berry tier):
+        // +7: 0.1%  (10/10000)
+        // +6: 0.2%  (20/10000)
+        // +5: 0.5%  (50/10000)
+        // +4: 1.0%  (100/10000)
+        // +3: 2.0%  (200/10000)
+        // +2: 5.0%  (500/10000)
+        // +1: 10.0% (1000/10000)
+        // +0: 81.2% (8120/10000)
+        if (rollGeneral < 10)
+            normalTier += 7;
+        else if (rollGeneral < 30)
+            normalTier += 6;
+        else if (rollGeneral < 80)
+            normalTier += 5;
+        else if (rollGeneral < 180)
+            normalTier += 4;
+        else if (rollGeneral < 380)
+            normalTier += 3;
+        else if (rollGeneral < 880)
+            normalTier += 2;
+        else if (rollGeneral < 1880)
+            normalTier += 1;
+
+        if (normalTier > 7)
+            normalTier = 7;
+
+        if (isDailyFirst)
+        {
+            // First game of the day: deterministic lottery roll (seeded with dailySeed, consistent across soft resets)
+            // 5%  (0..4)   -> Tier 7
+            // 5%  (5..9)   -> Tier 6
+            // 10% (10..19) -> Tier 5
+            // 30% (20..49) -> Tier 4
+            // 50% (50..99) -> Tier 3
+            rng_value_t rngState = LocalRandomSeed(gSaveBlock1Ptr->dailySeed ^ (0xBC00 + i));
+            u32 rollDaily = LocalRandom(&rngState) % 100;
+            u8 dailyTier;
+
+            if (rollDaily < 5)
+                dailyTier = 7;
+            else if (rollDaily < 10)
+                dailyTier = 6;
+            else if (rollDaily < 20)
+                dailyTier = 5;
+            else if (rollDaily < 50)
+                dailyTier = 4;
+            else
+                dailyTier = 3;
+
+            // Most favorable outcome rule: never perform worse than the standard roll
+            finalTier = max(normalTier, dailyTier);
+        }
+        else
+        {
+            finalTier = normalTier;
+        }
+
+        switch (finalTier)
+        {
+        case 7:
+            game->players[i].berryId = sBerriesTier7[Random() % ARRAY_COUNT(sBerriesTier7)];
+            break;
+        case 6:
+            game->players[i].berryId = sBerriesTier6[Random() % ARRAY_COUNT(sBerriesTier6)];
+            break;
+        case 5:
+            game->players[i].berryId = sBerriesTier5[Random() % ARRAY_COUNT(sBerriesTier5)];
+            break;
+        case 4:
+            game->players[i].berryId = sBerriesTier4[Random() % ARRAY_COUNT(sBerriesTier4)];
+            break;
+        case 3:
+            game->players[i].berryId = sBerriesTier3[Random() % ARRAY_COUNT(sBerriesTier3)];
+            break;
+        case 2:
+            game->players[i].berryId = sBerriesTier2[Random() % ARRAY_COUNT(sBerriesTier2)];
+            break;
+        case 1:
+            game->players[i].berryId = sBerriesTier1[Random() % ARRAY_COUNT(sBerriesTier1)];
+            break;
+        default:
+        case 0:
+            game->players[i].berryId = sBerriesTier0[Random() % ARRAY_COUNT(sBerriesTier0)];
+            break;
+        }
+    }
+
+    // Mark daily lucky play as consumed
+    FlagSet(FLAG_DAILY_BERRY_CRUSH_RECEIVED_BONUS);
+}
+
 static u32 Cmd_WaitForOthersToPickBerries(struct BerryCrushGame *game, u8 *args)
 {
     u8 i;
@@ -2423,14 +2589,7 @@ static u32 Cmd_WaitForOthersToPickBerries(struct BerryCrushGame *game, u8 *args)
     case 1:
         if (sIsSoloMinigame)
         {
-            static const enum BerryId sCpuBerries[MAX_RFU_PLAYERS - 1] = {
-                BERRY_ID_CHERI,
-                BERRY_ID_CHESTO,
-                BERRY_ID_PECHA,
-                BERRY_ID_RAWST
-            };
-            for (i = 1; i < game->playerCount; i++)
-                game->players[i].berryId = sCpuBerries[i - 1];
+            ChooseCpuBerries(game);
 
             for (i = 0; i < game->playerCount; i++)
             {
@@ -3014,9 +3173,10 @@ static void HandleSoloGameLeader(struct BerryCrushGame *game)
         }
         else
         {
+            u8 baseDelay = (game->targetAPresses > 600) ? 5 : (game->targetAPresses > 400) ? 6 : 7;
             pushedA[i] = TRUE;
             sCpuHoldTimers[i - 1] = 2;
-            sCpuPressTimers[i - 1] = 7 + (Random() % 6);
+            sCpuPressTimers[i - 1] = baseDelay + (Random() % 5);
         }
     }
 
