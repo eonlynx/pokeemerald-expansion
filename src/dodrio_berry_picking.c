@@ -298,6 +298,8 @@ static const u8 sCpuNames[4][PLAYER_NAME_LENGTH + 1] =
     _("MISS")
 };
 
+static const u8 sCpuName_Master[] = _("MASTER");
+
 static void ResetTasksAndSprites(void);
 static void InitDodrioGame(struct DodrioGame *);
 static void Task_StartDodrioGame(u8);
@@ -786,6 +788,13 @@ static void InitSoloDodrioPlayers(void)
         sGame->monInfo[i].isShiny = FALSE;
         StringCopy(sGame->players[i].name, sCpuNames[i - 1]);
         StringCopy(gLinkPlayers[i].name, sCpuNames[i - 1]);
+    }
+
+    // Blend Master appears on Hard difficulty using the advanced AI
+    if (sSoloDifficulty == 1)
+    {
+        StringCopy(sGame->players[1].name, sCpuName_Master);
+        StringCopy(gLinkPlayers[1].name, sCpuName_Master);
     }
 }
 

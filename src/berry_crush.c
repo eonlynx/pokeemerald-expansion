@@ -960,6 +960,7 @@ static const u8 sCpuName_Laddie[] = _("LADDIE");
 static const u8 sCpuName_Lassie[] = _("LASSIE");
 static const u8 sCpuName_Dude[]   = _("DUDE");
 static const u8 sCpuName_Miss[]   = _("MISS");
+static const u8 sCpuName_Master[] = _("MASTER");
 
 static const u8 *const sCpuNames[MAX_RFU_PLAYERS - 1] =
 {
@@ -1958,6 +1959,7 @@ static void DrawPlayerNameWindows(struct BerryCrushGame *game)
     for (i = 0; i < game->playerCount; i++)
     {
         PutWindowTilemap(game->gfx.nameWindowIds[i]);
+        FillWindowPixelBuffer(game->gfx.nameWindowIds[i], 0);
         if (i == game->localId)
         {
             // Print the player's name
@@ -2484,6 +2486,11 @@ static void ChooseCpuBerries(struct BerryCrushGame *game)
     u16 playerBerry = game->players[game->localId].berryId;
     u8 playerTier = GetBerryCrushTier(playerBerry);
     bool8 isDailyFirst = !FlagGet(FLAG_DAILY_BERRY_CRUSH_RECEIVED_BONUS);
+    u8 highestCpuTier = 0;
+    u8 masterCpuIdx = 0;
+
+    for (i = 1; i < game->playerCount; i++)
+        StringCopy(game->players[i].name, sCpuNames[i - 1]);
 
     for (i = 1; i < game->playerCount; i++)
     {
@@ -2549,6 +2556,12 @@ static void ChooseCpuBerries(struct BerryCrushGame *game)
             finalTier = normalTier;
         }
 
+        if (finalTier > highestCpuTier)
+        {
+            highestCpuTier = finalTier;
+            masterCpuIdx = i;
+        }
+
         switch (finalTier)
         {
         case 7:
@@ -2577,6 +2590,14 @@ static void ChooseCpuBerries(struct BerryCrushGame *game)
             game->players[i].berryId = sBerriesTier0[Random() % ARRAY_COUNT(sBerriesTier0)];
             break;
         }
+    }
+
+    // Blend Master appears only on the first game of the day if a berry of Tier 5 or higher is chosen
+    if (isDailyFirst && (highestCpuTier >= 5 || playerTier >= 5))
+    {
+        if (masterCpuIdx == 0)
+            masterCpuIdx = 1;
+        StringCopy(game->players[masterCpuIdx].name, sCpuName_Master);
     }
 
     // Mark daily lucky play as consumed
@@ -2611,6 +2632,9 @@ static void InitCpuPressCadence(struct BerryCrushGame *game)
             luckyBonus = 1; // +1 frame speedup
 
         s16 cadence = baseCadence + personality - luckyBonus;
+        if (StringCompare(game->players[i + 1].name, sCpuName_Master) == 0)
+            cadence = 5;      // Blend Master uses the top-tier mashing cadence
+
         if (cadence < 5)
             cadence = 5;      // Human peak mashing limit (~12 presses/sec)
         if (cadence > 11)
@@ -2649,6 +2673,7 @@ static u32 Cmd_WaitForOthersToPickBerries(struct BerryCrushGame *game, u8 *args)
                 game->powder += gBerries[game->players[i].berryId].berryCrushPowder;
             }
             InitCpuPressCadence(game);
+            DrawPlayerNameWindows(game);
             game->cmdTimer = 0;
             game->targetDepth = MathUtil_Div32(Q_24_8(game->targetAPresses), Q_24_8(32));
             game->cmdState = 5;
@@ -3877,6 +3902,19 @@ static u32 Cmd_AskPlayAgain(struct BerryCrushGame *game, u8 *args)
                 game->playAgainState = PLAY_AGAIN_NO;
             }
 
+            if (sIsSoloMinigame)
+            {
+                ClearDialogWindowAndFrame(0, TRUE);
+                if (game->playAgainState == PLAY_AGAIN_YES)
+                    RunOrScheduleCommand(CMD_PLAY_AGAIN_YES, SCHEDULE_CMD, NULL);
+                else if (game->playAgainState == PLAY_AGAIN_NO_BERRIES)
+                    RunOrScheduleCommand(CMD_PLAY_AGAIN_NO, SCHEDULE_CMD, NULL);
+                else
+                    RunOrScheduleCommand(CMD_CLOSE_LINK, SCHEDULE_CMD, NULL);
+                game->cmdState = 0;
+                return 0;
+            }
+
             // Close Yes/No and start communication
             ClearDialogWindowAndFrame(0, TRUE);
             SetPrintMessageArgs(args, MSG_COMM_STANDBY, 0, 0, 0);
@@ -3899,10 +3937,12 @@ static u32 Cmd_CommunicatePlayAgainResponses(struct BerryCrushGame *game, u8 *ar
     case 0:
         if (sIsSoloMinigame)
         {
-            if (game->playAgainState != PLAY_AGAIN_YES)
+            if (game->playAgainState == PLAY_AGAIN_YES)
+                RunOrScheduleCommand(CMD_PLAY_AGAIN_YES, SCHEDULE_CMD, NULL);
+            else if (game->playAgainState == PLAY_AGAIN_NO_BERRIES)
                 RunOrScheduleCommand(CMD_PLAY_AGAIN_NO, SCHEDULE_CMD, NULL);
             else
-                RunOrScheduleCommand(CMD_PLAY_AGAIN_YES, SCHEDULE_CMD, NULL);
+                RunOrScheduleCommand(CMD_CLOSE_LINK, SCHEDULE_CMD, NULL);
             game->sendCmd[0] = 0;
             game->recvCmd[0] = 0;
             game->cmdTimer = 0;
@@ -3984,6 +4024,12 @@ static u32 Cmd_StopGame(struct BerryCrushGame *game, u8 *args)
     switch (game->cmdState)
     {
     case 0:
+        if (sIsSoloMinigame && game->playAgainState != PLAY_AGAIN_NO_BERRIES)
+        {
+            RunOrScheduleCommand(CMD_CLOSE_LINK, SCHEDULE_CMD, NULL);
+            game->cmdState = 0;
+            return 0;
+        }
         DrawDialogueFrame(0, FALSE);
         if (game->playAgainState == PLAY_AGAIN_NO_BERRIES)
             AddTextPrinterParameterized2(0, FONT_NORMAL, sMessages[MSG_NO_BERRIES], game->textSpeed, 0, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);

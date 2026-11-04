@@ -18,12 +18,12 @@ In the original game, all three minigames strictly required a Game Boy Advance W
 - **Unified Minigame Hub:** Bring all three wireless minigames—**Pokémon Jump**, **Dodrio's Berry Picking**, and **Berry Crush**—together into the **Mossdeep City Game Corner**.
 - **Solo Play with AI Companions:** Allow playing completely offline without a Wireless Adapter or link partners.
 - **Maximum Participant Support:** Run all minigames with the full 5-player maximum (`MAX_RFU_PLAYERS = 5`), populating positions 1 through 4 with intelligent CPU-controlled Pokémon / Dodrios / Trainers (`LADDIE`, `LASSIE`, `DUDE`, `MISS`).
-- **Authentic Atmosphere & Dialogue:** Welcoming greeting mentioning **MOSSDEEP CITY GAME CORNER** without awkward artificial delays or connection-checking text.
-- **Difficulty Selection:**
-  - **Pokémon Jump:** Purely cooperative jumping rope. If ANY Pokémon touches the rope, `UpdateVineHitStates()` returns `FALSE` and triggers an immediate `FUNC_GAME_OVER` for the entire party. A weaker AI would cause frustrating, unavoidable losses for the human player. Therefore, difficulty selection is removed (runs as a single balanced mode where bots jump in sync, leaving the challenge purely up to the player's timing as the vine accelerates).
-  - **Berry Crush:** Purely cooperative button mashing with shared Berry Powder reward ($B \times S \times P$). Better bots only help the team, and difficulty selection is eliminated in favor of an authentic 8-tier Daily Berry Lottery system based on player berry anchoring and daily RTC seeds.
-  - **Dodrio Berry Picking:** Highly competitive for 1st place (only top score wins a berry), yet drops penalize the shared status bar. Difficulty selection (**NORMAL** vs **HARD**) is maintained so players can choose their competitive challenge.
-- **Graceful Save and Exit:** Fixed softlock in `Task_LinkFullSave` (`src/save.c`) which previously stalled forever waiting for wireless link standby packets in offline play. Offline games now save sector-by-sector to flash memory and transition smoothly back to menus.
+- **Authentic Atmosphere & Dialogue:** Welcoming greeting mentioning **MOSSDEEP GAME CORNER** without awkward artificial delays or connection-checking text.
+- **Difficulty Selection & Opponents:**
+  - **Pokémon Jump:** Purely cooperative jumping rope. If ANY Pokémon touches the rope, `UpdateVineHitStates()` returns `FALSE` and triggers an immediate `FUNC_GAME_OVER` for the entire party. A weaker AI would cause frustrating, unavoidable losses for the human player. Therefore, difficulty selection is completely removed (single unified balanced mode where bots jump in sync with staggered human micro-delays). Blend Master (`MASTER`) appears cosmetically with sharp timing.
+  - **Berry Crush:** Purely cooperative button mashing with shared Berry Powder reward ($B \times S \times P$). Better bots only help the team, and difficulty selection is eliminated in favor of an authentic 8-tier Daily Berry Lottery system based on player berry anchoring and daily RTC seeds. Blend Master (`MASTER`) appears only on the first game of the day if a berry of Tier 5 or higher is in play, mashing at top human cadence (12 presses/sec).
+  - **Dodrio Berry Picking:** Highly competitive for 1st place (only top score wins a berry), yet drops penalize the shared status bar. Difficulty selection (**NORMAL** vs **HARD**) is maintained so players can choose their competitive challenge. Blend Master (`MASTER`) appears as an opponent on Hard difficulty using advanced competitive AI.
+- **Graceful Save and Exit:** Fixed softlock in `Task_LinkFullSave` (`src/save.c`) which previously stalled forever waiting for wireless link standby packets in offline play. Also removed out-of-place link standby and "A member dropped out" messages when exiting solo Berry Crush. Offline games now save sector-by-sector to flash memory and transition smoothly back to the overworld.
 - **Wireless Multiplayer Intact:** Keep the original Wireless Link flow fully functional for when players choose to play via Wireless Adapter.
 
 ---
@@ -79,12 +79,14 @@ The Info Man provides rule explanations for all 3 games:
   - `GetNumPokeJumpPlayers()` returns `sIsSoloMinigame ? MAX_RFU_PLAYERS : GetLinkPlayerCount()`.
   - In vanilla, `GetNumPokeJumpPlayers()` returned `GetLinkPlayerCount()` which is 0 or 1 in offline play, causing `sMonXCoords[playersCount - 2]` to access invalid memory and skipping the sprite creation loop entirely (rendering Pokémon invisible). Returning `MAX_RFU_PLAYERS = 5` creates all 5 Pokémon sprites at positions `{56, 88, 120, 152, 184}` alongside star particles and player name windows.
 
-### 3.2. CPU AI Logic (`UpdateCpuJumpStates`)
+### 3.2. CPU AI Logic & Blend Master (`UpdateCpuJumpStates`, `InitSoloPokeJumpPlayers`)
 - Each CPU Pokémon (`sPokemonJump->players[1..4]`) monitors the Venusaur rope swing state (`sPokemonJump->vineState`):
   - **Human Reaction Staggering:** Rather than jumping on the exact identical frame, each CPU receives a small natural reaction delay (0 to 2 frames) as the vine reaches `VINE_LOWEST`.
   - Sprites take off with organic, believable stagger rather than robotic unison.
   - Jump heights remain well above ground level during the `VINE_UPSWING_LOWER` collision check, guaranteeing that CPUs never trip the rope.
   - Peak jump intervals (`JUMP_PEAK`) overlap dynamically with other CPUs and the player, awarding authentic synchronization combos.
+  - **Blend Master Appearance:** The Blend Master (`MASTER`) has a chance to appear cosmetically in place of CPU 1 with `SPECIES_PIKACHU` and sharp reaction timing (0-frame reaction delay), without altering difficulty rules.
+  - **Single Unified Mode:** The leftover `sSoloDifficulty` variable was completely eliminated; Pokémon Jump operates in a single, balanced mode.
 
 ---
 
@@ -97,7 +99,7 @@ The Info Man provides rule explanations for all 3 games:
   - In solo mode without network packets, `sGame->players[0].berries` remained zeroed, causing `UpdateBerrySprites()` to treat all berries as invisible (`SetBerryInvisibility(i, TRUE)`).
   - Explicit synchronization `sGame->players[0].berries = sGame->player.berries;` was added inside `UpdateBerrySprites()`, `InitFirstWaveOfBerries()`, `RecvLinkData_Gameplay()`, and `RecvLinkData_ReadyToEnd()`, restoring full visibility, falling animations, and collision sounds.
 
-### 4.2. CPU AI Logic & Difficulty Calibration (`UpdateCpuDodrioPickStates`)
+### 4.2. CPU AI Logic, Blend Master & Difficulty Calibration (`UpdateCpuDodrioPickStates`)
 - Dodrios 1 through 4 have 3 heads mapped to falling berry columns:
   - Dodrio 0 (Player): Left 4, Mid 5, Right 6
   - Dodrio 1 (CPU 1): Left 6, Mid 7, Right 8
@@ -106,12 +108,14 @@ The Info Man provides rule explanations for all 3 games:
   - Dodrio 4 (CPU 4): Left 2, Mid 3, Right 4
 - **Difficulty & Reaction Modeling:**
   - **Normal Mode:**
+    - Standard opponents: `LADDIE`, `LASSIE`, `DUDE`, `MISS`.
     - In middle exclusive columns, CPUs exhibit human reaction distribution: 65% caught at `fallDist == 6`, 35% caught at `fallDist == 7`. 100% of berries are saved from squishing, but without robotic frame-0 snatching.
     - On shared columns with Player 0 (cols 4 and 6), CPUs hold back at `fallDist == 6` to let the human player score, only catching at `fallDist == 7` if the player missed.
     - Yields a balanced, winnable match where the human player can win 1st place.
   - **Hard Mode:**
+    - CPU 1 is assigned as the **Blend Master** (`MASTER`).
     - Berries fall at accelerated velocity (difficulty stage 14).
-    - CPUs are sharp and competitive: they catch decisively at `fallDist == 6` and contest shared columns with 40% aggression, putting up a genuine challenge for 1st place.
+    - CPUs are sharp and competitive: they catch decisively at `fallDist == 6` and contest shared columns with 40% aggression, putting up a genuine challenge for 1st place using the pre-existing advanced AI.
 
 ---
 
@@ -119,9 +123,14 @@ The Info Man provides rule explanations for all 3 games:
 
 ### 5.1. Solo Startup & RFU Decoupling
 - **`StartBerryCrushSolo(void)`:** Sets `sIsSoloMinigame = TRUE`, configures `VAR_CABLE_CLUB_STATE` to `USING_MINIGAME`, warps to coordinates `(5, 1)`, sets wireless comm type 0, and starts the game with `CB2_LoadMap`.
-- **Decoupled Link Hooks:** In solo mode, RFU handshake waits (`Rfu_SetLinkStandbyCallback`, `IsLinkTaskFinished`, `SendBlock`) are cleanly bypassed during palette fade, berry dropping, crusher lid fall, countdown, results tabulation, saving, and exiting.
-- **Simulated Teammates & 8-Tier Berry Selection (`ChooseCpuBerries`):**
-  - 4 CPU companions (`LADDIE`, `LASSIE`, `DUDE`, `MISS`) join the game.
+- **Decoupled Link Hooks & Clean Exit:**
+  - In solo mode, RFU handshake waits (`Rfu_SetLinkStandbyCallback`, `IsLinkTaskFinished`, `SendBlock`) are cleanly bypassed during palette fade, berry dropping, crusher lid fall, countdown, results tabulation, saving, and exiting.
+  - When the player selects "NO" on the "Play again?" prompt, offline solo play bypasses `MSG_COMM_STANDBY` ("COMMUNICATION STANDBY...") and `MSG_DROPPED` ("A member dropped out"), transitioning immediately to link cleanup and fading back to the overworld.
+- **Simulated Teammates, Authentic Names & 8-Tier Berry Selection (`ChooseCpuBerries`):**
+  - 4 CPU companions join the game using authentic Berry Blender names (`LADDIE`, `LASSIE`, `DUDE`, `MISS`).
+  - **Blend Master Condition:** The Blend Master (`MASTER`) appears **only** on the first game of the day (`!FlagGet(FLAG_DAILY_BERRY_CRUSH_RECEIVED_BONUS)`) if any berry in play (either chosen by the player or rolled by a CPU) is Tier 5 or higher (`highestCpuTier >= 5 || playerTier >= 5`).
+  - The CPU with the highest tier is designated as `MASTER` and receives the fastest human mashing cadence (`cadence = 5`, ~12 presses/sec).
+  - Subsequent games or games with lower tiers retain standard Berry Blender names.
   - **Player Berry Anchoring:** The base berry tier of all CPUs is anchored to the player's chosen berry tier (Tier 0 to Tier 7).
   - **General Sub-Roll (Every Game):** Each CPU independently has an 18.8% chance to elevate tiers above the player's berry tier:
     - +7 Tiers: 0.1%
