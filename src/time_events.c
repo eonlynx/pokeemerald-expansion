@@ -51,6 +51,10 @@ bool8 IsWishCharmActive(void)
     if (!CheckBagHasItem(ITEM_WISH_CHARM, 1))
         return FALSE;
 
+    // The Wish Charm only works after the scene with Mr. Reef in Pacifidlog Town.
+    if (!FlagGet(FLAG_MIRAGE_ISLAND_REEF_EVENT_DONE))
+        return FALSE;
+
 #if OW_FLAG_WISH_CHARM_INFINITE != 0
     if (FlagGet(OW_FLAG_WISH_CHARM_INFINITE))
         return TRUE;

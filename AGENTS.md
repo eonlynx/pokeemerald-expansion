@@ -135,3 +135,20 @@ This expansion introduces the **Wish Charm**, a Key Item that forces Mirage Isla
    - Advance day (via `Debug Menu` -> `Utilities…` -> `Time Functions…` -> `Redo daily events`).
    - Check with the old man: confirm he now says *"I can't see MIRAGE ISLAND today…"*.
    - Re-enter Route 130: confirm Mirage Island has vanished and the area is empty ocean.
+
+---
+
+## 6. Mr. Reef Event (Pacifidlog Town House 5)
+
+The Wish Charm no longer reveals Mirage Island on its own: the player must first talk to the old man (**Mr. Reef**, whose name is not revealed to the player yet) in `PacifidlogTown_House5` while carrying the charm. Naturally appearing Mirage Island (party personality match) is unaffected.
+
+- **Gate:** `IsWishCharmActive()` (`src/time_events.c`) returns `FALSE` until `FLAG_MIRAGE_ISLAND_REEF_EVENT_DONE` is set (checked before the debug infinite flag).
+- **Tinko (Corsola, `OBJ_EVENT_GFX_SPECIES(CORSOLA)`):** stands at (9,5) next to Mr. Reef while the player holds the Wish Charm and the event is pending (`FLAG_TEMP_5`, set/cleared in `PacifidlogTown_House5_OnTransition`). Interacting plays Corsola's cry.
+- **Scene (`PacifidlogTown_House5_EventScript_WishCharmEvent`):** Reef announces Mirage Island, says he sent for an old friend; Mr. Briney (`OBJ_EVENT_GFX_EXPERT_M`) and Peeko (now `OBJ_EVENT_GFX_SPECIES(PELIPPER)`, Pelipper cry) enter through the door (`FLAG_TEMP_6`/`FLAG_TEMP_7`). Reef says his catchphrase **"Avast!"** for the first time here (Briney's is "Ahoy!"). Briney gives his number (registered in Match Call), then Briney, Peeko, Tinko and Reef walk out and are removed. Reef stays hidden afterwards (`FLAG_MIRAGE_ISLAND_REEF_EVENT_DONE` is his object flag) — the original "can/can't see Mirage Island" watcher is therefore gone for now; to be revisited.
+- **Other NPC (Gentleman):** after the event, says Reef and Briney were captains and great friends.
+- **Match Call:** `MC_HEADER_BRINEY` (`include/pokenav.h`, `src/pokenav_match_call_data.c`) sits between Scott and Roxanne because the list is built in header order. Enabled by `FLAG_ENABLE_BRINEY_MATCH_CALL`. Text `MatchCall_Text_Briney1` (`data/text/match_call.inc`): "What are you waiting for?..." with Peeko's classic `"PEEKO: Pihyo pihyohyo…"` line.
+
+| Constant | Value | Description |
+|---|---|---|
+| `FLAG_MIRAGE_ISLAND_REEF_EVENT_DONE` | `0x24` | Scene finished; hides Reef; unlocks Wish Charm |
+| `FLAG_ENABLE_BRINEY_MATCH_CALL` | `0x25` | Mr. Briney registered in Match Call |

@@ -2709,6 +2709,16 @@ MatchCall_Text_Scott7::
 	.string "SCOTT appears to be out of\n"
 	.string "the POKéNAV's service area…$"
 
+MatchCall_Text_Briney1::
+	.string "MR. BRINEY: Ahoy, {PLAYER}{KUN}!\p"
+	.string "What are you waiting for?\p"
+	.string "A sight like MIRAGE ISLAND comes\n"
+	.string "but once in a lifetime!\p"
+	.string "PEEKO: Pihyo pihyohyo…\p"
+	.string "See? Even my darling PEEKO\n"
+	.string "can't wait! Hurry up and\l"
+	.string "join us!$"
+
 MatchCall_Text_Norman1::
 	.string "DAD: In RUSTBORO, there's a man\n"
 	.string "that goes by the odd name of\l"

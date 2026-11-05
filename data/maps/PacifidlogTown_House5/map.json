@@ -16,6 +16,7 @@
   "connections": null,
   "object_events": [
     {
+      "local_id": "LOCALID_PACIFIDLOG_HOUSE5_REEF",
       "graphics_id": "OBJ_EVENT_GFX_EXPERT_M",
       "x": 9,
       "y": 4,
@@ -26,7 +27,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "PacifidlogTown_House5_EventScript_MirageIslandWatcher",
-      "flag": "0"
+      "flag": "FLAG_MIRAGE_ISLAND_REEF_EVENT_DONE"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN",
@@ -40,6 +41,48 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "PacifidlogTown_House5_EventScript_Gentleman",
       "flag": "0"
+    },
+    {
+      "local_id": "LOCALID_PACIFIDLOG_HOUSE5_TINKO",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(CORSOLA)",
+      "x": 9,
+      "y": 5,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "PacifidlogTown_House5_EventScript_Tinko",
+      "flag": "FLAG_TEMP_5"
+    },
+    {
+      "local_id": "LOCALID_PACIFIDLOG_HOUSE5_BRINEY",
+      "graphics_id": "OBJ_EVENT_GFX_EXPERT_M",
+      "x": 5,
+      "y": 8,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "0x0",
+      "flag": "FLAG_TEMP_6"
+    },
+    {
+      "local_id": "LOCALID_PACIFIDLOG_HOUSE5_PEEKO",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(PELIPPER)",
+      "x": 4,
+      "y": 8,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "0x0",
+      "flag": "FLAG_TEMP_7"
     }
   ],
   "warp_events": [

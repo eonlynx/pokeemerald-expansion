@@ -1608,6 +1608,7 @@ extern const u8 MatchCall_Text_Scott4[];
 extern const u8 MatchCall_Text_Scott5[];
 extern const u8 MatchCall_Text_Scott6[];
 extern const u8 MatchCall_Text_Scott7[];
+extern const u8 MatchCall_Text_Briney1[];
 extern const u8 MatchCall_Text_Roxanne_Preparing[];
 extern const u8 MatchCall_Text_Roxanne_PreparingPostGame[];
 extern const u8 MatchCall_Text_Roxanne_RematchReady[];

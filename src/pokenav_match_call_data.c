@@ -371,6 +371,19 @@ static const struct MatchCallStructNPC sScottMatchCallHeader =
     }
 };
 
+static const struct MatchCallStructNPC sBrineyMatchCallHeader =
+{
+    .type = MC_TYPE_NPC,
+    .mapSec = MAPSEC_NONE,
+    .flag = FLAG_ENABLE_BRINEY_MATCH_CALL,
+    .desc = COMPOUND_STRING("SEA DOG"),
+    .name = COMPOUND_STRING("MR. BRINEY"),
+    .textData = (const match_call_text_data_t[]) {
+        { MatchCall_Text_Briney1, ALWAYS_AVAILABLE, NO_FLAG_TO_SET },
+        MATCH_CALL_TEXT_END
+    }
+};
+
 static const struct MatchCallStructTrainer sRoxanneMatchCallHeader =
 {
     .type = MC_TYPE_LEADER,
@@ -572,6 +585,7 @@ static const match_call_t sMatchCallHeaders[] = {
     [MC_HEADER_MOM]        = {.npc    = &sMomMatchCallHeader},
     [MC_HEADER_STEVEN]     = {.npc    = &sStevenMatchCallHeader},
     [MC_HEADER_SCOTT]      = {.npc    = &sScottMatchCallHeader},
+    [MC_HEADER_BRINEY]     = {.npc    = &sBrineyMatchCallHeader},
     [MC_HEADER_ROXANNE]    = {.leader = &sRoxanneMatchCallHeader},
     [MC_HEADER_BRAWLY]     = {.leader = &sBrawlyMatchCallHeader},
     [MC_HEADER_WATTSON]    = {.leader = &sWattsonMatchCallHeader},
