@@ -109,6 +109,7 @@ enum FlagsVarsDebugMenu
     DEBUG_FLAGVAR_MENU_ITEM_TOGGLE_TRAINER_SEE,
     DEBUG_FLAGVAR_MENU_ITEM_TOGGLE_CATCHING,
     DEBUG_FLAGVAR_MENU_ITEM_TOGGLE_BAG_USE,
+    DEBUG_FLAGVAR_MENU_ITEM_TOGGLE_WISH_CHARM,
 };
 
 enum DebugBattleType
@@ -339,6 +340,7 @@ static void DebugAction_FlagsVars_TrainerSeeOnOff(u8 taskId);
 static void DebugAction_FlagsVars_BagUseOnOff(u8 taskId);
 static void DebugAction_FlagsVars_CatchingOnOff(u8 taskId);
 static void DebugAction_FlagsVars_RunningShoes(u8 taskId);
+static void DebugAction_FlagsVars_WishCharmInfinite(u8 taskId);
 
 static void DebugAction_Give_MaxMoney(u8 taskId);
 static void DebugAction_Give_MaxCoins(u8 taskId);
@@ -756,6 +758,7 @@ static const struct DebugMenuOption sDebugMenu_Actions_Flags[] =
     [DEBUG_FLAGVAR_MENU_ITEM_TOGGLE_TRAINER_SEE]   = { COMPOUND_STRING("Toggle {STR_VAR_1}Trainer See OFF"), DebugAction_ToggleFlag, DebugAction_FlagsVars_TrainerSeeOnOff },
     [DEBUG_FLAGVAR_MENU_ITEM_TOGGLE_CATCHING]      = { COMPOUND_STRING("Toggle {STR_VAR_1}Catching OFF"),    DebugAction_ToggleFlag, DebugAction_FlagsVars_CatchingOnOff },
     [DEBUG_FLAGVAR_MENU_ITEM_TOGGLE_BAG_USE]       = { COMPOUND_STRING("Toggle {STR_VAR_1}Bag Use OFF"),     DebugAction_ToggleFlag, DebugAction_FlagsVars_BagUseOnOff },
+    [DEBUG_FLAGVAR_MENU_ITEM_TOGGLE_WISH_CHARM]    = { COMPOUND_STRING("Toggle {STR_VAR_1}Wish Charm Inf"),  DebugAction_ToggleFlag, DebugAction_FlagsVars_WishCharmInfinite },
     { NULL }
 };
 
@@ -1597,6 +1600,9 @@ static u32 Debug_CheckToggleFlags(u8 id)
         result = VarGet(B_VAR_NO_BAG_USE);
         if (result >= NO_BAG_INVALID_VALUE)
             result = NO_BAG_INVALID_VALUE;
+        break;
+    case DEBUG_FLAGVAR_MENU_ITEM_TOGGLE_WISH_CHARM:
+        result = OW_FLAG_WISH_CHARM_INFINITE ? FlagGet(OW_FLAG_WISH_CHARM_INFINITE) : DEBUG_OPTION_CANT_BE_TOGGLED;
         break;
     default:
         result = DEBUG_OPTION_CANT_BE_TOGGLED;
@@ -3007,6 +3013,19 @@ static void DebugAction_FlagsVars_RunningShoes(u8 taskId)
     FlagToggle(FLAG_SYS_B_DASH);
 }
 
+static void DebugAction_FlagsVars_WishCharmInfinite(u8 taskId)
+{
+#if OW_FLAG_WISH_CHARM_INFINITE == 0
+    Debug_DestroyMenu_Full_Script(taskId, Debug_FlagsNotSetOverworldConfigMessage);
+#else
+    if (FlagGet(OW_FLAG_WISH_CHARM_INFINITE))
+        PlaySE(SE_PC_OFF);
+    else
+        PlaySE(SE_PC_LOGIN);
+    FlagToggle(OW_FLAG_WISH_CHARM_INFINITE);
+#endif
+}
+
 static void DebugAction_FlagsVars_ToggleFlyFlags(u8 taskId)
 {
     u32 checkedFlag = sLocationFlags[0] == 0 ? sLocationFlags[ARRAY_COUNT(sLocationFlags) - 1] : sLocationFlags[0];
@@ -3755,9 +3774,12 @@ static void DebugAction_PCBag_Fill_PocketKeyItems(u8 taskId)
 {
     enum Item itemId;
 
+    if (CheckBagHasSpace(ITEM_WISH_CHARM, 1))
+        AddBagItem(ITEM_WISH_CHARM, 1);
+
     for (itemId = 1; itemId < ITEMS_COUNT; itemId++)
     {
-        if (GetItemPocket(itemId) == POCKET_KEY_ITEMS && CheckBagHasSpace(itemId, 1))
+        if (itemId != ITEM_WISH_CHARM && GetItemPocket(itemId) == POCKET_KEY_ITEMS && CheckBagHasSpace(itemId, 1))
             AddBagItem(itemId, 1);
     }
 }

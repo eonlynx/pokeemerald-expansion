@@ -234,6 +234,9 @@ void NewGameInitData(void)
     ResetItemFlags();
     ResetDexNav();
     ClearFollowerNPCData();
+#if OW_FLAG_WISH_CHARM_INFINITE != 0
+    FlagSet(OW_FLAG_WISH_CHARM_INFINITE);
+#endif
 }
 
 static void ResetMiniGamesRecords(void)

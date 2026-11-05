@@ -8,6 +8,10 @@
 #include "rtc.h"
 #include "script.h"
 #include "task.h"
+#include "item.h"
+#include "constants/items.h"
+#include "constants/layouts.h"
+#include "field_player_avatar.h"
 
 #define MIRAGE_ISLAND_SALT 0x0300714C // Adress of the mirage island var in vanilla Emerald
 
@@ -42,8 +46,63 @@ void UpdateMirageRnd(u16 days)
     SetMirageRnd(rnd);
 }
 
+bool8 IsWishCharmActive(void)
+{
+    if (!CheckBagHasItem(ITEM_WISH_CHARM, 1))
+        return FALSE;
+
+#if OW_FLAG_WISH_CHARM_INFINITE != 0
+    if (FlagGet(OW_FLAG_WISH_CHARM_INFINITE))
+        return TRUE;
+#endif
+
+    if (FlagGet(FLAG_WISH_CHARM_EXPIRED))
+        return FALSE;
+
+    u16 visitDay = VarGet(VAR_WISH_CHARM_VISIT_DAY);
+    if (visitDay != 0)
+    {
+        u16 currentDay = VarGet(VAR_DAYS) + 1;
+        if (currentDay != visitDay)
+        {
+            FlagSet(FLAG_WISH_CHARM_EXPIRED);
+            return FALSE;
+        }
+    }
+
+    return TRUE;
+}
+
+void UpdateMirageIslandWishCharmStep(void)
+{
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_ROUTE130)
+     && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ROUTE130)
+     && gSaveBlock1Ptr->mapLayoutId == LAYOUT_ROUTE130_MIRAGE_ISLAND)
+    {
+        if (!TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+        {
+            if (CheckBagHasItem(ITEM_WISH_CHARM, 1) && !FlagGet(FLAG_WISH_CHARM_VISITED))
+            {
+                FlagSet(FLAG_WISH_CHARM_VISITED);
+                VarSet(VAR_WISH_CHARM_VISIT_DAY, VarGet(VAR_DAYS) + 1);
+            }
+        }
+    }
+}
+
+void UpdateMirageIslandWishCharmDaily(void)
+{
+    if (FlagGet(FLAG_WISH_CHARM_VISITED))
+    {
+        FlagSet(FLAG_WISH_CHARM_EXPIRED);
+    }
+}
+
 bool8 IsMirageIslandPresent(void)
 {
+    if (IsWishCharmActive())
+        return TRUE;
+
     u16 rnd = GetMirageRnd() >> 16;
     int i;
 

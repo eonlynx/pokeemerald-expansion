@@ -64,6 +64,7 @@ void DoDailyEvents(u32 daysSince)
     }
     UpdateDaysPassedSinceFormChange(daysSince);
     DailyResetApricornTrees();
+    UpdateMirageIslandWishCharmDaily();
 }
 
 static void UpdatePerDay(struct Time *localTime)

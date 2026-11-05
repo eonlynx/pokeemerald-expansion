@@ -13789,6 +13789,22 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_ExpCharm,
     },
 
+    [ITEM_WISH_CHARM] =
+    {
+        .name = ITEM_NAME("Wish Charm"),
+        .price = 0,
+        .importance = 1,
+        .description = COMPOUND_STRING(
+            "A charm that glows\n"
+            "faintly. It seems\n"
+            "to hold a wish."),
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_ShinyCharm,
+        .iconPalette = gItemIconPalette_ShinyCharm,
+    },
+
 // Form-changing Key Items
 
     [ITEM_ROTOM_CATALOG] =

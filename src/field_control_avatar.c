@@ -32,6 +32,7 @@
 #include "secret_base.h"
 #include "sound.h"
 #include "start_menu.h"
+#include "time_events.h"
 #include "trainer_see.h"
 #include "trainer_hill.h"
 #include "vs_seeker.h"
@@ -184,6 +185,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     {
         IncrementGameStat(GAME_STAT_STEPS);
         IncrementBirthIslandRockStepCount();
+        UpdateMirageIslandWishCharmStep();
         DespawnAllOverworldWildEncounters(OWE_GENERATED, WILD_CHECK_REPEL);
         if (FindTaskIdByFunc(Task_FollowerNPCOutOfDoor) == TASK_NONE && TryStartStepBasedScript(&position, metatileBehavior, playerDirection) == TRUE)
             return TRUE;
