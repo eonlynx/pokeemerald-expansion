@@ -1052,6 +1052,14 @@ enum __attribute__((packed)) Item
     ITEM_TATSUGIRINITE = 872,
     ITEM_GLIMMORANITE = 873,
 
+    // Altering Cave Lures
+    ITEM_NORMAL_LURE = 874,
+    ITEM_WATER_LURE = 875,
+    ITEM_BUG_LURE = 876,
+    ITEM_ROCK_LURE = 877,
+    ITEM_SPECIAL_LURE = 878,
+    ITEM_RARE_LURE = 879,
+
     ITEMS_COUNT,
     ITEM_FIELD_ARROW = ITEMS_COUNT,
 };

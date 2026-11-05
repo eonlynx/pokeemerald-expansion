@@ -3710,6 +3710,21 @@ static void DebugAction_PCBag_Fill_PCItemStorage(u8 taskId)
 static void DebugAction_PCBag_Fill_PocketItems(u8 taskId)
 {
     enum Item itemId;
+    static const u16 sLureItems[] = {
+        ITEM_NORMAL_LURE,
+        ITEM_WATER_LURE,
+        ITEM_BUG_LURE,
+        ITEM_ROCK_LURE,
+        ITEM_SPECIAL_LURE,
+        ITEM_RARE_LURE,
+    };
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sLureItems); i++)
+    {
+        if (CheckBagHasSpace(sLureItems[i], MAX_BAG_ITEM_CAPACITY))
+            AddBagItem(sLureItems[i], MAX_BAG_ITEM_CAPACITY);
+    }
 
     for (itemId = 1; itemId < ITEMS_COUNT; itemId++)
     {

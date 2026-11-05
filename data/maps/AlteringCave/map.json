@@ -24,6 +24,16 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 18,
+      "y": 22,
+      "elevation": 0,
+      "var": "FLAG_ALTERING_CAVE_LURE_ACTIVE",
+      "var_value": "1",
+      "script": "AlteringCave_EventScript_ExitTrigger"
+    }
+  ],
   "bg_events": []
 }

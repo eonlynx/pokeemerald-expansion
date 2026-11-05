@@ -60,7 +60,21 @@ bool8 DoesCurrentMapHaveFishingMons(void);
 void FishingWildEncounter(u8 rod);
 u16 GetLocalWildMon(bool8 *isWaterMon);
 u16 GetLocalWaterMon(void);
+enum AlteringCaveWildSet
+{
+    ALTERING_CAVE_TABLE_DEFAULT = 0,
+    ALTERING_CAVE_TABLE_NORMAL  = 1,
+    ALTERING_CAVE_TABLE_WATER   = 2,
+    ALTERING_CAVE_TABLE_BUG     = 3,
+    ALTERING_CAVE_TABLE_ROCK    = 4,
+    ALTERING_CAVE_TABLE_SPECIAL = 5,
+    ALTERING_CAVE_TABLE_RARE    = 6,
+};
+
 bool8 UpdateRepelCounter(void);
+bool8 UpdateAlteringCaveLureStepCounter(void);
+u16 GetAlteringCaveWildSetFromLure(u16 itemId);
+u16 GetAlteringCaveLureItemFromWildSet(u16 tableId);
 bool8 IsWildLevelAllowedByRepel(u8 wildLevel);
 bool8 IsAbilityAllowingEncounter(u8 level);
 bool8 TryDoDoubleWildBattle(void);

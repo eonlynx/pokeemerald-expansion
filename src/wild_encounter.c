@@ -33,6 +33,7 @@
 #include "constants/weather.h"
 
 extern const u8 EventScript_SprayWoreOff[];
+extern const u8 EventScript_AlteringCaveLureWoreOff[];
 
 #define MAX_ENCOUNTER_RATE 2880
 
@@ -1063,6 +1064,87 @@ bool8 UpdateRepelCounter(void)
             }
         }
 
+    }
+    return FALSE;
+}
+
+u16 GetAlteringCaveWildSetFromLure(u16 itemId)
+{
+    switch (itemId)
+    {
+    case ITEM_NORMAL_LURE:
+        return ALTERING_CAVE_TABLE_NORMAL;
+    case ITEM_WATER_LURE:
+        return ALTERING_CAVE_TABLE_WATER;
+    case ITEM_BUG_LURE:
+        return ALTERING_CAVE_TABLE_BUG;
+    case ITEM_ROCK_LURE:
+        return ALTERING_CAVE_TABLE_ROCK;
+    case ITEM_SPECIAL_LURE:
+        return ALTERING_CAVE_TABLE_SPECIAL;
+    case ITEM_RARE_LURE:
+        return ALTERING_CAVE_TABLE_RARE;
+    default:
+        return ALTERING_CAVE_TABLE_DEFAULT;
+    }
+}
+
+u16 GetAlteringCaveLureItemFromWildSet(u16 tableId)
+{
+    switch (tableId)
+    {
+    case ALTERING_CAVE_TABLE_NORMAL:
+        return ITEM_NORMAL_LURE;
+    case ALTERING_CAVE_TABLE_WATER:
+        return ITEM_WATER_LURE;
+    case ALTERING_CAVE_TABLE_BUG:
+        return ITEM_BUG_LURE;
+    case ALTERING_CAVE_TABLE_ROCK:
+        return ITEM_ROCK_LURE;
+    case ALTERING_CAVE_TABLE_SPECIAL:
+        return ITEM_SPECIAL_LURE;
+    case ALTERING_CAVE_TABLE_RARE:
+        return ITEM_RARE_LURE;
+    default:
+        return ITEM_NONE;
+    }
+}
+
+bool8 UpdateAlteringCaveLureStepCounter(void)
+{
+    if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(MAP_ALTERING_CAVE) ||
+        gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_ALTERING_CAVE))
+    {
+        if (FlagGet(FLAG_ALTERING_CAVE_LURE_ACTIVE))
+        {
+            FlagClear(FLAG_ALTERING_CAVE_LURE_ACTIVE);
+            VarSet(VAR_ALTERING_CAVE_LURE_STEPS, 0);
+            VarSet(VAR_ALTERING_CAVE_WILD_SET, 0);
+            VarSet(VAR_ALTERING_CAVE_LURE_ITEM, 0);
+        }
+        return FALSE;
+    }
+
+    if (InBattlePike() || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE)
+        return FALSE;
+    if (InUnionRoom() == TRUE)
+        return FALSE;
+
+    if (FlagGet(FLAG_ALTERING_CAVE_LURE_ACTIVE))
+    {
+        u16 steps = VarGet(VAR_ALTERING_CAVE_LURE_STEPS);
+        if (steps != 0)
+        {
+            steps--;
+            VarSet(VAR_ALTERING_CAVE_LURE_STEPS, steps);
+            if (steps == 0)
+            {
+                FlagClear(FLAG_ALTERING_CAVE_LURE_ACTIVE);
+                VarSet(VAR_ALTERING_CAVE_WILD_SET, 0);
+                ScriptContext_SetupScript(EventScript_AlteringCaveLureWoreOff);
+                return TRUE;
+            }
+        }
     }
     return FALSE;
 }

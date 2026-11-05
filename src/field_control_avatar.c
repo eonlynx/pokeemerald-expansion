@@ -693,8 +693,13 @@ bool8 TryStartStepBasedScript(struct MapPosition *position, u16 metatileBehavior
         return TRUE;
     if (TryStartStepCountScript(metatileBehavior) == TRUE)
         return TRUE;
-    if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_FORCED_MOVE) && !MetatileBehavior_IsForcedMovementTile(metatileBehavior) && UpdateRepelCounter() == TRUE)
-        return TRUE;
+    if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_FORCED_MOVE) && !MetatileBehavior_IsForcedMovementTile(metatileBehavior))
+    {
+        if (UpdateRepelCounter() == TRUE)
+            return TRUE;
+        if (UpdateAlteringCaveLureStepCounter() == TRUE)
+            return TRUE;
+    }
     if (OnStep_DexNavSearch())
         return TRUE;
     return FALSE;

@@ -2301,6 +2301,120 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_MaxLure,
     },
 
+    [ITEM_NORMAL_LURE] =
+    {
+        .name = ITEM_NAME("Normal Lure"),
+        .price = 1000,
+        .holdEffectParam = 250,
+        .description = COMPOUND_STRING(
+            "Attracts Normal-\n"
+            "type Pokémon in\n"
+            "Altering Cave."),
+        .pocket = POCKET_ITEMS,
+        .sortType = ITEM_TYPE_FIELD_USE,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_AlteringCaveLure,
+        .secondaryId = 1,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Repel,
+        .iconPalette = gItemIconPalette_Repel,
+    },
+
+    [ITEM_WATER_LURE] =
+    {
+        .name = ITEM_NAME("Water Lure"),
+        .price = 1000,
+        .holdEffectParam = 250,
+        .description = COMPOUND_STRING(
+            "Attracts Water-\n"
+            "type Pokémon in\n"
+            "Altering Cave."),
+        .pocket = POCKET_ITEMS,
+        .sortType = ITEM_TYPE_FIELD_USE,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_AlteringCaveLure,
+        .secondaryId = 2,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Repel,
+        .iconPalette = gItemIconPalette_Repel,
+    },
+
+    [ITEM_BUG_LURE] =
+    {
+        .name = ITEM_NAME("Bug Lure"),
+        .price = 1000,
+        .holdEffectParam = 250,
+        .description = COMPOUND_STRING(
+            "Attracts Bug-\n"
+            "type Pokémon in\n"
+            "Altering Cave."),
+        .pocket = POCKET_ITEMS,
+        .sortType = ITEM_TYPE_FIELD_USE,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_AlteringCaveLure,
+        .secondaryId = 3,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Repel,
+        .iconPalette = gItemIconPalette_Repel,
+    },
+
+    [ITEM_ROCK_LURE] =
+    {
+        .name = ITEM_NAME("Rock Lure"),
+        .price = 1000,
+        .holdEffectParam = 250,
+        .description = COMPOUND_STRING(
+            "Attracts Rock-\n"
+            "type Pokémon in\n"
+            "Altering Cave."),
+        .pocket = POCKET_ITEMS,
+        .sortType = ITEM_TYPE_FIELD_USE,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_AlteringCaveLure,
+        .secondaryId = 4,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Repel,
+        .iconPalette = gItemIconPalette_Repel,
+    },
+
+    [ITEM_SPECIAL_LURE] =
+    {
+        .name = ITEM_NAME("Special Lure"),
+        .price = 1500,
+        .holdEffectParam = 250,
+        .description = COMPOUND_STRING(
+            "Attracts special\n"
+            "Pokémon in\n"
+            "Altering Cave."),
+        .pocket = POCKET_ITEMS,
+        .sortType = ITEM_TYPE_FIELD_USE,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_AlteringCaveLure,
+        .secondaryId = 5,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Repel,
+        .iconPalette = gItemIconPalette_SuperRepel,
+    },
+
+    [ITEM_RARE_LURE] =
+    {
+        .name = ITEM_NAME("Rare Lure"),
+        .price = 2000,
+        .holdEffectParam = 250,
+        .description = COMPOUND_STRING(
+            "Attracts rare\n"
+            "Pokémon in\n"
+            "Altering Cave."),
+        .pocket = POCKET_ITEMS,
+        .sortType = ITEM_TYPE_FIELD_USE,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_AlteringCaveLure,
+        .secondaryId = 6,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Repel,
+        .iconPalette = gItemIconPalette_MaxRepel,
+    },
+
     [ITEM_ESCAPE_ROPE] =
     {
         .name = ITEM_NAME("Escape Rope"),

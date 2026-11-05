@@ -32,6 +32,7 @@
 #include "metatile_behavior.h"
 #include "oras_dowse.h"
 #include "overworld.h"
+#include "wild_encounter.h"
 #include "palette.h"
 #include "party_menu.h"
 #include "pokeblock.h"
@@ -1039,6 +1040,55 @@ static void Task_UseLure(u8 taskId)
     }
 }
 
+static void Task_StartUseAlteringCaveLure(u8 taskId);
+static void Task_UseAlteringCaveLure(u8 taskId);
+
+void ItemUseOutOfBattle_AlteringCaveLure(u8 taskId)
+{
+    if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(MAP_ALTERING_CAVE) ||
+        gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_ALTERING_CAVE))
+    {
+        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+    }
+    else if (FlagGet(FLAG_ALTERING_CAVE_LURE_ACTIVE) && VarGet(VAR_ALTERING_CAVE_LURE_STEPS) != 0)
+    {
+        DisplayItemMessage(taskId, FONT_NORMAL, gText_LureEffectsLingered, CloseItemMessage);
+    }
+    else
+    {
+        gTasks[taskId].func = Task_StartUseAlteringCaveLure;
+    }
+}
+
+static void Task_StartUseAlteringCaveLure(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    if (++data[8] > 7)
+    {
+        data[8] = 0;
+        PlaySE(SE_REPEL);
+        gTasks[taskId].func = Task_UseAlteringCaveLure;
+    }
+}
+
+static void Task_UseAlteringCaveLure(u8 taskId)
+{
+    if (!IsSEPlaying())
+    {
+        u16 itemId = gSpecialVar_ItemId;
+        u16 wildSet = GetAlteringCaveWildSetFromLure(itemId);
+
+        VarSet(VAR_ALTERING_CAVE_LURE_STEPS, GetItemHoldEffectParam(itemId));
+        VarSet(VAR_ALTERING_CAVE_WILD_SET, wildSet);
+        VarSet(VAR_ALTERING_CAVE_LURE_ITEM, itemId);
+        FlagSet(FLAG_ALTERING_CAVE_LURE_ACTIVE);
+
+        RemoveUsedItem();
+        DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, CloseItemMessage);
+    }
+}
+
 static void Task_UsedBlackWhiteFlute(u8 taskId)
 {
     if (++gTasks[taskId].data[8] > 7)
@@ -1072,6 +1122,13 @@ void ItemUseOutOfBattle_BlackWhiteFlute(u8 taskId)
 
 void Task_UseDigEscapeRopeOnField(u8 taskId)
 {
+    if (FlagGet(FLAG_ALTERING_CAVE_LURE_ACTIVE))
+    {
+        FlagClear(FLAG_ALTERING_CAVE_LURE_ACTIVE);
+        VarSet(VAR_ALTERING_CAVE_LURE_STEPS, 0);
+        VarSet(VAR_ALTERING_CAVE_WILD_SET, 0);
+        VarSet(VAR_ALTERING_CAVE_LURE_ITEM, 0);
+    }
     ResetInitialPlayerAvatarState();
     StartEscapeRopeFieldEffect();
     DestroyTask(taskId);
