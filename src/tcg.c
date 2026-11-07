@@ -510,8 +510,6 @@ static void PopulateBoxWithDeck(u8 boxId, const struct TcgDeck *deck)
                     SetMonData(&tempMon, MON_DATA_SPECIES, &unownSpecies);
                 }
                 gPokemonStoragePtr->boxes[boxId][i] = tempMon.box;
-                u32 expVal = cid;
-                SetBoxMonData(&gPokemonStoragePtr->boxes[boxId][i], MON_DATA_EXP, &expVal);
             }
             else
             {
@@ -866,19 +864,19 @@ void InitTcgBattleState(void)
         tempDeck[basicIdx] = tmp;
     }
 
-    // Initialize Field slot 0 with tempDeck[0] as the Active Pokémon
+    // Guaranteed Basic Pokémon in tempDeck[0] enters Field slot 0 as the initial Active Pokémon
     CreateTempMonFromCardId(&gParties[B_TRAINER_PLAYER][0], tempDeck[0]);
     for (u32 i = 1; i < PARTY_SIZE; i++)
         ZeroMonData(&gParties[B_TRAINER_PLAYER][i]);
     gPartiesCount[B_TRAINER_PLAYER] = 1;
     gTcgBattleState.activeMonPlaced = TRUE;
 
-    // 5-card opening hand goes into playerHand[0..4]
+    // 5-card opening hand goes into playerHand[0..4] (tempDeck[1..5])
     for (u32 i = 0; i < 5; i++)
         gTcgBattleState.playerHand[i] = tempDeck[1 + i];
     gTcgBattleState.playerHandCount = 5;
 
-    // Remaining 14 cards go into playerDeckRemaining[0..13]
+    // Remaining 14 cards go into playerDeckRemaining[0..13] (tempDeck[6..19])
     for (u32 i = 0; i < 14; i++)
         gTcgBattleState.playerDeckRemaining[i] = tempDeck[6 + i];
     gTcgBattleState.playerDeckRemainingCount = 14;

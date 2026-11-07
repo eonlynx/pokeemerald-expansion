@@ -261,6 +261,7 @@ enum {
     PALTAG_ITEM_ICON_2, // Used implicitly in CreateItemIconSprites
     PALTAG_ITEM_ICON_3,
     PALTAG_ITEM_ICON_4,
+    PALTAG_ITEM_ICON_5,
     PALTAG_MARKING_MENU,
 };
 
@@ -2190,10 +2191,7 @@ static void Task_InitPokeStorage(u8 taskId)
 
         if (sStorage->boxOption != OPTION_MOVE_ITEMS)
         {
-            sStorage->markMenu.baseTileTag = GFXTAG_MARKING_MENU;
-            sStorage->markMenu.basePaletteTag = PALTAG_MARKING_MENU;
-            InitMonMarkingsMenu(&sStorage->markMenu);
-            BufferMonMarkingsMenuTiles();
+            // Marking menu is omitted in TCG Pocket
         }
         else
         {
@@ -4069,12 +4067,8 @@ static void InitPalettesAndSprites(void)
 
 static void CreateMarkingComboSprite(void)
 {
-    sStorage->markingComboSprite = CreateMonMarkingComboSprite(GFXTAG_MARKING_COMBO, PALTAG_MARKING_COMBO, NULL);
-    sStorage->markingComboSprite->oam.priority = 1;
-    sStorage->markingComboSprite->subpriority = 1;
-    sStorage->markingComboSprite->x = 40;
-    sStorage->markingComboSprite->y = 150;
-    sStorage->markingComboTilesPtr = (void *) OBJ_VRAM0 + 32 * GetSpriteTileStartByTag(GFXTAG_MARKING_COMBO);
+    sStorage->markingComboSprite = NULL;
+    sStorage->markingComboTilesPtr = NULL;
 }
 
 static void CreateWaveformSprites(void)
@@ -4635,8 +4629,9 @@ static const u16 sItemPalTags[] = {
     PALTAG_ITEM_ICON_2,
     PALTAG_ITEM_ICON_3,
     PALTAG_ITEM_ICON_4,
+    PALTAG_ITEM_ICON_5,
 };
-EWRAM_DATA static u16 sLoadedItemIds[5] = {0};
+EWRAM_DATA static u16 sLoadedItemIds[6] = {0};
 
 static void ResetItemSpritePalettes(void)
 {
@@ -4676,7 +4671,13 @@ static u8 GetOrCreateItemSpritePalette(u16 itemId)
         }
     }
 
-    return IndexOfSpritePaletteTag(sItemPalTags[0]);
+    u32 fallback = IndexOfSpritePaletteTag(sItemPalTags[0]);
+    if (fallback != 0xFF)
+        return fallback;
+    fallback = IndexOfSpritePaletteTag(PALTAG_DISPLAY_MON);
+    if (fallback != 0xFF)
+        return fallback;
+    return 0;
 }
 
 static void InitMonIconFields(void)
@@ -6219,6 +6220,7 @@ static void InitCursorOnReopen(void)
     sStorage->cursorPrevHorizPos = 1;
     sStorage->inBoxMovingMode = MOVE_MODE_NORMAL;
     sStorage->cursorMoveSteps = 0;
+    DoCursorNewPosUpdate();
     if (sIsMonBeingMoved)
     {
         sStorage->movingMon = sSavedMovingMon;
@@ -7517,7 +7519,7 @@ static u8 InBoxInput_Normal(void)
         {
             retVal = INPUT_MOVE_CURSOR;
             cursorPosition += IN_BOX_COLUMNS;
-            if (cursorPosition >= IN_BOX_COUNT)
+            if (cursorPosition >= DECK_SIZE)
             {
                 cursorArea = CURSOR_AREA_BUTTONS;
                 cursorPosition = 1;
@@ -7537,20 +7539,22 @@ static u8 InBoxInput_Normal(void)
             {
                 sStorage->cursorHorizontalWrap = -1;
                 cursorPosition += (IN_BOX_COLUMNS - 1);
+                if (cursorPosition >= DECK_SIZE)
+                    cursorPosition = DECK_SIZE - 1;
             }
             break;
         }
         else if (JOY_REPEAT(DPAD_RIGHT))
         {
             retVal = INPUT_MOVE_CURSOR;
-            if ((sCursorPosition + 1) % IN_BOX_COLUMNS != 0)
+            if ((sCursorPosition + 1) % IN_BOX_COLUMNS != 0 && (sCursorPosition + 1) < DECK_SIZE)
             {
                 cursorPosition++;
             }
             else
             {
                 sStorage->cursorHorizontalWrap = 1;
-                cursorPosition -= (IN_BOX_COLUMNS - 1);
+                cursorPosition -= (sCursorPosition % IN_BOX_COLUMNS);
             }
             break;
         }
@@ -8007,10 +8011,7 @@ static u8 HandleInput_OnButtons(void)
             retVal = INPUT_MOVE_CURSOR;
             cursorArea = CURSOR_AREA_IN_BOX;
             sStorage->cursorVerticalWrap = -1;
-            if (sCursorPosition == 0)
-                cursorPosition = IN_BOX_COUNT - 1 - 5;
-            else
-                cursorPosition = IN_BOX_COUNT - 1;
+            cursorPosition = DECK_SIZE - 1;
             sStorage->cursorFlipTimer = 1;
             break;
         }

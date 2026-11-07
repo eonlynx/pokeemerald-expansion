@@ -245,6 +245,14 @@ static void CompleteWhenViewedDeck(enum BattlerId battler)
     }
 }
 
+// The PC storage UI needs a large chunk of heap. Battle sprite graphics buffers are
+// released while it is open and re-created before the battle screen is rebuilt.
+static void CB2_ReturnToBattleFromDeckStorage(void)
+{
+    AllocateMonSpritesGfx();
+    CB2_SetUpReshowBattleScreenAfterMenu2();
+}
+
 static void Task_OpenDeckStorageAfterFade(enum BattlerId battler)
 {
     if (!gPaletteFade.active)
@@ -252,7 +260,8 @@ static void Task_OpenDeckStorageAfterFade(enum BattlerId battler)
         gBattlerControllerFuncs[battler] = CompleteWhenViewedDeck;
         ReshowBattleScreenDummy();
         CloseMainBattleScreen();
-        ShowDeckStorageSystem(CB2_SetUpReshowBattleScreenAfterMenu2);
+        FreeMonSpritesGfx();
+        ShowDeckStorageSystem(CB2_ReturnToBattleFromDeckStorage);
     }
 }
 
@@ -269,6 +278,7 @@ static void CompleteWhenUsedHand(enum BattlerId battler)
         gTcgBattleState.viewingHandInPartyMenu = FALSE;
         for (u8 b = 0; b < gBattlersCount; b++)
             SyncBattlerStructFromPartyMon(b);
+        UpdateTcgBenchHealthboxes();
         PlayerHandleChooseAction(battler);
     }
 }

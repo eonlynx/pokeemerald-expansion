@@ -1513,12 +1513,17 @@ static void CopyMonToSummaryStruct(struct Pokemon *mon)
     {
         struct Pokemon *partyMon = sMonSummaryScreen->monList.mons;
         *mon = partyMon[sMonSummaryScreen->curMonIndex];
+        u16 cardId = GetMonCardId(mon);
+        if (cardId != 0)
+            CreateTempMonFromCardId(mon, cardId);
     }
     else
     {
         struct BoxPokemon *boxMon = sMonSummaryScreen->monList.boxMons;
         BoxMonToMon(&boxMon[sMonSummaryScreen->curMonIndex], mon);
-        u16 cardId = GetMonCardId(mon);
+        u16 cardId = (u16)(GetBoxMonData(&boxMon[sMonSummaryScreen->curMonIndex], MON_DATA_EXP) & 0xFFFF);
+        if (cardId == 0)
+            cardId = GetMonCardId(mon);
         if (cardId != 0)
             CreateTempMonFromCardId(mon, cardId);
     }
