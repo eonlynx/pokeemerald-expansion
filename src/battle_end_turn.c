@@ -48,6 +48,7 @@ static bool32 HandleEndTurnOrder(enum BattlerId battler)
     gTcgBattleState.energyAttachedThisTurn = FALSE;
     gTcgBattleState.supporterUsedThisTurn = FALSE;
     gTcgBattleState.energyGeneratedThisTurn = FALSE;
+    gTcgBattleState.cardDrawnThisTurn = FALSE;
 
     for (enum BattlerId i = 0; i < gBattlersCount; i++)
         gBattlerByTurnOrder[i] = i;

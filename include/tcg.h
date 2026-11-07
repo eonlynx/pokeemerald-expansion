@@ -183,6 +183,7 @@ struct TcgBattleState {
     u8 firstTurnFirstPlayer:1;
     u8 activeMonPlaced:1;
     u8 energyGeneratedThisTurn:1;
+    u8 cardDrawnThisTurn:1;
     u8 viewingHandInPartyMenu:1;
     u8 turnMonPlaced[PARTY_SIZE * 2];
     u8 turnMonEvolved[PARTY_SIZE * 2];

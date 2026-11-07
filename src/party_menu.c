@@ -4655,7 +4655,7 @@ static void AnimateSelectedPartyIcon(u8 spriteId, u8 animNum)
     if (spriteId >= MAX_SPRITES)
         return;
 
-    if (gSprites[spriteId].tileTag >= TAG_PARTY_ITEM_ICON && gSprites[spriteId].tileTag < TAG_PARTY_ITEM_ICON + PARTY_SIZE)
+    if (gSprites[spriteId].template && gSprites[spriteId].template->tileTag >= TAG_PARTY_ITEM_ICON && gSprites[spriteId].template->tileTag < TAG_PARTY_ITEM_ICON + PARTY_SIZE)
     {
         gSprites[spriteId].x2 = 0;
         gSprites[spriteId].y2 = (animNum == 0) ? 0 : -2;

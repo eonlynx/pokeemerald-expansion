@@ -92,11 +92,11 @@ TRAINER_CARD_META = {
         'Cure all Special\nConditions from\nActive Pokémon.'
     ),
     'ImposterOaksRevenge': (
-        'Imposter Oak\'s Revenge', 'ITEM_SMOKE_BALL', 'CARD_TYPE_TRAINER_SUPPORTER',
+        'Imposter Revenge', 'ITEM_SMOKE_BALL', 'CARD_TYPE_TRAINER_SUPPORTER',
         'Discard 1 card.\nFoe shuffles hand\nand draws 4.'
     ),
     'ImposterProfessorOak': (
-        'Imposter Professor Oak', 'ITEM_ODD_INCENSE', 'CARD_TYPE_TRAINER_SUPPORTER',
+        'Imposter Prof Oak', 'ITEM_ODD_INCENSE', 'CARD_TYPE_TRAINER_SUPPORTER',
         'Foe shuffles hand\ninto their deck\nand draws 4.'
     ),
     'Sleep': (
@@ -204,11 +204,11 @@ TRAINER_CARD_META = {
         'Flip a coin.\nIf heads, recover\n1 discarded card.'
     ),
     'RocketsSneakAttack': (
-        'Rocket\'s Sneak Attack', 'ITEM_BLACK_GLASSES', 'CARD_TYPE_TRAINER_SUPPORTER',
+        'Rocket Sneak Atk', 'ITEM_BLACK_GLASSES', 'CARD_TYPE_TRAINER_SUPPORTER',
         'Shuffle 1 Trainer\ncard from foe\'s\nhand into deck.'
     ),
     'HereComesTeamRocket': (
-        'Here Comes Team Rocket!', 'ITEM_RAZOR_CLAW', 'CARD_TYPE_TRAINER_SUPPORTER',
+        'Team Rocket!', 'ITEM_RAZOR_CLAW', 'CARD_TYPE_TRAINER_SUPPORTER',
         'Draw 2 cards from\nyour deck into\nyour hand.'
     ),
     'TheRocketsTrap': (
@@ -220,7 +220,7 @@ TRAINER_CARD_META = {
         'Discard 1 Energy\nattached to foe\'s\nActive Pokémon.'
     ),
     'SuperEnergyRemoval': (
-        'Super Energy Removal', 'ITEM_SUPER_REPEL', 'CARD_TYPE_TRAINER_ITEM',
+        'Super Energy Rem.', 'ITEM_SUPER_REPEL', 'CARD_TYPE_TRAINER_ITEM',
         'Discard 1 of your\nEnergy and 2 from\nfoe\'s Active mon.'
     ),
 }

@@ -73,6 +73,11 @@ def main():
             moves_content = f.read()
 
     moves_modified = 0
+    if '#include "tcg.h"' not in moves_content:
+        moves_content = moves_content.replace(
+            '#include "constants/contest.h"',
+            '#include "constants/contest.h"\n#include "tcg.h"'
+        )
     for m_const, m_data in move_updates.items():
         pattern = re.compile(r'(\[' + re.escape(m_const) + r'\]\s*=\s*\{[\s\S]*?\n    \},)', re.MULTILINE)
         m = pattern.search(moves_content)
@@ -112,10 +117,14 @@ def main():
     trainer_item_map = {}
     for _lbl, (disp_name, item_const, ctype, desc_str) in generate_tcg_data.TRAINER_CARD_META.items():
         pocket = 'POCKET_TCG_SUPPORTERS' if ctype == 'CARD_TYPE_TRAINER_SUPPORTER' else 'POCKET_TCG_ITEMS'
-        trainer_item_map[item_const] = (disp_name[:20], pocket, desc_str)
+        trainer_item_map[item_const] = (disp_name[:19], pocket, desc_str)
 
-    with open('src/data/items.h', 'r', encoding='utf-8') as f:
-        items_content = f.read().replace('\r\n', '\n')
+    try:
+        import subprocess
+        items_content = subprocess.check_output(['git', 'show', '803bcb7c58:src/data/items.h'], encoding='utf-8').replace('\r\n', '\n')
+    except Exception:
+        with open('src/data/items.h', 'r', encoding='utf-8') as f:
+            items_content = f.read().replace('\r\n', '\n')
 
     blocks = re.findall(r'(\[(ITEM_[A-Za-z0-9_]+)\]\s*=\s*\{([\s\S]*?)\n    \},)', items_content)
     vanilla_vs_tcg_report = []
@@ -130,7 +139,7 @@ def main():
             desc_c = '\n            '.join(f'"{l}\\n"' if i < len(lines) - 1 else f'"{l}"' for i, l in enumerate(lines))
             repl_desc = f'.description = COMPOUND_STRING(\n            {desc_c}),'
             new_body = re.sub(
-                r'\.description\s*=\s*(?:COMPOUND_STRING\([\s\S]*?\)|s[A-Za-z0-9_]+),',
+                r'\.description\s*=\s*(?:COMPOUND_STRING\([\s\S]*?\)|s[A-Za-z0-9_]+),(?:\s*#(?:else|elif)[\s\S]*?#endif)?',
                 lambda m: repl_desc,
                 new_body
             )

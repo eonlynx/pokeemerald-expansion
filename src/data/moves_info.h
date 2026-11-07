@@ -7,6 +7,7 @@
 #include "constants/hold_effects.h"
 #include "constants/moves.h"
 #include "constants/contest.h"
+#include "tcg.h"
 
 // Gen 4+ Contest data comes from URPG's Contest MoveDex.
 

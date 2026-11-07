@@ -4423,7 +4423,6 @@ static void PrintMoveDetails(enum Move move)
         {
             u16 cardId = GetMonCardId(&sMonSummaryScreen->currentMon);
             const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
-            u8 slot = sMonSummaryScreen->firstMoveIndex;
 
             if (B_SHOW_CATEGORY_ICON == TRUE)
                 ShowCategoryIcon(GetBattleMoveCategory(move));

@@ -524,9 +524,6 @@ const struct ItemInfo gItemsInfo[] =
             "Discard 1 Energy\n"
             "to heal 40 HP\n"
             "from Active mon."),
-        #else
-            "50 points."),
-        #endif
         .pocket = POCKET_TCG_ITEMS,
         .sortType = ITEM_TYPE_HEALTH_RECOVERY,
         .type = ITEM_USE_PARTY_MENU,
@@ -2209,7 +2206,7 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_SUPER_REPEL] =
     {
-        .name = ITEM_NAME("Super Energy Removal"),
+        .name = ITEM_NAME("Super Energy Rem."),
         .price = (I_PRICE >= GEN_7) ? 700 : 500,
         .holdEffectParam = 200,
         .description = COMPOUND_STRING(
@@ -2334,11 +2331,6 @@ const struct ItemInfo gItemsInfo[] =
             "Active Pokémon's\n"
             "attack deals +10\n"
             "damage this turn."),
-        #else
-            "Raises the stat\n"
-            "Attack during one\n"
-            "battle."),
-        #endif
         .pocket = POCKET_TCG_ITEMS,
         .sortType = ITEM_TYPE_X_ITEM,
         .type = B_X_ITEMS_CROSSUSE ? ITEM_USE_BATTLER : ITEM_USE_BAG_MENU,
@@ -2359,11 +2351,6 @@ const struct ItemInfo gItemsInfo[] =
             "Reduces next foe\n"
             "attack damage to\n"
             "Active by 20 HP."),
-        #else
-            "Raises the stat\n"
-            "Defense during one\n"
-            "battle."),
-        #endif
         .pocket = POCKET_TCG_ITEMS,
         .sortType = ITEM_TYPE_X_ITEM,
         .type = B_X_ITEMS_CROSSUSE ? ITEM_USE_BATTLER : ITEM_USE_BAG_MENU,
@@ -8299,10 +8286,6 @@ const struct ItemInfo gItemsInfo[] =
             "Flip a coin.\n"
             "If heads, draw 1\n"
             "Basic from deck."),
-        #else
-            "boosts the Sp. Atk\n"
-            "of Pikachu."),
-        #endif
         .pocket = POCKET_TCG_ITEMS,
         .sortType = ITEM_TYPE_HELD_ITEM,
         .type = ITEM_USE_BAG_MENU,
@@ -8588,7 +8571,7 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_ODD_INCENSE] =
     {
-        .name = ITEM_NAME("Imposter Professor O"),
+        .name = ITEM_NAME("Imposter Prof Oak"),
         .price = (I_PRICE >= GEN_7) ? 2000 : 9600,
         .holdEffect = HOLD_EFFECT_TYPE_POWER,
         .holdEffectParam = 20,
@@ -9273,7 +9256,7 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_BLACK_GLASSES] =
     {
-        .name = ITEM_NAME("Rocket's Sneak Attac"),
+        .name = ITEM_NAME("Rocket Sneak Atk"),
         .pluralName = ITEM_PLURAL_NAME("Black Glasses"),
         .price = TYPE_BOOSTING_PRICE,
         .holdEffect = HOLD_EFFECT_TYPE_POWER,
@@ -9965,7 +9948,7 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_SMOKE_BALL] =
     {
-        .name = ITEM_NAME("Imposter Oak's Reven"),
+        .name = ITEM_NAME("Imposter Revenge"),
     #if I_PRICE >= GEN_9
         .price = 15000,
     #elif I_PRICE >= GEN_7
@@ -10551,7 +10534,7 @@ const struct ItemInfo gItemsInfo[] =
 
     [ITEM_RAZOR_CLAW] =
     {
-        .name = ITEM_NAME("Here Comes Team Rock"),
+        .name = ITEM_NAME("Team Rocket!"),
     #if I_PRICE >= GEN_9
         .price = 15000,
     #elif I_PRICE >= GEN_7
