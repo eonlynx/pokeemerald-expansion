@@ -11,6 +11,71 @@ import os
 import re
 
 
+def remove_old_description(body):
+    lines = body.split('\n')
+    new_lines = []
+    i = 0
+    desc_inserted = False
+
+    while i < len(lines):
+        line = lines[i]
+        stripped = line.strip()
+
+        # Check if line is an #if that encloses .description
+        if stripped.startswith('#if') or stripped.startswith('#ifdef') or stripped.startswith('#ifndef'):
+            depth = 1
+            j = i + 1
+            has_desc = False
+            has_other_fields = False
+            while j < len(lines) and depth > 0:
+                s = lines[j].strip()
+                if s.startswith('#if'):
+                    depth += 1
+                elif s.startswith('#endif'):
+                    depth -= 1
+                if depth > 0:
+                    if '.description' in s or ('COMPOUND_STRING' in s and '.name' not in s):
+                        has_desc = True
+                    for f in re.findall(r'\.([a-zA-Z0-9_]+)\s*=', s):
+                        if f not in ('description', 'additionalEffects', 'moveEffect', 'chance', 'defense', 'self', 'onChargeTurnOnly', 'speed', 'randomMoveEffects', 'spDef'):
+                            has_other_fields = True
+                j += 1
+            
+            if has_desc and not has_other_fields:
+                if not desc_inserted:
+                    new_lines.append('        __TCG_DESC_HERE__')
+                    desc_inserted = True
+                i = j
+                continue
+
+        # Check if line starts .description
+        if '.description' in stripped:
+            if not desc_inserted:
+                new_lines.append('        __TCG_DESC_HERE__')
+                desc_inserted = True
+            
+            paren_depth = 0
+            if_depth = 0
+            while i < len(lines):
+                cur = lines[i]
+                s = cur.strip()
+                if s.startswith('#if'):
+                    if_depth += 1
+                elif s.startswith('#endif'):
+                    if_depth -= 1
+                
+                paren_depth += cur.count('(') - cur.count(')')
+                i += 1
+                if paren_depth <= 0 and if_depth <= 0:
+                    break
+            continue
+
+        new_lines.append(line)
+        i += 1
+
+    return '\n'.join(new_lines)
+
+
 def main():
     with open('src/data/tcg_cards.h', 'r', encoding='utf-8') as f:
         cards_h = f.read()
@@ -86,14 +151,26 @@ def main():
             esc_name = m_data['name'].replace('"', '\\"')
             esc_l1 = m_data['desc_l1'].replace('"', '\\"')
             esc_l2 = m_data['desc_l2'].replace('"', '\\"')
+            desc_repl = f'        .description = COMPOUND_STRING(\n            "{esc_l1}\\n"\n            "{esc_l2}"),'
+
             new_block = re.sub(r'\.name\s*=\s*COMPOUND_STRING\("[^"]*"\),', f'.name = COMPOUND_STRING("{esc_name}"),', block)
-            desc_repl = f'.description = COMPOUND_STRING(\n            "{esc_l1}\\n"\n            "{esc_l2}"),'
-            new_block = re.sub(r'\.description\s*=[\s\S]*?(?=\n\s*(?:\.[a-zA-Z0-9_]+\s*=|#(?:if|elif|else|endif)))', lambda m: desc_repl, new_block)
-            if m_data['power'] > 0:
-                new_block = re.sub(r'\.power\s*=\s*\d+,', f'.power = {m_data["power"]},', new_block)
+            new_block = remove_old_description(new_block)
+            new_block = new_block.replace('        __TCG_DESC_HERE__', desc_repl, 1)
+
+            # Remove vanilla secondary RPG effects (.additionalEffects = ...)
+            new_block = re.sub(r'\s*\.additionalEffects\s*=\s*ADDITIONAL_EFFECTS\([\s\S]*?\n        \}\),?', '', new_block)
+
+            # Update power (handle #if wrapping .power as well as plain .power)
+            def repl_power_if(pm):
+                chunk = pm.group(0)
+                if '.power' in chunk:
+                    return f"        .power = {m_data['power']},"
+                return chunk
+            new_block = re.sub(r'#[ \t]*if[^\n]*\n(?:[ \t]*#[ \t]*(?:elif|else)[^\n]*\n|[\s\S])*?#[ \t]*endif', repl_power_if, new_block)
+            new_block = re.sub(r'\.power\s*=\s*\d+,', f'.power = {m_data["power"]},', new_block)
+
+            # Update effect
             new_block = re.sub(r'\.effect\s*=\s*[A-Za-z0-9_]+,', f'.effect = {m_data["effect"]},', new_block)
-            # Remove vanilla secondary RPG effects (.additionalEffects = ...) so TCG moves only run their TCG effect
-            new_block = re.sub(r'\s*\.additionalEffects\s*=\s*ADDITIONAL_EFFECTS\([\s\S]*?\n        \}\),', '', new_block)
 
             moves_content = moves_content.replace(block, new_block, 1)
             moves_modified += 1

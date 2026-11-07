@@ -229,7 +229,7 @@ static EWRAM_DATA struct Pokemon sSavedFieldParty[PARTY_SIZE] = {0};
 static EWRAM_DATA u8 sSavedFieldPartyCount = 0;
 static EWRAM_DATA bool8 sIsFieldPartyBackedUp = FALSE;
 #define TAG_HAND_SCROLL_ARROW 55210
-static EWRAM_DATA u8 sHandScrollArrowTaskId = TASK_NONE;
+static EWRAM_DATA u8 sHandScrollArrowTaskId = 0;
 static EWRAM_DATA u16 sHandScrollOffset = 0;
 
 static void SyncHandToPartyMenu(void)
@@ -241,6 +241,7 @@ static void SyncHandToPartyMenu(void)
             sSavedFieldParty[i] = gParties[B_TRAINER_PLAYER][i];
         sSavedFieldPartyCount = gPartiesCount[B_TRAINER_PLAYER];
         sIsFieldPartyBackedUp = TRUE;
+        sHandScrollArrowTaskId = TASK_NONE;
     }
 
     if (gTcgBattleState.playerHandCount <= PARTY_SIZE)

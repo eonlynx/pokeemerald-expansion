@@ -172,10 +172,9 @@ bool8 ExecuteTrainerCardEffect(u16 cardId, u8 battler)
         return FALSE;
 
     case CARD_FULL_HEAL:
-        if (gBattleMons[battler].status1 != 0 || (gBattleMons[battler].status2 & STATUS2_CONFUSION) || gBattleMons[battler].volatiles.confusionTimer > 0)
+        if (gBattleMons[battler].status1 != 0 || gBattleMons[battler].volatiles.confusionTimer > 0)
         {
             gBattleMons[battler].status1 = 0;
-            gBattleMons[battler].status2 &= ~STATUS2_CONFUSION;
             gBattleMons[battler].volatiles.confusionTimer = 0;
             u32 zeroStatus = 0;
             SetMonData(&sPlayerParty[0], MON_DATA_STATUS, &zeroStatus);
@@ -226,7 +225,7 @@ bool8 ExecuteTrainerCardEffect(u16 cardId, u8 battler)
                 gBattleMons[battler].hp = GetMonData(&sPlayerParty[0], MON_DATA_HP);
                 gBattleMons[battler].maxHP = GetMonData(&sPlayerParty[0], MON_DATA_MAX_HP);
                 gBattleMons[battler].status1 = 0;
-                gBattleMons[battler].status2 &= ~STATUS2_CONFUSION;
+                gBattleMons[battler].volatiles.confusionTimer = 0;
                 for (u8 m = 0; m < MAX_MON_MOVES; m++)
                     gBattleMons[battler].moves[m] = GetMonData(&sPlayerParty[0], MON_DATA_MOVE1 + m);
                 PlaySE(SE_SELECT);
@@ -383,7 +382,6 @@ bool8 ExecuteTrainerCardEffect(u16 cardId, u8 battler)
         break;
 
     case CARD_IMAKUNI:
-        gBattleMons[battler].status2 |= STATUS2_CONFUSION;
         gBattleMons[battler].volatiles.confusionTimer = 3;
         PlaySE(SE_USE_ITEM);
         success = TRUE;

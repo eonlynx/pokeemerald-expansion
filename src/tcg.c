@@ -4,6 +4,7 @@
 #include "pokemon.h"
 #include "data.h"
 #include "battle.h"
+#include "battle_setup.h"
 #include "random.h"
 #include "event_data.h"
 #include "pokemon_storage_system.h"
@@ -901,7 +902,7 @@ void InitTcgBattleState(void)
 
         // Also build the opponent's 20-card thematic deck for hand/deck interactions
         struct TcgDeck oppDeck;
-        BuildTemporaryTrainerDeck(TrainerBattleParameter.params.opponentA, &oppDeck);
+        BuildTemporaryTrainerDeck(TRAINER_BATTLE_PARAM.opponentA, &oppDeck);
         for (u32 i = 0; i < 5; i++)
             gTcgBattleState.opponentHand[i] = oppDeck.cards[i];
         gTcgBattleState.opponentHandCount = 5;
@@ -1264,7 +1265,7 @@ bool8 TryPlaceOrEvolveFromHand(u8 handIndex, u8 *outFieldSlot, bool8 *outEvolved
                         gBattleMons[playerBattler].maxHP = newMaxHp;
                         gBattleMons[playerBattler].hp = newHp;
                         gBattleMons[playerBattler].status1 = 0;
-                        gBattleMons[playerBattler].status2 &= ~STATUS2_CONFUSION;
+                        gBattleMons[playerBattler].volatiles.confusionTimer = 0;
                         for (u8 m = 0; m < MAX_MON_MOVES; m++)
                             gBattleMons[playerBattler].moves[m] = GetMonData(fieldMon, MON_DATA_MOVE1 + m);
                     }
@@ -1305,7 +1306,7 @@ bool8 ExecutePokemonPower(u16 cardId, u8 slot, u8 battler)
     if (slot == 0)
     {
         if ((gBattleMons[battler].status1 & (STATUS1_SLEEP | STATUS1_PARALYSIS))
-         || (gBattleMons[battler].status2 & STATUS2_CONFUSION))
+         || gBattleMons[battler].volatiles.confusionTimer > 0)
             return FALSE;
     }
 

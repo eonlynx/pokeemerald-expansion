@@ -212,11 +212,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip a coin. If heads, the\n"
             "Defending mon is Paralyzed."),
-        #if B_USE_FROSTBITE
-            "leave the foe with frostbite."),
-        #else
-            "freeze the foe."),
-        #endif
         .effect = EFFECT_TCG_INFLICT_PARALYSIS,
         .power = 10,
         .type = TYPE_ICE,
@@ -288,7 +283,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Heals 20 HP of damage from\n"
             "this Pokémon."),
         .effect = EFFECT_TCG_HEAL_USER,
-        .power = 55,
+        .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 30,
@@ -332,15 +327,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "The Defending Pokémon is\n"
             "now Poisoned (10 HP/turn)."),
-        #if B_UPDATED_MOVE_DATA == GEN_3 || B_UPDATED_MOVE_DATA == GEN_1
-            "A 2-turn move that strikes\n"
-            "the foe on the 2nd turn."),
-        #else
-            "A 2-turn move with a\n"
-            "high critical-hit ratio."),
-        #endif
         .effect = EFFECT_TCG_INFLICT_POISON,
-        .power = 80,
+        .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_3 ? 100 : 75,
     #if B_UPDATED_MOVE_DATA >= GEN_4
@@ -399,7 +387,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
         .effect = EFFECT_TCG_BENCH_SNIPER,
-        .power = 50,
+        .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 95,
         .pp = 30,
@@ -683,13 +671,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "The Defending Pokémon is\n"
             "now Poisoned (10 HP/turn)."),
-    #if B_UPDATED_MOVE_DATA >= GEN_5
-        .power = 30,
-    #elif B_UPDATED_MOVE_DATA == GEN_4
-        .power = 30,
-    #else
-        .power = 30,
-    #endif
+            .power = 30,
         .effect = EFFECT_TCG_INFLICT_POISON,
         .type = TYPE_FIGHTING,
         .accuracy = 95,
@@ -852,13 +834,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals 10 HP damage to the\n"
             "Defending Pokémon."),
-    #if B_UPDATED_MOVE_DATA >= GEN_7
-        .power = 10,
-    #elif B_UPDATED_MOVE_DATA >= GEN_5
-        .power = 10,
-    #else
-        .power = 10,
-    #endif
+            .power = 10,
         .effect = EFFECT_HIT,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 100 : 95,
@@ -1274,14 +1250,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Disables 1 of the foe's\n"
             "attacks on their next turn."),
-        #if B_DISABLE_TURNS >= GEN_5
-            "For 4 turns, prevents foe\n"
-        #elif B_DISABLE_TURNS == GEN_4
-            "For 4-7 turns, prevents foe\n"
-        #else
-            "For 2-5 turns, prevents foe\n"
-        #endif
-            "from using last used move."),
     #if B_UPDATED_MOVE_DATA >= GEN_5
         .accuracy = 100,
     #elif B_UPDATED_MOVE_DATA == GEN_4
@@ -1313,11 +1281,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip a coin. If heads, this\n"
             "attack deals +20 damage."),
-        #if B_UPDATED_MOVE_DATA >= GEN_4
-            "May lower Sp. Def."),
-        #else
-            "May lower Defense."),
-        #endif
         .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
         .power = 20,
         .type = TYPE_POISON,
@@ -1451,11 +1414,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals 30 HP damage to the\n"
             "Defending Pokémon."),
-        #if B_UPDATED_MOVE_DATA >= GEN_4
-            "crashes it on all others."),
-        #else
-            "crashes it down on the foes."),
-        #endif
         .effect = EFFECT_HIT,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 90 : 95,
         .type = TYPE_WATER,
@@ -1480,11 +1438,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip a coin. If heads, the\n"
             "Defending mon is Paralyzed."),
-        #if B_USE_FROSTBITE
-            "beam. May cause frostbite."),
-        #else
-            "beam that may freeze it."),
-        #endif
         .effect = EFFECT_TCG_INFLICT_PARALYSIS,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 90 : 95,
         .type = TYPE_ICE,
@@ -1507,11 +1460,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
-        #if B_USE_FROSTBITE
-            "storm. May cause frostbite."),
-        #else
-            "storm that may freeze."),
-        #endif
         .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 110 : 120,
         .type = TYPE_ICE,
@@ -1600,13 +1548,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Discards 1 Energy attached\n"
             "to the Defending Pokémon."),
-        #if B_SKIP_RECHARGE != GEN_1
-            "Powerful, but leaves the\n"
-            "user immobile the next turn."),
-        #else
-            "Leaves the user immobile if\n"
-            "it doesn't KO the target."),
-        #endif
         .effect = EFFECT_TCG_DISCARD_TARGET_ENERGY,
         .power = 20,
         .type = TYPE_NORMAL,
@@ -1696,16 +1637,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_LOW_KICK] =
     {
         .name = COMPOUND_STRING("Low Kick"),
-            .description = COMPOUND_STRING(
+        .description = COMPOUND_STRING(
             "Deals 20 HP damage to the\n"
             "Defending Pokémon."),
-    #if B_UPDATED_MOVE_DATA >= GEN_3
-            "A kick that inflicts more\n"
-            "damage on heavier foes."),
-    #else
-            "A low, tripping kick that\n"
-            "may cause flinching."),
-    #endif
         .effect = B_UPDATED_MOVE_DATA >= GEN_3 ? EFFECT_LOW_KICK : EFFECT_HIT,
         .power = B_UPDATED_MOVE_DATA >= GEN_3 ? 1 : 50,
         .type = TYPE_FIGHTING,
@@ -1730,7 +1664,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Flip a coin. If heads, the\n"
             "Defending mon is Poisoned."),
         .effect = EFFECT_TCG_INFLICT_POISON,
-        .power = 1,
+        .power = 0,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
         .pp = 20,
@@ -1881,13 +1815,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip a coin. If heads, this\n"
             "attack deals +20 damage."),
-        #if B_GROWTH_STAT_RAISE >= GEN_5
-            "Forces the body to grow and\n"
-            "raises Attack and Sp. Atk."),
-        #else
-            "Forces the body to grow\n"
-            "and raises Sp. Atk."),
-        #endif
         .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
         .power = 30,
         .type = B_UPDATED_MOVE_TYPES >= GEN_CHAMPIONS ? TYPE_GRASS : TYPE_NORMAL,
@@ -2041,13 +1968,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip coins: deals 40 damage\n"
             "times number of heads."),
-    #if B_UPDATED_MOVE_DATA >= GEN_5
-        .power = 40,
-    #elif B_UPDATED_MOVE_DATA == GEN_4
-        .power = 40,
-    #else
-        .power = 40,
-    #endif
+            .power = 40,
         .effect = EFFECT_TCG_MULTI_COIN_HIT,
         .type = TYPE_GRASS,
         .accuracy = 100,
@@ -2072,11 +1993,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip a coin. If heads, the\n"
             "Defending mon is Paralyzed."),
-        #if B_UPDATED_MOVE_DATA >= GEN_6
-            "to harshly lower its Speed."),
-        #else
-            "to lower its Speed."),
-        #endif
         .effect = EFFECT_TCG_INFLICT_PARALYSIS,
         .power = 10,
         .type = TYPE_BUG,
@@ -2287,7 +2203,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Bolsters defense and guards\n"
             "against the next attack."),
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
-        .power = 1,
+        .power = 0,
         .type = TYPE_GROUND,
         .accuracy = 30,
         .pp = 5,
@@ -2311,13 +2227,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Deals 10 HP damage to the\n"
             "Defending Pokémon."),
         .effect = EFFECT_HIT,
-    #if B_UPDATED_MOVE_DATA >= GEN_4
-        .power = 10,
-    #elif B_UPDATED_MOVE_DATA >= GEN_2
-        .power = 10,
-    #else
-        .power = 10,
-    #endif
+            .power = 10,
         .type = TYPE_GROUND,
         .accuracy = 100,
         .pp = 10,
@@ -2535,13 +2445,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
-        #if B_TELEPORT_BEHAVIOR >= GEN_8
-            "The user switches places\n"
-            "with another party Pokémon."),
-        #else
-            "A psychic move for fleeing\n"
-            "from battle instantly."),
-        #endif
         .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 0,
         .type = TYPE_PSYCHIC,
@@ -2567,7 +2470,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Reduces damage taken during\n"
             "opponent's next turn."),
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
-        .power = 1,
+        .power = 0,
         .type = TYPE_GHOST,
         .accuracy = 100,
         .pp = 15,
@@ -2730,11 +2633,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Reduces damage taken during\n"
             "opponent's next turn."),
-        #if B_MINIMIZE_EVASION >= GEN_5
-            "to sharply raise evasion."),
-        #else
-            "to raise evasiveness."),
-        #endif
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
@@ -3233,15 +3131,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_WATERFALL] =
     {
         .name = COMPOUND_STRING("Waterfall"),
-    #if B_UPDATED_MOVE_DATA >= GEN_4
         .description = COMPOUND_STRING(
             "Deals 30 HP damage to the\n"
             "Defending Pokémon."),
-    #else
-        .description = COMPOUND_STRING(
-            "Deals 30 HP damage to the\n"
-            "Defending Pokémon."),
-    #endif
         .effect = EFFECT_HIT,
         .power = 30,
         .type = TYPE_WATER,
@@ -3308,15 +3200,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_SKULL_BASH] =
     {
         .name = COMPOUND_STRING("Skull Bash"),
-    #if B_UPDATED_MOVE_DATA >= GEN_2
         .description = COMPOUND_STRING(
             "Deals 20 HP damage to the\n"
             "Defending Pokémon."),
-    #else
-        .description = COMPOUND_STRING(
-            "Deals 20 HP damage to the\n"
-            "Defending Pokémon."),
-    #endif
         .effect = EFFECT_HIT,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 130 : 100,
         .type = TYPE_NORMAL,
@@ -3366,7 +3252,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
         .effect = EFFECT_TCG_BENCH_SNIPER,
-        .power = 10,
+        .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 35,
@@ -3464,13 +3350,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals 50 HP damage to the\n"
             "Defending Pokémon."),
-    #if B_UPDATED_MOVE_DATA >= GEN_5
-        .power = 50,
-    #elif B_UPDATED_MOVE_DATA == GEN_4
-        .power = 50,
-    #else
-        .power = 50,
-    #endif
+            .power = 50,
         .effect = EFFECT_HIT,
         .type = TYPE_FIGHTING,
         .accuracy = 90,
@@ -3548,12 +3428,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "The Defending Pokémon is\n"
             "now Poisoned (10 HP/turn)."),
-        #if B_UPDATED_MOVE_DATA >= GEN_5
-            "Envelops the foes in a toxic\n"
-        #else
-            "Envelops the foe in a toxic\n"
-        #endif
-            "gas that poisons."),
     #if B_UPDATED_MOVE_DATA >= GEN_6
         .accuracy = 90,
     #elif B_UPDATED_MOVE_DATA == GEN_5
@@ -3585,7 +3459,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Draws 1 card from your deck\n"
             "after attacking."),
         .effect = EFFECT_TCG_DRAW_CARD,
-        .power = 15,
+        .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 85,
         .pp = 20,
@@ -3653,15 +3527,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_SKY_ATTACK] =
     {
         .name = COMPOUND_STRING("Stir Up Twis"),
-    #if B_UPDATED_MOVE_DATA >= GEN_3
         .description = COMPOUND_STRING(
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
-    #else
-        .description = COMPOUND_STRING(
-            "Deals 10 HP damage to 1 of\n"
-            "opponent's Benched Pokémon."),
-    #endif
         .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 20,
         .type = TYPE_FLYING,
@@ -3738,15 +3606,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_DIZZY_PUNCH] =
     {
         .name = COMPOUND_STRING("Dizzy Punch"),
-    #if B_UPDATED_MOVE_DATA >= GEN_2
         .description = COMPOUND_STRING(
             "Flip coins: deals 10 damage\n"
             "times number of heads."),
-    #else
-        .description = COMPOUND_STRING(
-            "Flip coins: deals 10 damage\n"
-            "times number of heads."),
-    #endif
         .effect = EFFECT_TCG_MULTI_COIN_HIT,
         .power = 10,
         .type = TYPE_NORMAL,
@@ -4019,17 +3881,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_ROCK_SLIDE] =
     {
         .name = COMPOUND_STRING("Lure"),
-    #if B_UPDATED_MOVE_DATA >= GEN_2
         .description = COMPOUND_STRING(
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
-    #else
-        .description = COMPOUND_STRING(
-            "Deals 10 HP damage to 1 of\n"
-            "opponent's Benched Pokémon."),
-    #endif
         .effect = EFFECT_TCG_BENCH_SNIPER,
-        .power = 75,
+        .power = 0,
         .type = TYPE_ROCK,
         .accuracy = 90,
         .pp = 10,
@@ -4100,11 +3956,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip a coin. If heads, the\n"
             "Defending mon is Paralyzed."),
-        #if B_UPDATED_CONVERSION >= GEN_6
-            "the first known move's type."),
-        #else
-            "a known move's type."),
-        #endif
         .effect = EFFECT_TCG_INFLICT_PARALYSIS,
         .power = 10,
         .type = TYPE_NORMAL,
@@ -4128,21 +3979,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_TRI_ATTACK] =
     {
         .name = COMPOUND_STRING("Tri Attack"),
-    #if B_UPDATED_MOVE_DATA >= GEN_2
-        #if B_USE_FROSTBITE
         .description = COMPOUND_STRING(
             "Flip coins: deals 20 damage\n"
             "times number of heads."),
-        #else
-        .description = COMPOUND_STRING(
-            "Flip coins: deals 20 damage\n"
-            "times number of heads."),
-        #endif
-    #else
-        .description = COMPOUND_STRING(
-            "Flip coins: deals 20 damage\n"
-            "times number of heads."),
-    #endif
         .effect = EFFECT_TCG_MULTI_COIN_HIT,
         .power = 20,
         .type = TYPE_NORMAL,
@@ -4166,7 +4005,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Bolsters defense and guards\n"
             "against the next attack."),
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
-        .power = 1,
+        .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 90,
         .pp = 10,
@@ -4584,12 +4423,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip a coin. If heads, this\n"
             "attack deals +20 damage."),
-        #if B_UPDATED_MOVE_DATA >= GEN_6
-            "Spores cling to the foes,\n"
-        #else
-            "Spores cling to the foe,\n"
-        #endif
-            "harshly lowering Speed."),
         .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
         .power = 10,
         .type = TYPE_GRASS,
@@ -4638,11 +4471,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals 20 HP damage to the\n"
             "Defending Pokémon."),
-        #if B_PP_REDUCED_BY_SPITE >= GEN_4
-            "the foe's last move by 4."),
-        #else
-            "the foe's last move by 2-5."),
-        #endif
         .effect = EFFECT_HIT,
         .power = 20,
         .type = TYPE_GHOST,
@@ -4668,11 +4496,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals 20 HP damage to the\n"
             "Defending Pokémon."),
-        #if B_USE_FROSTBITE
-            "gust. May cause frostbite."),
-        #else
-            "gust. May cause freezing."),
-        #endif
         .effect = EFFECT_HIT,
         .power = 20,
         .type = TYPE_ICE,
@@ -4896,7 +4719,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Draws 1 card from your deck\n"
             "after attacking."),
         .effect = EFFECT_TCG_DRAW_CARD,
-        .power = 65,
+        .power = 0,
         .type = TYPE_WATER,
         .accuracy = 85,
         .pp = 10,
@@ -5409,13 +5232,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip a coin. If heads, this\n"
             "attack deals +20 damage."),
-    #if B_UPDATED_MOVE_DATA >= GEN_6
-        .power = 80,
-    #elif B_UPDATED_MOVE_DATA == GEN_5
-        .power = 80,
-    #else
-        .power = 80,
-    #endif
+            .power = 80,
         .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
         .type = TYPE_BUG,
         .accuracy = 95,
@@ -5440,7 +5257,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Bolsters defense and guards\n"
             "against the next attack."),
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
-        .power = 70,
+        .power = 0,
         .type = TYPE_STEEL,
         .accuracy = 90,
         .pp = 25,
@@ -5597,7 +5414,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Bolsters defense and guards\n"
             "against the next attack."),
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
-        .power = 1,
+        .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 90,
         .pp = 15,
@@ -5620,7 +5437,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Draws 1 card from your deck\n"
             "after attacking."),
         .effect = EFFECT_TCG_DRAW_CARD,
-        .power = 1,
+        .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 20,
@@ -5692,7 +5509,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Draws 1 card from your deck\n"
             "after attacking."),
         .effect = EFFECT_TCG_DRAW_CARD,
-        .power = 100,
+        .power = 0,
         .type = TYPE_FIRE,
         .accuracy = 95,
         .pp = 5,
@@ -5738,7 +5555,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Flip a coin. If heads, the\n"
             "Defending mon is Asleep."),
         .effect = EFFECT_TCG_INFLICT_SLEEP,
-        .power = 100,
+        .power = 0,
         .type = TYPE_FIGHTING,
         .accuracy = 50,
         .pp = 5,
@@ -5832,16 +5649,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Draws 1 card from your deck\n"
             "after attacking."),
-        #if B_ENCORE_TURNS >= GEN_5
-            "Makes the foe repeat its\n"
-            "last move over 3 turns."),
-        #elif B_ENCORE_TURNS >= GEN_4
-            "Makes the foe repeat its\n"
-            "last move over 3-7 turns."),
-        #else
-            "Makes the foe repeat its\n"
-            "last move over 2-6 turns."),
-        #endif
         .effect = EFFECT_TCG_DRAW_CARD,
         .power = 0,
         .type = TYPE_NORMAL,
@@ -5889,15 +5696,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_RAPID_SPIN] =
     {
         .name = COMPOUND_STRING("Hide"),
-    #if B_SPEED_BUFFING_RAPID_SPIN >= GEN_8
         .description = COMPOUND_STRING(
             "Reduces damage taken during\n"
             "opponent's next turn."),
-    #else
-        .description = COMPOUND_STRING(
-            "Reduces damage taken during\n"
-            "opponent's next turn."),
-    #endif
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = B_UPDATED_MOVE_DATA >= GEN_8 ? 50 : 20,
         .type = TYPE_NORMAL,
@@ -5921,13 +5722,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
-        #if B_UPDATED_MOVE_DATA >= GEN_6
-            "Allures the foes to harshly\n"
-            "lower evasiveness."),
-        #else
-            "Allures the foes to lower\n"
-            "evasiveness."),
-        #endif
         .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 20,
         .type = TYPE_NORMAL,
@@ -6225,11 +6019,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip a coin. If heads, the\n"
             "Defending mon is Paralyzed."),
-        #if B_UPDATED_MOVE_DATA >= GEN_4
-            "May lower Defense."),
-        #else
-            "May lower Sp. Def."),
-        #endif
         .effect = EFFECT_TCG_INFLICT_PARALYSIS,
         .power = 40,
         .type = TYPE_DARK,
@@ -6360,7 +6149,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Draws 1 card from your deck\n"
             "after attacking."),
         .effect = EFFECT_TCG_DRAW_CARD,
-        .power = 80,
+        .power = 0,
         .type = TYPE_GHOST,
         .accuracy = 100,
         .pp = 15,
@@ -6382,13 +6171,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Bolsters defense and guards\n"
             "against the next attack."),
-    #if B_UPDATED_MOVE_DATA >= GEN_6
-        .power = 120,
-    #elif B_UPDATED_MOVE_DATA == GEN_5
-        .power = 100,
-    #else
-        .power = 80,
-    #endif
+            .power = 0,
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .type = TYPE_PSYCHIC,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 100 : 90,
@@ -6508,12 +6291,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
-        #if B_UPROAR_TURNS >= GEN_5
-            "Causes an uproar for 3\n"
-        #else
-            "Causes an uproar for 2 to 5\n"
-        #endif
-            "turns and prevents sleep."),
         .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = B_UPDATED_MOVE_DATA >= GEN_5 ? 90 : 50,
         .type = TYPE_NORMAL,
@@ -6541,11 +6318,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip a coin. If heads, this\n"
             "attack deals +20 damage."),
-        #if B_STOCKPILE_RAISES_DEFS >= GEN_4
-            "3 turns. Raises defenses."),
-        #else
-            "3 turns."),
-        #endif
         .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
         .power = 10,
         .type = TYPE_NORMAL,
@@ -6573,7 +6345,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Heals 20 HP of damage from\n"
             "this Pokémon."),
         .effect = EFFECT_TCG_HEAL_USER,
-        .power = 1,
+        .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 10,
@@ -6645,13 +6417,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
-        #if B_PREFERRED_ICE_WEATHER == B_ICE_WEATHER_SNOW
-            "Boosts the Defense of Ice-\n"
-            "type Pokémon for 5 turns."),
-        #else
-            "Summons a hailstorm that\n"
-            "strikes every turn."),
-        #endif
         .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 30,
         .type = TYPE_ICE,
@@ -6908,27 +6673,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_CHARGE] =
     {
         .name = COMPOUND_STRING("Raging Thund"),
-    #if B_CHARGE >= GEN_9
-        #if B_CHARGE_SPDEF_RAISE >= GEN_5
         .description = COMPOUND_STRING(
             "Flip a coin. If heads, this\n"
             "attack deals +20 damage."),
-        #else
-        .description = COMPOUND_STRING(
-            "Flip a coin. If heads, this\n"
-            "attack deals +20 damage."),
-        #endif
-    #else
-        #if B_CHARGE_SPDEF_RAISE >= GEN_5
-        .description = COMPOUND_STRING(
-            "Flip a coin. If heads, this\n"
-            "attack deals +20 damage."),
-        #else
-        .description = COMPOUND_STRING(
-            "Flip a coin. If heads, this\n"
-            "attack deals +20 damage."),
-        #endif
-    #endif
         .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
         .power = 50,
         .type = TYPE_ELECTRIC,
@@ -6957,13 +6704,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip a coin. If heads, this\n"
             "attack deals +20 damage."),
-        #if B_TAUNT_TURNS >= GEN_5
-            "moves for 3 turns."),
-        #elif B_TAUNT_TURNS == GEN_4
-            "moves for 2 to 4 turns."),
-        #else
-            "moves for 2 turns."),
-        #endif
         .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
         .power = 50,
         .type = TYPE_DARK,
@@ -7301,13 +7041,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Bolsters defense and guards\n"
             "against the next attack."),
-        #if B_KNOCK_OFF_DMG >= GEN_6 && B_KNOCK_OFF_REMOVAL >= GEN_5
-            "Deals more damage to a foe\n"
-            "with an item and removes it."),
-        #else
-            "Knocks down the foe's held\n"
-            "item to prevent its use."),
-        #endif
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 65 : 20,
         .type = TYPE_DARK,
@@ -7611,13 +7344,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Flip coins: deals 10 damage\n"
             "times number of heads."),
-        #if B_UPDATED_MOVE_DATA >= GEN_5
-            "Flashes a light that\n"
-            "drastically raises Sp. Atk."),
-        #else
-            "Flashes a light that sharply\n"
-            "raises Sp. Atk."),
-        #endif
         .effect = EFFECT_TCG_MULTI_COIN_HIT,
         .power = 10,
         .type = TYPE_BUG,
@@ -7740,7 +7466,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
         .effect = EFFECT_TCG_BENCH_SNIPER,
-        .power = 85,
+        .power = 0,
         .type = TYPE_FIRE,
         .accuracy = 90,
         .criticalHitStage = B_UPDATED_MOVE_DATA >= GEN_3 ? 1 : 2,
@@ -7763,13 +7489,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Draws 1 card from your deck\n"
             "after attacking."),
-        #if B_UPDATED_MOVE_DATA >= GEN_6
-            "Mud weakens Electric-\n"
-            "type moves for 5 turns."),
-        #else
-            "Covers the user in mud to\n"
-            "weaken all Electric moves."),
-        #endif
         .effect = EFFECT_TCG_DRAW_CARD,
         .power = 0,
         .type = TYPE_GROUND,
@@ -7822,7 +7541,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Bolsters defense and guards\n"
             "against the next attack."),
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
-        .power = 60,
+        .power = 0,
         .type = TYPE_GRASS,
         .accuracy = 100,
         .pp = 15,
@@ -7873,7 +7592,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
         .effect = EFFECT_TCG_BENCH_SNIPER,
-        .power = 90,
+        .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 10,
@@ -7943,13 +7662,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals 40 HP damage to the\n"
             "Defending Pokémon."),
-        #if B_SKIP_RECHARGE != GEN_1
-            "Powerful, but leaves the\n"
-            "user immobile the next turn."),
-        #else
-            "Leaves the user immobile if\n"
-            "it doesn't KO the target."),
-        #endif
         .effect = EFFECT_HIT,
         .power = 40,
         .type = TYPE_FIRE,
@@ -7972,13 +7684,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals +10 extra damage for\n"
             "each extra Energy attached."),
-        #if B_SKIP_RECHARGE != GEN_1
-            "Powerful, but leaves the\n"
-            "user immobile the next turn."),
-        #else
-            "Leaves the user immobile if\n"
-            "it doesn't KO the target."),
-        #endif
         .effect = EFFECT_TCG_ENERGY_BOOST,
         .power = 30,
         .type = TYPE_WATER,
@@ -8369,7 +8074,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Discard 1 Energy attached\n"
             "to this Pokémon to attack."),
         .effect = EFFECT_TCG_DISCARD_USER_ENERGY,
-        .power = 75,
+        .power = 0,
         .type = TYPE_BUG,
         .accuracy = 100,
         .pp = 15,
@@ -8391,7 +8096,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "The Defending Pokémon is\n"
             "now Asleep."),
         .effect = EFFECT_TCG_INFLICT_SLEEP,
-        .power = 60,
+        .power = 0,
         .type = TYPE_GHOST,
         .accuracy = 0,
         .pp = 20,
@@ -8484,15 +8189,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Bolsters defense and guards\n"
             "against the next attack."),
-        #if B_SHEER_COLD_ACC >= GEN_7
-            "Causes fainting. Unlikely to\n"
-            "hit if user isn't Ice-type."),
-        #else
-            "A chilling attack that\n"
-            "causes fainting if it hits."),
-        #endif
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
-        .power = 1,
+        .power = 0,
         .type = TYPE_ICE,
         .accuracy = 30,
         .pp = 5,
@@ -8562,7 +8260,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Flip a coin. If heads, the\n"
             "Defending mon is Confused."),
         .effect = EFFECT_TCG_INFLICT_CONFUSION,
-        .power = 60,
+        .power = 0,
         .type = TYPE_FLYING,
         .accuracy = 0,
         .pp = 20,
@@ -8658,13 +8356,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
-        #if B_UPDATED_MOVE_DATA >= GEN_8
-            "Howls to raise the spirit\n"
-            "and raises allies' Attack."),
-        #else
-            "Howls to raise the spirit\n"
-            "and raises Attack."),
-        #endif
         .power = 30,
         .effect = EFFECT_TCG_BENCH_SNIPER,
         .type = TYPE_NORMAL,
@@ -8717,15 +8408,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Bolsters defense and guards\n"
             "against the next attack."),
-        #if B_SKIP_RECHARGE != GEN_1
-            "Powerful, but leaves the\n"
-            "user immobile the next turn."),
-        #else
-            "Leaves the user immobile if\n"
-            "it doesn't KO the target."),
-        #endif
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
-        .power = 150,
+        .power = 0,
         .type = TYPE_GRASS,
         .accuracy = 90,
         .pp = 5,
@@ -8870,17 +8554,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     [MOVE_VOLT_TACKLE] =
     {
         .name = COMPOUND_STRING("Telekinesis"),
-    #if B_UPDATED_MOVE_DATA >= GEN_4
         .description = COMPOUND_STRING(
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
-    #else
-        .description = COMPOUND_STRING(
-            "Deals 10 HP damage to 1 of\n"
-            "opponent's Benched Pokémon."),
-    #endif
         .effect = EFFECT_TCG_BENCH_SNIPER,
-        .power = 120,
+        .power = 0,
         .type = TYPE_ELECTRIC,
         .accuracy = 100,
         .pp = 15,
@@ -8925,13 +8603,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .description = COMPOUND_STRING(
             "Bolsters defense and guards\n"
             "against the next attack."),
-        #if B_UPDATED_MOVE_DATA >= GEN_6
-            "Water weakens Fire-\n"
-            "type moves for 5 turns."),
-        #else
-            "The user becomes soaked to\n"
-            "weaken all Fire-type moves."),
-        #endif
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_WATER,
@@ -9037,7 +8708,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Bolsters defense and guards\n"
             "against the next attack."),
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
-        .power = 25,
+        .power = 0,
         .type = TYPE_ROCK,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 90 : 80,
         .pp = 10,
@@ -9082,7 +8753,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Bolsters defense and guards\n"
             "against the next attack."),
         .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
-        .power = 60,
+        .power = 0,
         .type = TYPE_WATER,
         .accuracy = 100,
         .pp = 20,
@@ -9129,7 +8800,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Deals 10 HP damage to 1 of\n"
             "opponent's Benched Pokémon."),
         .effect = EFFECT_TCG_BENCH_SNIPER,
-        .power = 140,
+        .power = 0,
         .type = TYPE_PSYCHIC,
         .accuracy = 90,
         .pp = 5,
