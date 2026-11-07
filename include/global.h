@@ -1083,11 +1083,20 @@ struct ExternalEventFlags
 
 } __attribute__((packed));/*size = 0x15*/
 
+struct TcgDeck {
+    u8 name[16];
+    u8 wallpaper;
+    u16 cards[DECK_SIZE]; // Array de cardIds (0 = hueco vacío)
+};
+
 struct Bag
 {
-    struct ItemSlot items[BAG_ITEMS_COUNT];
-    struct ItemSlot keyItems[BAG_KEYITEMS_COUNT];
+    struct ItemSlot tcgPokemon[BAG_TCG_POKEMON_COUNT];
+    struct ItemSlot tcgItems[BAG_TCG_ITEMS_COUNT];
+    struct ItemSlot tcgSupporters[BAG_TCG_SUPPORTERS_COUNT];
     struct ItemSlot pokeBalls[BAG_POKEBALLS_COUNT];
+    struct ItemSlot keyItems[BAG_KEYITEMS_COUNT];
+    struct ItemSlot items[BAG_ITEMS_COUNT];
     struct ItemSlot TMsHMs[BAG_TMHM_COUNT];
     struct ItemSlot berries[BAG_BERRIES_COUNT];
 };
@@ -1210,6 +1219,11 @@ struct SaveBlock1
     u8 rivalName[PLAYER_NAME_LENGTH + 1];
     struct DaycareMon route5DayCareMon;
 #endif
+    // TCG Pocket SaveBlock data
+    bool8 isCurrentDeckDefault;
+    u8 currentDeckIndex; // Index in customDecks (0..13) or defaultDecks
+    u32 unlockedDefaultDecksMask; // Bitmask of unlocked default decks
+    struct TcgDeck customDecks[MAX_CUSTOM_DECKS];
     // sizeof: 0x3???
 };
 

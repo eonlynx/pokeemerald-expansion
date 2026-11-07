@@ -26,6 +26,8 @@
 #include "task.h"
 #include "tv.h"
 #include "wild_encounter.h"
+#include "item.h"
+#include "constants/items.h"
 #include "constants/abilities.h"
 #include "constants/event_objects.h"
 #include "constants/event_object_movement.h"
@@ -1616,11 +1618,11 @@ enum Gender GetPlayerAvatarGenderByGraphicsId(u16 gfxId)
 
 bool8 PartyHasMonWithSurf(void)
 {
-    u8 i;
-
     if (!TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
     {
-        for (i = 0; i < PARTY_SIZE; i++)
+        if (CheckBagHasItem(ITEM_HM03, 1))
+            return TRUE;
+        for (u8 i = 0; i < PARTY_SIZE; i++)
         {
             if (GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES) == SPECIES_NONE)
                 break;

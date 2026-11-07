@@ -31,6 +31,8 @@
 #include "follower_npc.h"
 #include "gpu_regs.h"
 #include "item.h"
+#include "tcg.h"
+#include "constants/items.h"
 #include "lilycove_lady.h"
 #include "main.h"
 #include "map_preview_screen.h"
@@ -2302,6 +2304,40 @@ bool8 ScrCmd_checkfieldmove(struct ScriptContext *ctx)
     gSpecialVar_Result = PARTY_SIZE;
     if (doUnlockedCheck && !IsFieldMoveUnlocked(fieldMove))
         return FALSE;
+
+    u16 reqHmItem = ITEM_NONE;
+    switch (fieldMove)
+    {
+    case FIELD_MOVE_CUT:        reqHmItem = ITEM_HM01; break;
+    case FIELD_MOVE_FLY:        reqHmItem = ITEM_HM02; break;
+    case FIELD_MOVE_SURF:       reqHmItem = ITEM_HM03; break;
+    case FIELD_MOVE_STRENGTH:   reqHmItem = ITEM_HM04; break;
+    case FIELD_MOVE_FLASH:      reqHmItem = ITEM_HM05; break;
+    case FIELD_MOVE_ROCK_SMASH: reqHmItem = ITEM_HM06; break;
+    case FIELD_MOVE_WATERFALL:  reqHmItem = ITEM_HM07; break;
+    default:                    reqHmItem = ITEM_NONE; break;
+    }
+
+    if (reqHmItem != ITEM_NONE && CheckBagHasItem(reqHmItem, 1))
+    {
+        u16 leadSpecies = SPECIES_BULBASAUR;
+        const struct TcgDeck *curDeck;
+        if (gSaveBlock1Ptr->isCurrentDeckDefault)
+            curDeck = &gDefaultDecks[gSaveBlock1Ptr->currentDeckIndex];
+        else
+            curDeck = &gSaveBlock1Ptr->customDecks[gSaveBlock1Ptr->currentDeckIndex];
+
+        if (curDeck != NULL && curDeck->cards[0] != 0)
+        {
+            const struct TcgCardInfo *info = GetTcgCardInfo(curDeck->cards[0]);
+            if (info != NULL && info->species != SPECIES_NONE)
+                leadSpecies = info->species;
+        }
+
+        gSpecialVar_Result = 0;
+        gSpecialVar_0x8004 = leadSpecies;
+        return FALSE;
+    }
 
     move = FieldMove_GetMoveId(fieldMove);
     for (u32 i = 0; i < PARTY_SIZE; i++)

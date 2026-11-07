@@ -768,14 +768,20 @@ bool8 BattleLoadAllHealthBoxesGfx(u8 state)
         switch (state)
         {
         case 2:
-            spriteSheet = (gBattleTypeFlags & BATTLE_TYPE_SAFARI) ? &sSpriteSheet_SafariHealthbox : &sSpriteSheet_SinglesPlayerHealthbox;
+            spriteSheet = (gBattleTypeFlags & BATTLE_TYPE_SAFARI) ? &sSpriteSheet_SafariHealthbox : &sSpriteSheets_DoublesPlayerHealthbox[0];
             break;
         case 3:
-            spriteSheet = B_HP_PERCENTAGE_DISPLAY ? &sSpriteSheet_SinglesOpponentLargeHealthbox : &sSpriteSheet_SinglesOpponentHealthbox;
+            spriteSheet = &sSpriteSheets_DoublesPlayerHealthbox[1];
             break;
         case 4:
+            spriteSheet = &sSpriteSheets_DoublesOpponentHealthbox[0];
+            break;
         case 5:
-            enum BattlerPosition position = GetBattlerPosition((enum BattlerId)(state - 4));
+            spriteSheet = &sSpriteSheets_DoublesOpponentHealthbox[1];
+            break;
+        case 6:
+        case 7:
+            enum BattlerPosition position = GetBattlerPosition((enum BattlerId)(state - 6));
             spriteSheet = &sSpriteSheets_HealthBar[position];
             break;
         default:

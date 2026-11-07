@@ -331,7 +331,7 @@ static void skip_whitespace(struct Parser *p)
     {
         if (!peek_char(p, &c))
             break;
-        if (c != ' ' && c != '\t')
+        if (c != ' ' && c != '\t' && c != '\r')
             break;
         if (!pop_char(p, &c))
             assert(false);
@@ -396,7 +396,7 @@ static void match_until_eol(struct Parser *p, struct Token *t)
             break;
         if (!pop_char(p, &c))
             assert(false);
-        if (c != ' ' && c != '\t')
+        if (c != ' ' && c != '\t' && c != '\r')
             t->end = p->offset;
     }
 }
@@ -415,6 +415,8 @@ static bool match_eol(struct Parser *p)
 
         if (c == '\n')
             break;
+        else if (c == '\r')
+            continue;
         else
             return false;
     }

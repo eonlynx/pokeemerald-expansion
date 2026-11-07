@@ -38,6 +38,8 @@
 #include "sound.h"
 #include "start_menu.h"
 #include "strings.h"
+#include "pokemon_storage_system.h"
+#include "tcg.h"
 #include "string_util.h"
 #include "task.h"
 #include "text.h"
@@ -697,7 +699,7 @@ static bool8 StartMenuPokemonCallback(void)
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
-        SetMainCallback2(CB2_PartyMenuFromStartMenu); // Display party menu
+        ShowDeckStorageSystem(CB2_ReturnToField);
 
         return TRUE;
     }

@@ -1,0 +1,3 @@
+# Cards not currently assigned to any deck
+
+Total unused cards: 0 / 431

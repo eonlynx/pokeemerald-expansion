@@ -141,11 +141,14 @@ const u8 gText_ReturnToVar1[] = _("Return to\n{STR_VAR_1}.");
 
 const u8 *const gPocketNamesStringsTable[] =
 {
-    [POCKET_ITEMS]      = COMPOUND_STRING("ITEMS"),
-    [POCKET_POKE_BALLS] = COMPOUND_STRING("POKé BALLS"),
-    [POCKET_TM_HM]      = COMPOUND_STRING("TMs & HMs"),
-    [POCKET_BERRIES]    = COMPOUND_STRING("BERRIES"),
-    [POCKET_KEY_ITEMS]  = COMPOUND_STRING("KEY ITEMS")
+    [POCKET_TCG_POKEMON]    = COMPOUND_STRING("POKéMON"),
+    [POCKET_TCG_ITEMS]      = COMPOUND_STRING("ITEMS"),
+    [POCKET_TCG_SUPPORTERS] = COMPOUND_STRING("SUPPORTERS"),
+    [POCKET_POKE_BALLS]     = COMPOUND_STRING("POKé BALLS"),
+    [POCKET_KEY_ITEMS]      = COMPOUND_STRING("KEY ITEMS"),
+    [POCKET_ITEMS_LEG]      = COMPOUND_STRING("{COLOR 7}{SHADOW 8}ITEMS LEG"),
+    [POCKET_TM_HM]          = COMPOUND_STRING("{COLOR 7}{SHADOW 8}TMs & HMs"),
+    [POCKET_BERRIES]        = COMPOUND_STRING("{COLOR 7}{SHADOW 8}BERRIES")
 };
 
 const u8 gText_NumberItem_TMBerry[] = _("{NO}{STR_VAR_1}{CLEAR 3}{STR_VAR_2}");
@@ -872,7 +875,7 @@ const u8 gText_GameTime[] = _("Game time"); // Unused
 const u8 gText_RTCTime[] = _("RTC time"); // Unused
 const u8 gText_UpdatedTime[] = _("Updated time"); // Unused
 const u8 gText_MenuPokedex[] = _("POKéDEX");
-const u8 gText_MenuPokemon[] = _("POKéMON");
+const u8 gText_MenuPokemon[] = _("DECK");
 const u8 gText_MenuBag[] = _("BAG");
 const u8 gText_MenuPokenav[] = _("POKéNAV");
 const u8 gText_MenuPlayer[] = _("{PLAYER}");

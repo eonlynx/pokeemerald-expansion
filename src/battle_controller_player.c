@@ -1,4 +1,6 @@
 #include "global.h"
+#include "tcg.h"
+#include "pokemon_storage_system.h"
 #include "battle.h"
 #include "battle_anim.h"
 #include "battle_arena.h"
@@ -231,6 +233,416 @@ static enum Item GetNextBall(enum Item ballId)
     return ballId;
 }
 
+static void HandleInputChooseAction(enum BattlerId battler);
+static void PlayerHandleChooseAction(enum BattlerId battler);
+
+static void CompleteWhenViewedDeck(enum BattlerId battler)
+{
+    if (gMain.callback2 == BattleMainCB2 && !gPaletteFade.active)
+    {
+        ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
+        gBattlerControllerFuncs[battler] = HandleInputChooseAction;
+    }
+}
+
+static void Task_OpenDeckStorageAfterFade(enum BattlerId battler)
+{
+    if (!gPaletteFade.active)
+    {
+        gBattlerControllerFuncs[battler] = CompleteWhenViewedDeck;
+        ReshowBattleScreenDummy();
+        CloseMainBattleScreen();
+        ShowDeckStorageSystem(CB2_SetUpReshowBattleScreenAfterMenu2);
+    }
+}
+
+static void OpenDeckStorageFromBattle(enum BattlerId battler)
+{
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
+    gBattlerControllerFuncs[battler] = Task_OpenDeckStorageAfterFade;
+}
+
+static void CompleteWhenUsedHand(enum BattlerId battler)
+{
+    if (gMain.callback2 == BattleMainCB2 && !gPaletteFade.active)
+    {
+        gTcgBattleState.viewingHandInPartyMenu = FALSE;
+        for (u8 b = 0; b < gBattlersCount; b++)
+            SyncBattlerStructFromPartyMon(b);
+        PlayerHandleChooseAction(battler);
+    }
+}
+
+static void Task_OpenHandPartyMenuAfterFade(enum BattlerId battler)
+{
+    if (!gPaletteFade.active)
+    {
+        gBattlerControllerFuncs[battler] = CompleteWhenUsedHand;
+        ReshowBattleScreenDummy();
+        CloseMainBattleScreen();
+        OpenPartyMenuInBattle(PARTY_ACTION_CHOOSE_MON);
+    }
+}
+
+static void OpenHandPartyMenuFromBattle(enum BattlerId battler)
+{
+    gTcgBattleState.viewingHandInPartyMenu = TRUE;
+    gBattlerInMenuId = battler;
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
+    gBattlerControllerFuncs[battler] = Task_OpenHandPartyMenuAfterFade;
+}
+
+void CB2_SetUpReshowBattleScreenAfterMenu2(void);
+
+static const u8 sTcgEnergyNames[NUM_ENERGY_TYPES][12] = {
+    [ENERGY_GRASS]     = _("Grass"),
+    [ENERGY_FIRE]      = _("Fire"),
+    [ENERGY_WATER]     = _("Water"),
+    [ENERGY_LIGHTNING] = _("Lightning"),
+    [ENERGY_PSYCHIC]   = _("Psychic"),
+    [ENERGY_FIGHTING]  = _("Fighting"),
+    [ENERGY_DARKNESS]  = _("Darkness"),
+    [ENERGY_METAL]     = _("Metal"),
+    [ENERGY_COLORLESS] = _("Colorless"),
+};
+
+static void CompleteWhenViewedSummary(enum BattlerId battler)
+{
+    if (gMain.callback2 == BattleMainCB2 && !gPaletteFade.active)
+    {
+        PlayerHandleChooseAction(battler);
+    }
+}
+
+static void Task_OpenSummaryAfterFade(enum BattlerId battler)
+{
+    if (!gPaletteFade.active)
+    {
+        gBattlerControllerFuncs[battler] = CompleteWhenViewedSummary;
+        ReshowBattleScreenDummy();
+        CloseMainBattleScreen();
+        u8 side = gTcgBattleState.selectedFieldSide;
+        u8 slot = gTcgBattleState.selectedFieldSlot;
+        enum BattleTrainer trainer = (side == B_SIDE_PLAYER) ? B_TRAINER_PLAYER : B_TRAINER_OPPONENT_A;
+        ShowPokemonSummaryScreen(SUMMARY_MODE_LOCK_MOVES, gParties[trainer], slot, PARTY_SIZE - 1, CB2_SetUpReshowBattleScreenAfterMenu2);
+    }
+}
+
+static void OpenSummaryFromBattle(enum BattlerId battler)
+{
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
+    gBattlerControllerFuncs[battler] = Task_OpenSummaryAfterFade;
+}
+
+static void Task_HandleFieldSelection(enum BattlerId battler);
+
+static void Task_HandlePokemonActionSubMenu(enum BattlerId battler)
+{
+    u8 side = gTcgBattleState.selectedFieldSide;
+    u8 slot = gTcgBattleState.selectedFieldSlot;
+
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        if (gActionSelectionCursor[battler] & 1)
+        {
+            PlaySE(SE_SELECT);
+            ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
+            gActionSelectionCursor[battler] ^= 1;
+            ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
+        }
+    }
+    else if (JOY_NEW(DPAD_RIGHT))
+    {
+        if (!(gActionSelectionCursor[battler] & 1))
+        {
+            PlaySE(SE_SELECT);
+            ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
+            gActionSelectionCursor[battler] ^= 1;
+            ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
+        }
+    }
+    else if (JOY_NEW(DPAD_UP))
+    {
+        if (gActionSelectionCursor[battler] & 2)
+        {
+            PlaySE(SE_SELECT);
+            ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
+            gActionSelectionCursor[battler] ^= 2;
+            ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
+        }
+    }
+    else if (JOY_NEW(DPAD_DOWN))
+    {
+        if (!(gActionSelectionCursor[battler] & 2))
+        {
+            PlaySE(SE_SELECT);
+            ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
+            gActionSelectionCursor[battler] ^= 2;
+            ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
+        }
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
+        BattlePutTextOnWindow(COMPOUND_STRING("Select a PKMN.\n{B_BUTTON}CANCEL"), B_WIN_ACTION_PROMPT);
+        BattlePutTextOnWindow(gText_BattleMenu, B_WIN_ACTION_MENU);
+        gBattlerControllerFuncs[battler] = Task_HandleFieldSelection;
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        u8 cursor = gActionSelectionCursor[battler];
+        switch (cursor)
+        {
+        case 0: // FIGHT
+            if (side == B_SIDE_OPPONENT || slot > 0)
+            {
+                PlaySE(SE_FAILURE);
+                return;
+            }
+            if (gBattleTurnCounter == 0 && gTcgBattleState.firstTurnFirstPlayer)
+            {
+                PlaySE(SE_FAILURE);
+                return;
+            }
+            PlaySE(SE_SELECT);
+            ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
+            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_USE_MOVE, 0);
+            BtlController_Complete(battler);
+            return;
+
+        case 1: // ENERGY
+            if (side == B_SIDE_OPPONENT)
+            {
+                PlaySE(SE_FAILURE);
+                return;
+            }
+            if (gBattleTurnCounter == 0 && gTcgBattleState.firstTurnFirstPlayer)
+            {
+                PlaySE(SE_FAILURE);
+                BattlePutTextOnWindow(COMPOUND_STRING("Turn 1: No energy\navailable!"), B_WIN_ACTION_PROMPT);
+                return;
+            }
+            if (gTcgBattleState.energyAttachedThisTurn)
+            {
+                PlaySE(SE_FAILURE);
+                BattlePutTextOnWindow(COMPOUND_STRING("Energy was already\nattached this turn!"), B_WIN_ACTION_PROMPT);
+                return;
+            }
+            AttachTurnEnergyToSlot(B_SIDE_PLAYER, slot);
+            gTcgBattleState.energyAttachedThisTurn = TRUE;
+            PlaySE(SE_M_STAT_INCREASE);
+            UpdateTcgBenchHealthboxes();
+            {
+                u8 eType = gTcgBattleState.lastGeneratedEnergyType[B_SIDE_PLAYER];
+                if (eType >= NUM_ENERGY_TYPES)
+                    eType = ENERGY_COLORLESS;
+                u8 nick[POKEMON_NAME_LENGTH + 1];
+                GetMonData(&gParties[B_TRAINER_PLAYER][slot], MON_DATA_NICKNAME, nick);
+                StringGet_Nickname(nick);
+                nick[8] = EOS;
+                u8 lineBuf[40];
+                u8 *ptr = StringCopy(lineBuf, COMPOUND_STRING("+1 "));
+                ptr = StringCopy(ptr, sTcgEnergyNames[eType]);
+                ptr = StringCopy(ptr, COMPOUND_STRING(" on\n"));
+                ptr = StringCopy(ptr, nick);
+                *ptr++ = CHAR_EXCL_MARK;
+                *ptr = EOS;
+                BattlePutTextOnWindow(lineBuf, B_WIN_ACTION_PROMPT);
+            }
+            return;
+
+        case 2: // SUMMARY
+            PlaySE(SE_SELECT);
+            ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
+            OpenSummaryFromBattle(battler);
+            return;
+
+        case 3: // DONE
+            PlaySE(SE_SELECT);
+            ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
+            PlayerHandleChooseAction(battler);
+            return;
+        }
+    }
+}
+
+static void InitPokemonActionSubMenu(enum BattlerId battler)
+{
+    u8 side = gTcgBattleState.selectedFieldSide;
+    u8 slot = gTcgBattleState.selectedFieldSlot;
+
+    if (side == B_SIDE_PLAYER)
+    {
+        BattlePutTextOnWindow(COMPOUND_STRING("Do what with\nthis PKMN?"), B_WIN_ACTION_PROMPT);
+        if (slot == 0)
+        {
+            BattlePutTextOnWindow(COMPOUND_STRING("FIGHT{CLEAR_TO 56}ENERGY\nSUMMARY{CLEAR_TO 56}DONE"), B_WIN_ACTION_MENU);
+            gActionSelectionCursor[battler] = 0;
+        }
+        else
+        {
+            BattlePutTextOnWindow(COMPOUND_STRING("-----{CLEAR_TO 56}ENERGY\nSUMMARY{CLEAR_TO 56}DONE"), B_WIN_ACTION_MENU);
+            gActionSelectionCursor[battler] = 1;
+        }
+    }
+    else
+    {
+        BattlePutTextOnWindow(COMPOUND_STRING("Foe PKMN in play.\n{B_BUTTON}BACK"), B_WIN_ACTION_PROMPT);
+        BattlePutTextOnWindow(COMPOUND_STRING("-----{CLEAR_TO 56}-----\nSUMMARY{CLEAR_TO 56}DONE"), B_WIN_ACTION_MENU);
+        gActionSelectionCursor[battler] = 2;
+    }
+
+    ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
+    gBattlerControllerFuncs[battler] = Task_HandlePokemonActionSubMenu;
+}
+
+static void Task_HandleFieldSelection(enum BattlerId battler)
+{
+    static u8 sBlinkTimer = 0;
+
+    if (++sBlinkTimer >= 16)
+    {
+        sBlinkTimer = 0;
+        gTcgBattleState.fieldTargetBlinkState ^= 1;
+        if (gTcgBattleState.selectedFieldSlot == 0)
+        {
+            u8 bId = (gTcgBattleState.selectedFieldSide == B_SIDE_PLAYER) ? 0 : 1;
+            gSprites[gBattlerSpriteIds[bId]].invisible = gTcgBattleState.fieldTargetBlinkState;
+        }
+        else
+        {
+            UpdateTcgBenchHealthboxes();
+        }
+    }
+
+    if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        gTcgBattleState.fieldTargetBlinkState = 0;
+        gSprites[gBattlerSpriteIds[0]].invisible = FALSE;
+        gSprites[gBattlerSpriteIds[1]].invisible = FALSE;
+        UpdateTcgBenchHealthboxes();
+        PlayerHandleChooseAction(battler);
+        return;
+    }
+
+    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    {
+        u8 newSide = gTcgBattleState.selectedFieldSide ^ 1;
+        gTcgBattleState.selectedFieldSide = newSide;
+        enum BattleTrainer trainer = (newSide == B_SIDE_PLAYER) ? B_TRAINER_PLAYER : B_TRAINER_OPPONENT_A;
+        if (gTcgBattleState.selectedFieldSlot > 0)
+        {
+            if (GetMonData(&gParties[trainer][gTcgBattleState.selectedFieldSlot], MON_DATA_SPECIES) == SPECIES_NONE
+             || GetMonData(&gParties[trainer][gTcgBattleState.selectedFieldSlot], MON_DATA_HP) == 0)
+            {
+                gTcgBattleState.selectedFieldSlot = 0;
+            }
+        }
+        gSprites[gBattlerSpriteIds[0]].invisible = FALSE;
+        gSprites[gBattlerSpriteIds[1]].invisible = FALSE;
+        sBlinkTimer = 0;
+        gTcgBattleState.fieldTargetBlinkState = 0;
+        UpdateTcgBenchHealthboxes();
+        PlaySE(SE_SELECT);
+    }
+    else if (JOY_NEW(DPAD_DOWN))
+    {
+        u8 side = gTcgBattleState.selectedFieldSide;
+        enum BattleTrainer trainer = (side == B_SIDE_PLAYER) ? B_TRAINER_PLAYER : B_TRAINER_OPPONENT_A;
+        u8 curr = gTcgBattleState.selectedFieldSlot;
+        u8 next = curr;
+        for (u8 step = 1; step <= 3; step++)
+        {
+            u8 candidate = (curr + step) % 4;
+            if (candidate == 0)
+            {
+                next = 0;
+                break;
+            }
+            else if (GetMonData(&gParties[trainer][candidate], MON_DATA_SPECIES) != SPECIES_NONE
+                  && GetMonData(&gParties[trainer][candidate], MON_DATA_HP) > 0)
+            {
+                next = candidate;
+                break;
+            }
+        }
+        if (next != curr)
+        {
+            gTcgBattleState.selectedFieldSlot = next;
+            gSprites[gBattlerSpriteIds[0]].invisible = FALSE;
+            gSprites[gBattlerSpriteIds[1]].invisible = FALSE;
+            sBlinkTimer = 0;
+            gTcgBattleState.fieldTargetBlinkState = 0;
+            UpdateTcgBenchHealthboxes();
+            PlaySE(SE_SELECT);
+        }
+    }
+    else if (JOY_NEW(DPAD_UP))
+    {
+        u8 side = gTcgBattleState.selectedFieldSide;
+        enum BattleTrainer trainer = (side == B_SIDE_PLAYER) ? B_TRAINER_PLAYER : B_TRAINER_OPPONENT_A;
+        u8 curr = gTcgBattleState.selectedFieldSlot;
+        u8 prev = curr;
+        for (u8 step = 1; step <= 3; step++)
+        {
+            u8 candidate = (curr + 4 - step) % 4;
+            if (candidate == 0)
+            {
+                prev = 0;
+                break;
+            }
+            else if (GetMonData(&gParties[trainer][candidate], MON_DATA_SPECIES) != SPECIES_NONE
+                  && GetMonData(&gParties[trainer][candidate], MON_DATA_HP) > 0)
+            {
+                prev = candidate;
+                break;
+            }
+        }
+        if (prev != curr)
+        {
+            gTcgBattleState.selectedFieldSlot = prev;
+            gSprites[gBattlerSpriteIds[0]].invisible = FALSE;
+            gSprites[gBattlerSpriteIds[1]].invisible = FALSE;
+            sBlinkTimer = 0;
+            gTcgBattleState.fieldTargetBlinkState = 0;
+            UpdateTcgBenchHealthboxes();
+            PlaySE(SE_SELECT);
+        }
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        gTcgBattleState.fieldTargetBlinkState = 0;
+        gSprites[gBattlerSpriteIds[0]].invisible = FALSE;
+        gSprites[gBattlerSpriteIds[1]].invisible = FALSE;
+        UpdateTcgBenchHealthboxes();
+        InitPokemonActionSubMenu(battler);
+    }
+}
+
+static void InitFieldSelection(enum BattlerId battler)
+{
+    if (GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES) == SPECIES_NONE
+     || gBattleMons[battler].hp == 0)
+    {
+        PlaySE(SE_FAILURE);
+        return;
+    }
+
+    PlaySE(SE_SELECT);
+    ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
+
+    gTcgBattleState.selectedFieldSide = B_SIDE_PLAYER;
+    gTcgBattleState.selectedFieldSlot = 0;
+    gTcgBattleState.fieldTargetBlinkState = 0;
+
+    BattlePutTextOnWindow(COMPOUND_STRING("Select a PKMN.\n{B_BUTTON}CANCEL"), B_WIN_ACTION_PROMPT);
+    BattlePutTextOnWindow(gText_BattleMenu, B_WIN_ACTION_MENU);
+    gBattlerControllerFuncs[battler] = Task_HandleFieldSelection;
+}
+
 static void HandleInputChooseAction(enum BattlerId battler)
 {
     enum Item itemId = gBattleResources->bufferA[battler][2] | (gBattleResources->bufferA[battler][3] << 8);
@@ -302,6 +714,24 @@ static void HandleInputChooseAction(enum BattlerId battler)
         }
     }
 
+    if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && JOY_NEW(L_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        TryHideLastUsedBall();
+        BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_USE_ITEM, 0);
+        BtlController_Complete(battler);
+        return;
+    }
+
+    if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && JOY_NEW(R_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        TryHideLastUsedBall();
+        BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_RUN, 0);
+        BtlController_Complete(battler);
+        return;
+    }
+
     if (JOY_NEW(A_BUTTON))
     {
         PlaySE(SE_SELECT);
@@ -309,17 +739,27 @@ static void HandleInputChooseAction(enum BattlerId battler)
 
         switch (gActionSelectionCursor[battler])
         {
-        case 0: // Top left
-            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_USE_MOVE, 0);
-            break;
-        case 1: // Top right
-            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_USE_ITEM, 0);
-            break;
-        case 2: // Bottom left
-            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_SWITCH, 0);
-            break;
-        case 3: // Bottom right
-            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_RUN, 0);
+        case 0: // Top left - PLAY
+            InitFieldSelection(battler);
+            return;
+        case 1: // Top right - DECK
+            OpenDeckStorageFromBattle(battler);
+            return;
+        case 2: // Bottom left - HAND
+            OpenHandPartyMenuFromBattle(battler);
+            return;
+        case 3: // Bottom right - END TURN
+            if (GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES) == SPECIES_NONE || gBattleMons[battler].hp == 0)
+            {
+                PlaySE(SE_FAILURE);
+                return;
+            }
+            if (!gTcgBattleState.energyAttachedThisTurn && !(gBattleTurnCounter == 0 && gTcgBattleState.firstTurnFirstPlayer))
+            {
+                AttachTurnEnergyToSlot(B_SIDE_PLAYER, 0);
+                gTcgBattleState.energyAttachedThisTurn = TRUE;
+            }
+            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_NOTHING_FAINTED, 0);
             break;
         }
         BtlController_Complete(battler);
@@ -686,6 +1126,82 @@ void HandleInputChooseMove(enum BattlerId battler)
 
     if (JOY_NEW(A_BUTTON) && !gBattleStruct->descriptionSubmenu)
     {
+        u8 slot = gMoveSelectionCursor[battler];
+        u16 activeCardId = GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_EXP);
+        const struct TcgCardInfo *cardInfo = GetTcgCardInfo(activeCardId);
+
+        // TCG Pocket Rule: First turn player cannot attack
+        if (gBattleTurnCounter == 0 && gTcgBattleState.firstTurnFirstPlayer)
+        {
+            PlaySE(SE_FAILURE);
+            return;
+        }
+
+        // TCG Pocket Rule: Pokémon Power in Slot 1 cannot be used while Asleep, Paralyzed, or Confused
+        if (slot == 0 && cardInfo && cardInfo->pokemonPowerId != 0)
+        {
+            if ((gBattleMons[battler].status1 & (STATUS1_SLEEP | STATUS1_PARALYSIS))
+             || (gBattleMons[battler].volatiles.confusionTimer > 0)
+             || gTcgBattleState.goopGasActive[B_SIDE_PLAYER]
+             || gTcgBattleState.powerUsedThisTurn[0])
+            {
+                PlaySE(SE_FAILURE);
+                return;
+            }
+            if (ExecutePokemonPower(activeCardId, 0, battler))
+            {
+                PlaySE(SE_USE_ITEM);
+                for (u8 b = 0; b < gBattlersCount; b++)
+                {
+                    SyncBattlerStructFromPartyMon(b);
+                    UpdateHealthboxAttribute(gHealthboxSpriteIds[b], GetBattlerMon(b), HEALTHBOX_ALL);
+                }
+                return;
+            }
+            PlaySE(SE_FAILURE);
+            return;
+        }
+        else if (cardInfo != NULL)
+        {
+            enum Move move = moveInfo->moves[slot];
+            if (move == MOVE_RETREAT)
+            {
+                if (!CanPlayerRetreatThisTurn()
+                 || (gBattleMons[battler].status1 & (STATUS1_SLEEP | STATUS1_PARALYSIS))
+                 || gTcgBattleState.slotEnergyCount[B_SIDE_PLAYER][0] < cardInfo->retreatCost)
+                {
+                    PlaySE(SE_FAILURE);
+                    return;
+                }
+
+                // Deduct retreat cost from Active slot
+                DiscardEnergyFromSlot(B_SIDE_PLAYER, 0, cardInfo->retreatCost);
+                gTcgBattleState.retreatedThisTurn = TRUE;
+                gTcgBattleState.viewingHandInPartyMenu = FALSE;
+
+                TryToHideMoveInfoWindow();
+                PlaySE(SE_SELECT);
+                BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_SWITCH, 0);
+                BtlController_Complete(battler);
+                return;
+            }
+            else if (move != MOVE_NONE)
+            {
+                const struct TcgAttackCost *cost = (slot == 0 || (slot == 1 && cardInfo->pokemonPowerId == 0)) ? &cardInfo->move1Cost : &cardInfo->move2Cost;
+                if (!HasEnoughEnergyForAttack(B_SIDE_PLAYER, 0, cost))
+                {
+                    PlaySE(SE_FAILURE);
+                    return;
+                }
+            }
+        }
+
+        if (!gTcgBattleState.energyAttachedThisTurn && !(gBattleTurnCounter == 0 && gTcgBattleState.firstTurnFirstPlayer))
+        {
+            AttachTurnEnergyToSlot(B_SIDE_PLAYER, 0);
+            gTcgBattleState.energyAttachedThisTurn = TRUE;
+        }
+
         TryToHideMoveInfoWindow();
         PlaySE(SE_SELECT);
 
@@ -798,10 +1314,16 @@ void HandleInputChooseMove(enum BattlerId battler)
     }
     else if (JOY_NEW(DPAD_LEFT) && !gBattleStruct->zmove.viewing)
     {
-        if (gMoveSelectionCursor[battler] & 1)
+        u8 newCursor = gMoveSelectionCursor[battler];
+        if (gMoveSelectionCursor[battler] == 3)
+            newCursor = 0;
+        else if (gMoveSelectionCursor[battler] & 1)
+            newCursor = gMoveSelectionCursor[battler] ^ 1;
+
+        if (newCursor != gMoveSelectionCursor[battler] && moveInfo->moves[newCursor] != MOVE_NONE)
         {
             MoveSelectionDestroyCursorAt(gMoveSelectionCursor[battler]);
-            gMoveSelectionCursor[battler] ^= 1;
+            gMoveSelectionCursor[battler] = newCursor;
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
             if (B_SHOW_EFFECTIVENESS)
@@ -814,11 +1336,23 @@ void HandleInputChooseMove(enum BattlerId battler)
     }
     else if (JOY_NEW(DPAD_RIGHT) && !gBattleStruct->zmove.viewing)
     {
-        if (!(gMoveSelectionCursor[battler] & 1)
-         && (gMoveSelectionCursor[battler] ^ 1) < gNumberOfMovesToChoose)
+        u8 newCursor = gMoveSelectionCursor[battler];
+        if (gMoveSelectionCursor[battler] == 0)
+        {
+            if (moveInfo->moves[1] != MOVE_NONE)
+                newCursor = 1;
+            else if (moveInfo->moves[3] != MOVE_NONE)
+                newCursor = 3;
+        }
+        else if (gMoveSelectionCursor[battler] == 2 && moveInfo->moves[3] != MOVE_NONE)
+        {
+            newCursor = 3;
+        }
+
+        if (newCursor != gMoveSelectionCursor[battler] && moveInfo->moves[newCursor] != MOVE_NONE)
         {
             MoveSelectionDestroyCursorAt(gMoveSelectionCursor[battler]);
-            gMoveSelectionCursor[battler] ^= 1;
+            gMoveSelectionCursor[battler] = newCursor;
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
             if (B_SHOW_EFFECTIVENESS)
@@ -831,10 +1365,23 @@ void HandleInputChooseMove(enum BattlerId battler)
     }
     else if (JOY_NEW(DPAD_UP) && !gBattleStruct->zmove.viewing)
     {
-        if (gMoveSelectionCursor[battler] & 2)
+        u8 newCursor = gMoveSelectionCursor[battler];
+        if (gMoveSelectionCursor[battler] == 3)
+        {
+            if (moveInfo->moves[1] != MOVE_NONE)
+                newCursor = 1;
+            else
+                newCursor = 0;
+        }
+        else if (gMoveSelectionCursor[battler] == 2)
+        {
+            newCursor = 0;
+        }
+
+        if (newCursor != gMoveSelectionCursor[battler] && moveInfo->moves[newCursor] != MOVE_NONE)
         {
             MoveSelectionDestroyCursorAt(gMoveSelectionCursor[battler]);
-            gMoveSelectionCursor[battler] ^= 2;
+            gMoveSelectionCursor[battler] = newCursor;
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
             if (B_SHOW_EFFECTIVENESS)
@@ -847,11 +1394,16 @@ void HandleInputChooseMove(enum BattlerId battler)
     }
     else if (JOY_NEW(DPAD_DOWN) && !gBattleStruct->zmove.viewing)
     {
-        if (!(gMoveSelectionCursor[battler] & 2)
-         && (gMoveSelectionCursor[battler] ^ 2) < gNumberOfMovesToChoose)
+        u8 newCursor = gMoveSelectionCursor[battler];
+        if (moveInfo->moves[3] != MOVE_NONE)
+            newCursor = 3;
+        else if (moveInfo->moves[2] != MOVE_NONE)
+            newCursor = 2;
+
+        if (newCursor != gMoveSelectionCursor[battler] && moveInfo->moves[newCursor] != MOVE_NONE)
         {
             MoveSelectionDestroyCursorAt(gMoveSelectionCursor[battler]);
-            gMoveSelectionCursor[battler] ^= 2;
+            gMoveSelectionCursor[battler] = newCursor;
             PlaySE(SE_SELECT);
             MoveSelectionCreateCursorAt(gMoveSelectionCursor[battler], 0);
             if (B_SHOW_EFFECTIVENESS)
@@ -1655,15 +2207,36 @@ static void MoveSelectionDisplayMoveNames(enum BattlerId battler)
 {
     s32 i;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
+    u16 cardId = GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_EXP);
+    const struct TcgCardInfo *info = GetTcgCardInfo(cardId);
     gNumberOfMovesToChoose = 0;
 
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
         MoveSelectionDestroyCursorAt(i);
-        if (IsGimmickSelected(battler, GIMMICK_DYNAMAX) || GetActiveGimmick(battler) == GIMMICK_DYNAMAX)
-            StringCopy(gDisplayedStringBattle, GetMoveName(GetMaxMove(battler, moveInfo->moves[i])));
+        if (moveInfo->moves[i] == MOVE_NONE)
+        {
+            StringCopy(gDisplayedStringBattle, GetMoveName(MOVE_NONE));
+        }
+        else if (moveInfo->moves[i] == MOVE_RETREAT)
+        {
+            StringCopy(gDisplayedStringBattle, GetMoveName(MOVE_RETREAT));
+        }
+        else if (info != NULL)
+        {
+            if (i == 0 && info->pokemonPowerId != 0 && info->powerName != NULL && info->powerName[0] != EOS)
+                StringCopy(gDisplayedStringBattle, info->powerName);
+            else if ((i == 0 || (i == 1 && info->pokemonPowerId == 0)) && info->move1Name != NULL && info->move1Name[0] != EOS)
+                StringCopy(gDisplayedStringBattle, info->move1Name);
+            else if (info->move2Name != NULL && info->move2Name[0] != EOS)
+                StringCopy(gDisplayedStringBattle, info->move2Name);
+            else
+                StringCopy(gDisplayedStringBattle, GetMoveName(moveInfo->moves[i]));
+        }
         else
+        {
             StringCopy(gDisplayedStringBattle, GetMoveName(moveInfo->moves[i]));
+        }
         // Prints on windows B_WIN_MOVE_NAME_1, B_WIN_MOVE_NAME_2, B_WIN_MOVE_NAME_3, B_WIN_MOVE_NAME_4
         BattlePutTextOnWindow(gDisplayedStringBattle, i + B_WIN_MOVE_NAME_1);
         if (moveInfo->moves[i] != MOVE_NONE)
@@ -1671,70 +2244,121 @@ static void MoveSelectionDisplayMoveNames(enum BattlerId battler)
     }
 }
 
+static const u8 sText_Free[] = _("FREE");
+static const u8 sText_Power[] = _("POWER");
+static const u8 sText_CostSlash[] = _("COST/");
+static const u8 sText_Dash[] = _("-");
+static const u8 sText_Empty[] = _("");
+static const u8 sText_Colorless[] = _("C");
+
+static const u8 sEnergyLabels[NUM_ENERGY_TYPES][3] = {
+    [ENERGY_GRASS]     = _("G"),
+    [ENERGY_FIRE]      = _("F"),
+    [ENERGY_WATER]     = _("W"),
+    [ENERGY_LIGHTNING] = _("L"),
+    [ENERGY_PSYCHIC]   = _("P"),
+    [ENERGY_FIGHTING]  = _("Ft"),
+    [ENERGY_DARKNESS]  = _("D"),
+    [ENERGY_METAL]     = _("M"),
+    [ENERGY_COLORLESS] = _("C"),
+};
+
+static void FormatTcgAttackCost(const struct TcgAttackCost *cost, u8 *dst)
+{
+    u8 *ptr = dst;
+    bool8 hasAny = FALSE;
+
+    for (u32 t = 0; t < NUM_ENERGY_TYPES; t++)
+    {
+        if (cost->energyCount[t] > 0)
+        {
+            if (hasAny)
+                *(ptr)++ = CHAR_PLUS;
+            ConvertIntToDecimalStringN(ptr, cost->energyCount[t], STR_CONV_MODE_LEFT_ALIGN, 1);
+            ptr += StringLength(ptr);
+            ptr = StringCopy(ptr, sEnergyLabels[t]);
+            hasAny = TRUE;
+        }
+    }
+
+    if (!hasAny)
+        StringCopy(dst, sText_Free);
+    else
+        *ptr = EOS;
+}
+
 static void MoveSelectionDisplayPPString(enum BattlerId battler)
 {
-    StringCopy(gDisplayedStringBattle, gText_MoveInterfacePP);
+    StringCopy(gDisplayedStringBattle, sText_CostSlash);
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_PP);
 }
 
 static void MoveSelectionDisplayPPNumber(enum BattlerId battler)
 {
-    u8 *txtPtr;
-    struct ChooseMoveStruct *moveInfo;
-
-    if (gBattleResources->bufferA[battler][2] == TRUE) // check if we didn't want to display PP number
-        return;
-
-    SetPPNumbersPaletteInMoveSelection(battler);
-    moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
-    txtPtr = ConvertIntToDecimalStringN(gDisplayedStringBattle, moveInfo->currentPP[gMoveSelectionCursor[battler]], STR_CONV_MODE_RIGHT_ALIGN, 2);
-    *(txtPtr)++ = CHAR_SLASH;
-    ConvertIntToDecimalStringN(txtPtr, moveInfo->maxPP[gMoveSelectionCursor[battler]], STR_CONV_MODE_RIGHT_ALIGN, 2);
-
+    u8 total = gTcgBattleState.slotEnergyCount[B_SIDE_PLAYER][0];
+    if (total == 0)
+    {
+        StringCopy(gDisplayedStringBattle, COMPOUND_STRING("0E"));
+    }
+    else
+    {
+        u8 *ptr = ConvertIntToDecimalStringN(gDisplayedStringBattle, total, STR_CONV_MODE_LEFT_ALIGN, 2);
+        *ptr++ = CHAR_E;
+        *ptr = EOS;
+    }
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_PP_REMAINING);
 }
 
 static void MoveSelectionDisplayMoveType(enum BattlerId battler)
 {
-    u8 *txtPtr, *end;
-    enum Species speciesId = gBattleMons[battler].species;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
-    txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
     enum Move move = moveInfo->moves[gMoveSelectionCursor[battler]];
-    enum Type type = GetMoveType(move);
-    enum BattleMoveEffects effect = GetMoveEffect(move);
+    u8 slot = gMoveSelectionCursor[battler];
+    u16 cardId = GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_EXP);
+    const struct TcgCardInfo *info = GetTcgCardInfo(cardId);
 
-    if (effect == EFFECT_TERA_BLAST)
+    if (move == MOVE_NONE)
     {
-        if (IsGimmickSelected(battler, GIMMICK_TERA) || GetActiveGimmick(battler) == GIMMICK_TERA)
-            type = GetBattlerTeraType(battler);
+        StringCopy(gDisplayedStringBattle, sText_Dash);
     }
-    else if (effect == EFFECT_IVY_CUDGEL)
+    else if (move == MOVE_RETREAT)
     {
-        if (speciesId == SPECIES_OGERPON_WELLSPRING || speciesId == SPECIES_OGERPON_WELLSPRING_TERA
-         || speciesId == SPECIES_OGERPON_HEARTHFLAME || speciesId == SPECIES_OGERPON_HEARTHFLAME_TERA
-         || speciesId == SPECIES_OGERPON_CORNERSTONE || speciesId == SPECIES_OGERPON_CORNERSTONE_TERA)
-            type = GetSpeciesType(speciesId, 1);
+        if (info != NULL && info->retreatCost > 0)
+        {
+            u8 *ptr = gDisplayedStringBattle;
+            ConvertIntToDecimalStringN(ptr, info->retreatCost, STR_CONV_MODE_LEFT_ALIGN, 1);
+            ptr += StringLength(ptr);
+            StringCopy(ptr, sText_Colorless);
+        }
+        else
+        {
+            StringCopy(gDisplayedStringBattle, sText_Free);
+        }
     }
-    else if (GetMoveCategory(move) == DAMAGE_CATEGORY_STATUS
-             && (GetActiveGimmick(battler) == GIMMICK_DYNAMAX || IsGimmickSelected(battler, GIMMICK_DYNAMAX)))
+    else if (info != NULL)
     {
-        type = TYPE_NORMAL; // Max Guard is always a Normal-type move
+        if (info->pokemonPowerId != 0 && slot == 0)
+        {
+            StringCopy(gDisplayedStringBattle, sText_Power);
+        }
+        else if (slot == 0 || (slot == 1 && info->pokemonPowerId == 0 && info->move1 != MOVE_NONE))
+        {
+            FormatTcgAttackCost(&info->move1Cost, gDisplayedStringBattle);
+        }
+        else if (info->move2 != MOVE_NONE)
+        {
+            FormatTcgAttackCost(&info->move2Cost, gDisplayedStringBattle);
+        }
+        else
+        {
+            StringCopy(gDisplayedStringBattle, sText_Free);
+        }
     }
-    else if (effect == EFFECT_TERA_STARSTORM)
+    else
     {
-        if (speciesId == SPECIES_TERAPAGOS_STELLAR
-        || (IsGimmickSelected(battler, GIMMICK_TERA) && speciesId == SPECIES_TERAPAGOS_TERASTAL))
-            type = TYPE_STELLAR;
+        StringCopy(gDisplayedStringBattle, sText_Free);
     }
-    else if (P_SHOW_DYNAMIC_TYPES) // Non-vanilla changes to battle UI showing dynamic types
-    {
-        struct Pokemon *mon = GetBattlerMon(battler);
-        type = CheckDynamicMoveType(mon, move, battler, MON_IN_BATTLE);
-    }
-    end = StringCopy(txtPtr, gTypesInfo[type].name);
 
-    PrependFontIdToFit(txtPtr, end, FONT_NORMAL, WindowWidthPx(B_WIN_MOVE_TYPE) - 25);
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
 }
 
@@ -1750,28 +2374,47 @@ static void TryMoveSelectionDisplayMoveDescription(enum BattlerId battler)
 static void MoveSelectionDisplayMoveDescription(enum BattlerId battler)
 {
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct*)(&gBattleResources->bufferA[battler][4]);
-    enum Move move = moveInfo->moves[gMoveSelectionCursor[battler]];
+    u8 slot = gMoveSelectionCursor[battler];
+    enum Move move = moveInfo->moves[slot];
+    u16 cardId = GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_EXP);
+    const struct TcgCardInfo *info = GetTcgCardInfo(cardId);
     u16 pwr = GetMovePower(move);
     u16 acc = GetMoveAccuracy(move);
     enum DamageCategory cat = GetBattleMoveCategory(move);
+    const u8 *desc = GetMoveDescription(move);
 
-    if (GetActiveGimmick(battler) == GIMMICK_DYNAMAX || IsGimmickSelected(battler, GIMMICK_DYNAMAX))
+    if (info != NULL && move != MOVE_RETREAT && move != MOVE_NONE)
     {
-        pwr = GetMaxMovePower(move, move);
-        move = GetMaxMove(battler, move);
-        acc = 0;
+        if (slot == 0 && info->pokemonPowerId != 0)
+        {
+            pwr = 0;
+            if (info->powerDescription != NULL && info->powerDescription[0] != EOS)
+                desc = info->powerDescription;
+        }
+        else if (slot == 0 || (slot == 1 && info->pokemonPowerId == 0))
+        {
+            pwr = info->move1Damage;
+            if (info->move1Description != NULL && info->move1Description[0] != EOS)
+                desc = info->move1Description;
+        }
+        else
+        {
+            pwr = info->move2Damage;
+            if (info->move2Description != NULL && info->move2Description[0] != EOS)
+                desc = info->move2Description;
+        }
     }
 
     u8 pwr_num[3], acc_num[3];
     u8 cat_desc[7] = _("CAT: ");
-    u8 pwr_desc[7] = _("PWR: ");
+    u8 pwr_desc[7] = _("DMG: ");
     u8 acc_desc[7] = _("ACC: ");
     u8 cat_start[] = _("{CLEAR_TO 3}");
     u8 pwr_start[] = _("{CLEAR_TO 56}");
     u8 acc_start[] = _("{CLEAR_TO 108}");
     LoadMessageBoxAndBorderGfx();
     DrawStdWindowFrame(B_WIN_MOVE_DESCRIPTION, FALSE);
-    if (pwr < 2)
+    if (pwr == 0)
         StringCopy(pwr_num, gText_BattleSwitchWhich5);
     else
         ConvertIntToDecimalStringN(pwr_num, pwr, STR_CONV_MODE_LEFT_ALIGN, 3);
@@ -1788,7 +2431,7 @@ static void MoveSelectionDisplayMoveDescription(enum BattlerId battler)
     StringAppend(gDisplayedStringBattle, acc_desc);
     StringAppend(gDisplayedStringBattle, acc_num);
     u8 *descStart = StringAppend(gDisplayedStringBattle, gText_NewLine);
-    u8 *descEnd = StringAppend(gDisplayedStringBattle, GetMoveDescription(move));
+    u8 *descEnd = StringAppend(gDisplayedStringBattle, desc);
     WrapFontIdToFit(descStart, descEnd, FONT_NORMAL, WindowWidthPx(B_WIN_MOVE_DESCRIPTION));
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_DESCRIPTION);
 
@@ -2014,8 +2657,56 @@ static void PlayerHandleChooseAction(enum BattlerId battler)
 
     TryRestoreLastUsedBall();
     ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
-    PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, battler, gBattlerPartyIndexes[battler]);
-    BattleStringExpandPlaceholdersToDisplayedString(gText_WhatWillPkmnDo);
+
+    if (!gTcgBattleState.cardDrawnThisTurn)
+    {
+        if (gBattleTurnCounter > 0)
+        {
+            DrawCardForPlayer();
+            DrawCardForOpponent();
+        }
+        else
+        {
+            gTcgBattleState.cardDrawnThisTurn = TRUE;
+        }
+    }
+
+    if (!gTcgBattleState.energyGeneratedThisTurn)
+    {
+        GenerateTurnEnergy(B_SIDE_PLAYER);
+        gTcgBattleState.energyAttachedThisTurn = FALSE;
+        GenerateTurnEnergy(B_SIDE_OPPONENT);
+    }
+
+    {
+        u8 *ptr = gDisplayedStringBattle;
+        u8 oppType = gTcgBattleState.lastGeneratedEnergyType[B_SIDE_OPPONENT];
+        if (oppType >= NUM_ENERGY_TYPES)
+            oppType = ENERGY_COLORLESS;
+        u8 oppNick[POKEMON_NAME_LENGTH + 1];
+        GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_NICKNAME, oppNick);
+        StringGet_Nickname(oppNick);
+        oppNick[8] = EOS;
+
+        ptr = StringCopy(ptr, COMPOUND_STRING("Foe: +1"));
+        ptr = StringCopy(ptr, sEnergyLabels[oppType]);
+        ptr = StringCopy(ptr, COMPOUND_STRING(" to "));
+        ptr = StringCopy(ptr, oppNick);
+        *ptr++ = CHAR_NEWLINE;
+
+        if (gBattleTurnCounter == 0 && gTcgBattleState.firstTurnFirstPlayer)
+        {
+            ptr = StringCopy(ptr, COMPOUND_STRING("Turn 1: 0E"));
+        }
+        else
+        {
+            ptr = StringCopy(ptr, COMPOUND_STRING("What will "));
+            ptr = StringCopy(ptr, gSaveBlock2Ptr->playerName);
+            ptr = StringCopy(ptr, COMPOUND_STRING(" do?"));
+        }
+        *ptr = EOS;
+        BattleStringExpandPlaceholdersToDisplayedString(gDisplayedStringBattle);
+    }
 
     enum BattlerId partner = GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT);
     if (B_SHOW_PARTNER_TARGET && gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && IsBattlerAlive(partner))
@@ -2438,7 +3129,7 @@ static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, enum Bat
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleResources->bufferA[battler][4]);
     u8 *txtPtr;
 
-    txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfacePP);
+    txtPtr = StringCopy(gDisplayedStringBattle, sText_CostSlash);
 
     if (!IsBattleMoveStatus(moveInfo->moves[gMoveSelectionCursor[battler]]))
     {

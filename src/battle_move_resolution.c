@@ -402,41 +402,22 @@ static enum CancelerResult CancelerConfused(struct BattleCalcValues *cv)
 
     if (vol->confusionTimer)
     {
-        if (vol->confusionTimer != PERMANENT_VOLATILE)
-            vol->confusionTimer--;
-
-        if (vol->confusionTimer)
+        // TCG Pocket: 50% coin flip on attack
+        // Heads: executes normally
+        // Tails: fails without self-damage
+        if (Random() & 1)
         {
-             // confusion dmg
-            if (RandomPercentage(RNG_CONFUSION, (GetConfig(B_CONFUSION_SELF_DMG_CHANCE) >= GEN_7 ? 33 : 50)))
-            {
-                gBattleCommunication[MULTISTRING_CHOOSER] = TRUE;
-                gBattlerTarget = gBattlerAttacker;
-                struct DamageContext dmgCtx = {0};
-                dmgCtx.battlerAtk = dmgCtx.battlerDef = cv->battlerAtk;
-                dmgCtx.move = dmgCtx.chosenMove = dmgCtx.baseMove = MOVE_NONE;
-                dmgCtx.moveType = TYPE_MYSTERY;
-                dmgCtx.isCrit = FALSE;
-                dmgCtx.randomFactor = FALSE;
-                dmgCtx.updateFlags = TRUE;
-                dmgCtx.isSelfInflicted = TRUE;
-                dmgCtx.fixedBasePower = 40;
-                dmgCtx.abilities[gBattlerAttacker] = cv->abilities[gBattlerAttacker];
-                dmgCtx.holdEffects[gBattlerAttacker] = cv->holdEffects[gBattlerAttacker];
-                gBattleStruct->passiveHpUpdate[cv->battlerAtk] = CalculateMoveDamage(&dmgCtx);
-                gBattlescriptCurrInstr = BattleScript_MoveUsedIsConfused;
-                return CANCELER_RESULT_FAILURE;
-            }
-            else
-            {
-                gBattleCommunication[MULTISTRING_CHOOSER] = FALSE;
-                BattleScriptCall(BattleScript_MoveUsedIsConfused);
-                return CANCELER_RESULT_RUN_SCRIPT_AND_INCREMENT;
-            }
+            // Tails: Attack fails without self-damage
+            gBattleCommunication[MULTISTRING_CHOOSER] = FALSE;
+            BattleScriptCall(BattleScript_MoveUsedIsConfused);
+            gBattlescriptCurrInstr = BattleScript_ButItFailed;
+            return CANCELER_RESULT_FAILURE;
         }
-        else // snapped out of confusion
+        else
         {
-            BattleScriptCall(BattleScript_MoveUsedIsConfusedNoMore);
+            // Heads: Attack succeeds
+            gBattleCommunication[MULTISTRING_CHOOSER] = FALSE;
+            BattleScriptCall(BattleScript_MoveUsedIsConfused);
             return CANCELER_RESULT_RUN_SCRIPT_AND_INCREMENT;
         }
     }

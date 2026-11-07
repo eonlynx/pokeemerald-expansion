@@ -1,4 +1,6 @@
 #include "global.h"
+#include "tcg.h"
+#include "item_icon.h"
 #include "malloc.h"
 #include "battle.h"
 #include "battle_anim.h"
@@ -37,6 +39,7 @@
 #include "caps.h"
 #include "link.h"
 #include "link_rfu.h"
+#include "list_menu.h"
 #include "mail.h"
 #include "main.h"
 #include "menu.h"
@@ -222,6 +225,89 @@ static EWRAM_DATA enum Item sPartyMenuItemId = 0;
 EWRAM_DATA u8 gBattlePartyCurrentOrder[PARTY_SIZE / 2] = {0}; // bits 0-3 are the current pos of Slot 1, 4-7 are Slot 2, and so on
 static EWRAM_DATA u8 sInitialLevel = 0;
 static EWRAM_DATA u8 sFinalLevel = 0;
+static EWRAM_DATA struct Pokemon sSavedFieldParty[PARTY_SIZE] = {0};
+static EWRAM_DATA u8 sSavedFieldPartyCount = 0;
+static EWRAM_DATA bool8 sIsFieldPartyBackedUp = FALSE;
+#define TAG_HAND_SCROLL_ARROW 55210
+static EWRAM_DATA u8 sHandScrollArrowTaskId = TASK_NONE;
+static EWRAM_DATA u16 sHandScrollOffset = 0;
+
+static void SyncHandToPartyMenu(void)
+{
+    u8 i;
+    if (!sIsFieldPartyBackedUp)
+    {
+        for (i = 0; i < PARTY_SIZE; i++)
+            sSavedFieldParty[i] = gParties[B_TRAINER_PLAYER][i];
+        sSavedFieldPartyCount = gPartiesCount[B_TRAINER_PLAYER];
+        sIsFieldPartyBackedUp = TRUE;
+    }
+
+    if (gTcgBattleState.playerHandCount <= PARTY_SIZE)
+        gTcgBattleState.handScrollOffset = 0;
+    else if (gTcgBattleState.handScrollOffset + PARTY_SIZE > gTcgBattleState.playerHandCount)
+        gTcgBattleState.handScrollOffset = gTcgBattleState.playerHandCount - PARTY_SIZE;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        u8 handIdx = gTcgBattleState.handScrollOffset + i;
+        if (handIdx < gTcgBattleState.playerHandCount && gTcgBattleState.playerHand[handIdx] != CARD_NONE)
+            CreateTempMonFromCardId(&gParties[B_TRAINER_PLAYER][i], gTcgBattleState.playerHand[handIdx]);
+        else
+            ZeroMonData(&gParties[B_TRAINER_PLAYER][i]);
+    }
+    CalculatePlayerPartyCount();
+
+    if (sIsFieldPartyBackedUp && gTcgBattleState.playerHandCount > PARTY_SIZE)
+    {
+        sHandScrollOffset = gTcgBattleState.handScrollOffset;
+        if (sHandScrollArrowTaskId == TASK_NONE)
+        {
+            sHandScrollArrowTaskId = AddScrollIndicatorArrowPairParameterized(
+                SCROLL_ARROW_UP,
+                230,
+                8,
+                148,
+                gTcgBattleState.playerHandCount - PARTY_SIZE,
+                TAG_HAND_SCROLL_ARROW,
+                TAG_HAND_SCROLL_ARROW,
+                &sHandScrollOffset
+            );
+        }
+    }
+    else if (sHandScrollArrowTaskId != TASK_NONE)
+    {
+        RemoveScrollIndicatorArrowPair(sHandScrollArrowTaskId);
+        sHandScrollArrowTaskId = TASK_NONE;
+    }
+}
+
+static void RestoreFieldFromPartyMenu(void)
+{
+    u8 i;
+    if (sHandScrollArrowTaskId != TASK_NONE)
+    {
+        RemoveScrollIndicatorArrowPair(sHandScrollArrowTaskId);
+        sHandScrollArrowTaskId = TASK_NONE;
+    }
+    if (sIsFieldPartyBackedUp)
+    {
+        for (i = 0; i < PARTY_SIZE; i++)
+            gParties[B_TRAINER_PLAYER][i] = sSavedFieldParty[i];
+        gPartiesCount[B_TRAINER_PLAYER] = sSavedFieldPartyCount;
+        CalculatePlayerPartyCount();
+        sIsFieldPartyBackedUp = FALSE;
+    }
+}
+
+static void UpdateSavedFieldPartyFromCurrent(void)
+{
+    u8 i;
+    CalculatePlayerPartyCount();
+    for (i = 0; i < PARTY_SIZE; i++)
+        sSavedFieldParty[i] = gParties[B_TRAINER_PLAYER][i];
+    sSavedFieldPartyCount = gPartiesCount[B_TRAINER_PLAYER];
+}
 
 // IWRAM common
 COMMON_DATA void (*gItemUseCB)(u8, TaskFunc) = NULL;
@@ -872,6 +958,11 @@ static void Task_ExitPartyMenu(u8 taskId)
 
 static void ResetPartyMenu(void)
 {
+    if (sHandScrollArrowTaskId != TASK_NONE)
+    {
+        RemoveScrollIndicatorArrowPair(sHandScrollArrowTaskId);
+        sHandScrollArrowTaskId = TASK_NONE;
+    }
     sPartyMenuInternal = NULL;
     sPartyBgTilemapBuffer = NULL;
     sPartyMenuBoxes = NULL;
@@ -1059,7 +1150,21 @@ static void RenderPartyMenuBox(u8 slot)
 static void DisplayPartyPokemonData(u8 slot)
 {
     struct Pokemon *mon = GetPartyMonFromPartyMenuId(slot);
-    if (GetMonData(mon, MON_DATA_IS_EGG))
+    u16 cardId = GetMonCardId(mon);
+    const struct TcgCardInfo *info = GetTcgCardInfo(cardId);
+
+    if (info != NULL && (info->cardType == CARD_TYPE_TRAINER_ITEM || info->cardType == CARD_TYPE_TRAINER_SUPPORTER))
+    {
+        sPartyMenuBoxes[slot].infoRects->blitFunc(sPartyMenuBoxes[slot].windowId, 0, 0, 0, 0, TRUE);
+        DisplayPartyPokemonNickname(mon, &sPartyMenuBoxes[slot], 0);
+        DisplayPartyPokemonBarDetail(
+            sPartyMenuBoxes[slot].windowId,
+            (info->cardType == CARD_TYPE_TRAINER_SUPPORTER) ? COMPOUND_STRING("SUPPORTER") : COMPOUND_STRING("ITEM"),
+            0,
+            &sPartyMenuBoxes[slot].infoRects->dimensions[4]);
+        CopyWindowToVram(sPartyMenuBoxes[slot].windowId, COPYWIN_GFX);
+    }
+    else if (GetMonData(mon, MON_DATA_IS_EGG))
     {
         sPartyMenuBoxes[slot].infoRects->blitFunc(sPartyMenuBoxes[slot].windowId, 0, 0, 0, 0, TRUE);
         DisplayPartyPokemonNickname(mon, &sPartyMenuBoxes[slot], 0);
@@ -1446,8 +1551,15 @@ static void Task_ClosePartyMenuAndSetCB2(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
-        if (gPartyMenu.menuType == PARTY_MENU_TYPE_IN_BATTLE)
+        if (sIsFieldPartyBackedUp)
+        {
+            if (sPartyMenuInternal->exitCallback != CB2_ShowPokemonSummaryScreen)
+                RestoreFieldFromPartyMenu();
+        }
+        else if (gPartyMenu.menuType == PARTY_MENU_TYPE_IN_BATTLE)
+        {
             UpdatePartyToFieldOrder();
+        }
 
         if (sPartyMenuInternal->exitCallback != NULL)
             SetMainCallback2(sPartyMenuInternal->exitCallback);
@@ -1839,6 +1951,13 @@ static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir)
     case MENU_DIR_UP:
         if (*slotPtr == 0)
         {
+            if (sIsFieldPartyBackedUp && gTcgBattleState.handScrollOffset > 0)
+            {
+                gTcgBattleState.handScrollOffset--;
+                SyncHandToPartyMenu();
+                RefreshPartyMenu();
+                return;
+            }
             *slotPtr = PARTY_SIZE + 1;
         }
         else if (*slotPtr == PARTY_SIZE)
@@ -1866,6 +1985,13 @@ static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir)
         {
             if (*slotPtr == gPartiesCount[partyTrainer] - 1)
             {
+                if (sIsFieldPartyBackedUp && (gTcgBattleState.handScrollOffset + PARTY_SIZE) < gTcgBattleState.playerHandCount)
+                {
+                    gTcgBattleState.handScrollOffset++;
+                    SyncHandToPartyMenu();
+                    RefreshPartyMenu();
+                    return;
+                }
                 if (sPartyMenuInternal->chooseHalf)
                     *slotPtr = PARTY_SIZE;
                 else
@@ -3137,7 +3263,8 @@ static void CB2_ShowPokemonSummaryScreen(void)
         if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
             LoadBattlePartyCurrentOrderForLayout();
 
-        UpdatePartyToBattleOrder();
+        if (!sIsFieldPartyBackedUp)
+            UpdatePartyToBattleOrder();
 
         if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
         {
@@ -3889,6 +4016,86 @@ static void CursorCb_SendMon(u8 taskId)
 {
     PlaySE(SE_SELECT);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+
+    if (sIsFieldPartyBackedUp)
+    {
+        u8 handIndex = gTcgBattleState.handScrollOffset + gPartyMenu.slotId;
+        u16 cardId = (handIndex < gTcgBattleState.playerHandCount) ? gTcgBattleState.playerHand[handIndex] : CARD_NONE;
+        const struct TcgCardInfo *info = GetTcgCardInfo(cardId);
+
+        if (info == NULL)
+        {
+            PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+            gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+            return;
+        }
+
+        // Restore Field into gParties[B_TRAINER_PLAYER] before executing hand card effects
+        RestoreFieldFromPartyMenu();
+
+        if ((info->cardType == CARD_TYPE_TRAINER_ITEM || info->cardType == CARD_TYPE_TRAINER_SUPPORTER)
+         && cardId != CARD_MYSTERIOUS_FOSSIL && cardId != CARD_CLEFAIRY_DOLL)
+        {
+            if (!gTcgBattleState.activeMonPlaced)
+            {
+                SyncHandToPartyMenu();
+                PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+                DisplayPartyMenuMessage(COMPOUND_STRING("Choose your Active Pokémon first!"), TRUE);
+                gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+                return;
+            }
+
+            RemoveCardFromPlayerHandAt(handIndex);
+            if (ExecuteTrainerCardEffect(cardId, 0))
+            {
+                RecordDiscardedCard(B_SIDE_PLAYER, cardId);
+                UpdateSavedFieldPartyFromCurrent();
+                gSelectedMonPartyId = (cardId == CARD_SWITCH) ? 0 : PARTY_SIZE;
+                gPartyMenuUseExitCallback = (cardId == CARD_SWITCH);
+                Task_ClosePartyMenu(taskId);
+                return;
+            }
+            else
+            {
+                // Restore card back into hand on failure
+                if (gTcgBattleState.playerHandCount < 10)
+                    gTcgBattleState.playerHand[gTcgBattleState.playerHandCount++] = cardId;
+                SyncHandToPartyMenu();
+                PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+                gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+                return;
+            }
+        }
+        else
+        {
+            u8 fieldSlot = 0;
+            bool8 evolved = FALSE;
+            if (TryPlaceOrEvolveFromHand(handIndex, &fieldSlot, &evolved))
+            {
+                UpdateSavedFieldPartyFromCurrent();
+                if (fieldSlot == 0 && !evolved)
+                {
+                    gSelectedMonPartyId = 0;
+                    gPartyMenuUseExitCallback = TRUE;
+                }
+                else
+                {
+                    gSelectedMonPartyId = PARTY_SIZE;
+                    gPartyMenuUseExitCallback = FALSE;
+                }
+                Task_ClosePartyMenu(taskId);
+                return;
+            }
+            else
+            {
+                SyncHandToPartyMenu();
+                PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+                gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+                return;
+            }
+        }
+    }
+
     if (TrySwitchInPokemon() == TRUE)
     {
         Task_ClosePartyMenu(taskId);
@@ -4379,8 +4586,28 @@ bool32 SetUpFieldMove_Dive(void)
     return FALSE;
 }
 
+#define TAG_PARTY_ITEM_ICON 55200
+
 static void CreatePartyMonIconSprite(struct Pokemon *mon, struct PartyMenuBox *menuBox)
 {
+    u16 cardId = GetMonCardId(mon);
+    const struct TcgCardInfo *info = GetTcgCardInfo(cardId);
+    if (info && (info->cardType == CARD_TYPE_TRAINER_ITEM || info->cardType == CARD_TYPE_TRAINER_SUPPORTER))
+    {
+        enum Item iconItem = (info->equivItemId != ITEM_NONE) ? info->equivItemId : ITEM_POKE_BALL;
+        u16 tag = TAG_PARTY_ITEM_ICON + menuBox->windowId;
+        FreeSpriteTilesByTag(tag);
+        FreeSpritePaletteByTag(tag);
+        menuBox->monSpriteId = AddItemIconSprite(tag, tag, iconItem);
+        if (menuBox->monSpriteId != MAX_SPRITES)
+        {
+            gSprites[menuBox->monSpriteId].x = menuBox->spriteCoords[0];
+            gSprites[menuBox->monSpriteId].y = menuBox->spriteCoords[1];
+            gSprites[menuBox->monSpriteId].oam.priority = 1;
+        }
+        return;
+    }
+
     enum Species species = GetMonData(mon, MON_DATA_SPECIES);
     bool32 isEgg = GetMonData(mon, MON_DATA_IS_EGG);
     CreatePartyMonIconSpriteParameterized(species, GetMonData(mon, MON_DATA_PERSONALITY), isEgg, menuBox, 1);
@@ -4425,6 +4652,17 @@ static void UpdatePartyMonHPBar(u8 spriteId, struct Pokemon *mon)
 
 static void AnimateSelectedPartyIcon(u8 spriteId, u8 animNum)
 {
+    if (spriteId >= MAX_SPRITES)
+        return;
+
+    if (gSprites[spriteId].tileTag >= TAG_PARTY_ITEM_ICON && gSprites[spriteId].tileTag < TAG_PARTY_ITEM_ICON + PARTY_SIZE)
+    {
+        gSprites[spriteId].x2 = 0;
+        gSprites[spriteId].y2 = (animNum == 0) ? 0 : -2;
+        gSprites[spriteId].callback = SpriteCallbackDummy;
+        return;
+    }
+
     gSprites[spriteId].data[0] = 0;
     if (animNum == 0)
     {
@@ -4631,6 +4869,11 @@ static void LoadPartyMenuPokeballGfx(void)
 
 static void CreatePartyMonStatusSprite(struct Pokemon *mon, struct PartyMenuBox *menuBox)
 {
+    u16 cardId = GetMonCardId(mon);
+    const struct TcgCardInfo *info = GetTcgCardInfo(cardId);
+    if (info && (info->cardType == CARD_TYPE_TRAINER_ITEM || info->cardType == CARD_TYPE_TRAINER_SUPPORTER))
+        return;
+
     if (GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE)
     {
         menuBox->statusSpriteId = CreateSprite(&gSpriteTemplate_StatusIcons, menuBox->spriteCoords[4], menuBox->spriteCoords[5], 0);
@@ -7497,6 +7740,17 @@ static u8 GetPartyLayoutFromBattleType(void)
 
 void OpenPartyMenuInBattle(u8 partyAction)
 {
+    bool8 isHandView = (gTcgBattleState.viewingHandInPartyMenu || !gTcgBattleState.activeMonPlaced);
+    if (isHandView)
+    {
+        gTcgBattleState.handScrollOffset = 0;
+        SyncHandToPartyMenu();
+    }
+    else
+    {
+        sIsFieldPartyBackedUp = FALSE;
+    }
+
     if (IS_FRLG && !BtlCtrl_OakOldMan_TestState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
     {
         InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE, GetPartyLayoutFromBattleType(), partyAction, FALSE, PARTY_MSG_NONE, Task_FirstBattleEnterParty_WaitFadeIn, CB2_SetUpReshowBattleScreenAfterMenu);
@@ -7510,7 +7764,8 @@ void OpenPartyMenuInBattle(u8 partyAction)
             InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE, GetPartyLayoutFromBattleType(), partyAction, FALSE, PARTY_MSG_CHOOSE_MON, Task_HandleChooseMonInput, CB2_SetUpReshowBattleScreenAfterMenu);
     }
     ReshowBattleScreenDummy();
-    UpdatePartyToBattleOrder();
+    if (!isHandView)
+        UpdatePartyToBattleOrder();
 }
 
 void ChooseMonForInBattleItem(void)
@@ -7522,7 +7777,10 @@ void ChooseMonForInBattleItem(void)
 
 static u8 GetPartyMenuActionsTypeInBattle(struct Pokemon *mon)
 {
-    if (GetMonData(&gParties[B_TRAINER_PLAYER][1], MON_DATA_SPECIES) != SPECIES_NONE
+    if (sIsFieldPartyBackedUp)
+        return ACTIONS_SEND_OUT;
+
+    if ((GetMonData(&gParties[B_TRAINER_PLAYER][1], MON_DATA_SPECIES) != SPECIES_NONE || gPartyMenu.action == PARTY_ACTION_SEND_OUT)
      && GetMonData(mon, MON_DATA_IS_EGG) == FALSE
      && gPartyMenu.layout != PARTY_LAYOUT_MULTI_FULL_PARTNER)
     {
@@ -7552,21 +7810,36 @@ static bool8 TrySwitchInPokemon(void)
         StringExpandPlaceholders(gStringVar4, gText_CantSwitchWithAlly);
         return FALSE;
     }
+    // TCG Pocket: During opening hand placement, only Basic Pokémon can be chosen as Active
+    u16 cardId = GetMonData(&party[partySlot], MON_DATA_EXP);
+    const struct TcgCardInfo *info = GetTcgCardInfo(cardId);
+    if (gPartyMenu.action == PARTY_ACTION_SEND_OUT && !gTcgBattleState.activeMonPlaced)
+    {
+        if (info && (info->cardType != CARD_TYPE_POKEMON_BASIC || info->cardId == CARD_MYSTERIOUS_FOSSIL))
+        {
+            StringCopy(gStringVar4, COMPOUND_STRING("Only Basic Pokémon can battle!"));
+            return FALSE;
+        }
+    }
+
     if (GetMonData(&party[partySlot], MON_DATA_HP) == 0)
     {
         GetMonNickname(&party[partySlot], gStringVar1);
         StringExpandPlaceholders(gStringVar4, gText_PkmnHasNoEnergy);
         return FALSE;
     }
-    for (enum BattlerId i = 0; i < gBattlersCount; i++)
+    if (gTcgBattleState.activeMonPlaced)
     {
-        if (IsOnPlayerSide(i)
-         && GetBattlerParty(i) == party
-         && CombinedToIndividualPartyId(battlePartyId) == gBattlerPartyIndexes[i])
+        for (enum BattlerId i = 0; i < gBattlersCount; i++)
         {
-            GetMonNickname(&party[partySlot], gStringVar1);
-            StringExpandPlaceholders(gStringVar4, gText_PkmnAlreadyInBattle);
-            return FALSE;
+            if (IsOnPlayerSide(i)
+             && GetBattlerParty(i) == party
+             && CombinedToIndividualPartyId(battlePartyId) == gBattlerPartyIndexes[i])
+            {
+                GetMonNickname(&party[partySlot], gStringVar1);
+                StringExpandPlaceholders(gStringVar4, gText_PkmnAlreadyInBattle);
+                return FALSE;
+            }
         }
     }
     if (GetMonData(&party[partySlot], MON_DATA_IS_EGG))
@@ -7599,6 +7872,8 @@ static bool8 TrySwitchInPokemon(void)
     GetPartyAndSlotFromPartyMenuId(newSlot, &party, &newPartySlot);
     SwitchPartyMonSlots(newSlot, slot);
     SwapPartyPokemon(&party[newPartySlot], &party[partySlot]);
+    if (newPartySlot < 4 && partySlot < 4)
+        SwapSlotEnergies(B_SIDE_PLAYER, newPartySlot, partySlot);
 
     return TRUE;
 }

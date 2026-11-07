@@ -1,4 +1,5 @@
 #include "global.h"
+#include "tcg.h"
 #include "malloc.h"
 #include "bg.h"
 #include "data.h"
@@ -33,6 +34,7 @@
 #include "string_util.h"
 #include "strings.h"
 #include "text.h"
+#include "tcg.h"
 #include "text_window.h"
 #include "trig.h"
 #include "walda_phrase.h"
@@ -70,9 +72,9 @@ enum {
     OPTION_DEPOSIT,
     OPTION_WITHDRAW,
 #endif
-    OPTION_MOVE_ITEMS,
     OPTION_EXIT,
     OPTIONS_COUNT,
+    OPTION_MOVE_ITEMS,
     OPTION_SELECT_MON
 };
 
@@ -110,6 +112,11 @@ enum {
     MSG_ITEM_IS_HELD,
     MSG_CHANGED_TO_ITEM,
     MSG_CANT_STORE_MAIL,
+    MSG_DECK_SET_CURRENT,
+    MSG_DECK_INVALID,
+    MSG_DECK_FULL,
+    MSG_CARD_ADDED,
+    MSG_CARD_LIMIT,
 };
 
 // IDs for how to resolve variables in the above messages
@@ -166,6 +173,8 @@ enum {
     MENU_MACHINE,
     MENU_SIMPLE,
     MENU_SELECT,
+    MENU_SET_CURRENT,
+    MENU_ADD_CARDS,
 };
 #define MENU_WALLPAPER_SETS_START MENU_SCENERY_1
 #define MENU_WALLPAPERS_START MENU_FOREST
@@ -868,11 +877,10 @@ struct {
     const u8 *desc;
 } static const sMainMenuTexts[OPTIONS_COUNT] =
 {
-    [OPTION_WITHDRAW]   = {COMPOUND_STRING("WITHDRAW POKéMON"), COMPOUND_STRING("Move POKéMON stored in BOXES to\nyour party.")},
-    [OPTION_DEPOSIT]    = {COMPOUND_STRING("DEPOSIT POKéMON"),  COMPOUND_STRING("Store POKéMON in your party in BOXES.")},
-    [OPTION_MOVE_MONS]  = {COMPOUND_STRING("MOVE POKéMON"),     COMPOUND_STRING("Organize the POKéMON in BOXES and\nin your party.")},
-    [OPTION_MOVE_ITEMS] = {COMPOUND_STRING("MOVE ITEMS"),       COMPOUND_STRING("Move items held by any POKéMON\nin a BOX or your party.")},
-    [OPTION_EXIT]       = {COMPOUND_STRING("SEE YA!"),          COMPOUND_STRING("Return to the previous menu.")}
+    [OPTION_WITHDRAW]   = {COMPOUND_STRING("DEFAULT DECKS"), COMPOUND_STRING("View and select unlocked\ndefault decks.")},
+    [OPTION_DEPOSIT]    = {COMPOUND_STRING("CUSTOM DECKS"),  COMPOUND_STRING("Build and edit your own\n20-card custom decks.")},
+    [OPTION_MOVE_MONS]  = {COMPOUND_STRING("CURRENT DECK"),  COMPOUND_STRING("View the 20 cards in your\ncurrent active deck.")},
+    [OPTION_EXIT]       = {COMPOUND_STRING("SEE YA!"),       COMPOUND_STRING("Return to the previous menu.")}
 };
 
 static const struct WindowTemplate sWindowTemplate_MainMenu =
@@ -881,7 +889,7 @@ static const struct WindowTemplate sWindowTemplate_MainMenu =
     .tilemapLeft = 1,
     .tilemapTop = 1,
     .width = 17,
-    .height = 10,
+    .height = 8,
     .paletteNum = 15,
     .baseBlock = 0x1,
 };
@@ -1081,6 +1089,11 @@ static const struct StorageMessage sMessages[] =
     [MSG_ITEM_IS_HELD]           = {COMPOUND_STRING("{DYNAMIC 0} is now held."),   MSG_VAR_ITEM_NAME},
     [MSG_CHANGED_TO_ITEM]        = {COMPOUND_STRING("Changed to {DYNAMIC 0}."),    MSG_VAR_ITEM_NAME},
     [MSG_CANT_STORE_MAIL]        = {COMPOUND_STRING("MAIL can't be stored!"),      MSG_VAR_NONE},
+    [MSG_DECK_SET_CURRENT]       = {COMPOUND_STRING("Set as CURRENT DECK!"),       MSG_VAR_NONE},
+    [MSG_DECK_INVALID]           = {COMPOUND_STRING("Need 20 owned cards & Basic!"), MSG_VAR_NONE},
+    [MSG_DECK_FULL]              = {COMPOUND_STRING("This DECK has 20 cards!"),    MSG_VAR_NONE},
+    [MSG_CARD_ADDED]             = {COMPOUND_STRING("Added card to DECK!"),        MSG_VAR_NONE},
+    [MSG_CARD_LIMIT]             = {COMPOUND_STRING("Max 2 copies or 20 cards!"),  MSG_VAR_NONE},
 };
 
 static const struct WindowTemplate sYesNoWindowTemplate =
@@ -1556,26 +1569,8 @@ static void Task_PCMainMenu(u8 taskId)
             DestroyTask(taskId);
             break;
         default:
-            if (task->tInput == OPTION_WITHDRAW && CountPartyMons() == PARTY_SIZE)
-            {
-                // Can't withdraw
-                FillWindowPixelBuffer(0, PIXEL_FILL(1));
-                AddTextPrinterParameterized2(0, FONT_NORMAL, gText_PartyFull, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-                task->tState = STATE_ERROR_MSG;
-            }
-            else if (task->tInput == OPTION_DEPOSIT && CountPartyMons() == 1)
-            {
-                // Can't deposit
-                FillWindowPixelBuffer(0, PIXEL_FILL(1));
-                AddTextPrinterParameterized2(0, FONT_NORMAL, gText_JustOnePkmn, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-                task->tState = STATE_ERROR_MSG;
-            }
-            else
-            {
-                // Enter PC
-                FadeScreen(FADE_TO_BLACK, 0);
-                task->tState = STATE_ENTER_PC;
-            }
+            FadeScreen(FADE_TO_BLACK, 0);
+            task->tState = STATE_ENTER_PC;
             break;
         }
         break;
@@ -1613,7 +1608,29 @@ static void Task_PCMainMenu(u8 taskId)
         if (!gPaletteFade.active)
         {
             CleanupOverworldWindowsAndTilemaps();
-            EnterPokeStorage(task->tInput);
+            EnsureStarterDeckCardsInBag();
+            if (task->tInput == OPTION_WITHDRAW)
+            {
+                gTcgBattleState.pcStorageMode = TCG_PC_MODE_DEFAULT_DECKS;
+                SyncDefaultDecksToBoxes();
+                EnterPokeStorage(OPTION_SELECT_MON);
+            }
+            else if (task->tInput == OPTION_DEPOSIT)
+            {
+                gTcgBattleState.pcStorageMode = TCG_PC_MODE_CUSTOM_DECKS;
+                SyncCustomDecksToBoxes();
+                EnterPokeStorage(OPTION_MOVE_MONS);
+            }
+            else if (task->tInput == OPTION_MOVE_MONS)
+            {
+                gTcgBattleState.pcStorageMode = TCG_PC_MODE_VIEW_ONLY;
+                SyncCurrentDeckToBox0();
+                EnterPokeStorage(OPTION_SELECT_MON);
+            }
+            else
+            {
+                EnterPokeStorage(task->tInput);
+            }
             RemoveWindow(task->tWindowId);
             DestroyTask(taskId);
         }
@@ -1664,7 +1681,14 @@ static void CreateMainMenu(u8 whichMenu, s16 *windowIdPtr)
 
 static void CB2_ExitPokeStorage(void)
 {
-    sPreviousBoxOption = GetCurrentBoxOption();
+    if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_DEFAULT_DECKS)
+        sPreviousBoxOption = OPTION_WITHDRAW;
+    else if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_CUSTOM_DECKS)
+        sPreviousBoxOption = OPTION_DEPOSIT;
+    else if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_VIEW_ONLY)
+        sPreviousBoxOption = OPTION_MOVE_MONS;
+    else
+        sPreviousBoxOption = 0;
     gFieldCallback = FieldTask_ReturnToPcMenu;
     SetMainCallback2(CB2_ReturnToField);
 }
@@ -1971,6 +1995,17 @@ static void CB2_PokeStorage(void)
     BuildOamBuffer();
 }
 
+static MainCallback sPokeStorageExitCallback = NULL;
+
+void ShowDeckStorageSystem(MainCallback exitCallback)
+{
+    gTcgBattleState.pcStorageMode = TCG_PC_MODE_VIEW_ONLY;
+    EnsureStarterDeckCardsInBag();
+    SyncCurrentDeckToBox0();
+    sPokeStorageExitCallback = exitCallback;
+    EnterPokeStorage(OPTION_SELECT_MON);
+}
+
 static void EnterPokeStorage(u8 boxOption)
 {
     ResetTasks();
@@ -1978,7 +2013,13 @@ static void EnterPokeStorage(u8 boxOption)
     sStorage = Alloc(sizeof(*sStorage));
     if (sStorage == NULL)
     {
-        if (boxOption == OPTION_SELECT_MON)
+        if (sPokeStorageExitCallback != NULL)
+        {
+            MainCallback cb = sPokeStorageExitCallback;
+            sPokeStorageExitCallback = NULL;
+            SetMainCallback2(cb);
+        }
+        else if (boxOption == OPTION_SELECT_MON)
             SetMainCallback2(CB2_ReturnToFieldContinueScript);
         else
             SetMainCallback2(CB2_ExitPokeStorage);
@@ -2206,7 +2247,17 @@ static void Task_ReshowPokeStorage(u8 taskId)
         {
             if (sWhichToReshow == SCREEN_CHANGE_ITEM_FROM_BAG - 1 && gSpecialVar_ItemId != ITEM_NONE)
             {
-                PrintMessage(MSG_ITEM_IS_HELD);
+                if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_CUSTOM_DECKS)
+                {
+                    if (gSpecialVar_Result == TRUE)
+                        PrintMessage(MSG_CARD_ADDED);
+                    else
+                        PrintMessage(MSG_CARD_LIMIT);
+                }
+                else
+                {
+                    PrintMessage(MSG_ITEM_IS_HELD);
+                }
                 sStorage->state++;
             }
             else
@@ -2513,6 +2564,35 @@ static void Task_PokeStorageMain(u8 taskId)
     }
 }
 
+static bool8 TrySetCurrentDeckFromBox(u8 boxId)
+{
+    if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_DEFAULT_DECKS)
+    {
+        u8 deckIdx = GetUnlockedDefaultDeckIndexForBox(boxId);
+        if (deckIdx < 32 && CanBuildDefaultDeck(deckIdx) && ValidateDeck(&gDefaultDecks[deckIdx]))
+        {
+            gSaveBlock1Ptr->isCurrentDeckDefault = TRUE;
+            gSaveBlock1Ptr->currentDeckIndex = deckIdx;
+            return TRUE;
+        }
+        return FALSE;
+    }
+    else if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_CUSTOM_DECKS)
+    {
+        SaveBoxesToCustomDecks();
+        if (boxId < MAX_CUSTOM_DECKS
+            && CanBuildCustomDeck(&gSaveBlock1Ptr->customDecks[boxId])
+            && ValidateDeck(&gSaveBlock1Ptr->customDecks[boxId]))
+        {
+            gSaveBlock1Ptr->isCurrentDeckDefault = FALSE;
+            gSaveBlock1Ptr->currentDeckIndex = boxId;
+            return TRUE;
+        }
+        return FALSE;
+    }
+    return FALSE;
+}
+
 static void Task_ShowPartyPokemon(u8 taskId)
 {
     switch (sStorage->state)
@@ -2688,6 +2768,35 @@ static void Task_OnSelectedMon(u8 taskId)
             break;
         case MENU_INFO:
             SetPokeStorageTask(Task_ShowItemInfo);
+            break;
+        case MENU_SET_CURRENT:
+            if (TrySetCurrentDeckFromBox(StorageGetCurrentBox()))
+            {
+                PlaySE(SE_SELECT);
+                PrintMessage(MSG_DECK_SET_CURRENT);
+                sStorage->state = 6;
+            }
+            else
+            {
+                PlaySE(SE_FAILURE);
+                PrintMessage(MSG_DECK_INVALID);
+                sStorage->state = 6;
+            }
+            break;
+        case MENU_ADD_CARDS:
+            if (CountMonsInBox(StorageGetCurrentBox()) >= TCG_DECK_SIZE)
+            {
+                PlaySE(SE_FAILURE);
+                PrintMessage(MSG_DECK_FULL);
+                sStorage->state = 6;
+            }
+            else
+            {
+                PlaySE(SE_SELECT);
+                gSpecialVar_ItemId = ITEM_NONE;
+                gSpecialVar_Result = FALSE;
+                SetPokeStorageTask(Task_GiveItemFromBag);
+            }
             break;
         case MENU_SELECT:
             PlaySE(SE_SELECT);
@@ -3419,6 +3528,44 @@ static void Task_HandleBoxOptions(u8 taskId)
             ClearBottomWindow();
             SetPokeStorageTask(Task_JumpBox);
             break;
+        case MENU_SET_CURRENT:
+            AnimateBoxScrollArrows(TRUE);
+            if (TrySetCurrentDeckFromBox(StorageGetCurrentBox()))
+            {
+                PlaySE(SE_SELECT);
+                PrintMessage(MSG_DECK_SET_CURRENT);
+                sStorage->state = 3;
+            }
+            else
+            {
+                PlaySE(SE_FAILURE);
+                PrintMessage(MSG_DECK_INVALID);
+                sStorage->state = 3;
+            }
+            break;
+        case MENU_ADD_CARDS:
+            AnimateBoxScrollArrows(TRUE);
+            if (CountMonsInBox(StorageGetCurrentBox()) >= TCG_DECK_SIZE)
+            {
+                PlaySE(SE_FAILURE);
+                PrintMessage(MSG_DECK_FULL);
+                sStorage->state = 3;
+            }
+            else
+            {
+                PlaySE(SE_SELECT);
+                gSpecialVar_ItemId = ITEM_NONE;
+                gSpecialVar_Result = FALSE;
+                SetPokeStorageTask(Task_GiveItemFromBag);
+            }
+            break;
+        }
+        break;
+    case 3:
+        if (JOY_NEW(A_BUTTON | B_BUTTON | DPAD_ANY))
+        {
+            ClearBottomWindow();
+            SetPokeStorageTask(Task_PokeStorageMain);
         }
         break;
     }
@@ -3667,6 +3814,8 @@ static void Task_OnCloseBoxPressed(u8 taskId)
     case 4:
         if (!IsComputerScreenCloseEffectActive())
         {
+            if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_CUSTOM_DECKS)
+                SaveBoxesToCustomDecks();
             UpdateBoxToSendMons();
             gPartiesCount[B_TRAINER_PLAYER] = CalculatePlayerPartyCount();
             if (sStorage->boxOption == OPTION_SELECT_MON)
@@ -3745,6 +3894,8 @@ static void Task_OnBPressed(u8 taskId)
     case 4:
         if (!IsComputerScreenCloseEffectActive())
         {
+            if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_CUSTOM_DECKS)
+                SaveBoxesToCustomDecks();
             UpdateBoxToSendMons();
             gPartiesCount[B_TRAINER_PLAYER] = CalculatePlayerPartyCount();
             if (sStorage->boxOption == OPTION_SELECT_MON)
@@ -3774,10 +3925,15 @@ static void Task_ChangeScreen(u8 taskId)
     {
     case SCREEN_CHANGE_EXIT_BOX:
     default:
-        if (sStorage->boxOption == OPTION_SELECT_MON)
-            SetMainCallback2(CB2_ReturnToFieldContinueScript);
-        else
-            SetMainCallback2(CB2_ExitPokeStorage);
+        if (sPokeStorageExitCallback != NULL)
+        {
+            MainCallback cb = sPokeStorageExitCallback;
+            sPokeStorageExitCallback = NULL;
+            FreePokeStorageData();
+            SetMainCallback2(cb);
+            break;
+        }
+        SetMainCallback2(CB2_ExitPokeStorage);
         FreePokeStorageData();
         break;
     case SCREEN_CHANGE_SUMMARY_SCREEN:
@@ -3807,6 +3963,21 @@ static void GiveChosenBagItem(void)
 
     if (itemId != ITEM_NONE)
     {
+        if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_CUSTOM_DECKS)
+        {
+            u8 boxId = StorageGetCurrentBox();
+            if (TryAddCardToCustomDeckBox(boxId, itemId))
+            {
+                SaveBoxesToCustomDecks();
+                gSpecialVar_Result = TRUE;
+            }
+            else
+            {
+                gSpecialVar_Result = FALSE;
+            }
+            return;
+        }
+
         u8 pos = GetCursorPosition();
         if (sInPartyMenu)
         {
@@ -4010,10 +4181,37 @@ static void LoadDisplayMonGfx(enum Species species, u32 pid, bool32 isEgg)
 
     if (species != SPECIES_NONE)
     {
-        LoadSpecialPokePicIsEgg(sStorage->tileBuffer, species, pid, TRUE, isEgg);
-        CpuCopy32(sStorage->tileBuffer, sStorage->displayMonTilePtr, MON_PIC_SIZE);
-        LoadPalette(sStorage->displayMonPalette, sStorage->displayMonPalOffset, PLTT_SIZE_4BPP);
-        sStorage->displayMonSprite->invisible = FALSE;
+        u32 cardId = 0;
+        if (sCursorArea == CURSOR_AREA_IN_BOX)
+            cardId = GetBoxMonDataAt(StorageGetCurrentBox(), sCursorPosition, MON_DATA_EXP);
+        else if (sCursorArea == CURSOR_AREA_IN_PARTY)
+            cardId = GetMonData(&gParties[B_TRAINER_PLAYER][sCursorPosition], MON_DATA_EXP);
+
+        const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
+        if (cardInfo && (cardInfo->cardType == CARD_TYPE_TRAINER_ITEM || cardInfo->cardType == CARD_TYPE_TRAINER_SUPPORTER) && cardInfo->equivItemId != ITEM_NONE)
+        {
+            memset(sStorage->tileBuffer, 0, MON_PIC_SIZE);
+            u8 decompBuffer[0x120];
+            DecompressDataWithHeaderWram(GetItemIconPic(cardInfo->equivItemId), decompBuffer);
+            for (u32 ty = 0; ty < 3; ty++)
+            {
+                for (u32 tx = 0; tx < 3; tx++)
+                {
+                    u32 dstTile = (2 + ty) * 8 + (2 + tx);
+                    memcpy(&sStorage->tileBuffer[dstTile * 32], &decompBuffer[(ty * 3 + tx) * 32], 32);
+                }
+            }
+            CpuCopy32(sStorage->tileBuffer, sStorage->displayMonTilePtr, MON_PIC_SIZE);
+            LoadPalette(GetItemIconPalette(cardInfo->equivItemId), sStorage->displayMonPalOffset, PLTT_SIZE_4BPP);
+            sStorage->displayMonSprite->invisible = FALSE;
+        }
+        else
+        {
+            LoadSpecialPokePicIsEgg(sStorage->tileBuffer, species, pid, TRUE, isEgg);
+            CpuCopy32(sStorage->tileBuffer, sStorage->displayMonTilePtr, MON_PIC_SIZE);
+            LoadPalette(sStorage->displayMonPalette, sStorage->displayMonPalOffset, PLTT_SIZE_4BPP);
+            sStorage->displayMonSprite->invisible = FALSE;
+        }
     }
     else
     {
@@ -4403,7 +4601,7 @@ static void AddWallpapersMenu(u8 wallpaperSet)
     AddMenu();
 }
 
-static u8 GetCurrentBoxOption(void)
+static UNUSED u8 GetCurrentBoxOption(void)
 {
     return sCurrentBoxOption;
 }
@@ -4470,6 +4668,36 @@ static void CreateMovingMonIcon(void)
 
 static bool32 ShouldBoxmonSpriteBeTransparent(u32 boxId, u32 boxPosition)
 {
+    u16 cardId = (u16)(GetBoxMonDataAt(boxId, boxPosition, MON_DATA_EXP) & 0xFFFF);
+    if (cardId != 0)
+    {
+        u32 copyIdx = 0;
+        for (u32 pos = 0; pos <= boxPosition; pos++)
+        {
+            u16 cId = (u16)(GetBoxMonDataAt(boxId, pos, MON_DATA_EXP) & 0xFFFF);
+            if (cId == cardId)
+                copyIdx++;
+        }
+
+        if (gMain.inBattle)
+        {
+            u32 remainingInDeck = 0;
+            for (u32 i = 0; i < gTcgBattleState.playerDeckRemainingCount; i++)
+            {
+                if (gTcgBattleState.playerDeckRemaining[i] == cardId)
+                    remainingInDeck++;
+            }
+            if (copyIdx > remainingInDeck)
+                return TRUE;
+            return FALSE;
+        }
+        else
+        {
+            if (GetCardQuantityInBag(cardId) < copyIdx)
+                return TRUE;
+        }
+    }
+
     if (sStorage->boxOption == OPTION_MOVE_ITEMS
      && GetBoxMonDataAt(boxId, boxPosition, MON_DATA_HELD_ITEM) == ITEM_NONE)
         return TRUE;
@@ -4501,8 +4729,25 @@ static void InitBoxMonSprites(u8 boxId)
                 personality = GetBoxMonDataAt(boxId, boxPosition, MON_DATA_PERSONALITY);
                 sStorage->boxMonsSprites[count] = CreateMonIconSprite(species, personality, 8 * (3 * j) + 100, 8 * (3 * i) + 44, 2, 19 - j, isEgg);
 
-                if (ShouldBoxmonSpriteBeTransparent(boxId, boxPosition))
-                    sStorage->boxMonsSprites[boxPosition]->oam.objMode = ST_OAM_OBJ_BLEND;
+                if (sStorage->boxMonsSprites[boxPosition] != NULL)
+                {
+                    if (ShouldBoxmonSpriteBeTransparent(boxId, boxPosition))
+                        sStorage->boxMonsSprites[boxPosition]->oam.objMode = ST_OAM_OBJ_BLEND;
+
+                    u32 cardId = GetBoxMonDataAt(boxId, boxPosition, MON_DATA_EXP);
+                    const struct TcgCardInfo *info = GetTcgCardInfo(cardId);
+                    if (info && (info->cardType == CARD_TYPE_TRAINER_ITEM || info->cardType == CARD_TYPE_TRAINER_SUPPORTER) && info->equivItemId != ITEM_NONE)
+                    {
+                        ALIGNED(4) u8 decompBuffer[0x120];
+                        ALIGNED(4) u8 buffer4x4[0x200];
+                        DecompressDataWithHeaderWram(GetItemIconPic(info->equivItemId), decompBuffer);
+                        CopyItemIconPicTo4x4Buffer(decompBuffer, buffer4x4);
+                        u16 tileNum = sStorage->boxMonsSprites[boxPosition]->oam.tileNum;
+                        CpuCopy32(buffer4x4, (void *)(OBJ_VRAM0) + tileNum * TILE_SIZE_4BPP, 0x200);
+                        u8 palIndex = sStorage->boxMonsSprites[boxPosition]->oam.paletteNum;
+                        LoadPalette(GetItemIconPalette(info->equivItemId), OBJ_PLTT_ID(palIndex), 0x20);
+                    }
+                }
             }
             else
             {
@@ -4526,8 +4771,25 @@ static void CreateBoxMonIconAtPos(u8 boxPosition)
         u32 personality = GetCurrentBoxMonData(boxPosition, MON_DATA_PERSONALITY);
 
         sStorage->boxMonsSprites[boxPosition] = CreateMonIconSprite(species, personality, x, y, 2, 19 - (boxPosition % IN_BOX_COLUMNS), isEgg);
-        if (ShouldBoxmonSpriteBeTransparent(StorageGetCurrentBox(), boxPosition))
-            sStorage->boxMonsSprites[boxPosition]->oam.objMode = ST_OAM_OBJ_BLEND;
+        if (sStorage->boxMonsSprites[boxPosition] != NULL)
+        {
+            if (ShouldBoxmonSpriteBeTransparent(StorageGetCurrentBox(), boxPosition))
+                sStorage->boxMonsSprites[boxPosition]->oam.objMode = ST_OAM_OBJ_BLEND;
+
+            u32 cardId = GetCurrentBoxMonData(boxPosition, MON_DATA_EXP);
+            const struct TcgCardInfo *info = GetTcgCardInfo(cardId);
+            if (info && (info->cardType == CARD_TYPE_TRAINER_ITEM || info->cardType == CARD_TYPE_TRAINER_SUPPORTER) && info->equivItemId != ITEM_NONE)
+            {
+                ALIGNED(4) u8 decompBuffer[0x120];
+                ALIGNED(4) u8 buffer4x4[0x200];
+                DecompressDataWithHeaderWram(GetItemIconPic(info->equivItemId), decompBuffer);
+                CopyItemIconPicTo4x4Buffer(decompBuffer, buffer4x4);
+                u16 tileNum = sStorage->boxMonsSprites[boxPosition]->oam.tileNum;
+                CpuCopy32(buffer4x4, (void *)(OBJ_VRAM0) + tileNum * TILE_SIZE_4BPP, 0x200);
+                u8 palIndex = sStorage->boxMonsSprites[boxPosition]->oam.paletteNum;
+                LoadPalette(GetItemIconPalette(info->equivItemId), OBJ_PLTT_ID(palIndex), 0x20);
+            }
+        }
     }
 }
 
@@ -4632,6 +4894,20 @@ static u8 CreateBoxMonIconsInColumn(u8 column, u16 distance, s16 speed)
                 sStorage->boxMonsSprites[boxPosition]->callback = SpriteCB_BoxMonIconScrollIn;
                 if (ShouldBoxmonSpriteBeTransparent(sStorage->incomingBoxId, boxPosition))
                     sStorage->boxMonsSprites[boxPosition]->oam.objMode = ST_OAM_OBJ_BLEND;
+
+                u32 cardId = GetBoxMonDataAt(sStorage->incomingBoxId, boxPosition, MON_DATA_EXP);
+                const struct TcgCardInfo *info = GetTcgCardInfo(cardId);
+                if (info && (info->cardType == CARD_TYPE_TRAINER_ITEM || info->cardType == CARD_TYPE_TRAINER_SUPPORTER) && info->equivItemId != ITEM_NONE)
+                {
+                    ALIGNED(4) u8 decompBuffer[0x120];
+                    ALIGNED(4) u8 buffer4x4[0x200];
+                    DecompressDataWithHeaderWram(GetItemIconPic(info->equivItemId), decompBuffer);
+                    CopyItemIconPicTo4x4Buffer(decompBuffer, buffer4x4);
+                    u16 tileNum = sStorage->boxMonsSprites[boxPosition]->oam.tileNum;
+                    CpuCopy32(buffer4x4, (void *)(OBJ_VRAM0) + tileNum * TILE_SIZE_4BPP, 0x200);
+                    u8 palIndex = sStorage->boxMonsSprites[boxPosition]->oam.paletteNum;
+                    LoadPalette(GetItemIconPalette(info->equivItemId), OBJ_PLTT_ID(palIndex), 0x20);
+                }
                 iconsCreated++;
             }
         }
@@ -6475,6 +6751,8 @@ static void SetPlacedMonData(u8 boxId, u8 position)
     {
         SetBoxMonAt(boxId, position, &sStorage->movingMon.box);
         SetMonFormPSS(&gPokemonStoragePtr->boxes[boxId][position], FORM_CHANGE_DEPOSIT);
+        if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_CUSTOM_DECKS)
+            SaveBoxesToCustomDecks();
     }
 }
 
@@ -6589,6 +6867,8 @@ static void ReleaseMon(void)
         if (item != ITEM_NONE)
             AddBagItem(item, 1);
     }
+    if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_CUSTOM_DECKS)
+        SaveBoxesToCustomDecks();
     TryRefreshDisplayMon();
 }
 
@@ -6636,6 +6916,13 @@ static void GetRestrictedReleaseMoves(u16 *moves)
 
 static void InitCanReleaseMonVars(void)
 {
+    if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_CUSTOM_DECKS)
+    {
+        sStorage->releaseStatusResolved = TRUE;
+        sStorage->canReleaseMon = TRUE;
+        return;
+    }
+
     if (!AtLeastThreeUsableMons())
     {
         // The player only has 1 or 2 usable
@@ -7081,50 +7368,68 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
 
         StringCopyPadded(sStorage->displayMonNameText, sStorage->displayMonName, CHAR_SPACE, 5);
 
-        txtPtr = sStorage->displayMonSpeciesName;
-        *(txtPtr++) = CHAR_SLASH;
-        StringCopyPadded(txtPtr, GetSpeciesName(sStorage->displayMonSpecies), CHAR_SPACE, 5);
+        u32 cardId = 0;
+        if (sCursorArea == CURSOR_AREA_IN_BOX)
+            cardId = GetBoxMonDataAt(StorageGetCurrentBox(), sCursorPosition, MON_DATA_EXP);
+        else if (sCursorArea == CURSOR_AREA_IN_PARTY)
+            cardId = GetMonData(&gParties[B_TRAINER_PLAYER][sCursorPosition], MON_DATA_EXP);
 
-        txtPtr = sStorage->displayMonGenderLvlText;
-        *(txtPtr++) = EXT_CTRL_CODE_BEGIN;
-        *(txtPtr++) = EXT_CTRL_CODE_BACKGROUND;
-        *(txtPtr++) = TEXT_COLOR_WHITE;
-        *(txtPtr++) = EXT_CTRL_CODE_BEGIN;
-        *(txtPtr++) = EXT_CTRL_CODE_TEXT_COLORS;
-        switch (gender)
+        const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
+        if (cardInfo && (cardInfo->cardType == CARD_TYPE_TRAINER_ITEM || cardInfo->cardType == CARD_TYPE_TRAINER_SUPPORTER))
         {
-        case MON_MALE:
-            *(txtPtr++) = TEXT_COLOR_RED;
-            *(txtPtr++) = TEXT_COLOR_LIGHT_RED;
+            if (cardInfo->cardType == CARD_TYPE_TRAINER_SUPPORTER)
+                StringCopy(sStorage->displayMonSpeciesName, COMPOUND_STRING("/SUPPORT"));
+            else
+                StringCopy(sStorage->displayMonSpeciesName, COMPOUND_STRING("/ITEM"));
+            StringCopy(sStorage->displayMonGenderLvlText, COMPOUND_STRING("CARD"));
+        }
+        else
+        {
+            txtPtr = sStorage->displayMonSpeciesName;
+            *(txtPtr++) = CHAR_SLASH;
+            StringCopyPadded(txtPtr, GetSpeciesName(sStorage->displayMonSpecies), CHAR_SPACE, 5);
+
+            txtPtr = sStorage->displayMonGenderLvlText;
+            *(txtPtr++) = EXT_CTRL_CODE_BEGIN;
+            *(txtPtr++) = EXT_CTRL_CODE_BACKGROUND;
             *(txtPtr++) = TEXT_COLOR_WHITE;
-            *(txtPtr++) = CHAR_MALE;
-            break;
-        case MON_FEMALE:
-            *(txtPtr++) = TEXT_COLOR_GREEN;
-            *(txtPtr++) = TEXT_COLOR_LIGHT_GREEN;
-            *(txtPtr++) = TEXT_COLOR_WHITE;
-            *(txtPtr++) = CHAR_FEMALE;
-            break;
-        default:
+            *(txtPtr++) = EXT_CTRL_CODE_BEGIN;
+            *(txtPtr++) = EXT_CTRL_CODE_TEXT_COLORS;
+            switch (gender)
+            {
+            case MON_MALE:
+                *(txtPtr++) = TEXT_COLOR_RED;
+                *(txtPtr++) = TEXT_COLOR_LIGHT_RED;
+                *(txtPtr++) = TEXT_COLOR_WHITE;
+                *(txtPtr++) = CHAR_MALE;
+                break;
+            case MON_FEMALE:
+                *(txtPtr++) = TEXT_COLOR_GREEN;
+                *(txtPtr++) = TEXT_COLOR_LIGHT_GREEN;
+                *(txtPtr++) = TEXT_COLOR_WHITE;
+                *(txtPtr++) = CHAR_FEMALE;
+                break;
+            default:
+                *(txtPtr++) = TEXT_COLOR_DARK_GRAY;
+                *(txtPtr++) = TEXT_COLOR_LIGHT_GRAY;
+                *(txtPtr++) = TEXT_COLOR_WHITE;
+                *(txtPtr++) = CHAR_SPACER; // Genderless
+                break;
+            }
+
+            *(txtPtr++) = EXT_CTRL_CODE_BEGIN;
+            *(txtPtr++) = EXT_CTRL_CODE_TEXT_COLORS;
             *(txtPtr++) = TEXT_COLOR_DARK_GRAY;
             *(txtPtr++) = TEXT_COLOR_LIGHT_GRAY;
             *(txtPtr++) = TEXT_COLOR_WHITE;
-            *(txtPtr++) = CHAR_SPACER; // Genderless
-            break;
+            *(txtPtr++) = CHAR_SPACE;
+            *(txtPtr++) = CHAR_EXTRA_SYMBOL;
+            *(txtPtr++) = CHAR_LV_2;
+
+            txtPtr = ConvertIntToDecimalStringN(txtPtr, sStorage->displayMonLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
+            txtPtr[0] = CHAR_SPACE;
+            txtPtr[1] = EOS;
         }
-
-        *(txtPtr++) = EXT_CTRL_CODE_BEGIN;
-        *(txtPtr++) = EXT_CTRL_CODE_TEXT_COLORS;
-        *(txtPtr++) = TEXT_COLOR_DARK_GRAY;
-        *(txtPtr++) = TEXT_COLOR_LIGHT_GRAY;
-        *(txtPtr++) = TEXT_COLOR_WHITE;
-        *(txtPtr++) = CHAR_SPACE;
-        *(txtPtr++) = CHAR_EXTRA_SYMBOL;
-        *(txtPtr++) = CHAR_LV_2;
-
-        txtPtr = ConvertIntToDecimalStringN(txtPtr, sStorage->displayMonLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
-        txtPtr[0] = CHAR_SPACE;
-        txtPtr[1] = EOS;
 
         if (sStorage->displayMonItemId != ITEM_NONE)
             StringCopyPadded(sStorage->displayMonItemName, GetItemName(sStorage->displayMonItemId), CHAR_SPACE, 8);
@@ -7272,7 +7577,8 @@ static u8 InBoxInput_Normal(void)
         if (JOY_NEW(B_BUTTON))
             return INPUT_PRESSED_B;
 
-        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
+        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR
+            && !gMain.inBattle && gTcgBattleState.pcStorageMode != TCG_PC_MODE_VIEW_ONLY)
         {
             if (JOY_HELD(L_BUTTON))
                 return INPUT_SCROLL_LEFT;
@@ -7441,7 +7747,8 @@ static u8 InBoxInput_MovingMultiple(void)
     }
     else
     {
-        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
+        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR
+            && !gMain.inBattle && gTcgBattleState.pcStorageMode != TCG_PC_MODE_VIEW_ONLY)
         {
             if (JOY_HELD(L_BUTTON))
                 return INPUT_SCROLL_LEFT;
@@ -7606,24 +7913,32 @@ static u8 HandleInput_OnBox(void)
             break;
         }
 
-        if (JOY_HELD(DPAD_LEFT))
-            return INPUT_SCROLL_LEFT;
-        if (JOY_HELD(DPAD_RIGHT))
-            return INPUT_SCROLL_RIGHT;
-
-        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
+        if (!gMain.inBattle && gTcgBattleState.pcStorageMode != TCG_PC_MODE_VIEW_ONLY)
         {
-            if (JOY_HELD(L_BUTTON))
+            if (JOY_HELD(DPAD_LEFT))
                 return INPUT_SCROLL_LEFT;
-            if (JOY_HELD(R_BUTTON))
+            if (JOY_HELD(DPAD_RIGHT))
                 return INPUT_SCROLL_RIGHT;
-        }
 
-        if (JOY_NEW(A_BUTTON))
+            if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
+            {
+                if (JOY_HELD(L_BUTTON))
+                    return INPUT_SCROLL_LEFT;
+                if (JOY_HELD(R_BUTTON))
+                    return INPUT_SCROLL_RIGHT;
+            }
+
+            if (JOY_NEW(A_BUTTON))
+            {
+                AnimateBoxScrollArrows(FALSE);
+                AddBoxOptionsMenu();
+                return INPUT_BOX_OPTIONS;
+            }
+        }
+        else if (JOY_NEW(A_BUTTON | DPAD_LEFT | DPAD_RIGHT))
         {
-            AnimateBoxScrollArrows(FALSE);
-            AddBoxOptionsMenu();
-            return INPUT_BOX_OPTIONS;
+            PlaySE(SE_FAILURE);
+            return INPUT_NONE;
         }
 
         if (JOY_NEW(B_BUTTON))
@@ -7751,6 +8066,23 @@ static u8 HandleInput(void)
 static void AddBoxOptionsMenu(void)
 {
     InitMenu();
+    if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_DEFAULT_DECKS)
+    {
+        SetMenuText(MENU_SET_CURRENT);
+        SetMenuText(MENU_JUMP);
+        SetMenuText(MENU_CANCEL);
+        return;
+    }
+    else if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_CUSTOM_DECKS)
+    {
+        SetMenuText(MENU_SET_CURRENT);
+        SetMenuText(MENU_ADD_CARDS);
+        SetMenuText(MENU_NAME);
+        SetMenuText(MENU_WALLPAPER);
+        SetMenuText(MENU_JUMP);
+        SetMenuText(MENU_CANCEL);
+        return;
+    }
     SetMenuText(MENU_JUMP);
     SetMenuText(MENU_WALLPAPER);
     SetMenuText(MENU_NAME);
@@ -7769,6 +8101,56 @@ static u8 SetSelectionMenuTexts(void)
 static bool8 SetMenuTexts_Mon(void)
 {
     enum Species species = GetSpeciesAtCursorPosition();
+
+    if (gMain.inBattle || gTcgBattleState.pcStorageMode == TCG_PC_MODE_VIEW_ONLY)
+    {
+        if (species == SPECIES_NONE)
+            return FALSE;
+        SetMenuText(MENU_SUMMARY);
+        SetMenuText(MENU_CANCEL);
+        return TRUE;
+    }
+    else if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_DEFAULT_DECKS)
+    {
+        if (species == SPECIES_NONE)
+            return FALSE;
+        SetMenuText(MENU_SUMMARY);
+        SetMenuText(MENU_SET_CURRENT);
+        SetMenuText(MENU_CANCEL);
+        return TRUE;
+    }
+    else if (gTcgBattleState.pcStorageMode == TCG_PC_MODE_CUSTOM_DECKS)
+    {
+        if (sIsMonBeingMoved)
+        {
+            if (species != SPECIES_NONE)
+                SetMenuText(MENU_SHIFT);
+            else
+                SetMenuText(MENU_PLACE);
+            SetMenuText(MENU_RELEASE);
+            SetMenuText(MENU_CANCEL);
+            return TRUE;
+        }
+        else
+        {
+            if (species != SPECIES_NONE)
+            {
+                SetMenuText(MENU_MOVE);
+                SetMenuText(MENU_SUMMARY);
+                SetMenuText(MENU_ADD_CARDS);
+                SetMenuText(MENU_SET_CURRENT);
+                SetMenuText(MENU_RELEASE);
+                SetMenuText(MENU_CANCEL);
+            }
+            else
+            {
+                SetMenuText(MENU_ADD_CARDS);
+                SetMenuText(MENU_SET_CURRENT);
+                SetMenuText(MENU_CANCEL);
+            }
+            return TRUE;
+        }
+    }
 
     switch (sStorage->boxOption)
     {
@@ -8115,9 +8497,11 @@ static const u8 *const sMenuTexts[] =
     [MENU_SKY]        = COMPOUND_STRING("SKY"),
     [MENU_POLKADOT]   = COMPOUND_STRING("POLKA-DOT"),
     [MENU_POKECENTER] = COMPOUND_STRING("POKéCENTER"),
-    [MENU_MACHINE]    = COMPOUND_STRING("MACHINE"),
-    [MENU_SIMPLE]     = COMPOUND_STRING("SIMPLE"),
-    [MENU_SELECT]     = COMPOUND_STRING("SELECT"),
+    [MENU_MACHINE]     = COMPOUND_STRING("MACHINE"),
+    [MENU_SIMPLE]      = COMPOUND_STRING("SIMPLE"),
+    [MENU_SELECT]      = COMPOUND_STRING("SELECT"),
+    [MENU_SET_CURRENT] = COMPOUND_STRING("SET CURRENT"),
+    [MENU_ADD_CARDS]   = COMPOUND_STRING("ADD CARDS"),
 };
 
 static void SetMenuText(u8 textId)

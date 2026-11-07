@@ -45,10 +45,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Pound"),
         .description = COMPOUND_STRING(
-            "Pounds the foe with\n"
-            "forelegs or tail."),
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 40,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 35,
@@ -68,8 +68,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Karate Chop"),
         .description = COMPOUND_STRING(
-            "A chopping attack with a\n"
-            "high critical-hit ratio."),
+            "Deals 50 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
         .power = 50,
         .type = B_UPDATED_MOVE_TYPES >= GEN_2 ? TYPE_FIGHTING : TYPE_NORMAL,
@@ -90,12 +90,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_DOUBLE_SLAP] =
     {
-        .name = COMPOUND_STRING("Double Slap"),
+        .name = COMPOUND_STRING("Doubleslap"),
         .description = COMPOUND_STRING(
-            "Repeatedly slaps the foe\n"
-            "2 to 5 times."),
-        .effect = EFFECT_HIT,
-        .power = 15,
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 85,
         .pp = 10,
@@ -116,10 +116,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Comet Punch"),
         .description = COMPOUND_STRING(
-            "Repeatedly punches the foe\n"
-            "2 to 5 times."),
-        .effect = EFFECT_HIT,
-        .power = 18,
+            "Flip coins: deals 20 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 85,
         .pp = 15,
@@ -140,10 +140,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Mega Punch"),
         .description = COMPOUND_STRING(
-            "A strong punch thrown with\n"
-            "incredible power."),
+            "Deals 50 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 80,
+        .power = 50,
         .type = TYPE_NORMAL,
         .accuracy = 85,
         .pp = 20,
@@ -164,19 +164,16 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Pay Day"),
         .description = COMPOUND_STRING(
-            "Throws coins at the foe.\n"
-            "Money is recovered after."),
-        .effect = EFFECT_HIT,
-        .power = 40,
+            "Draws 1 card from your deck\n"
+            "after attacking."),
+        .effect = EFFECT_TCG_DRAW_CARD,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 20,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_PAYDAY,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_EXCITE_AUDIENCE_IN_ANY_CONTEST : CONTEST_EFFECT_BETTER_WHEN_AUDIENCE_EXCITED,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -188,10 +185,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Fire Punch"),
         .description = COMPOUND_STRING(
-            "A fiery punch that may burn\n"
-            "the foe."),
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 75,
+        .power = 20,
         .type = TYPE_FIRE,
         .accuracy = 100,
         .pp = 15,
@@ -200,10 +197,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .punchingMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_BURN,
-            .chance = 10,
-        }),
         .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = C_UPDATED_MOVE_CATEGORIES >= GEN_6 ? CONTEST_CATEGORY_COOL : CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = COMBO_STARTER_FIRE_PUNCH,
@@ -216,14 +209,15 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Ice Punch"),
         .description = COMPOUND_STRING(
-            "An icy punch that may\n"
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
         #if B_USE_FROSTBITE
             "leave the foe with frostbite."),
         #else
             "freeze the foe."),
         #endif
-        .effect = EFFECT_HIT,
-        .power = 75,
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 10,
         .type = TYPE_ICE,
         .accuracy = 100,
         .pp = 15,
@@ -232,10 +226,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .punchingMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FREEZE_OR_FROSTBITE,
-            .chance = 10,
-        }),
         .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = COMBO_STARTER_ICE_PUNCH,
@@ -246,12 +236,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_THUNDER_PUNCH] =
     {
-        .name = COMPOUND_STRING("Thunder Punch"),
+        .name = COMPOUND_STRING("Thunderpunch"),
         .description = COMPOUND_STRING(
-            "An electrified punch that\n"
-            "may paralyze the foe."),
-        .effect = EFFECT_HIT,
-        .power = 75,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 30,
         .type = TYPE_ELECTRIC,
         .accuracy = 100,
         .pp = 15,
@@ -260,10 +250,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .punchingMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_PARALYSIS,
-            .chance = 10,
-        }),
         .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = COMBO_STARTER_THUNDER_PUNCH,
@@ -276,10 +262,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Scratch"),
         .description = COMPOUND_STRING(
-            "Scratches the foe with\n"
-            "sharp claws."),
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 40,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 35,
@@ -296,11 +282,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_VISE_GRIP] =
     {
-        .name = COMPOUND_STRING("Vise Grip"),
+        .name = COMPOUND_STRING("First Aid"),
         .description = COMPOUND_STRING(
-            "Grips the foe with large and\n"
-            "powerful pincers."),
-        .effect = EFFECT_HIT,
+            "Heals 20 HP of damage from\n"
+            "this Pokémon."),
+        .effect = EFFECT_TCG_HEAL_USER,
         .power = 55,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -320,10 +306,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Guillotine"),
         .description = COMPOUND_STRING(
-            "A powerful pincer attack\n"
-            "that causes fainting."),
-        .effect = EFFECT_OHKO,
-        .power = 1,
+            "Deals 50 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 50,
         .type = TYPE_NORMAL,
         .accuracy = 30,
         .pp = 5,
@@ -341,8 +327,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_RAZOR_WIND] =
     {
-        .name = COMPOUND_STRING("Razor Wind"),
+        .name = COMPOUND_STRING("Poison Seed"),
         .description = COMPOUND_STRING(
+            "The Defending Pokémon is\n"
+            "now Poisoned (10 HP/turn)."),
         #if B_UPDATED_MOVE_DATA == GEN_3 || B_UPDATED_MOVE_DATA == GEN_1
             "A 2-turn move that strikes\n"
             "the foe on the 2nd turn."),
@@ -350,7 +338,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "A 2-turn move with a\n"
             "high critical-hit ratio."),
         #endif
-        .effect = EFFECT_TWO_TURNS_ATTACK,
+        .effect = EFFECT_TCG_INFLICT_POISON,
         .power = 80,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_3 ? 100 : 75,
@@ -380,9 +368,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Swords Dance"),
         .description = COMPOUND_STRING(
-            "A fighting dance that\n"
-            "sharply raises Attack."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -399,21 +387,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = COMBO_STARTER_SWORDS_DANCE,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .attack = 2,
-        }),
         .battleAnimScript = gBattleAnimMove_SwordsDance,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_CUT] =
     {
-        .name = COMPOUND_STRING("Cut"),
+        .name = COMPOUND_STRING("Fury Strikes"),
         .description = COMPOUND_STRING(
-            "Cuts the foe with sharp\n"
-            "scythes, claws, etc."),
-        .effect = EFFECT_HIT,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 50,
         .type = TYPE_NORMAL,
         .accuracy = 95,
@@ -434,10 +418,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Gust"),
         .description = COMPOUND_STRING(
-            "Strikes the foe with a gust\n"
-            "of wind whipped up by wings."),
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 40,
+        .power = 10,
         .type = B_UPDATED_MOVE_TYPES >= GEN_2 ? TYPE_FLYING : TYPE_NORMAL,
         .accuracy = 100,
         .pp = 35,
@@ -458,8 +442,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Wing Attack"),
         .description = COMPOUND_STRING(
-            "Strikes the foe with wings\n"
-            "spread wide."),
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
         .power = B_UPDATED_MOVE_DATA >= GEN_2 ? 60 : 35,
         .type = TYPE_FLYING,
@@ -480,10 +464,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Whirlwind"),
         .description = COMPOUND_STRING(
-            "Blows away the foe to switch\n"
-            "it out or end wild battles."),
-        .effect = EFFECT_ROAR,
-        .power = 0,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 20,
         .type = TYPE_NORMAL,
     #if B_UPDATED_MOVE_DATA >= GEN_6
         .accuracy = 0,
@@ -520,9 +504,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Fly"),
         .description = COMPOUND_STRING(
-            "Flies up on the first turn,\n"
-            "then strikes the next turn."),
-        .effect = EFFECT_SEMI_INVULNERABLE,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = B_UPDATED_MOVE_DATA >= GEN_4 ? 90 : 70,
         .type = TYPE_FLYING,
         .accuracy = 95,
@@ -548,10 +532,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Bind"),
         .description = COMPOUND_STRING(
-            "Binds and squeezes the foe\n"
-            "for "BINDING_TURNS" turns."),
-        .effect = EFFECT_HIT,
-        .power = 15,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 85 : 75,
         .pp = 20,
@@ -560,10 +544,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .ignoresKingsRock = B_UPDATED_MOVE_FLAGS < GEN_3,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_WRAP,
-            .argument.wrapped = B_MSG_WRAPPED_BIND,
-        }),
         .contestEffect = CONTEST_EFFECT_DONT_EXCITE_AUDIENCE,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -576,10 +556,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Slam"),
         .description = COMPOUND_STRING(
-            "Slams the foe with a long\n"
-            "tail, vine, etc."),
-        .effect = EFFECT_HIT,
-        .power = 80,
+            "Flip coins: deals 30 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 30,
         .type = TYPE_NORMAL,
         .accuracy = 75,
         .pp = 20,
@@ -600,8 +580,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Vine Whip"),
         .description = COMPOUND_STRING(
-            "Strikes the foe with\n"
-            "slender, whiplike vines."),
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
     #if B_UPDATED_MOVE_DATA >= GEN_6
         .pp = 25,
     #elif B_UPDATED_MOVE_DATA >= GEN_4
@@ -628,10 +608,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Stomp"),
         .description = COMPOUND_STRING(
-            "Stomps the enemy with a big\n"
-            "foot. May cause flinching."),
-        .effect = EFFECT_HIT,
-        .power = 65,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 20,
@@ -641,10 +621,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .makesContact = TRUE,
         .minimizeDoubleDamage = B_UPDATED_MOVE_FLAGS >= GEN_2,
         .skyBattleBanned = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 30,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -657,9 +633,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Double Kick"),
         .description = COMPOUND_STRING(
-            "A double-kicking attack\n"
-            "that strikes the foe twice."),
-        .effect = EFFECT_HIT,
+            "Flip coins: deals 30 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
         .power = 30,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
@@ -681,10 +657,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Mega Kick"),
         .description = COMPOUND_STRING(
-            "An extremely powerful kick\n"
-            "with intense force."),
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 120,
+        .power = 30,
         .type = TYPE_NORMAL,
         .accuracy = 75,
         .pp = 5,
@@ -702,18 +678,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_JUMP_KICK] =
     {
-        .name = COMPOUND_STRING("Jump Kick"),
+        .name = COMPOUND_STRING("Horrid Polle"),
         .description = COMPOUND_STRING(
-            "A strong jumping kick. May\n"
-            "miss and hurt the kicker."),
+            "The Defending Pokémon is\n"
+            "now Poisoned (10 HP/turn)."),
     #if B_UPDATED_MOVE_DATA >= GEN_5
-        .power = 100,
+        .power = 30,
     #elif B_UPDATED_MOVE_DATA == GEN_4
-        .power = 85,
+        .power = 30,
     #else
-        .power = 70,
+        .power = 30,
     #endif
-        .effect = EFFECT_RECOIL_IF_MISS,
+        .effect = EFFECT_TCG_INFLICT_POISON,
         .type = TYPE_FIGHTING,
         .accuracy = 95,
         .pp = B_UPDATED_MOVE_DATA >= GEN_5 ? 10 : 25,
@@ -734,10 +710,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Rolling Kick"),
         .description = COMPOUND_STRING(
-            "A fast kick delivered from\n"
-            "a rapid spin. May flinch."),
-        .effect = EFFECT_HIT,
-        .power = 60,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 30,
         .type = TYPE_FIGHTING,
         .accuracy = 85,
         .pp = 15,
@@ -746,10 +722,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .ignoresKingsRock = B_UPDATED_MOVE_FLAGS < GEN_3,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 30,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_BADLY_STARTLE_PREV_MONS,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -760,12 +732,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SAND_ATTACK] =
     {
-        .name = COMPOUND_STRING("Sand Attack"),
+        .name = COMPOUND_STRING("Sand-attack"),
         .description = COMPOUND_STRING(
-            "Lowers the foe's accuracy\n"
-            "by hurling sand in its face."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
+        .power = 10,
         .type = B_UPDATED_MOVE_TYPES >= GEN_2 ? TYPE_GROUND : TYPE_NORMAL,
         .accuracy = 100,
         .pp = 15,
@@ -779,10 +751,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = COMBO_STARTER_SAND_ATTACK,
         .contestComboMoves = {COMBO_STARTER_MUD_SLAP, COMBO_STARTER_SANDSTORM},
         .battleAnimScript = gBattleAnimMove_SandAttack,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .accuracy = 1,
-        }),
         .validApprenticeMove = TRUE,
     },
 
@@ -790,10 +758,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Headbutt"),
         .description = COMPOUND_STRING(
-            "A ramming attack that may\n"
-            "cause flinching."),
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 70,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 15,
@@ -801,10 +769,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 30,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_STARTLE_PREV_MON,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -817,10 +781,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Horn Attack"),
         .description = COMPOUND_STRING(
-            "Jabs the foe with sharp\n"
-            "horns."),
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 65,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 25,
@@ -839,10 +803,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Fury Attack"),
         .description = COMPOUND_STRING(
-            "Jabs the foe 2 to 5 times\n"
-            "with sharp horns, etc."),
-        .effect = EFFECT_HIT,
-        .power = 15,
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 85,
         .pp = 20,
@@ -862,10 +826,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Horn Drill"),
         .description = COMPOUND_STRING(
-            "A one-hit KO attack that\n"
-            "uses a horn like a drill."),
-        .effect = EFFECT_OHKO,
-        .power = 1,
+            "Deals 50 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 50,
         .type = TYPE_NORMAL,
         .accuracy = 30,
         .pp = 5,
@@ -885,14 +849,14 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Tackle"),
         .description = COMPOUND_STRING(
-            "Charges the foe with a full-\n"
-            "body tackle."),
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
     #if B_UPDATED_MOVE_DATA >= GEN_7
-        .power = 40,
+        .power = 10,
     #elif B_UPDATED_MOVE_DATA >= GEN_5
-        .power = 50,
+        .power = 10,
     #else
-        .power = 35,
+        .power = 10,
     #endif
         .effect = EFFECT_HIT,
         .type = TYPE_NORMAL,
@@ -913,10 +877,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Body Slam"),
         .description = COMPOUND_STRING(
-            "A full-body slam that may\n"
-            "cause paralysis."),
-        .effect = EFFECT_HIT,
-        .power = 85,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 15,
@@ -926,10 +890,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .makesContact = TRUE,
         .minimizeDoubleDamage = B_UPDATED_MOVE_FLAGS >= GEN_6,
         .skyBattleBanned = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_PARALYSIS,
-            .chance = 30,
-        }),
         .contestEffect = CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -942,10 +902,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Wrap"),
         .description = COMPOUND_STRING(
-            "Wraps and squeezes the foe\n"
-            BINDING_TURNS" times with vines, etc."),
-        .effect = EFFECT_HIT,
-        .power = 15,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 90 : 85,
         .pp = 20,
@@ -954,10 +914,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .ignoresKingsRock = B_UPDATED_MOVE_FLAGS < GEN_3,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_WRAP,
-            .argument.wrapped = B_MSG_WRAPPED_WRAP,
-        }),
         .contestEffect = CONTEST_EFFECT_DONT_EXCITE_AUDIENCE,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -970,10 +926,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Take Down"),
         .description = COMPOUND_STRING(
-            "A reckless charge attack\n"
-            "that also hurts the user."),
-        .effect = EFFECT_RECOIL,
-        .power = 90,
+            "Powerful strike; user also\n"
+            "takes 20 HP recoil damage."),
+        .effect = EFFECT_TCG_SELF_DAMAGE_COIN,
+        .power = 50,
         .type = TYPE_NORMAL,
         .accuracy = 85,
         .pp = 20,
@@ -994,9 +950,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Thrash"),
         .description = COMPOUND_STRING(
-            "A rampage of 2 to 3 turns\n"
-            "that confuses the user."),
-        .effect = EFFECT_HIT,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
         .power = B_UPDATED_MOVE_DATA >= GEN_5 ? 120 : 90,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -1006,10 +962,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .instructBanned = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_THRASH,
-            .self = TRUE,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_USER_MORE_EASILY_STARTLED : CONTEST_EFFECT_JAMS_OTHERS_BUT_MISS_ONE_TURN,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -1020,11 +972,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_DOUBLE_EDGE] =
     {
-        .name = COMPOUND_STRING("Double-Edge"),
+        .name = COMPOUND_STRING("Double-edge"),
         .description = COMPOUND_STRING(
-            "A life-risking tackle that\n"
-            "also hurts the user."),
-        .effect = EFFECT_RECOIL,
+            "Powerful strike; user also\n"
+            "takes 20 HP recoil damage."),
+        .effect = EFFECT_TCG_SELF_DAMAGE_COIN,
         .power = B_UPDATED_MOVE_DATA >= GEN_2 ? 120 : 100,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -1044,12 +996,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_TAIL_WHIP] =
     {
-        .name = COMPOUND_STRING("Tail Whip"),
+        .name = COMPOUND_STRING("Mysterious P"),
         .description = COMPOUND_STRING(
-            "Wags the tail to lower the\n"
-            "foes' Defense."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Confused."),
+        .effect = EFFECT_TCG_INFLICT_CONFUSION,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 30,
@@ -1062,10 +1014,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_CHARM},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .defense = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_TailWhip,
     },
 
@@ -1073,20 +1021,16 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Poison Sting"),
         .description = COMPOUND_STRING(
-            "A toxic attack with barbs,\n"
-            "etc., that may poison."),
-        .effect = EFFECT_HIT,
-        .power = 15,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Poisoned."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
+        .power = 10,
         .type = TYPE_POISON,
         .accuracy = 100,
         .pp = 35,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_POISON,
-            .chance = B_UPDATED_MOVE_DATA >= GEN_2 ? 30 : 20,
-        }),
         .contestEffect = CONTEST_EFFECT_STARTLE_PREV_MON,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -1098,10 +1042,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Twineedle"),
         .description = COMPOUND_STRING(
-            "Stingers on the forelegs jab\n"
-            "the foe twice. May poison."),
-        .effect = EFFECT_HIT,
-        .power = 25,
+            "Flip coins: deals 30 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 30,
         .type = TYPE_BUG,
         .accuracy = 100,
         .pp = 20,
@@ -1110,10 +1054,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .ignoresKingsRock = (B_UPDATED_MOVE_FLAGS == GEN_3 || B_UPDATED_MOVE_FLAGS == GEN_4),
         .strikeCount = 2,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_POISON,
-            .chance = 20,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_BETTER_IF_SAME_TYPE : CONTEST_EFFECT_STARTLE_PREV_MON,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -1126,9 +1066,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Pin Missile"),
         .description = COMPOUND_STRING(
-            "Sharp pins are fired to\n"
-            "strike 2 to 5 times."),
-        .effect = EFFECT_HIT,
+            "Flip coins: deals 20 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 25 : 14,
         .type = TYPE_BUG,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_6 ? 95 : 85,
@@ -1148,9 +1088,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Leer"),
         .description = COMPOUND_STRING(
-            "Frightens the foes with a\n"
-            "leer to lower Defense."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -1164,10 +1104,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = COMBO_STARTER_LEER,
         .contestComboMoves = {COMBO_STARTER_RAGE, COMBO_STARTER_SCARY_FACE},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .defense = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_Leer,
     },
 
@@ -1175,10 +1111,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Bite"),
         .description = COMPOUND_STRING(
-            "Bites with vicious fangs.\n"
-            "May cause flinching."),
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 60,
+        .power = 10,
         .type = B_UPDATED_MOVE_TYPES >= GEN_2 ? TYPE_DARK : TYPE_NORMAL,
         .accuracy = 100,
         .pp = 25,
@@ -1187,10 +1123,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .bitingMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = B_UPDATED_MOVE_DATA >= GEN_2 ? 30 : 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_STARTLE_PREV_MON : CONTEST_EFFECT_BADLY_STARTLE_PREV_MONS,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -1203,9 +1135,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Growl"),
         .description = COMPOUND_STRING(
-            "Growls cutely to lower the\n"
-            "foes' Attack."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -1221,20 +1153,16 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_CHARM},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .attack = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_Growl,
     },
 
     [MOVE_ROAR] =
     {
-        .name = COMPOUND_STRING("Roar"),
+        .name = COMPOUND_STRING("Stiffen"),
         .description = COMPOUND_STRING(
-            "The foe is scared to switch\n"
-            "it out or end wild battles."),
-        .effect = EFFECT_ROAR,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_6 ? 0 : 100,
@@ -1267,9 +1195,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Sing"),
         .description = COMPOUND_STRING(
-            "A soothing song lulls the\n"
-            "foe into a deep slumber."),
-        .effect = EFFECT_NON_VOLATILE_STATUS,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 55,
@@ -1294,9 +1222,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Supersonic"),
         .description = COMPOUND_STRING(
-            "Emits bizarre sound waves\n"
-            "that confuse the foe."),
-        .effect = EFFECT_CONFUSE,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Confused."),
+        .effect = EFFECT_TCG_INFLICT_CONFUSION,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 55,
@@ -1318,12 +1246,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SONIC_BOOM] =
     {
-        .name = COMPOUND_STRING("Sonic Boom"),
+        .name = COMPOUND_STRING("Sonicboom"),
         .description = COMPOUND_STRING(
-            "Launches shock waves that\n"
-            "always inflict 20 HP damage."),
-        .effect = EFFECT_FIXED_HP_DAMAGE,
-        .power = 1,
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 90,
         .pp = 20,
@@ -1343,6 +1271,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Disable"),
         .description = COMPOUND_STRING(
+            "Disables 1 of the foe's\n"
+            "attacks on their next turn."),
         #if B_DISABLE_TURNS >= GEN_5
             "For 4 turns, prevents foe\n"
         #elif B_DISABLE_TURNS == GEN_4
@@ -1358,7 +1288,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     #else
         .accuracy = 55,
     #endif
-        .effect = EFFECT_DISABLE,
+        .effect = EFFECT_TCG_DISABLE_MOVE,
         .power = 0,
         .type = TYPE_NORMAL,
         .pp = 20,
@@ -1380,26 +1310,21 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Acid"),
         .description = COMPOUND_STRING(
-            "Sprays a hide-melting acid.\n"
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
         #if B_UPDATED_MOVE_DATA >= GEN_4
             "May lower Sp. Def."),
         #else
             "May lower Defense."),
         #endif
-        .effect = EFFECT_HIT,
-        .power = 40,
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 20,
         .type = TYPE_POISON,
         .accuracy = 100,
         .pp = 30,
         .target = TARGET_BOTH,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-            .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .defense = B_UPDATED_MOVE_DATA < GEN_4 ? 1 : 0,
-            .spDef = B_UPDATED_MOVE_DATA >= GEN_4 ? 1 : 0,
-            .chance = B_UPDATED_MOVE_DATA >= GEN_2 ? 10 : 33,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_WORSEN_CONDITION_OF_PREV_MONS : CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -1411,20 +1336,16 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Ember"),
         .description = COMPOUND_STRING(
-            "A weak fire attack that may\n"
-            "inflict a burn."),
-        .effect = EFFECT_HIT,
-        .power = 40,
+            "Discard 1 Energy attached\n"
+            "to this Pokémon to attack."),
+        .effect = EFFECT_TCG_DISCARD_USER_ENERGY,
+        .power = 30,
         .type = TYPE_FIRE,
         .accuracy = 100,
         .pp = 25,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_BURN,
-            .chance = 10,
-        }),
         .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = C_UPDATED_MOVE_CATEGORIES >= GEN_6 ? CONTEST_CATEGORY_CUTE : CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -1436,9 +1357,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Flamethrower"),
         .description = COMPOUND_STRING(
-            "A powerful fire attack that\n"
-            "may inflict a burn."),
-        .effect = EFFECT_HIT,
+            "Discard 1 Energy attached\n"
+            "to this Pokémon to attack."),
+        .effect = EFFECT_TCG_DISCARD_USER_ENERGY,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 90 : 95,
         .type = TYPE_FIRE,
         .accuracy = 100,
@@ -1446,10 +1367,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_BURN,
-            .chance = 10,
-        }),
         .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -1460,11 +1377,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MIST] =
     {
-        .name = COMPOUND_STRING("Mist"),
+        .name = COMPOUND_STRING("Poison Horn"),
         .description = COMPOUND_STRING(
-            "Creates a mist that stops\n"
-            "lowering of allies' stats."),
-        .effect = EFFECT_MIST,
+            "The Defending Pokémon is\n"
+            "now Poisoned (10 HP/turn)."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
         .power = 0,
         .type = TYPE_ICE,
         .accuracy = 0,
@@ -1488,10 +1405,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Water Gun"),
         .description = COMPOUND_STRING(
-            "Squirts water to attack\n"
-            "the foe."),
-        .effect = EFFECT_HIT,
-        .power = 40,
+            "Deals +10 extra damage for\n"
+            "each extra Energy attached."),
+        .effect = EFFECT_TCG_ENERGY_BOOST,
+        .power = 20,
         .type = TYPE_WATER,
         .accuracy = 100,
         .pp = 25,
@@ -1509,9 +1426,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Hydro Pump"),
         .description = COMPOUND_STRING(
-            "Blasts water at high power\n"
-            "to strike the foe."),
-        .effect = EFFECT_HIT,
+            "Deals +10 extra damage for\n"
+            "each extra Energy attached."),
+        .effect = EFFECT_TCG_ENERGY_BOOST,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 110 : 120,
         .type = TYPE_WATER,
         .accuracy = 80,
@@ -1531,7 +1448,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Surf"),
         .description = COMPOUND_STRING(
-            "Creates a huge wave, then\n"
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
         #if B_UPDATED_MOVE_DATA >= GEN_4
             "crashes it on all others."),
         #else
@@ -1559,13 +1477,14 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Ice Beam"),
         .description = COMPOUND_STRING(
-            "Blasts the foe with an icy\n"
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
         #if B_USE_FROSTBITE
             "beam. May cause frostbite."),
         #else
             "beam that may freeze it."),
         #endif
-        .effect = EFFECT_HIT,
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 90 : 95,
         .type = TYPE_ICE,
         .accuracy = 100,
@@ -1573,12 +1492,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            // The following effect is also relevant in src/battle_pike.c
-            // If you cherry-pick this to use something other than the config, make sure to update it there too
-            .moveEffect = MOVE_EFFECT_FREEZE_OR_FROSTBITE,
-            .chance = 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON : CONTEST_EFFECT_STARTLE_MONS_SAME_TYPE_APPEAL,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -1591,13 +1504,14 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Blizzard"),
         .description = COMPOUND_STRING(
-            "Hits the foes with an icy\n"
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
         #if B_USE_FROSTBITE
             "storm. May cause frostbite."),
         #else
             "storm that may freeze."),
         #endif
-        .effect = EFFECT_HIT,
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 110 : 120,
         .type = TYPE_ICE,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_2 ? 70 : 90,
@@ -1607,10 +1521,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_SPECIAL,
         .windMove = TRUE,
         .alwaysHitsInHailSnow = B_BLIZZARD_HAIL >= GEN_4,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FREEZE_OR_FROSTBITE,
-            .chance = 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_BADLY_STARTLE_PREV_MONS : CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -1623,20 +1533,16 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Psybeam"),
         .description = COMPOUND_STRING(
-            "Fires a peculiar ray that\n"
-            "may confuse the foe."),
-        .effect = EFFECT_HIT,
-        .power = 65,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Confused."),
+        .effect = EFFECT_TCG_INFLICT_CONFUSION,
+        .power = 20,
         .type = TYPE_PSYCHIC,
         .accuracy = 100,
         .pp = 20,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_CONFUSION,
-            .chance = 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_SHIFT_JUDGE_ATTENTION : CONTEST_EFFECT_SCRAMBLE_NEXT_TURN_ORDER,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -1647,23 +1553,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BUBBLE_BEAM] =
     {
-        .name = COMPOUND_STRING("Bubble Beam"),
+        .name = COMPOUND_STRING("Bubblebeam"),
         .description = COMPOUND_STRING(
-            "Forcefully sprays bubbles\n"
-            "that may lower Speed."),
-        .effect = EFFECT_HIT,
-        .power = 65,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 40,
         .type = TYPE_WATER,
         .accuracy = 100,
         .pp = 20,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .speed = 1,
-            .chance = B_UPDATED_MOVE_DATA >= GEN_2 ? 10 : 33,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_STARTLE_PREV_MON : CONTEST_EFFECT_BADLY_STARTLE_PREV_MONS,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -1675,21 +1576,16 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Aurora Beam"),
         .description = COMPOUND_STRING(
-            "Fires a rainbow-colored\n"
-            "beam that may lower Attack."),
+            "Deals 50 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 65,
+        .power = 50,
         .type = TYPE_ICE,
         .accuracy = 100,
         .pp = 20,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .attack = 1,
-            .chance = B_UPDATED_MOVE_DATA >= GEN_2 ? 10 : 33,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_STARTLE_PREV_MON : CONTEST_EFFECT_STARTLE_MONS_SAME_TYPE_APPEAL,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -1701,6 +1597,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Hyper Beam"),
         .description = COMPOUND_STRING(
+            "Discards 1 Energy attached\n"
+            "to the Defending Pokémon."),
         #if B_SKIP_RECHARGE != GEN_1
             "Powerful, but leaves the\n"
             "user immobile the next turn."),
@@ -1708,8 +1606,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Leaves the user immobile if\n"
             "it doesn't KO the target."),
         #endif
-        .effect = EFFECT_HIT,
-        .power = 150,
+        .effect = EFFECT_TCG_DISCARD_TARGET_ENERGY,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 90,
         .pp = 5,
@@ -1717,10 +1615,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .ignoresKingsRock = B_UPDATED_MOVE_FLAGS < GEN_3,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_RECHARGE,
-            .self = TRUE,
-        }),
         .contestEffect = CONTEST_EFFECT_JAMS_OTHERS_BUT_MISS_ONE_TURN,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -1733,10 +1627,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Peck"),
         .description = COMPOUND_STRING(
-            "Attacks the foe with a\n"
-            "jabbing beak, etc."),
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 35,
+        .power = 10,
         .type = TYPE_FLYING,
         .accuracy = 100,
         .pp = 35,
@@ -1755,10 +1649,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Drill Peck"),
         .description = COMPOUND_STRING(
-            "A corkscrewing attack with\n"
-            "the beak acting as a drill."),
+            "Deals 40 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 80,
+        .power = 40,
         .type = TYPE_FLYING,
         .accuracy = 100,
         .pp = 20,
@@ -1778,10 +1672,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Submission"),
         .description = COMPOUND_STRING(
-            "A reckless body slam that\n"
-            "also hurts the user."),
-        .effect = EFFECT_RECOIL,
-        .power = 80,
+            "Powerful strike; user also\n"
+            "takes 20 HP recoil damage."),
+        .effect = EFFECT_TCG_SELF_DAMAGE_COIN,
+        .power = 60,
         .type = TYPE_FIGHTING,
         .accuracy = 80,
         .pp = B_UPDATED_MOVE_DATA >= GEN_6 ? 20 : 25,
@@ -1802,16 +1696,14 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Low Kick"),
             .description = COMPOUND_STRING(
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
     #if B_UPDATED_MOVE_DATA >= GEN_3
             "A kick that inflicts more\n"
             "damage on heavier foes."),
     #else
             "A low, tripping kick that\n"
             "may cause flinching."),
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 30,
-        }),
     #endif
         .effect = B_UPDATED_MOVE_DATA >= GEN_3 ? EFFECT_LOW_KICK : EFFECT_HIT,
         .power = B_UPDATED_MOVE_DATA >= GEN_3 ? 1 : 50,
@@ -1832,11 +1724,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_COUNTER] =
     {
-        .name = COMPOUND_STRING("Counter"),
+        .name = COMPOUND_STRING("Spit Poison"),
         .description = COMPOUND_STRING(
-            "Retaliates any physical hit\n"
-            "with double the power."),
-        .effect = EFFECT_REFLECT_DAMAGE,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Poisoned."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
         .power = 1,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
@@ -1868,10 +1760,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Seismic Toss"),
         .description = COMPOUND_STRING(
-            "Inflicts damage identical\n"
-            "to the user's level."),
-        .effect = EFFECT_LEVEL_DAMAGE,
-        .power = 1,
+            "Deals 60 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 60,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
         .pp = 20,
@@ -1890,12 +1782,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_STRENGTH] =
     {
-        .name = COMPOUND_STRING("Strength"),
+        .name = COMPOUND_STRING("Terror Strik"),
         .description = COMPOUND_STRING(
-            "Builds enormous power,\n"
-            "then slams the foe."),
-        .effect = EFFECT_HIT,
-        .power = 80,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 15,
@@ -1915,10 +1807,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Absorb"),
         .description = COMPOUND_STRING(
-            "An attack that absorbs\n"
-            "half the damage inflicted."),
-        .effect = EFFECT_HIT,
-        .power = 20,
+            "Heals 20 HP of damage from\n"
+            "this Pokémon."),
+        .effect = EFFECT_TCG_HEAL_USER,
+        .power = 40,
         .type = TYPE_GRASS,
         .accuracy = 100,
         .pp = B_UPDATED_MOVE_DATA >= GEN_4 ? 25 : 20,
@@ -1931,10 +1823,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_GROWTH},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_ABSORB,
-            .argument.absorbPercentage = 50,
-        }),
         .battleAnimScript = gBattleAnimMove_Absorb,
     },
 
@@ -1942,9 +1830,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Mega Drain"),
         .description = COMPOUND_STRING(
-            "An attack that absorbs\n"
-            "half the damage inflicted."),
-        .effect = EFFECT_HIT,
+            "Heals 20 HP of damage from\n"
+            "this Pokémon."),
+        .effect = EFFECT_TCG_HEAL_USER,
         .power = 40,
         .type = TYPE_GRASS,
         .accuracy = 100,
@@ -1959,10 +1847,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_GROWTH},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_ABSORB,
-            .argument.absorbPercentage = 50,
-        }),
         .battleAnimScript = gBattleAnimMove_MegaDrain,
     },
 
@@ -1970,10 +1854,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Leech Seed"),
         .description = COMPOUND_STRING(
-            "Plants a seed on the foe to\n"
-            "steal HP on every turn."),
-        .effect = EFFECT_LEECH_SEED,
-        .power = 0,
+            "Heals 20 HP of damage from\n"
+            "this Pokémon."),
+        .effect = EFFECT_TCG_HEAL_USER,
+        .power = 20,
         .type = TYPE_GRASS,
         .accuracy = 90,
         .pp = 10,
@@ -1992,8 +1876,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_GROWTH] =
     {
-        .name = COMPOUND_STRING("Growth"),
+        .name = COMPOUND_STRING("Deadly Poiso"),
         .description = COMPOUND_STRING(
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
         #if B_GROWTH_STAT_RAISE >= GEN_5
             "Forces the body to grow and\n"
             "raises Attack and Sp. Atk."),
@@ -2001,8 +1887,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Forces the body to grow\n"
             "and raises Sp. Atk."),
         #endif
-        .effect = EFFECT_GROWTH,
-        .power = 0,
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 30,
         .type = B_UPDATED_MOVE_TYPES >= GEN_CHAMPIONS ? TYPE_GRASS : TYPE_NORMAL,
         .accuracy = 0,
         .pp = B_UPDATED_MOVE_DATA >= GEN_6 ? 20 : 40,
@@ -2013,11 +1899,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .ignoresProtect = TRUE,
         .mirrorMoveBanned = TRUE,
         .snatchAffected = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .attack = B_UPDATED_MOVE_DATA >= GEN_5 ? 1 : 0,
-            .spAtk = 1,
-        }),
         .contestEffect = CONTEST_EFFECT_IMPROVE_CONDITION_PREVENT_NERVOUSNESS,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = COMBO_STARTER_GROWTH,
@@ -2030,10 +1911,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Razor Leaf"),
         .description = COMPOUND_STRING(
-            "Cuts enemies with leaves.\n"
-            "High critical-hit ratio."),
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 55,
+        .power = 30,
         .type = TYPE_GRASS,
         .accuracy = 95,
         .criticalHitStage = B_UPDATED_MOVE_DATA >= GEN_3 ? 1 : 2,
@@ -2052,12 +1933,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SOLAR_BEAM] =
     {
-        .name = COMPOUND_STRING("Solar Beam"),
+        .name = COMPOUND_STRING("Solarbeam"),
         .description = COMPOUND_STRING(
-            "Absorbs light in one turn,\n"
-            "then attacks next turn."),
-        .effect = EFFECT_SOLAR_BEAM,
-        .power = 120,
+            "Deals 60 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 60,
         .type = TYPE_GRASS,
         .accuracy = 100,
         .pp = 10,
@@ -2077,12 +1958,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_POISON_POWDER] =
     {
-        .name = COMPOUND_STRING("Poison Powder"),
+        .name = COMPOUND_STRING("Poisonpowder"),
         .description = COMPOUND_STRING(
-            "Scatters a toxic powder\n"
-            "that poisons the foe."),
-        .effect = EFFECT_NON_VOLATILE_STATUS,
-        .power = 0,
+            "The Defending Pokémon is\n"
+            "now Poisoned (10 HP/turn)."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
+        .power = 20,
         .type = TYPE_POISON,
         .accuracy = 75,
         .pp = 35,
@@ -2105,10 +1986,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Stun Spore"),
         .description = COMPOUND_STRING(
-            "Scatters a powder that\n"
-            "paralyzes the foe."),
-        .effect = EFFECT_NON_VOLATILE_STATUS,
-        .power = 0,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 20,
         .type = TYPE_GRASS,
         .accuracy = 75,
         .pp = 30,
@@ -2131,9 +2012,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Sleep Powder"),
         .description = COMPOUND_STRING(
-            "Scatters a powder that\n"
-            "causes the foe to sleep."),
-        .effect = EFFECT_NON_VOLATILE_STATUS,
+            "The Defending Pokémon is\n"
+            "now Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
         .power = 0,
         .type = TYPE_GRASS,
         .accuracy = 75,
@@ -2157,16 +2038,16 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Petal Dance"),
         .description = COMPOUND_STRING(
-            "A rampage of 2 to 3 turns\n"
-            "that confuses the user."),
+            "Flip coins: deals 40 damage\n"
+            "times number of heads."),
     #if B_UPDATED_MOVE_DATA >= GEN_5
-        .power = 120,
+        .power = 40,
     #elif B_UPDATED_MOVE_DATA == GEN_4
-        .power = 90,
+        .power = 40,
     #else
-        .power = 70,
+        .power = 40,
     #endif
-        .effect = EFFECT_HIT,
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
         .type = TYPE_GRASS,
         .accuracy = 100,
         .pp = B_UPDATED_MOVE_DATA >= GEN_5 ? 10 : 20,
@@ -2176,10 +2057,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .makesContact = TRUE,
         .danceMove = TRUE,
         .instructBanned = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_THRASH,
-            .self = TRUE,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_USER_MORE_EASILY_STARTLED : CONTEST_EFFECT_JAMS_OTHERS_BUT_MISS_ONE_TURN,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -2192,14 +2069,15 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("String Shot"),
         .description = COMPOUND_STRING(
-            "Binds the foe with string\n"
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
         #if B_UPDATED_MOVE_DATA >= GEN_6
             "to harshly lower its Speed."),
         #else
             "to lower its Speed."),
         #endif
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 10,
         .type = TYPE_BUG,
         .accuracy = 95,
         .pp = 40,
@@ -2212,10 +2090,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = COMBO_STARTER_STRING_SHOT,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .speed = B_UPDATED_MOVE_DATA >= GEN_6 ? 2 : 1,
-        }),
         .battleAnimScript = gBattleAnimMove_StringShot,
     },
 
@@ -2223,10 +2097,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Dragon Rage"),
         .description = COMPOUND_STRING(
-            "Launches shock waves that\n"
-            "always inflict 40 HP damage."),
-        .effect = EFFECT_FIXED_HP_DAMAGE,
-        .power = 1,
+            "Deals 50 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 50,
         .type = TYPE_DRAGON,
         .accuracy = 100,
         .pp = 10,
@@ -2247,9 +2121,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Fire Spin"),
         .description = COMPOUND_STRING(
-            "Traps the foe in a ring of\n"
-            "fire for "BINDING_TURNS" turns."),
-        .effect = EFFECT_HIT,
+            "Discard 1 Energy attached\n"
+            "to this Pokémon to attack."),
+        .effect = EFFECT_TCG_DISCARD_USER_ENERGY,
         .power = B_UPDATED_MOVE_DATA >= GEN_5 ? 35 : 15,
         .type = TYPE_FIRE,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 85 : 70,
@@ -2258,10 +2132,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .ignoresKingsRock = B_UPDATED_MOVE_FLAGS < GEN_3,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_WRAP,
-            .argument.wrapped = B_MSG_WRAPPED_FIRE_SPIN,
-        }),
         .contestEffect = CONTEST_EFFECT_DONT_EXCITE_AUDIENCE,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -2272,22 +2142,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_THUNDER_SHOCK] =
     {
-        .name = COMPOUND_STRING("Thunder Shock"),
+        .name = COMPOUND_STRING("Thundershock"),
         .description = COMPOUND_STRING(
-            "An electrical attack that\n"
-            "may paralyze the foe."),
-        .effect = EFFECT_HIT,
-        .power = 40,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 10,
         .type = TYPE_ELECTRIC,
         .accuracy = 100,
         .pp = 30,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_PARALYSIS,
-            .chance = 10,
-        }),
         .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -2299,9 +2165,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Thunderbolt"),
         .description = COMPOUND_STRING(
-            "A strong electrical attack\n"
-            "that may paralyze the foe."),
-        .effect = EFFECT_HIT,
+            "Discard 1 Energy attached\n"
+            "to this Pokémon to attack."),
+        .effect = EFFECT_TCG_DISCARD_USER_ENERGY,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 90 : 95,
         .type = TYPE_ELECTRIC,
         .accuracy = 100,
@@ -2309,10 +2175,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_PARALYSIS,
-            .chance = 10,
-        }),
         .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -2325,10 +2187,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Thunder Wave"),
         .description = COMPOUND_STRING(
-            "A weak jolt of electricity\n"
-            "that paralyzes the foe."),
-        .effect = EFFECT_NON_VOLATILE_STATUS,
-        .power = 0,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 10,
         .type = TYPE_ELECTRIC,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_7 ? 90 : 100,
         .pp = 20,
@@ -2350,9 +2212,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Thunder"),
         .description = COMPOUND_STRING(
-            "A lightning attack that may\n"
-            "cause paralysis."),
-        .effect = EFFECT_HIT,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 110 : 120,
         .type = TYPE_ELECTRIC,
         .accuracy = 70,
@@ -2363,10 +2225,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .damagesAirborne = B_UPDATED_MOVE_FLAGS >= GEN_2,
         .alwaysHitsInRain = TRUE,
         .accuracy50InSun = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_PARALYSIS,
-            .chance = B_UPDATED_MOVE_DATA >= GEN_2 ? 30 : 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_BETTER_WHEN_AUDIENCE_EXCITED : CONTEST_EFFECT_STARTLE_PREV_MONS,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -2379,10 +2237,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Rock Throw"),
         .description = COMPOUND_STRING(
-            "Throws small rocks to\n"
-            "strike the foe."),
+            "Deals 40 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 50,
+        .power = 40,
         .type = TYPE_ROCK,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_2 ? 90 : 65,
         .pp = 15,
@@ -2400,10 +2258,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Earthquake"),
         .description = COMPOUND_STRING(
-            "A powerful quake that\n"
-            "hits all other Pokémon."),
-        .effect = EFFECT_EARTHQUAKE,
-        .power = 100,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 70,
         .type = TYPE_GROUND,
         .accuracy = 100,
         .pp = 10,
@@ -2423,11 +2281,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FISSURE] =
     {
-        .name = COMPOUND_STRING("Fissure"),
+        .name = COMPOUND_STRING("Stare"),
         .description = COMPOUND_STRING(
-            "A one-hit KO move that\n"
-            "drops the foe in a fissure."),
-        .effect = EFFECT_OHKO,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 1,
         .type = TYPE_GROUND,
         .accuracy = 30,
@@ -2449,15 +2307,15 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Dig"),
         .description = COMPOUND_STRING(
-            "Digs underground the first\n"
-            "turn and strikes next turn."),
-        .effect = EFFECT_SEMI_INVULNERABLE,
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
     #if B_UPDATED_MOVE_DATA >= GEN_4
-        .power = 80,
+        .power = 10,
     #elif B_UPDATED_MOVE_DATA >= GEN_2
-        .power = 60,
+        .power = 10,
     #else
-        .power = 100,
+        .power = 10,
     #endif
         .type = TYPE_GROUND,
         .accuracy = 100,
@@ -2483,10 +2341,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Toxic"),
         .description = COMPOUND_STRING(
-            "Poisons the foe with an\n"
-            "intensifying toxin."),
-        .effect = EFFECT_NON_VOLATILE_STATUS,
-        .power = 0,
+            "The Defending Pokémon is\n"
+            "now Poisoned (10 HP/turn)."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
+        .power = 20,
         .type = TYPE_POISON,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 90 : 85,
         .pp = 10,
@@ -2507,22 +2365,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_CONFUSION] =
     {
-        .name = COMPOUND_STRING("Confusion"),
+        .name = COMPOUND_STRING("Poison Vapor"),
         .description = COMPOUND_STRING(
-            "A psychic attack that may\n"
-            "cause confusion."),
-        .effect = EFFECT_HIT,
-        .power = 50,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 10,
         .type = TYPE_PSYCHIC,
         .accuracy = 100,
         .pp = 25,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_CONFUSION,
-            .chance = 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_STARTLE_PREV_MON,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = COMBO_STARTER_CONFUSION,
@@ -2534,21 +2388,16 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Psychic"),
         .description = COMPOUND_STRING(
-            "A powerful psychic attack\n"
-            "that may lower Sp. Def."),
-        .effect = EFFECT_HIT,
-        .power = 90,
+            "Deals +10 extra damage for\n"
+            "each extra Energy attached."),
+        .effect = EFFECT_TCG_ENERGY_BOOST,
+        .power = 10,
         .type = TYPE_PSYCHIC,
         .accuracy = 100,
         .pp = 10,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .spDef = 1,
-            .chance = B_UPDATED_MOVE_DATA >= GEN_2 ? 10 : 33,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_BADLY_STARTLE_PREV_MONS,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = COMBO_STARTER_PSYCHIC,
@@ -2561,9 +2410,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Hypnosis"),
         .description = COMPOUND_STRING(
-            "A hypnotizing move that\n"
-            "induces sleep."),
-        .effect = EFFECT_NON_VOLATILE_STATUS,
+            "The Defending Pokémon is\n"
+            "now Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
         .power = 0,
         .type = TYPE_PSYCHIC,
         .accuracy = 60,
@@ -2586,10 +2435,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Meditate"),
         .description = COMPOUND_STRING(
-            "Meditates in a peaceful\n"
-            "fashion to raise Attack."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Deals +10 extra damage per\n"
+            "10 HP damage on this mon."),
+        .effect = EFFECT_TCG_RAGE_DAMAGE_BOOST,
+        .power = 10,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
         .pp = 40,
@@ -2605,10 +2454,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_CALM_MIND},
         .battleAnimScript = gBattleAnimMove_Meditate,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .attack = 1,
-        }),
         .validApprenticeMove = TRUE,
     },
 
@@ -2616,10 +2461,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Agility"),
         .description = COMPOUND_STRING(
-            "Relaxes the body to sharply\n"
-            "raise Speed."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
+        .power = 30,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
         .pp = 30,
@@ -2630,10 +2475,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .ignoresProtect = TRUE,
         .mirrorMoveBanned = TRUE,
         .snatchAffected = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .speed = 2,
-        }),
         .contestEffect = CONTEST_EFFECT_NEXT_APPEAL_EARLIER,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = COMBO_STARTER_AGILITY,
@@ -2646,10 +2487,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Quick Attack"),
         .description = COMPOUND_STRING(
-            "An extremely fast attack\n"
-            "that always strikes first."),
-        .effect = EFFECT_HIT,
-        .power = 40,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 30,
@@ -2669,20 +2510,16 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Rage"),
         .description = COMPOUND_STRING(
-            "Raises the user's Attack\n"
-            "every time it is hit."),
-        .effect = EFFECT_HIT,
-        .power = 20,
+            "Deals +10 extra damage per\n"
+            "10 HP damage on this mon."),
+        .effect = EFFECT_TCG_RAGE_DAMAGE_BOOST,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 20,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_RAGE,
-            .self = TRUE,
-        }),
         .makesContact = TRUE,
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_BADLY_STARTLE_PREV_MONS : CONTEST_EFFECT_REPETITION_NOT_BORING,
         .contestCategory = C_UPDATED_MOVE_CATEGORIES >= GEN_6 ? CONTEST_CATEGORY_TOUGH : CONTEST_CATEGORY_COOL,
@@ -2695,6 +2532,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Teleport"),
         .description = COMPOUND_STRING(
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
         #if B_TELEPORT_BEHAVIOR >= GEN_8
             "The user switches places\n"
             "with another party Pokémon."),
@@ -2702,7 +2541,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "A psychic move for fleeing\n"
             "from battle instantly."),
         #endif
-        .effect = EFFECT_TELEPORT,
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 0,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
@@ -2722,11 +2561,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_NIGHT_SHADE] =
     {
-        .name = COMPOUND_STRING("Night Shade"),
+        .name = COMPOUND_STRING("Tail Wag"),
         .description = COMPOUND_STRING(
-            "Inflicts damage identical\n"
-            "to the user's level."),
-        .effect = EFFECT_LEVEL_DAMAGE,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 1,
         .type = TYPE_GHOST,
         .accuracy = 100,
@@ -2744,11 +2583,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MIMIC] =
     {
-        .name = COMPOUND_STRING("Mimic"),
+        .name = COMPOUND_STRING("Call for Fam"),
         .description = COMPOUND_STRING(
-            "Copies the last move used by\n"
-            "the foe during one battle."),
-        .effect = EFFECT_MIMIC,
+            "Draws 1 card from your deck\n"
+            "after attacking."),
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_3 ? 0 : 100,
@@ -2775,12 +2614,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SCREECH] =
     {
-        .name = COMPOUND_STRING("Screech"),
+        .name = COMPOUND_STRING("Strength in "),
         .description = COMPOUND_STRING(
-            "Emits a screech to harshly\n"
-            "lower the foe's Defense."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 85,
         .pp = 40,
@@ -2795,22 +2634,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .defense = 2,
-        }),
         .battleAnimScript = gBattleAnimMove_Screech,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_DOUBLE_TEAM] =
     {
-        .name = COMPOUND_STRING("Double Team"),
+        .name = COMPOUND_STRING("Boyfriends"),
         .description = COMPOUND_STRING(
-            "Creates illusory copies to\n"
-            "raise evasiveness."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 15,
@@ -2825,10 +2660,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = COMBO_STARTER_DOUBLE_TEAM,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .evasion = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_DoubleTeam,
         .validApprenticeMove = TRUE,
     },
@@ -2837,8 +2668,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Recover"),
         .description = COMPOUND_STRING(
-            "Recovers up to half the\n"
-            "user's maximum HP."),
+            "Discard 1 Energy attached\n"
+            "to this Pokémon to attack."),
     #if B_UPDATED_MOVE_DATA >= GEN_9
         .pp = 5,
     #elif B_UPDATED_MOVE_DATA >= GEN_4
@@ -2846,7 +2677,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     #else
         .pp = 20,
     #endif
-        .effect = EFFECT_RESTORE_HP,
+        .effect = EFFECT_TCG_DISCARD_USER_ENERGY,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -2870,9 +2701,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Harden"),
         .description = COMPOUND_STRING(
-            "Stiffens the body's \n"
-            "muscles to raise Defense."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -2889,10 +2720,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = COMBO_STARTER_HARDEN,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Harden,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .defense = 1,
-        }),
         .validApprenticeMove = TRUE,
     },
 
@@ -2900,13 +2727,14 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Minimize"),
         .description = COMPOUND_STRING(
-            "Minimizes the user's size\n"
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
         #if B_MINIMIZE_EVASION >= GEN_5
             "to sharply raise evasion."),
         #else
             "to raise evasiveness."),
         #endif
-        .effect = EFFECT_MINIMIZE,
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -2918,10 +2746,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .ignoresProtect = TRUE,
         .mirrorMoveBanned = TRUE,
         .snatchAffected = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .evasion = (B_MINIMIZE_EVASION >= GEN_5) ? 2 : 1,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_AVOID_STARTLE : CONTEST_EFFECT_AVOID_STARTLE_ONCE,
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = 0,
@@ -2934,10 +2758,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Smokescreen"),
         .description = COMPOUND_STRING(
-            "Lowers the foe's accuracy\n"
-            "using smoke, ink, etc."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 20,
@@ -2950,10 +2774,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_SMOG},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .accuracy = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_Smokescreen,
         .validApprenticeMove = TRUE,
     },
@@ -2962,10 +2782,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Confuse Ray"),
         .description = COMPOUND_STRING(
-            "A sinister ray that\n"
-            "confuses the foe."),
-        .effect = EFFECT_CONFUSE,
-        .power = 0,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Confused."),
+        .effect = EFFECT_TCG_INFLICT_CONFUSION,
+        .power = 10,
         .type = TYPE_GHOST,
         .accuracy = 100,
         .pp = 10,
@@ -2986,9 +2806,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Withdraw"),
         .description = COMPOUND_STRING(
-            "Withdraws the body into its\n"
-            "hard shell to raise Defense."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_WATER,
         .accuracy = 0,
@@ -3005,21 +2825,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_RAIN_DANCE},
         .battleAnimScript = gBattleAnimMove_Withdraw,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .defense = 1,
-        }),
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_DEFENSE_CURL] =
     {
-        .name = COMPOUND_STRING("Defense Curl"),
+        .name = COMPOUND_STRING("Horn Hazard"),
         .description = COMPOUND_STRING(
-            "Curls up to conceal weak\n"
-            "spots and raise Defense."),
-        .effect = EFFECT_DEFENSE_CURL,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 30,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 40,
@@ -3030,10 +2846,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .ignoresProtect = TRUE,
         .mirrorMoveBanned = TRUE,
         .snatchAffected = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .defense = 1,
-        }),
         .contestEffect = CONTEST_EFFECT_AVOID_STARTLE_ONCE,
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = COMBO_STARTER_DEFENSE_CURL,
@@ -3046,9 +2858,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Barrier"),
         .description = COMPOUND_STRING(
-            "Creates a barrier that\n"
-            "sharply raises Defense."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Discard 1 Energy attached\n"
+            "to this Pokémon to attack."),
+        .effect = EFFECT_TCG_DISCARD_USER_ENERGY,
         .power = 0,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
@@ -3065,10 +2877,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Barrier,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .defense = 2,
-        }),
         .validApprenticeMove = TRUE,
     },
 
@@ -3076,9 +2884,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Light Screen"),
         .description = COMPOUND_STRING(
-            "For 5 turns, a wall of light\n"
-            "reduces special damage."),
-        .effect = EFFECT_LIGHT_SCREEN,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
@@ -3100,12 +2908,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HAZE] =
     {
-        .name = COMPOUND_STRING("Haze"),
+        .name = COMPOUND_STRING("Horn Rush"),
         .description = COMPOUND_STRING(
-            "Creates a black haze that\n"
-            "eliminates all stat changes."),
-        .effect = EFFECT_HAZE,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 40,
         .type = TYPE_ICE,
         .accuracy = 0,
         .pp = 30,
@@ -3126,12 +2934,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_REFLECT] =
     {
-        .name = COMPOUND_STRING("Reflect"),
+        .name = COMPOUND_STRING("Swift Lunge"),
         .description = COMPOUND_STRING(
-            "For 5 turns, a wall of light\n"
-            "weakens physical attacks."),
-        .effect = EFFECT_REFLECT,
-        .power = 0,
+            "Flip a coin. If tails, this\n"
+            "Pokémon takes 20 HP recoil."),
+        .effect = EFFECT_TCG_SELF_DAMAGE_COIN,
+        .power = 60,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
         .pp = 20,
@@ -3154,9 +2962,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Focus Energy"),
         .description = COMPOUND_STRING(
-            "Focuses power to raise the\n"
-            "critical-hit ratio."),
-        .effect = EFFECT_FOCUS_ENERGY,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -3179,12 +2987,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BIDE] =
     {
-        .name = COMPOUND_STRING("Bide"),
+        .name = COMPOUND_STRING("Ram"),
         .description = COMPOUND_STRING(
-            "Endures attack for 2\n"
-            "turns to retaliate double."),
-        .effect = EFFECT_BIDE,
-        .power = 1,
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = (B_UPDATED_MOVE_DATA >= GEN_4 || B_UPDATED_MOVE_DATA == GEN_1) ? 0 : 100,
         .pp = 10,
@@ -3206,9 +3014,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Metronome"),
         .description = COMPOUND_STRING(
-            "Waggles a finger to use any\n"
-            "Pokémon move at random."),
-        .effect = EFFECT_METRONOME,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -3237,9 +3045,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Mirror Move"),
         .description = COMPOUND_STRING(
-            "Counters the foe's attack\n"
-            "with the same move."),
-        .effect = EFFECT_MIRROR_MOVE,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_FLYING,
         .accuracy = 0,
@@ -3267,11 +3075,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SELF_DESTRUCT] =
     {
-        .name = COMPOUND_STRING("Self-Destruct"),
+        .name = COMPOUND_STRING("Selfdestruct"),
         .description = COMPOUND_STRING(
-            "Inflicts severe damage but\n"
-            "makes the user faint."),
-        .effect = EFFECT_HIT,
+            "Deals massive damage; this\n"
+            "Pokémon also takes recoil."),
+        .effect = EFFECT_TCG_SELFDESTRUCT,
         .power = B_UPDATED_MOVE_DATA >= GEN_2 ? 200 : 130,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -3292,12 +3100,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_EGG_BOMB] =
     {
-        .name = COMPOUND_STRING("Egg Bomb"),
+        .name = COMPOUND_STRING("Suspicious S"),
         .description = COMPOUND_STRING(
-            "An egg is forcibly hurled at\n"
-            "the foe."),
-        .effect = EFFECT_HIT,
-        .power = 100,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Confused."),
+        .effect = EFFECT_TCG_INFLICT_CONFUSION,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 75,
         .pp = 10,
@@ -3317,9 +3125,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Lick"),
         .description = COMPOUND_STRING(
-            "Licks with a long tongue to\n"
-            "injure. May also paralyze."),
-        .effect = EFFECT_HIT,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 30 : 20,
         .type = TYPE_GHOST,
         .accuracy = 100,
@@ -3328,10 +3136,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_PARALYSIS,
-            .chance = 30,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_STARTLE_PREV_MON : CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = C_UPDATED_MOVE_CATEGORIES >= GEN_6 ? CONTEST_CATEGORY_CUTE : CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -3344,9 +3148,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Smog"),
         .description = COMPOUND_STRING(
-            "An exhaust-gas attack\n"
-            "that may also poison."),
-        .effect = EFFECT_HIT,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Poisoned."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 30 : 20,
         .type = TYPE_POISON,
         .accuracy = 70,
@@ -3354,10 +3158,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_POISON,
-            .chance = 40,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_BADLY_STARTLE_PREV_MONS,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = COMBO_STARTER_SMOG,
@@ -3369,20 +3169,16 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Sludge"),
         .description = COMPOUND_STRING(
-            "Sludge is hurled to inflict\n"
-            "damage. May also poison."),
-        .effect = EFFECT_HIT,
-        .power = 65,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Poisoned."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
+        .power = 30,
         .type = TYPE_POISON,
         .accuracy = 100,
         .pp = 20,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_POISON,
-            .chance = B_UPDATED_MOVE_DATA >= GEN_2 ? 30 : 40,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_STARTLE_PREV_MON : CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = COMBO_STARTER_SLUDGE,
@@ -3392,22 +3188,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BONE_CLUB] =
     {
-        .name = COMPOUND_STRING("Bone Club"),
+        .name = COMPOUND_STRING("Nosedive"),
         .description = COMPOUND_STRING(
-            "Clubs the foe with a bone.\n"
-            "May cause flinching."),
-        .effect = EFFECT_HIT,
-        .power = 65,
+            "Flip a coin. If tails, this\n"
+            "Pokémon takes 20 HP recoil."),
+        .effect = EFFECT_TCG_SELF_DAMAGE_COIN,
+        .power = 60,
         .type = TYPE_GROUND,
         .accuracy = 85,
         .pp = 20,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_REPETITION_NOT_BORING : CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = COMBO_STARTER_BONE_CLUB,
@@ -3419,9 +3211,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Fire Blast"),
         .description = COMPOUND_STRING(
-            "Incinerates everything it\n"
-            "strikes. May cause a burn."),
-        .effect = EFFECT_HIT,
+            "Discard 1 Energy attached\n"
+            "to this Pokémon to attack."),
+        .effect = EFFECT_TCG_DISCARD_USER_ENERGY,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 110 : 120,
         .type = TYPE_FIRE,
         .accuracy = 85,
@@ -3429,10 +3221,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_BURN,
-            .chance = B_UPDATED_MOVE_DATA >= GEN_2 ? 10 : 30,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_BETTER_WHEN_AUDIENCE_EXCITED : CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -3446,19 +3234,15 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .name = COMPOUND_STRING("Waterfall"),
     #if B_UPDATED_MOVE_DATA >= GEN_4
         .description = COMPOUND_STRING(
-            "Charges with speed to\n"
-            "climb waterfalls. May flinch."),
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 20,
-        }),
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
     #else
         .description = COMPOUND_STRING(
-            "Charges the foe with speed\n"
-            "to climb waterfalls."),
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
     #endif
         .effect = EFFECT_HIT,
-        .power = 80,
+        .power = 30,
         .type = TYPE_WATER,
         .accuracy = 100,
         .pp = 15,
@@ -3478,10 +3262,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Clamp"),
         .description = COMPOUND_STRING(
-            "Traps and squeezes the\n"
-            "foe for "BINDING_TURNS" turns."),
-        .effect = EFFECT_HIT,
-        .power = 35,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 30,
         .type = TYPE_WATER,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 85 : 75,
         .pp = B_UPDATED_MOVE_DATA >= GEN_5 ? 15 : 10,
@@ -3490,10 +3274,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .ignoresKingsRock = B_UPDATED_MOVE_FLAGS < GEN_3,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_WRAP,
-            .argument.wrapped = B_MSG_WRAPPED_CLAMP,
-        }),
         .contestEffect = CONTEST_EFFECT_DONT_EXCITE_AUDIENCE,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -3506,10 +3286,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Swift"),
         .description = COMPOUND_STRING(
-            "Sprays star-shaped rays\n"
-            "that never miss."),
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 60,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 20,
@@ -3529,20 +3309,14 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .name = COMPOUND_STRING("Skull Bash"),
     #if B_UPDATED_MOVE_DATA >= GEN_2
         .description = COMPOUND_STRING(
-            "Tucks in to raise Defense,\n"
-            "then attacks the next turn."),
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_PLUS,
-            .defense = 1,
-            .self = TRUE,
-            .onChargeTurnOnly = TRUE,
-        }),
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
     #else
         .description = COMPOUND_STRING(
-            "Tucks in the head, then\n"
-            "attacks on the next turn."),
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
     #endif
-        .effect = EFFECT_TWO_TURNS_ATTACK,
+        .effect = EFFECT_HIT,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 130 : 100,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -3566,10 +3340,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Spike Cannon"),
         .description = COMPOUND_STRING(
-            "Launches sharp spikes that\n"
-            "strike 2 to 5 times."),
-        .effect = EFFECT_HIT,
-        .power = 20,
+            "Flip coins: deals 30 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 30,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 15,
@@ -3586,11 +3360,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_CONSTRICT] =
     {
-        .name = COMPOUND_STRING("Constrict"),
+        .name = COMPOUND_STRING("Flitter"),
         .description = COMPOUND_STRING(
-            "Constricts to inflict pain.\n"
-            "May lower Speed."),
-        .effect = EFFECT_HIT,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -3599,11 +3373,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .speed = 1,
-            .chance = B_UPDATED_MOVE_DATA >= GEN_2 ? 10 : 33,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_WORSEN_CONDITION_OF_PREV_MONS : CONTEST_EFFECT_STARTLE_PREV_MON,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -3615,9 +3384,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Amnesia"),
         .description = COMPOUND_STRING(
-            "Forgets about something\n"
-            "and sharply raises Sp. Def."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Disables 1 of the foe's\n"
+            "attacks on their next turn."),
+        .effect = EFFECT_TCG_DISABLE_MOVE,
         .power = 0,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
@@ -3633,21 +3402,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = COMBO_STARTER_AMNESIA,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .spDef = 2,
-        }),
         .battleAnimScript = gBattleAnimMove_Amnesia,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_KINESIS] =
     {
-        .name = COMPOUND_STRING("Kinesis"),
+        .name = COMPOUND_STRING("Sprout"),
         .description = COMPOUND_STRING(
-            "Distracts the foe.\n"
-            "Lowers accuracy."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Draws 1 card from your deck\n"
+            "after attacking."),
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 0,
         .type = TYPE_PSYCHIC,
         .accuracy = 80,
@@ -3661,22 +3426,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = COMBO_STARTER_KINESIS,
         .contestComboMoves = {COMBO_STARTER_CONFUSION, COMBO_STARTER_PSYCHIC},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .accuracy = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_Kinesis,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_SOFT_BOILED] =
     {
-        .name = COMPOUND_STRING("Soft-Boiled"),
+        .name = COMPOUND_STRING("Foul Odor"),
         .description = COMPOUND_STRING(
-            "Recovers up to half the\n"
-            "user's maximum HP."),
-        .effect = EFFECT_SOFTBOILED,
-        .power = 0,
+            "The Defending Pokémon is\n"
+            "now Confused."),
+        .effect = EFFECT_TCG_INFLICT_CONFUSION,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = B_UPDATED_MOVE_DATA >= GEN_9 ? 5 : 10,
@@ -3698,18 +3459,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HIGH_JUMP_KICK] =
     {
-        .name = COMPOUND_STRING("High Jump Kick"),
+        .name = COMPOUND_STRING("High Jump Ki"),
         .description = COMPOUND_STRING(
-            "A jumping knee kick. If it\n"
-            "misses, the user is hurt."),
+            "Deals 50 HP damage to the\n"
+            "Defending Pokémon."),
     #if B_UPDATED_MOVE_DATA >= GEN_5
-        .power = 130,
+        .power = 50,
     #elif B_UPDATED_MOVE_DATA == GEN_4
-        .power = 100,
+        .power = 50,
     #else
-        .power = 85,
+        .power = 50,
     #endif
-        .effect = EFFECT_RECOIL_IF_MISS,
+        .effect = EFFECT_HIT,
         .type = TYPE_FIGHTING,
         .accuracy = 90,
         .pp = B_UPDATED_MOVE_DATA >= GEN_5 ? 10 : 20,
@@ -3728,10 +3489,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_GLARE] =
     {
-        .name = COMPOUND_STRING("Glare"),
+        .name = COMPOUND_STRING("Petal Whirlw"),
         .description = COMPOUND_STRING(
-            "Intimidates and frightens\n"
-            "the foe into paralysis."),
+            "Flip coins: deals 30 damage\n"
+            "times number of heads."),
     #if B_UPDATED_MOVE_DATA >= GEN_6
         .accuracy = 100,
     #elif B_UPDATED_MOVE_DATA == GEN_5
@@ -3739,8 +3500,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     #else
         .accuracy = 75,
     #endif
-        .effect = EFFECT_NON_VOLATILE_STATUS,
-        .power = 0,
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 30,
         .type = TYPE_NORMAL,
         .pp = 30,
         .target = TARGET_SELECTED,
@@ -3761,10 +3522,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Dream Eater"),
         .description = COMPOUND_STRING(
-            "Absorbs one half the damage\n"
-            "inflicted on a sleeping foe."),
-        .effect = EFFECT_DREAM_EATER,
-        .power = 100,
+            "The Defending Pokémon is\n"
+            "now Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
+        .power = 50,
         .type = TYPE_PSYCHIC,
         .accuracy = 100,
         .pp = 15,
@@ -3776,10 +3537,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_CALM_MIND, COMBO_STARTER_HYPNOSIS, COMBO_STARTER_LOVELY_KISS, COMBO_STARTER_SPORE, COMBO_STARTER_SING, COMBO_STARTER_YAWN, COMBO_STARTER_DARK_VOID, COMBO_STARTER_GRASS_WHISTLE, COMBO_STARTER_SLEEP_POWDER},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_ABSORB,
-            .argument.absorbPercentage = 50,
-        }),
         .battleAnimScript = gBattleAnimMove_DreamEater,
         .validApprenticeMove = TRUE,
     },
@@ -3788,6 +3545,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Poison Gas"),
         .description = COMPOUND_STRING(
+            "The Defending Pokémon is\n"
+            "now Poisoned (10 HP/turn)."),
         #if B_UPDATED_MOVE_DATA >= GEN_5
             "Envelops the foes in a toxic\n"
         #else
@@ -3801,7 +3560,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     #else
         .accuracy = 55,
     #endif
-        .effect = EFFECT_NON_VOLATILE_STATUS,
+        .effect = EFFECT_TCG_INFLICT_POISON,
         .power = 0,
         .type = TYPE_POISON,
         .pp = 40,
@@ -3820,11 +3579,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BARRAGE] =
     {
-        .name = COMPOUND_STRING("Barrage"),
+        .name = COMPOUND_STRING("Scatter Spor"),
         .description = COMPOUND_STRING(
-            "Hurls round objects at the\n"
-            "foe 2 to 5 times."),
-        .effect = EFFECT_HIT,
+            "Draws 1 card from your deck\n"
+            "after attacking."),
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 15,
         .type = TYPE_NORMAL,
         .accuracy = 85,
@@ -3845,9 +3604,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Leech Life"),
         .description = COMPOUND_STRING(
-            "An attack that steals half\n"
-            "the damage inflicted."),
-        .effect = EFFECT_HIT,
+            "Heals 20 HP of damage from\n"
+            "this Pokémon."),
+        .effect = EFFECT_TCG_HEAL_USER,
         .power = B_UPDATED_MOVE_DATA >= GEN_7 ? 80 : 20,
         .type = TYPE_BUG,
         .accuracy = 100,
@@ -3862,21 +3621,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_ABSORB,
-            .argument.absorbPercentage = 50,
-        }),
         .battleAnimScript = gBattleAnimMove_LeechLife,
     },
 
     [MOVE_LOVELY_KISS] =
     {
-        .name = COMPOUND_STRING("Lovely Kiss"),
+        .name = COMPOUND_STRING("Toxic Spore"),
         .description = COMPOUND_STRING(
-            "Demands a kiss with a scary\n"
-            "face that induces sleep."),
-        .effect = EFFECT_NON_VOLATILE_STATUS,
-        .power = 0,
+            "The Defending Pokémon is\n"
+            "now Poisoned (10 HP/turn)."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 75,
         .pp = 10,
@@ -3896,22 +3651,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SKY_ATTACK] =
     {
-        .name = COMPOUND_STRING("Sky Attack"),
+        .name = COMPOUND_STRING("Stir Up Twis"),
     #if B_UPDATED_MOVE_DATA >= GEN_3
         .description = COMPOUND_STRING(
-            "2-turn move. May flinch and\n"
-            "has a high critical-hit rate."),
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 30,
-        }),
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
     #else
         .description = COMPOUND_STRING(
-            "Searches out weak spots,\n"
-            "then strikes the next turn."),
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
     #endif
-        .effect = EFFECT_TWO_TURNS_ATTACK,
-        .power = 140,
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 20,
         .type = TYPE_FLYING,
         .accuracy = 90,
         .pp = 5,
@@ -3932,12 +3683,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_TRANSFORM] =
     {
-        .name = COMPOUND_STRING("Transform"),
+        .name = COMPOUND_STRING("Rainbow Powd"),
         .description = COMPOUND_STRING(
-            "Alters the user's cells to\n"
-            "become a copy of the foe."),
-        .effect = EFFECT_TRANSFORM,
-        .power = 0,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Poisoned."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 10,
@@ -3966,9 +3717,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Bubble"),
         .description = COMPOUND_STRING(
-            "An attack using bubbles.\n"
-            "May lower the foes' Speed."),
-        .effect = EFFECT_HIT,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 40 : 20,
         .type = TYPE_WATER,
         .accuracy = 100,
@@ -3976,11 +3727,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .target = TARGET_BOTH,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .speed = 1,
-            .chance = B_UPDATED_MOVE_DATA >= GEN_2 ? 10 : 33,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_STARTLE_PREV_MONS,
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = 0,
@@ -3993,19 +3739,15 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .name = COMPOUND_STRING("Dizzy Punch"),
     #if B_UPDATED_MOVE_DATA >= GEN_2
         .description = COMPOUND_STRING(
-            "A rhythmic punch that may\n"
-            "confuse the foe."),
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_CONFUSION,
-            .chance = 20,
-        }),
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
     #else
         .description = COMPOUND_STRING(
-            "The foe is hit with a\n"
-            "rhythmic punch."),
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
     #endif
-        .effect = EFFECT_HIT,
-        .power = 70,
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 10,
@@ -4026,9 +3768,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Spore"),
         .description = COMPOUND_STRING(
-            "Scatters a cloud of spores\n"
-            "that always induce sleep."),
-        .effect = EFFECT_NON_VOLATILE_STATUS,
+            "The Defending Pokémon is\n"
+            "now Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
         .power = 0,
         .type = TYPE_GRASS,
         .accuracy = 100,
@@ -4050,12 +3792,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FLASH] =
     {
-        .name = COMPOUND_STRING("Flash"),
+        .name = COMPOUND_STRING("Venom Powder"),
         .description = COMPOUND_STRING(
-            "Looses a powerful blast of\n"
-            "light that lowers accuracy."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Poisoned."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_4 ? 100 : 70,
         .pp = 20,
@@ -4068,10 +3810,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .accuracy = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_Flash,
         .validApprenticeMove = TRUE,
     },
@@ -4080,10 +3818,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Psywave"),
         .description = COMPOUND_STRING(
-            "Attacks with a psychic\n"
-            "wave of varying intensity."),
-        .effect = EFFECT_PSYWAVE,
-        .power = 1,
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 10,
         .type = TYPE_PSYCHIC,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_6 ? 100 : 80,
         .pp = 15,
@@ -4100,11 +3838,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SPLASH] =
     {
-        .name = COMPOUND_STRING("Splash"),
+        .name = COMPOUND_STRING("Sway"),
         .description = COMPOUND_STRING(
-            "It's just a splash...\n"
-            "Has no effect whatsoever."),
-        .effect = EFFECT_DO_NOTHING,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -4125,11 +3863,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ACID_ARMOR] =
     {
-        .name = COMPOUND_STRING("Acid Armor"),
+        .name = COMPOUND_STRING("Regeneration"),
         .description = COMPOUND_STRING(
-            "Liquifies the user's body\n"
-            "to sharply raise Defense."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Heals 20 HP of damage from\n"
+            "this Pokémon."),
+        .effect = EFFECT_TCG_HEAL_USER,
         .power = 0,
         .type = TYPE_POISON,
         .accuracy = 0,
@@ -4146,10 +3884,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_AcidArmor,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .defense = 2,
-        }),
         .validApprenticeMove = TRUE,
     },
 
@@ -4157,8 +3891,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Crabhammer"),
         .description = COMPOUND_STRING(
-            "Hammers with a pincer. Has a\n"
-            "high critical-hit ratio."),
+            "Deals 40 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 100 : 90,
         .type = TYPE_WATER,
@@ -4185,11 +3919,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_EXPLOSION] =
     {
-        .name = COMPOUND_STRING("Explosion"),
+        .name = COMPOUND_STRING("Dissolve"),
         .description = COMPOUND_STRING(
-            "Inflicts severe damage but\n"
-            "makes the user faint."),
-        .effect = EFFECT_HIT,
+            "Discards 1 Energy attached\n"
+            "to the Defending Pokémon."),
+        .effect = EFFECT_TCG_DISCARD_TARGET_ENERGY,
         .power = B_UPDATED_MOVE_DATA >= GEN_2 ? 250 : 170,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -4212,10 +3946,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Fury Swipes"),
         .description = COMPOUND_STRING(
-            "Rakes the foe with sharp\n"
-            "claws, etc., 2 to 5 times."),
-        .effect = EFFECT_HIT,
-        .power = 18,
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 80,
         .pp = 15,
@@ -4235,10 +3969,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Bonemerang"),
         .description = COMPOUND_STRING(
-            "Throws a bone boomerang\n"
-            "that strikes twice."),
-        .effect = EFFECT_HIT,
-        .power = 50,
+            "Flip coins: deals 30 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 30,
         .type = TYPE_GROUND,
         .accuracy = 90,
         .pp = 10,
@@ -4258,9 +3992,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Rest"),
         .description = COMPOUND_STRING(
-            "The user sleeps for 2 turns,\n"
-            "restoring HP and status."),
-        .effect = EFFECT_REST,
+            "Heals 20 HP of damage from\n"
+            "this Pokémon."),
+        .effect = EFFECT_TCG_HEAL_USER,
         .power = 0,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
@@ -4283,21 +4017,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ROCK_SLIDE] =
     {
-        .name = COMPOUND_STRING("Rock Slide"),
+        .name = COMPOUND_STRING("Lure"),
     #if B_UPDATED_MOVE_DATA >= GEN_2
         .description = COMPOUND_STRING(
-            "Large boulders are hurled.\n"
-            "May cause flinching."),
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 30,
-        }),
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
     #else
         .description = COMPOUND_STRING(
-            "Hits the foes with an\n"
-            "avalanche of boulders."),
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
     #endif
-        .effect = EFFECT_HIT,
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 75,
         .type = TYPE_ROCK,
         .accuracy = 90,
@@ -4317,10 +4047,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Hyper Fang"),
         .description = COMPOUND_STRING(
-            "Attacks with sharp fangs.\n"
-            "May cause flinching."),
-        .effect = EFFECT_HIT,
-        .power = 80,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 50,
         .type = TYPE_NORMAL,
         .accuracy = 90,
         .pp = 15,
@@ -4329,10 +4059,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .bitingMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_REPETITION_NOT_BORING : CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -4343,12 +4069,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SHARPEN] =
     {
-        .name = COMPOUND_STRING("Sharpen"),
+        .name = COMPOUND_STRING("Sticky Hands"),
         .description = COMPOUND_STRING(
-            "Reduces the polygon count\n"
-            "and raises Attack."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 30,
@@ -4364,25 +4090,22 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Sharpen,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .attack = 1,
-        }),
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_CONVERSION] =
     {
-        .name = COMPOUND_STRING("Conversion"),
+        .name = COMPOUND_STRING("Nasty Goo"),
         .description = COMPOUND_STRING(
-            "Changes the user's type into\n"
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
         #if B_UPDATED_CONVERSION >= GEN_6
             "the first known move's type."),
         #else
             "a known move's type."),
         #endif
-        .effect = EFFECT_CONVERSION,
-        .power = 0,
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 30,
@@ -4407,25 +4130,20 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     #if B_UPDATED_MOVE_DATA >= GEN_2
         #if B_USE_FROSTBITE
         .description = COMPOUND_STRING(
-            "Fires three types of beams.\n"
-            "May burn/parlyz/frostbite."),
+            "Flip coins: deals 20 damage\n"
+            "times number of heads."),
         #else
         .description = COMPOUND_STRING(
-            "Fires three types of beams.\n"
-            "May burn/paralyze/freeze."),
+            "Flip coins: deals 20 damage\n"
+            "times number of heads."),
         #endif
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_RANDOM_FROM_LIST,
-            .chance = 20,
-            .argument.randomMoveEffects = { MOVE_EFFECT_BURN, MOVE_EFFECT_PARALYSIS, MOVE_EFFECT_FREEZE_OR_FROSTBITE },
-        }),
     #else
         .description = COMPOUND_STRING(
-            "A triangular field of energy\n"
-            "is created and launched."),
+            "Flip coins: deals 20 damage\n"
+            "times number of heads."),
     #endif
-        .effect = EFFECT_HIT,
-        .power = 80,
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 10,
@@ -4444,9 +4162,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Super Fang"),
         .description = COMPOUND_STRING(
-            "Attacks with sharp fangs\n"
-            "and cuts half the foe's HP."),
-        .effect = EFFECT_FIXED_PERCENT_DAMAGE,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 1,
         .type = TYPE_NORMAL,
         .accuracy = 90,
@@ -4469,8 +4187,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Slash"),
         .description = COMPOUND_STRING(
-            "Slashes with claws, etc. Has\n"
-            "a high critical-hit ratio."),
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
         .power = B_UPDATED_MOVE_DATA == GEN_CHAMPIONS ? 80 : 70,
         .type = TYPE_NORMAL,
@@ -4492,12 +4210,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SUBSTITUTE] =
     {
-        .name = COMPOUND_STRING("Substitute"),
+        .name = COMPOUND_STRING("Sludge Punch"),
         .description = COMPOUND_STRING(
-            "Creates a decoy using 1/4\n"
-            "of the user's maximum HP."),
-        .effect = EFFECT_SUBSTITUTE,
-        .power = 0,
+            "The Defending Pokémon is\n"
+            "now Poisoned (10 HP/turn)."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 10,
@@ -4519,22 +4237,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_STRUGGLE] =
     {
-        .name = COMPOUND_STRING("Struggle"),
+        .name = COMPOUND_STRING("Big Eggsplos"),
         .description = COMPOUND_STRING(
-            "Used only if all PP are gone.\n"
-            "Also hurts the user a little."),
+            "Flip coins: deals 20 damage\n"
+            "times number of heads."),
         .effect = B_UPDATED_MOVE_DATA >= GEN_4 ? EFFECT_STRUGGLE : EFFECT_RECOIL,
     #if B_UPDATED_MOVE_DATA >= GEN_4
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_RECOIL_HP_25,
-            .self = TRUE,
-        }),
     #elif B_UPDATED_MOVE_DATA >= GEN_2
         .argument = { .recoilPercentage = 25 },
     #else
         .argument = { .recoilPercentage = 50 },
     #endif
-        .power = 50,
+        .power = 20,
         .type = B_UPDATED_MOVE_TYPES >= GEN_2 ? TYPE_MYSTERY : TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_4 ? 0 : 100,
         .pp = B_UPDATED_MOVE_DATA >= GEN_2 ? 1: 10,
@@ -4594,11 +4308,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_TRIPLE_KICK] =
     {
-        .name = COMPOUND_STRING("Triple Kick"),
+        .name = COMPOUND_STRING("Foul Gas"),
         .description = COMPOUND_STRING(
-            "Kicks the foe 3 times in a\n"
-            "row with rising intensity."),
-        .effect = EFFECT_TRIPLE_KICK,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Poisoned."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
         .power = 10,
         .type = TYPE_FIGHTING,
         .accuracy = 90,
@@ -4618,11 +4332,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_THIEF] =
     {
-        .name = COMPOUND_STRING("Thief"),
+        .name = COMPOUND_STRING("Confusion Ga"),
         .description = COMPOUND_STRING(
-            "While attacking, it\n"
-            "steals the foe's held item."),
-        .effect = EFFECT_STEAL_ITEM,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Confused."),
+        .effect = EFFECT_TCG_INFLICT_CONFUSION,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 60 : 40,
         .type = TYPE_DARK,
         .accuracy = 100,
@@ -4646,12 +4360,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SPIDER_WEB] =
     {
-        .name = COMPOUND_STRING("Spider Web"),
+        .name = COMPOUND_STRING("Gas Explosio"),
         .description = COMPOUND_STRING(
-            "Ensnares the foe to stop it\n"
-            "from fleeing or switching."),
-        .effect = EFFECT_MEAN_LOOK,
-        .power = 0,
+            "Powerful strike; user also\n"
+            "takes 20 HP recoil damage."),
+        .effect = EFFECT_TCG_SELF_DAMAGE_COIN,
+        .power = 40,
         .type = TYPE_BUG,
         .accuracy = 0,
         .pp = 10,
@@ -4671,12 +4385,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MIND_READER] =
     {
-        .name = COMPOUND_STRING("Mind Reader"),
+        .name = COMPOUND_STRING("Mass Explosi"),
         .description = COMPOUND_STRING(
-            "Senses the foe's action to\n"
-            "ensure the next move's hit."),
-        .effect = EFFECT_LOCK_ON,
-        .power = 0,
+            "Flip coins: deals 20 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_4 ? 0 : 100,
         .pp = 5,
@@ -4696,10 +4410,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Nightmare"),
         .description = COMPOUND_STRING(
-            "Inflicts 1/4 damage on a\n"
-            "sleeping foe every turn."),
-        .effect = EFFECT_NIGHTMARE,
-        .power = 0,
+            "The Defending Pokémon is\n"
+            "now Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
+        .power = 10,
         .type = TYPE_GHOST,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_4 ? 100 : 0,
         .pp = 15,
@@ -4718,12 +4432,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FLAME_WHEEL] =
     {
-        .name = COMPOUND_STRING("Flame Wheel"),
+        .name = COMPOUND_STRING("Stun Gas"),
         .description = COMPOUND_STRING(
-            "A fiery charge attack that\n"
-            "may inflict a burn."),
-        .effect = EFFECT_HIT,
-        .power = 60,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Poisoned."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
+        .power = 20,
         .type = TYPE_FIRE,
         .accuracy = 100,
         .pp = 25,
@@ -4732,10 +4446,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .thawsUser = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_BURN,
-            .chance = 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_AFFECTED_BY_PREV_APPEAL : CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -4745,11 +4455,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SNORE] =
     {
-        .name = COMPOUND_STRING("Snore"),
+        .name = COMPOUND_STRING("Poison Whip"),
         .description = COMPOUND_STRING(
-            "A loud move that can be used\n"
-            "only while asleep. May flinch."),
-        .effect = EFFECT_SNORE,
+            "The Defending Pokémon is\n"
+            "now Poisoned (10 HP/turn)."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 50 : 40,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -4760,10 +4470,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .ignoresSubstitute = B_UPDATED_MOVE_FLAGS >= GEN_6,
         .soundMove = TRUE,
         .metronomeBanned = B_UPDATED_MOVE_FLAGS >= GEN_5,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 30,
-        }),
         .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING, //C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_QUICKLY_GROW_BORED :
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = 0,
@@ -4774,12 +4480,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_CURSE] =
     {
-        .name = COMPOUND_STRING("Curse"),
+        .name = COMPOUND_STRING("Slashing Str"),
         .description = COMPOUND_STRING(
-            "A move that functions\n"
-            "differently for Ghosts."),
-        .effect = EFFECT_CURSE,
-        .power = 0,
+            "Deals 40 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 40,
         .type = B_UPDATED_MOVE_TYPES >= GEN_5 ? TYPE_GHOST : TYPE_MYSTERY,
         .accuracy = 0,
         .pp = 10,
@@ -4794,15 +4500,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = COMBO_STARTER_CURSE,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .speed = 1,
-        },
-        {
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .attack = 1,
-            .defense = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_Curse,
         .validApprenticeMove = TRUE,
     },
@@ -4811,10 +4508,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Flail"),
         .description = COMPOUND_STRING(
-            "Inflicts more damage when\n"
-            "the user's HP is down."),
-        .effect = EFFECT_FLAIL,
-        .power = 1,
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 15,
@@ -4834,9 +4531,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Conversion 2"),
         .description = COMPOUND_STRING(
-            "Makes the user resistant\n"
-            "to the last attack's type."),
-        .effect = EFFECT_CONVERSION_2,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -4860,10 +4557,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Aeroblast"),
         .description = COMPOUND_STRING(
-            "Launches a vacuumed blast.\n"
-            "High critical-hit ratio."),
-        .effect = EFFECT_HIT,
-        .power = 100,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 20,
         .type = TYPE_FLYING,
         .accuracy = 95,
         .criticalHitStage = B_UPDATED_MOVE_DATA >= GEN_3 ? 1 : 2,
@@ -4882,16 +4579,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_COTTON_SPORE] =
     {
-        .name = COMPOUND_STRING("Cotton Spore"),
+        .name = COMPOUND_STRING("Slicing Thro"),
         .description = COMPOUND_STRING(
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
         #if B_UPDATED_MOVE_DATA >= GEN_6
             "Spores cling to the foes,\n"
         #else
             "Spores cling to the foe,\n"
         #endif
             "harshly lowering Speed."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 10,
         .type = TYPE_GRASS,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 100 : 85,
         .pp = 40,
@@ -4905,22 +4604,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .speed = 2,
-        }),
         .battleAnimScript = gBattleAnimMove_CottonSpore,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_REVERSAL] =
     {
-        .name = COMPOUND_STRING("Reversal"),
+        .name = COMPOUND_STRING("Irongrip"),
         .description = COMPOUND_STRING(
-            "Inflicts more damage when\n"
-            "the user's HP is down."),
-        .effect = EFFECT_FLAIL,
-        .power = 1,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 20,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
         .pp = 15,
@@ -4938,16 +4633,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SPITE] =
     {
-        .name = COMPOUND_STRING("Spite"),
+        .name = COMPOUND_STRING("Fire Tail"),
         .description = COMPOUND_STRING(
-            "Spitefully cuts the PP of\n"
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
         #if B_PP_REDUCED_BY_SPITE >= GEN_4
             "the foe's last move by 4."),
         #else
             "the foe's last move by 2-5."),
         #endif
-        .effect = EFFECT_SPITE,
-        .power = 0,
+        .effect = EFFECT_HIT,
+        .power = 20,
         .type = TYPE_GHOST,
         .accuracy = 100,
         .pp = 10,
@@ -4967,26 +4663,23 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_POWDER_SNOW] =
     {
-        .name = COMPOUND_STRING("Powder Snow"),
+        .name = COMPOUND_STRING("Tail Slap"),
         .description = COMPOUND_STRING(
-            "Blasts the foes with a snowy\n"
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
         #if B_USE_FROSTBITE
             "gust. May cause frostbite."),
         #else
             "gust. May cause freezing."),
         #endif
         .effect = EFFECT_HIT,
-        .power = 40,
+        .power = 20,
         .type = TYPE_ICE,
         .accuracy = 100,
         .pp = 25,
         .target = TARGET_BOTH,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FREEZE_OR_FROSTBITE,
-            .chance = 10,
-        }),
         .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = COMBO_STARTER_POWDER_SNOW,
@@ -4996,12 +4689,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_PROTECT] =
     {
-        .name = COMPOUND_STRING("Protect"),
+        .name = COMPOUND_STRING("Fireball"),
         .description = COMPOUND_STRING(
-            "Evades attack, but may fail\n"
-            "if used in succession."),
-        .effect = EFFECT_PROTECT,
-        .power = 0,
+            "Discard 1 Energy attached\n"
+            "to this Pokémon to attack."),
+        .effect = EFFECT_TCG_DISCARD_USER_ENERGY,
+        .power = 70,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = B_UPDATED_MOVE_DATA >= GEN_CHAMPIONS ? 5 : 10,
@@ -5033,10 +4726,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Mach Punch"),
         .description = COMPOUND_STRING(
-            "A punch is thrown at wicked\n"
-            "speed to strike first."),
-        .effect = EFFECT_HIT,
-        .power = 40,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 20,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
         .pp = 30,
@@ -5055,12 +4748,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SCARY_FACE] =
     {
-        .name = COMPOUND_STRING("Scary Face"),
+        .name = COMPOUND_STRING("Nail Flick"),
         .description = COMPOUND_STRING(
-            "Frightens with a scary face\n"
-            "to harshly lower Speed."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 100 : 90,
         .pp = 10,
@@ -5073,22 +4766,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = COMBO_STARTER_SCARY_FACE,
         .contestComboMoves = {COMBO_STARTER_LEER, COMBO_STARTER_RAGE},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .speed = 2,
-        }),
         .battleAnimScript = gBattleAnimMove_ScaryFace,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_FEINT_ATTACK] =
     {
-        .name = COMPOUND_STRING("Feint Attack"),
+        .name = COMPOUND_STRING("Continuous F"),
         .description = COMPOUND_STRING(
-            "Draws the foe close, then\n"
-            "strikes without fail."),
-        .effect = EFFECT_HIT,
-        .power = 60,
+            "Flip coins: deals 50 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 50,
         .type = TYPE_DARK,
         .accuracy = 0,
         .pp = 20,
@@ -5106,12 +4795,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SWEET_KISS] =
     {
-        .name = COMPOUND_STRING("Sweet Kiss"),
+        .name = COMPOUND_STRING("Foxfire"),
         .description = COMPOUND_STRING(
-            "Demands a kiss with a cute\n"
-            "look. Causes confusion."),
-        .effect = EFFECT_CONFUSE,
-        .power = 0,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 10,
         .type = B_UPDATED_MOVE_TYPES >= GEN_6 ? TYPE_FAIRY : TYPE_NORMAL,
         .accuracy = 75,
         .pp = 10,
@@ -5130,11 +4819,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BELLY_DRUM] =
     {
-        .name = COMPOUND_STRING("Belly Drum"),
+        .name = COMPOUND_STRING("Mix-Up"),
         .description = COMPOUND_STRING(
-            "Maximizes Attack while\n"
-            "sacrificing half the max HP."),
-        .effect = EFFECT_BELLY_DRUM,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -5146,10 +4835,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .snatchAffected = TRUE,
         .ignoresProtect = TRUE,
         .mirrorMoveBanned = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .attack = STAT_CHANGE_FORCE_MAX,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_USER_MORE_EASILY_STARTLED : CONTEST_EFFECT_IMPROVE_CONDITION_PREVENT_NERVOUSNESS,
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = COMBO_STARTER_BELLY_DRUM,
@@ -5160,12 +4845,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SLUDGE_BOMB] =
     {
-        .name = COMPOUND_STRING("Sludge Bomb"),
+        .name = COMPOUND_STRING("Dancing Embe"),
         .description = COMPOUND_STRING(
-            "Sludge is hurled to inflict\n"
-            "damage. May also poison."),
-        .effect = EFFECT_HIT,
-        .power = 90,
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 10,
         .type = TYPE_POISON,
         .accuracy = 100,
         .pp = 10,
@@ -5173,10 +4858,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .ballisticMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_POISON,
-            .chance = 30,
-        }),
         .contestEffect = CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = COMBO_STARTER_SLUDGE_BOMB,
@@ -5187,23 +4868,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MUD_SLAP] =
     {
-        .name = COMPOUND_STRING("Mud-Slap"),
+        .name = COMPOUND_STRING("Mud Slap"),
         .description = COMPOUND_STRING(
-            "Hurls mud in the foe's face\n"
-            "to lower its accuracy."),
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 20,
+        .power = 30,
         .type = TYPE_GROUND,
         .accuracy = 100,
         .pp = 10,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .accuracy = 1,
-            .chance = 100,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_WORSEN_CONDITION_OF_PREV_MONS : CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = COMBO_STARTER_MUD_SLAP,
@@ -5214,11 +4890,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_OCTAZOOKA] =
     {
-        .name = COMPOUND_STRING("Octazooka"),
+        .name = COMPOUND_STRING("Perplex"),
         .description = COMPOUND_STRING(
-            "Fires a lump of ink to\n"
-            "damage. May lower accuracy."),
-        .effect = EFFECT_HIT,
+            "Draws 1 card from your deck\n"
+            "after attacking."),
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 65,
         .type = TYPE_WATER,
         .accuracy = 85,
@@ -5227,11 +4903,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .ballisticMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .accuracy = 1,
-            .chance = 50,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_REPETITION_NOT_BORING : CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -5242,12 +4913,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SPIKES] =
     {
-        .name = COMPOUND_STRING("Spikes"),
+        .name = COMPOUND_STRING("Nine Tails"),
         .description = COMPOUND_STRING(
-            "Sets spikes that hurt a \n"
-            "foe switching in."),
-        .effect = EFFECT_SPIKES,
-        .power = 0,
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 10,
         .type = TYPE_GROUND,
         .accuracy = 0,
         .pp = 20,
@@ -5270,11 +4941,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ZAP_CANNON] =
     {
-        .name = COMPOUND_STRING("Zap Cannon"),
+        .name = COMPOUND_STRING("Lunge"),
         .description = COMPOUND_STRING(
-            "Powerful and sure to cause\n"
-            "paralysis, but inaccurate."),
-        .effect = EFFECT_HIT,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
         .power = B_UPDATED_MOVE_DATA >= GEN_4 ? 120 : 100,
         .type = TYPE_ELECTRIC,
         .accuracy = 50,
@@ -5283,10 +4954,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .ballisticMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_PARALYSIS,
-            .chance = 100,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_BADLY_STARTLE_MONS_WITH_GOOD_APPEALS : CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -5297,11 +4964,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FORESIGHT] =
     {
-        .name = COMPOUND_STRING("Foresight"),
+        .name = COMPOUND_STRING("Errand-Runni"),
         .description = COMPOUND_STRING(
-            "Negates evasion and the\n"
-            "Ghost type's immunities."),
-        .effect = EFFECT_FORESIGHT,
+            "Draws 1 card from your deck\n"
+            "after attacking."),
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 0 : 100,
@@ -5324,9 +4991,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Destiny Bond"),
         .description = COMPOUND_STRING(
-            "If the user faints, the foe\n"
-            "is also made to faint."),
-        .effect = EFFECT_DESTINY_BOND,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_GHOST,
         .accuracy = 0,
@@ -5351,12 +5018,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_PERISH_SONG] =
     {
-        .name = COMPOUND_STRING("Perish Song"),
+        .name = COMPOUND_STRING("Flare"),
         .description = COMPOUND_STRING(
-            "Any Pokémon hearing this\n"
-            "song faints in 3 turns."),
-        .effect = EFFECT_PERISH_SONG,
-        .power = 0,
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 5,
@@ -5378,12 +5045,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ICY_WIND] =
     {
-        .name = COMPOUND_STRING("Icy Wind"),
+        .name = COMPOUND_STRING("Flames of Ra"),
         .description = COMPOUND_STRING(
-            "A chilling attack that\n"
-            "lowers the foes' Speed."),
-        .effect = EFFECT_HIT,
-        .power = 55,
+            "Deals +10 extra damage for\n"
+            "each extra Energy attached."),
+        .effect = EFFECT_TCG_ENERGY_BOOST,
+        .power = 40,
         .type = TYPE_ICE,
         .accuracy = 95,
         .pp = 15,
@@ -5391,11 +5058,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .windMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .speed = 1,
-            .chance = 100,
-        }),
         .contestEffect = CONTEST_EFFECT_BADLY_STARTLE_PREV_MONS,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -5406,12 +5068,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_DETECT] =
     {
-        .name = COMPOUND_STRING("Detect"),
+        .name = COMPOUND_STRING("Smash Kick"),
         .description = COMPOUND_STRING(
-            "Evades attack, but may fail\n"
-            "if used in succession."),
-        .effect = EFFECT_PROTECT,
-        .power = 0,
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 10,
         .type = TYPE_FIGHTING,
         .accuracy = 0,
         .pp = 5,
@@ -5441,11 +5103,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BONE_RUSH] =
     {
-        .name = COMPOUND_STRING("Bone Rush"),
+        .name = COMPOUND_STRING("Fireworks"),
         .description = COMPOUND_STRING(
-            "Strikes the foe with a bone\n"
-            "in hand 2 to 5 times."),
-        .effect = EFFECT_HIT,
+            "Discard 1 Energy attached\n"
+            "to this Pokémon to attack."),
+        .effect = EFFECT_TCG_DISCARD_USER_ENERGY,
         .power = B_UPDATED_MOVE_DATA >= GEN_CHAMPIONS ? 30 : 25,
         .type = TYPE_GROUND,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 90 : 80,
@@ -5463,12 +5125,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_LOCK_ON] =
     {
-        .name = COMPOUND_STRING("Lock-On"),
+        .name = COMPOUND_STRING("Flame Tail"),
         .description = COMPOUND_STRING(
-            "Locks on to the foe to\n"
-            "ensure the next move hits."),
-        .effect = EFFECT_LOCK_ON,
-        .power = 0,
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 30,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_4 ? 0 : 100,
         .pp = 5,
@@ -5486,11 +5148,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_OUTRAGE] =
     {
-        .name = COMPOUND_STRING("Outrage"),
+        .name = COMPOUND_STRING("Flame Infern"),
         .description = COMPOUND_STRING(
-            "A rampage of 2 to 3 turns\n"
-            "that confuses the user."),
-        .effect = EFFECT_HIT,
+            "Deals +10 extra damage for\n"
+            "each extra Energy attached."),
+        .effect = EFFECT_TCG_ENERGY_BOOST,
         .power = B_UPDATED_MOVE_DATA >= GEN_4 ? 120 : 90,
         .type = TYPE_DRAGON,
         .accuracy = 100,
@@ -5500,10 +5162,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .instructBanned = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_THRASH,
-            .self = TRUE,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_USER_MORE_EASILY_STARTLED : CONTEST_EFFECT_JAMS_OTHERS_BUT_MISS_ONE_TURN,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -5514,12 +5172,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SANDSTORM] =
     {
-        .name = COMPOUND_STRING("Sandstorm"),
+        .name = COMPOUND_STRING("Kick Away"),
         .description = COMPOUND_STRING(
-            "Causes a sandstorm that\n"
-            "rages for 5 turns."),
-        .effect = EFFECT_WEATHER,
-        .power = 0,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 20,
         .type = TYPE_ROCK,
         .accuracy = 0,
         .pp = B_UPDATED_MOVE_DATA >= GEN_CHAMPIONS ? 5 : 10,
@@ -5541,10 +5199,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_GIGA_DRAIN] =
     {
-        .name = COMPOUND_STRING("Giga Drain"),
+        .name = COMPOUND_STRING("Rear Kick"),
         .description = COMPOUND_STRING(
-            "An attack that steals half\n"
-            "the damage inflicted."),
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
         .power = B_UPDATED_MOVE_DATA >= GEN_5 ? 75 : 60,
         .type = TYPE_GRASS,
@@ -5560,21 +5218,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_GROWTH},
         .battleAnimScript = gBattleAnimMove_GigaDrain,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_ABSORB,
-            .argument.absorbPercentage = 50,
-        }),
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_ENDURE] =
     {
-        .name = COMPOUND_STRING("Endure"),
+        .name = COMPOUND_STRING("Flame Pillar"),
         .description = COMPOUND_STRING(
-            "Endures any attack for\n"
-            "1 turn, leaving at least 1 HP."),
-        .effect = EFFECT_ENDURE,
-        .power = 0,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 30,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 10,
@@ -5604,12 +5258,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_CHARM] =
     {
-        .name = COMPOUND_STRING("Charm"),
+        .name = COMPOUND_STRING("Burning Fire"),
         .description = COMPOUND_STRING(
-            "Charms the foe and harshly\n"
-            "lowers its Attack."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Deals +10 extra damage for\n"
+            "each extra Energy attached."),
+        .effect = EFFECT_TCG_ENERGY_BOOST,
+        .power = 10,
         .type = B_UPDATED_MOVE_TYPES >= GEN_6 ? TYPE_FAIRY : TYPE_NORMAL,
         .accuracy = 100,
         .pp = 20,
@@ -5622,10 +5276,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = COMBO_STARTER_CHARM,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .attack = 2,
-        }),
         .battleAnimScript = gBattleAnimMove_Charm,
         .validApprenticeMove = TRUE,
     },
@@ -5634,10 +5284,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Rollout"),
         .description = COMPOUND_STRING(
-            "An attack lasting 5 turns\n"
-            "with rising intensity."),
-        .effect = EFFECT_ROLLOUT,
-        .power = 30,
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 10,
         .type = TYPE_ROCK,
         .accuracy = 90,
         .pp = 20,
@@ -5657,11 +5307,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FALSE_SWIPE] =
     {
-        .name = COMPOUND_STRING("False Swipe"),
+        .name = COMPOUND_STRING("Magma Punch"),
         .description = COMPOUND_STRING(
-            "An attack that leaves the\n"
-            "foe with at least 1 HP."),
-        .effect = EFFECT_FALSE_SWIPE,
+            "Deals 40 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
         .power = 40,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -5680,12 +5330,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SWAGGER] =
     {
-        .name = COMPOUND_STRING("Swagger"),
+        .name = COMPOUND_STRING("Playing with"),
         .description = COMPOUND_STRING(
-            "Confuses the foe, but also\n"
-            "sharply raises its Attack."),
-        .effect = EFFECT_SWAGGER,
-        .power = 0,
+            "Deals +10 extra damage for\n"
+            "each extra Energy attached."),
+        .effect = EFFECT_TCG_ENERGY_BOOST,
+        .power = 30,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_7 ? 85 : 90,
         .pp = 15,
@@ -5699,21 +5349,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .attack = 2,
-        }),
         .battleAnimScript = gBattleAnimMove_Swagger,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_MILK_DRINK] =
     {
-        .name = COMPOUND_STRING("Milk Drink"),
+        .name = COMPOUND_STRING("Wildfire"),
         .description = COMPOUND_STRING(
-            "Recovers up to half the\n"
-            "user's maximum HP."),
-        .effect = EFFECT_SOFTBOILED,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -5738,10 +5384,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Spark"),
         .description = COMPOUND_STRING(
-            "An electrified tackle that\n"
-            "may paralyze the foe."),
-        .effect = EFFECT_HIT,
-        .power = 65,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 20,
         .type = TYPE_ELECTRIC,
         .accuracy = 100,
         .pp = 20,
@@ -5749,10 +5395,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_PARALYSIS,
-            .chance = 30,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -5762,18 +5404,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FURY_CUTTER] =
     {
-        .name = COMPOUND_STRING("Fury Cutter"),
+        .name = COMPOUND_STRING("Dive Bomb"),
         .description = COMPOUND_STRING(
-            "An attack that intensifies\n"
-            "on each successive hit."),
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
     #if B_UPDATED_MOVE_DATA >= GEN_6
-        .power = 40,
+        .power = 80,
     #elif B_UPDATED_MOVE_DATA == GEN_5
-        .power = 20,
+        .power = 80,
     #else
-        .power = 10,
+        .power = 80,
     #endif
-        .effect = EFFECT_FURY_CUTTER,
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
         .type = TYPE_BUG,
         .accuracy = 95,
         .pp = 20,
@@ -5792,11 +5434,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_STEEL_WING] =
     {
-        .name = COMPOUND_STRING("Steel Wing"),
+        .name = COMPOUND_STRING("Dry Up"),
         .description = COMPOUND_STRING(
-            "Strikes the foe with hard\n"
-            "wings. May raise Defense."),
-        .effect = EFFECT_HIT,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 70,
         .type = TYPE_STEEL,
         .accuracy = 90,
@@ -5806,12 +5448,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .ignoresKingsRock = B_UPDATED_MOVE_FLAGS < GEN_3,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_PLUS,
-            .defense = 1,
-            .self = TRUE,
-            .chance = 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_AFFECTED_BY_PREV_APPEAL : CONTEST_EFFECT_BETTER_IF_SAME_TYPE,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -5822,12 +5458,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MEAN_LOOK] =
     {
-        .name = COMPOUND_STRING("Mean Look"),
+        .name = COMPOUND_STRING("Fire Wing"),
         .description = COMPOUND_STRING(
-            "Fixes the foe with a mean\n"
-            "look that prevents escape."),
-        .effect = EFFECT_MEAN_LOOK,
-        .power = 0,
+            "Deals 50 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 50,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 5,
@@ -5847,11 +5483,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ATTRACT] =
     {
-        .name = COMPOUND_STRING("Attract"),
+        .name = COMPOUND_STRING("Water Power"),
         .description = COMPOUND_STRING(
-            "Makes the opposite gender\n"
-            "less likely to attack."),
-        .effect = EFFECT_ATTRACT,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -5872,12 +5508,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SLEEP_TALK] =
     {
-        .name = COMPOUND_STRING("Sleep Talk"),
+        .name = COMPOUND_STRING("Shell Attack"),
         .description = COMPOUND_STRING(
-            "Uses an available move\n"
-            "randomly while asleep."),
-        .effect = EFFECT_SLEEP_TALK,
-        .power = 0,
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 10,
@@ -5904,11 +5540,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HEAL_BELL] =
     {
-        .name = COMPOUND_STRING("Heal Bell"),
+        .name = COMPOUND_STRING("Mirror Shell"),
         .description = COMPOUND_STRING(
-            "Chimes soothingly to heal\n"
-            "the party's status problems."),
-        .effect = EFFECT_HEAL_BELL,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -5932,12 +5568,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_RETURN] =
     {
-        .name = COMPOUND_STRING("Return"),
+        .name = COMPOUND_STRING("Rocket Tackl"),
         .description = COMPOUND_STRING(
-            "An attack that increases\n"
-            "in power with friendship."),
-        .effect = EFFECT_RETURN,
-        .power = 1,
+            "Flip a coin. If tails, this\n"
+            "Pokémon takes 20 HP recoil."),
+        .effect = EFFECT_TCG_SELF_DAMAGE_COIN,
+        .power = 40,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 20,
@@ -5955,11 +5591,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_PRESENT] =
     {
-        .name = COMPOUND_STRING("Present"),
+        .name = COMPOUND_STRING("Headache"),
         .description = COMPOUND_STRING(
-            "A gift in the form of a\n"
-            "bomb. May restore HP."),
-        .effect = EFFECT_PRESENT,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 1,
         .type = TYPE_NORMAL,
         .accuracy = 90,
@@ -5978,11 +5614,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FRUSTRATION] =
     {
-        .name = COMPOUND_STRING("Frustration"),
+        .name = COMPOUND_STRING("Dizziness"),
         .description = COMPOUND_STRING(
-            "An attack that is stronger\n"
-            "if the Trainer is disliked."),
-        .effect = EFFECT_FRUSTRATION,
+            "Draws 1 card from your deck\n"
+            "after attacking."),
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 1,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -6001,12 +5637,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SAFEGUARD] =
     {
-        .name = COMPOUND_STRING("Safeguard"),
+        .name = COMPOUND_STRING("Psyshock"),
         .description = COMPOUND_STRING(
-            "Protects allies from status\n"
-            "problems for 5 turns."),
-        .effect = EFFECT_SAFEGUARD,
-        .power = 0,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 25,
@@ -6027,12 +5663,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_PAIN_SPLIT] =
     {
-        .name = COMPOUND_STRING("Pain Split"),
+        .name = COMPOUND_STRING("Wave Splash"),
         .description = COMPOUND_STRING(
-            "Adds the user and foe's HP,\n"
-            "then shares them equally."),
-        .effect = EFFECT_PAIN_SPLIT,
-        .power = 0,
+            "Deals 40 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 40,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_3 ? 0 : 100,
         .pp = 20,
@@ -6050,11 +5686,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SACRED_FIRE] =
     {
-        .name = COMPOUND_STRING("Sacred Fire"),
+        .name = COMPOUND_STRING("Third Eye"),
         .description = COMPOUND_STRING(
-            "A mystical fire attack that\n"
-            "may inflict a burn."),
-        .effect = EFFECT_HIT,
+            "Draws 1 card from your deck\n"
+            "after attacking."),
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 100,
         .type = TYPE_FIRE,
         .accuracy = 95,
@@ -6063,10 +5699,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .thawsUser = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_BURN,
-            .chance = 50,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_BETTER_IF_LAST : CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -6077,12 +5709,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MAGNITUDE] =
     {
-        .name = COMPOUND_STRING("Magnitude"),
+        .name = COMPOUND_STRING("Super Psy"),
         .description = COMPOUND_STRING(
-            "A ground-shaking attack\n"
-            "of random intensity."),
-        .effect = EFFECT_MAGNITUDE,
-        .power = 1,
+            "Deals 50 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 50,
         .type = TYPE_GROUND,
         .accuracy = 100,
         .pp = 30,
@@ -6100,11 +5732,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_DYNAMIC_PUNCH] =
     {
-        .name = COMPOUND_STRING("Dynamic Punch"),
+        .name = COMPOUND_STRING("Twiddle"),
         .description = COMPOUND_STRING(
-            "Powerful and sure to cause\n"
-            "confusion, but inaccurate."),
-        .effect = EFFECT_HIT,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
         .power = 100,
         .type = TYPE_FIGHTING,
         .accuracy = 50,
@@ -6114,10 +5746,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .punchingMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_CONFUSION,
-            .chance = 100,
-        }),
         .contestEffect = CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -6128,12 +5756,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MEGAHORN] =
     {
-        .name = COMPOUND_STRING("Megahorn"),
+        .name = COMPOUND_STRING("Jellyfish St"),
         .description = COMPOUND_STRING(
-            "A brutal ramming attack\n"
-            "using out-thrust horns."),
-        .effect = EFFECT_HIT,
-        .power = 120,
+            "The Defending Pokémon is\n"
+            "now Poisoned (10 HP/turn)."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
+        .power = 10,
         .type = TYPE_BUG,
         .accuracy = 85,
         .pp = 10,
@@ -6151,12 +5779,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_DRAGON_BREATH] =
     {
-        .name = COMPOUND_STRING("Dragon Breath"),
+        .name = COMPOUND_STRING("Aurora Wave"),
         .description = COMPOUND_STRING(
-            "Strikes the foe with a blast\n"
-            "of breath. May paralyze."),
-        .effect = EFFECT_HIT,
-        .power = 60,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Confused."),
+        .effect = EFFECT_TCG_INFLICT_CONFUSION,
+        .power = 30,
         .type = TYPE_DRAGON,
         .accuracy = 100,
         .pp = 20,
@@ -6164,10 +5792,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .ignoresKingsRock = B_UPDATED_MOVE_FLAGS < GEN_3,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_PARALYSIS,
-            .chance = 30,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_STARTLE_PREV_MON : CONTEST_EFFECT_BADLY_STARTLE_PREV_MONS,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = COMBO_STARTER_DRAGON_BREATH,
@@ -6178,11 +5802,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BATON_PASS] =
     {
-        .name = COMPOUND_STRING("Baton Pass"),
+        .name = COMPOUND_STRING("Hide in Shel"),
         .description = COMPOUND_STRING(
-            "Switches out the user while\n"
-            "keeping effects in play."),
-        .effect = EFFECT_BATON_PASS,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -6203,8 +5827,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ENCORE] =
     {
-        .name = COMPOUND_STRING("Encore"),
+        .name = COMPOUND_STRING("Salt Water"),
         .description = COMPOUND_STRING(
+            "Draws 1 card from your deck\n"
+            "after attacking."),
         #if B_ENCORE_TURNS >= GEN_5
             "Makes the foe repeat its\n"
             "last move over 3 turns."),
@@ -6215,7 +5841,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Makes the foe repeat its\n"
             "last move over 2-6 turns."),
         #endif
-        .effect = EFFECT_ENCORE,
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -6237,12 +5863,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_PURSUIT] =
     {
-        .name = COMPOUND_STRING("Pursuit"),
+        .name = COMPOUND_STRING("Double-Edged"),
         .description = COMPOUND_STRING(
-            "Inflicts double damage if\n"
-            "used on a foe switching out."),
-        .effect = EFFECT_PURSUIT,
-        .power = 40,
+            "Deals 80 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 80,
         .type = TYPE_DARK,
         .accuracy = 100,
         .pp = 20,
@@ -6261,23 +5887,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_RAPID_SPIN] =
     {
-        .name = COMPOUND_STRING("Rapid Spin"),
+        .name = COMPOUND_STRING("Hide"),
     #if B_SPEED_BUFFING_RAPID_SPIN >= GEN_8
         .description = COMPOUND_STRING(
-            "Spins to remove traps\n"
-            "and raise Speed."),
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_PLUS,
-            .speed = 1,
-            .self = TRUE,
-            .chance = 100,
-        }),
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
     #else
         .description = COMPOUND_STRING(
-            "Spins the body at high\n"
-            "speed to remove traps."),
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
     #endif
-        .effect = EFFECT_RAPID_SPIN,
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = B_UPDATED_MOVE_DATA >= GEN_8 ? 50 : 20,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -6296,8 +5916,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SWEET_SCENT] =
     {
-        .name = COMPOUND_STRING("Sweet Scent"),
+        .name = COMPOUND_STRING("Water Bomb"),
         .description = COMPOUND_STRING(
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
         #if B_UPDATED_MOVE_DATA >= GEN_6
             "Allures the foes to harshly\n"
             "lower evasiveness."),
@@ -6305,8 +5927,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Allures the foes to lower\n"
             "evasiveness."),
         #endif
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 20,
@@ -6319,22 +5941,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = COMBO_STARTER_SWEET_SCENT,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .evasion = (B_UPDATED_MOVE_DATA >= GEN_6) ? 2 : 1,
-        }),
         .battleAnimScript = gBattleAnimMove_SweetScent,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_IRON_TAIL] =
     {
-        .name = COMPOUND_STRING("Iron Tail"),
+        .name = COMPOUND_STRING("Slap"),
         .description = COMPOUND_STRING(
-            "Attacks with a rock-hard\n"
-            "tail. May lower Defense."),
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 100,
+        .power = 20,
         .type = TYPE_STEEL,
         .accuracy = 75,
         .pp = 15,
@@ -6342,11 +5960,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .defense = 1,
-            .chance = 30,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -6357,12 +5970,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_METAL_CLAW] =
     {
-        .name = COMPOUND_STRING("Metal Claw"),
+        .name = COMPOUND_STRING("Strange Beam"),
         .description = COMPOUND_STRING(
-            "A claw attack that may\n"
-            "raise the user's Attack."),
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 50,
+        .power = 10,
         .type = TYPE_STEEL,
         .accuracy = 95,
         .pp = 35,
@@ -6371,12 +5984,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .slicingMove = B_UPDATED_MOVE_FLAGS >= GEN_CHAMPIONS,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_PLUS,
-            .attack = 1,
-            .self = TRUE,
-            .chance = 10,
-        }),
         .contestEffect = CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -6387,12 +5994,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_VITAL_THROW] =
     {
-        .name = COMPOUND_STRING("Vital Throw"),
+        .name = COMPOUND_STRING("Spinning Att"),
         .description = COMPOUND_STRING(
-            "Makes the user's move last,\n"
-            "but it never misses."),
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 70,
+        .power = 20,
         .type = TYPE_FIGHTING,
         .accuracy = 0,
         .pp = 10,
@@ -6410,12 +6017,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MORNING_SUN] =
     {
-        .name = COMPOUND_STRING("Morning Sun"),
+        .name = COMPOUND_STRING("Star Freeze"),
         .description = COMPOUND_STRING(
-            "Restores HP. The amount\n"
-            "varies with the weather."),
-        .effect = EFFECT_MORNING_SUN,
-        .power = 0,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 5,
@@ -6437,11 +6044,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SYNTHESIS] =
     {
-        .name = COMPOUND_STRING("Synthesis"),
+        .name = COMPOUND_STRING("Spinning Sho"),
         .description = COMPOUND_STRING(
-            "Restores HP. The amount\n"
-            "varies with the weather."),
-        .effect = EFFECT_SYNTHESIS,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 0,
         .type = TYPE_GRASS,
         .accuracy = 0,
@@ -6464,12 +6071,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MOONLIGHT] =
     {
-        .name = COMPOUND_STRING("Moonlight"),
+        .name = COMPOUND_STRING("Flop"),
         .description = COMPOUND_STRING(
-            "Restores HP. The amount\n"
-            "varies with the weather."),
-        .effect = EFFECT_MOONLIGHT,
-        .power = 0,
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 10,
         .type = B_UPDATED_MOVE_TYPES >= GEN_6 ? TYPE_FAIRY : TYPE_NORMAL,
         .accuracy = 0,
         .pp = 5,
@@ -6491,12 +6098,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HIDDEN_POWER] =
     {
-        .name = COMPOUND_STRING("Hidden Power"),
+        .name = COMPOUND_STRING("Rapid Evolut"),
         .description = COMPOUND_STRING(
-            "The effectiveness varies\n"
-            "with the user."),
+            "Draws 1 card from your deck\n"
+            "after attacking."),
         .power = B_HIDDEN_POWER_DMG >= GEN_6 ? 60 : 1,
-        .effect = EFFECT_HIDDEN_POWER,
+        .effect = EFFECT_TCG_DRAW_CARD,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 15,
@@ -6513,12 +6120,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_CROSS_CHOP] =
     {
-        .name = COMPOUND_STRING("Cross Chop"),
+        .name = COMPOUND_STRING("Trickle"),
         .description = COMPOUND_STRING(
-            "A double-chopping attack.\n"
-            "High critical-hit ratio."),
-        .effect = EFFECT_HIT,
-        .power = 100,
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 10,
         .type = TYPE_FIGHTING,
         .accuracy = 80,
         .criticalHitStage = B_UPDATED_MOVE_DATA >= GEN_3 ? 1 : 2,
@@ -6539,10 +6146,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Twister"),
         .description = COMPOUND_STRING(
-            "Whips up a vicious twister\n"
-            "to tear at foes. May flinch."),
-        .effect = EFFECT_HIT,
-        .power = 40,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 20,
         .type = TYPE_DRAGON,
         .accuracy = 100,
         .pp = 20,
@@ -6552,10 +6159,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .ignoresKingsRock = B_UPDATED_MOVE_FLAGS < GEN_3,
         .damagesAirborneDoubleDamage = TRUE,
         .windMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 20,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_SCRAMBLE_NEXT_TURN_ORDER,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -6565,12 +6168,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_RAIN_DANCE] =
     {
-        .name = COMPOUND_STRING("Rain Dance"),
+        .name = COMPOUND_STRING("Rolling Tack"),
         .description = COMPOUND_STRING(
-            "Boosts the power of Water-\n"
-            "type moves for 5 turns."),
-        .effect = EFFECT_WEATHER,
-        .power = 0,
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 20,
         .type = TYPE_WATER,
         .accuracy = 0,
         .pp = 5,
@@ -6591,11 +6194,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SUNNY_DAY] =
     {
-        .name = COMPOUND_STRING("Sunny Day"),
+        .name = COMPOUND_STRING("Tentacle Gri"),
         .description = COMPOUND_STRING(
-            "Boosts the power of Fire-\n"
-            "type moves for 5 turns."),
-        .effect = EFFECT_WEATHER,
+            "Draws 1 card from your deck\n"
+            "after attacking."),
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 0,
         .type = TYPE_FIRE,
         .accuracy = 0,
@@ -6617,16 +6220,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_CRUNCH] =
     {
-        .name = COMPOUND_STRING("Crunch"),
+        .name = COMPOUND_STRING("Corrosive Li"),
         .description = COMPOUND_STRING(
-            "Crunches with sharp fangs.\n"
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
         #if B_UPDATED_MOVE_DATA >= GEN_4
             "May lower Defense."),
         #else
             "May lower Sp. Def."),
         #endif
-        .effect = EFFECT_HIT,
-        .power = 80,
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 40,
         .type = TYPE_DARK,
         .accuracy = 100,
         .pp = 15,
@@ -6635,12 +6239,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .bitingMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .defense = B_UPDATED_MOVE_DATA >= GEN_4 ? 1 : 0,
-            .spDef = B_UPDATED_MOVE_DATA < GEN_4 ? 1 : 0,
-            .chance = 20,
-        }),
         .contestEffect = CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -6651,12 +6249,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MIRROR_COAT] =
     {
-        .name = COMPOUND_STRING("Mirror Coat"),
+        .name = COMPOUND_STRING("Freeze Dry"),
         .description = COMPOUND_STRING(
-            "Counters the foe's special\n"
-            "attack at double the power."),
-        .effect = EFFECT_REFLECT_DAMAGE,
-        .power = 1,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 30,
         .type = TYPE_PSYCHIC,
         .accuracy = 100,
         .pp = 20,
@@ -6683,11 +6281,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_PSYCH_UP] =
     {
-        .name = COMPOUND_STRING("Psych Up"),
+        .name = COMPOUND_STRING("Ice Breath"),
         .description = COMPOUND_STRING(
-            "Copies foe's stat changes\n"
-            "and gives to the user."),
-        .effect = EFFECT_PSYCH_UP,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -6710,12 +6308,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_EXTREME_SPEED] =
     {
-        .name = COMPOUND_STRING("Extreme Speed"),
+        .name = COMPOUND_STRING("Gnaw"),
         .description = COMPOUND_STRING(
-            "An extremely powerful\n"
-            "attack. Always goes first."),
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 80,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 5,
@@ -6733,12 +6331,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ANCIENT_POWER] =
     {
-        .name = COMPOUND_STRING("Ancient Power"),
+        .name = COMPOUND_STRING("Thunder Jolt"),
         .description = COMPOUND_STRING(
-            "An attack that may raise\n"
-            "all stats."),
-        .effect = EFFECT_HIT,
-        .power = 60,
+            "Flip a coin. If tails, this\n"
+            "Pokémon takes 20 HP recoil."),
+        .effect = EFFECT_TCG_SELF_DAMAGE_COIN,
+        .power = 30,
         .type = TYPE_ROCK,
         .accuracy = 100,
         .pp = 5,
@@ -6746,16 +6344,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .makesContact = B_UPDATED_MOVE_DATA < GEN_4,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_PLUS,
-            .attack = 1,
-            .defense = 1,
-            .spDef = 1,
-            .spAtk = 1,
-            .speed = 1,
-            .self = TRUE,
-            .chance = 10,
-        }),
         .contestEffect = CONTEST_EFFECT_IMPROVE_CONDITION_PREVENT_NERVOUSNESS,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -6766,11 +6354,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SHADOW_BALL] =
     {
-        .name = COMPOUND_STRING("Shadow Ball"),
+        .name = COMPOUND_STRING("Recharge"),
         .description = COMPOUND_STRING(
-            "Hurls a black blob that may\n"
-            "lower the foe's Sp. Def."),
-        .effect = EFFECT_HIT,
+            "Draws 1 card from your deck\n"
+            "after attacking."),
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 80,
         .type = TYPE_GHOST,
         .accuracy = 100,
@@ -6779,11 +6367,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .ballisticMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .spDef = 1,
-            .chance = 20,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_SHIFT_JUDGE_ATTENTION,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -6794,10 +6377,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FUTURE_SIGHT] =
     {
-        .name = COMPOUND_STRING("Future Sight"),
+        .name = COMPOUND_STRING("Short Circui"),
         .description = COMPOUND_STRING(
-            "Heightens inner power to\n"
-            "strike 2 turns later."),
+            "Bolsters defense and guards\n"
+            "against the next attack."),
     #if B_UPDATED_MOVE_DATA >= GEN_6
         .power = 120,
     #elif B_UPDATED_MOVE_DATA == GEN_5
@@ -6805,7 +6388,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     #else
         .power = 80,
     #endif
-        .effect = EFFECT_FUTURE_SIGHT,
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .type = TYPE_PSYCHIC,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 100 : 90,
         .pp = B_UPDATED_MOVE_DATA >= GEN_5 ? 10 : 15,
@@ -6824,11 +6407,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ROCK_SMASH] =
     {
-        .name = COMPOUND_STRING("Rock Smash"),
+        .name = COMPOUND_STRING("Sparking Kic"),
         .description = COMPOUND_STRING(
-            "A rock-crushing attack\n"
-            "that may lower Defense."),
-        .effect = EFFECT_HIT,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
         .power = B_UPDATED_MOVE_DATA >= GEN_4 ? 40 : 20,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
@@ -6837,11 +6420,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .defense = 1,
-            .chance = 50,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_BETTER_WITH_GOOD_CONDITION,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -6854,9 +6432,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Whirlpool"),
         .description = COMPOUND_STRING(
-            "Traps and hurts the foe in\n"
-            "a whirlpool for "BINDING_TURNS" turns."),
-        .effect = EFFECT_HIT,
+            "Discards 1 Energy attached\n"
+            "to the Defending Pokémon."),
+        .effect = EFFECT_TCG_DISCARD_TARGET_ENERGY,
         .power = B_UPDATED_MOVE_DATA >= GEN_5 ? 35 : 15,
         .type = TYPE_WATER,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 85 : 70,
@@ -6866,10 +6444,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_SPECIAL,
         .ignoresKingsRock = B_UPDATED_MOVE_FLAGS < GEN_3,
         .damagesUnderwater = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_WRAP,
-            .argument.wrapped = B_MSG_WRAPPED_WHIRLPOOL,
-        }),
         .contestEffect = CONTEST_EFFECT_DONT_EXCITE_AUDIENCE,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -6880,11 +6454,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BEAT_UP] =
     {
-        .name = COMPOUND_STRING("Beat Up"),
+        .name = COMPOUND_STRING("Gigashock"),
         .description = COMPOUND_STRING(
-            "Summons party Pokémon to\n"
-            "join in the attack."),
-        .effect = EFFECT_BEAT_UP,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = B_UPDATED_MOVE_DATA >= GEN_5 ? 1 : 10,
         .type = TYPE_DARK,
         .accuracy = 100,
@@ -6892,11 +6466,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_BEAT_UP_MESSAGE,
-            .preAttackEffect = TRUE,
-            .self = TRUE,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_BETTER_WITH_GOOD_CONDITION : CONTEST_EFFECT_BADLY_STARTLE_MONS_WITH_GOOD_APPEALS,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -6934,15 +6503,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_UPROAR] =
     {
-        .name = COMPOUND_STRING("Uproar"),
+        .name = COMPOUND_STRING("Surprise Thu"),
         .description = COMPOUND_STRING(
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
         #if B_UPROAR_TURNS >= GEN_5
             "Causes an uproar for 3\n"
         #else
             "Causes an uproar for 2 to 5\n"
         #endif
             "turns and prevents sleep."),
-        .effect = EFFECT_HIT,
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = B_UPDATED_MOVE_DATA >= GEN_5 ? 90 : 50,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -6955,10 +6526,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .sleepTalkBanned = TRUE,
         .instructBanned = TRUE,
         .parentalBondBanned = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_UPROAR,
-            .self = TRUE,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION : CONTEST_EFFECT_SCRAMBLE_NEXT_TURN_ORDER,
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = 0,
@@ -6969,16 +6536,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_STOCKPILE] =
     {
-        .name = COMPOUND_STRING("Stockpile"),
+        .name = COMPOUND_STRING("Magnetism"),
         .description = COMPOUND_STRING(
-            "Charges up power for up to\n"
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
         #if B_STOCKPILE_RAISES_DEFS >= GEN_4
             "3 turns. Raises defenses."),
         #else
             "3 turns."),
         #endif
-        .effect = EFFECT_STOCKPILE,
-        .power = 0,
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = B_UPDATED_MOVE_DATA >= GEN_4 ? 20 : 10,
@@ -6993,23 +6561,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = COMBO_STARTER_STOCKPILE,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-        // Do not guard the stat changes behind a config. Stockpile will not work otherwise at all
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .defense = 1,
-            .spDef = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_Stockpile,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_SPIT_UP] =
     {
-        .name = COMPOUND_STRING("Spit Up"),
+        .name = COMPOUND_STRING("Magnetic Sto"),
         .description = COMPOUND_STRING(
-            "Releases stockpiled power\n"
-            "(the more the better)."),
-        .effect = EFFECT_SPIT_UP,
+            "Heals 20 HP of damage from\n"
+            "this Pokémon."),
+        .effect = EFFECT_TCG_HEAL_USER,
         .power = 1,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -7028,11 +6590,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SWALLOW] =
     {
-        .name = COMPOUND_STRING("Swallow"),
+        .name = COMPOUND_STRING("Superconduct"),
         .description = COMPOUND_STRING(
-            "Absorbs stockpiled power\n"
-            "and restores HP."),
-        .effect = EFFECT_SWALLOW,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -7055,11 +6617,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HEAT_WAVE] =
     {
-        .name = COMPOUND_STRING("Heat Wave"),
+        .name = COMPOUND_STRING("Microwave"),
         .description = COMPOUND_STRING(
-            "Exhales a hot breath on the\n"
-            "foes. May inflict a burn."),
-        .effect = EFFECT_HIT,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 95 : 100,
         .type = TYPE_FIRE,
         .accuracy = 90,
@@ -7068,10 +6630,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .windMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_BURN,
-            .chance = 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_STARTLE_PREV_MONS : CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -7082,8 +6640,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HAIL] =
     {
-        .name = COMPOUND_STRING("Hail"),
+        .name = COMPOUND_STRING("Magnetic Lin"),
         .description = COMPOUND_STRING(
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
         #if B_PREFERRED_ICE_WEATHER == B_ICE_WEATHER_SNOW
             "Boosts the Defense of Ice-\n"
             "type Pokémon for 5 turns."),
@@ -7091,8 +6651,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Summons a hailstorm that\n"
             "strikes every turn."),
         #endif
-        .effect = EFFECT_WEATHER,
-        .power = 0,
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 30,
         .type = TYPE_ICE,
         .accuracy = 0,
         .pp = 10,
@@ -7113,12 +6673,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_TORMENT] =
     {
-        .name = COMPOUND_STRING("Torment"),
+        .name = COMPOUND_STRING("Group Spark"),
         .description = COMPOUND_STRING(
-            "Torments the foe and stops\n"
-            "successive use of a move."),
-        .effect = EFFECT_TORMENT,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 20,
         .type = TYPE_DARK,
         .accuracy = 100,
         .pp = 15,
@@ -7137,12 +6697,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FLATTER] =
     {
-        .name = COMPOUND_STRING("Flatter"),
+        .name = COMPOUND_STRING("Speed Ball"),
         .description = COMPOUND_STRING(
-            "Confuses the foe, but\n"
-            "sharply raises its Sp. Atk."),
-        .effect = EFFECT_SWAGGER,
-        .power = 0,
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 20,
         .type = TYPE_DARK,
         .accuracy = 100,
         .pp = 15,
@@ -7155,21 +6715,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_CHARM},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .spAtk = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_Flatter,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_WILL_O_WISP] =
     {
-        .name = COMPOUND_STRING("Will-O-Wisp"),
+        .name = COMPOUND_STRING("Energy Spike"),
         .description = COMPOUND_STRING(
-            "Inflicts a burn on the foe\n"
-            "with intense fire."),
-        .effect = EFFECT_NON_VOLATILE_STATUS,
+            "Draws 1 card from your deck\n"
+            "after attacking."),
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 0,
         .type = TYPE_FIRE,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_6 ? 85 : 75,
@@ -7190,12 +6746,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MEMENTO] =
     {
-        .name = COMPOUND_STRING("Memento"),
+        .name = COMPOUND_STRING("Chain Lightn"),
         .description = COMPOUND_STRING(
-            "The user faints and harshly\n"
-            "lowers the foe's offenses."),
-        .effect = EFFECT_MEMENTO,
-        .power = 0,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 20,
         .type = TYPE_DARK,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_4 ? 100 : 0,
         .pp = 10,
@@ -7208,22 +6764,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {COMBO_STARTER_MEAN_LOOK, COMBO_STARTER_BLOCK},
         .battleAnimScript = gBattleAnimMove_Memento,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .attack = 2,
-            .spAtk = 2,
-        }),
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_FACADE] =
     {
-        .name = COMPOUND_STRING("Facade"),
+        .name = COMPOUND_STRING("Energy Bomb"),
         .description = COMPOUND_STRING(
-            "Boosts power when burned,\n"
-            "paralyzed, or poisoned."),
-        .effect = EFFECT_FACADE,
-        .power = 70,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 30,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 20,
@@ -7241,12 +6792,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FOCUS_PUNCH] =
     {
-        .name = COMPOUND_STRING("Focus Punch"),
+        .name = COMPOUND_STRING("Stun Needle"),
         .description = COMPOUND_STRING(
-            "Focuses before launching.\n"
-            "Fails if the user if hit."),
-        .effect = EFFECT_FOCUS_PUNCH,
-        .power = 150,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 30,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
         .pp = 20,
@@ -7272,11 +6823,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SMELLING_SALTS] =
     {
-        .name = COMPOUND_STRING("Smelling Salts"),
+        .name = COMPOUND_STRING("Lightning Fl"),
         .description = COMPOUND_STRING(
-            "Powerful against a paralyzed\n"
-            "foe, but also heals it."),
-        .effect = EFFECT_DOUBLE_POWER_ON_ARG_STATUS,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 70 : 60,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -7286,9 +6837,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .argument = { .status = STATUS1_PARALYSIS },
         .makesContact = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_REMOVE_STATUS,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_AFFECTED_BY_PREV_APPEAL : CONTEST_EFFECT_STARTLE_PREV_MON,
         .contestCategory = C_UPDATED_MOVE_CATEGORIES >= GEN_6 ? CONTEST_CATEGORY_TOUGH : CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -7301,9 +6849,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Follow Me"),
         .description = COMPOUND_STRING(
-            "Draws attention to make\n"
-            "foes attack only the user."),
-        .effect = EFFECT_FOLLOW_ME,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -7327,12 +6875,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_NATURE_POWER] =
     {
-        .name = COMPOUND_STRING("Nature Power"),
+        .name = COMPOUND_STRING("Thunder Atta"),
         .description = COMPOUND_STRING(
-            "The type of attack varies\n"
-            "depending on the location."),
-        .effect = EFFECT_NATURE_POWER,
-        .power = 1,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 30,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 20,
@@ -7358,30 +6906,30 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_CHARGE] =
     {
-        .name = COMPOUND_STRING("Charge"),
+        .name = COMPOUND_STRING("Raging Thund"),
     #if B_CHARGE >= GEN_9
         #if B_CHARGE_SPDEF_RAISE >= GEN_5
         .description = COMPOUND_STRING(
-            "Ups the user's next Electric\n"
-            "move. It also raises Sp. Def."),
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
         #else
         .description = COMPOUND_STRING(
-            "Charges power to boost the\n"
-            "Electric move used next."),
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
         #endif
     #else
         #if B_CHARGE_SPDEF_RAISE >= GEN_5
         .description = COMPOUND_STRING(
-            "Ups the user's next move if\n"
-            "Electric. Also raises Sp. Def."),
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
         #else
         .description = COMPOUND_STRING(
-            "Charges power to boost the\n"
-            "Electric move used next turn."),
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
         #endif
     #endif
-        .effect = EFFECT_CHARGE,
-        .power = 0,
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 50,
         .type = TYPE_ELECTRIC,
         .accuracy = 0,
         .pp = 20,
@@ -7393,10 +6941,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .ignoresProtect = TRUE,
         .mirrorMoveBanned = TRUE,
         #if B_UPDATED_MOVE_DATA  >= GEN_5
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .spDef = 1,
-        }),
         #endif
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_IMPROVE_CONDITION_PREVENT_NERVOUSNESS : CONTEST_EFFECT_BETTER_IF_SAME_TYPE,
         .contestCategory = CONTEST_CATEGORY_SMART,
@@ -7408,9 +6952,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_TAUNT] =
     {
-        .name = COMPOUND_STRING("Taunt"),
+        .name = COMPOUND_STRING("Thunder Cras"),
         .description = COMPOUND_STRING(
-            "The foe can use only attack\n"
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
         #if B_TAUNT_TURNS >= GEN_5
             "moves for 3 turns."),
         #elif B_TAUNT_TURNS == GEN_4
@@ -7418,8 +6963,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         #else
             "moves for 2 turns."),
         #endif
-        .effect = EFFECT_TAUNT,
-        .power = 0,
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 50,
         .type = TYPE_DARK,
         .accuracy = 100,
         .pp = 20,
@@ -7440,12 +6985,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HELPING_HAND] =
     {
-        .name = COMPOUND_STRING("Helping Hand"),
+        .name = COMPOUND_STRING("Thunderstorm"),
         .description = COMPOUND_STRING(
-            "Boosts the power of an\n"
-            "ally's move."),
-        .effect = EFFECT_HELPING_HAND,
-        .power = 0,
+            "Flip a coin. If tails, this\n"
+            "Pokémon takes 20 HP recoil."),
+        .effect = EFFECT_TCG_SELF_DAMAGE_COIN,
+        .power = 40,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 20,
@@ -7469,11 +7014,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_TRICK] =
     {
-        .name = COMPOUND_STRING("Trick"),
+        .name = COMPOUND_STRING("Big Thunder"),
         .description = COMPOUND_STRING(
-            "Tricks the foe into trading\n"
-            "held items."),
-        .effect = EFFECT_TRICK,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_PSYCHIC,
         .accuracy = 100,
@@ -7495,11 +7040,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ROLE_PLAY] =
     {
-        .name = COMPOUND_STRING("Role Play"),
+        .name = COMPOUND_STRING("Sand Veil"),
         .description = COMPOUND_STRING(
-            "Mimics the target and\n"
-            "copies its Ability."),
-        .effect = EFFECT_ROLE_PLAY,
+            "Foe must flip a coin to hit\n"
+            "during their next turn."),
+        .effect = EFFECT_TCG_BLIND_TARGET,
         .power = 0,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
@@ -7521,12 +7066,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_WISH] =
     {
-        .name = COMPOUND_STRING("Wish"),
+        .name = COMPOUND_STRING("Rolling Need"),
         .description = COMPOUND_STRING(
-            "A wish that restores HP.\n"
-            "It takes one turn to work."),
-        .effect = EFFECT_WISH,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 40,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = B_UPDATED_MOVE_DATA >= GEN_CHAMPIONS ? 5 : 10,
@@ -7548,11 +7093,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ASSIST] =
     {
-        .name = COMPOUND_STRING("Assist"),
+        .name = COMPOUND_STRING("Dig Under"),
         .description = COMPOUND_STRING(
-            "Attacks randomly with one\n"
-            "of the party's moves."),
-        .effect = EFFECT_ASSIST,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -7579,12 +7124,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_INGRAIN] =
     {
-        .name = COMPOUND_STRING("Ingrain"),
+        .name = COMPOUND_STRING("Trip Over"),
         .description = COMPOUND_STRING(
-            "Lays roots that restore HP.\n"
-            "The user can't switch out."),
-        .effect = EFFECT_INGRAIN,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 20,
         .type = TYPE_GRASS,
         .accuracy = 0,
         .pp = 20,
@@ -7606,12 +7151,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SUPERPOWER] =
     {
-        .name = COMPOUND_STRING("Superpower"),
+        .name = COMPOUND_STRING("Earth Wave"),
         .description = COMPOUND_STRING(
-            "Powerful, but it lowers the\n"
-            "user's Attack and Defense."),
-        .effect = EFFECT_HIT,
-        .power = 120,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 30,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
         .pp = 5,
@@ -7619,12 +7164,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .attack = 1,
-            .defense = 1,
-            .self = TRUE,
-        }),
         .contestEffect = CONTEST_EFFECT_USER_MORE_EASILY_STARTLED,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -7635,12 +7174,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MAGIC_COAT] =
     {
-        .name = COMPOUND_STRING("Magic Coat"),
+        .name = COMPOUND_STRING("Knock Down"),
         .description = COMPOUND_STRING(
-            "Reflects special effects\n"
-            "back to the attacker."),
-        .effect = EFFECT_MAGIC_COAT,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 20,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
         .pp = 15,
@@ -7660,11 +7199,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_RECYCLE] =
     {
-        .name = COMPOUND_STRING("Recycle"),
+        .name = COMPOUND_STRING("Mischief"),
         .description = COMPOUND_STRING(
-            "Recycles a used item for\n"
-            "one more use."),
-        .effect = EFFECT_RECYCLE,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -7686,12 +7225,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_REVENGE] =
     {
-        .name = COMPOUND_STRING("Revenge"),
+        .name = COMPOUND_STRING("Anger"),
         .description = COMPOUND_STRING(
-            "An attack that gains power\n"
-            "if injured by the foe."),
-        .effect = EFFECT_REVENGE,
-        .power = 60,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 20,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
         .pp = 10,
@@ -7709,22 +7248,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BRICK_BREAK] =
     {
-        .name = COMPOUND_STRING("Brick Break"),
+        .name = COMPOUND_STRING("Tantrum"),
         .description = COMPOUND_STRING(
-            "Destroys barriers such as\n"
-            "Reflect and causes damage."),
-        .effect = EFFECT_HIT,
-        .power = 75,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Confused."),
+        .effect = EFFECT_TCG_INFLICT_CONFUSION,
+        .power = 50,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
         .pp = 15,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_BREAK_SCREEN,
-            .preAttackEffect = TRUE,
-        }),
         .makesContact = TRUE,
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_COOL,
@@ -7736,12 +7271,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_YAWN] =
     {
-        .name = COMPOUND_STRING("Yawn"),
+        .name = COMPOUND_STRING("Frenzied Att"),
         .description = COMPOUND_STRING(
-            "Lulls the foe into yawning,\n"
-            "then sleeping next turn."),
-        .effect = EFFECT_YAWN,
-        .power = 0,
+            "The Defending Pokémon is\n"
+            "now Confused."),
+        .effect = EFFECT_TCG_INFLICT_CONFUSION,
+        .power = 40,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 10,
@@ -7761,8 +7296,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_KNOCK_OFF] =
     {
-        .name = COMPOUND_STRING("Knock Off"),
+        .name = COMPOUND_STRING("Focused One "),
         .description = COMPOUND_STRING(
+            "Bolsters defense and guards\n"
+            "against the next attack."),
         #if B_KNOCK_OFF_DMG >= GEN_6 && B_KNOCK_OFF_REMOVAL >= GEN_5
             "Deals more damage to a foe\n"
             "with an item and removes it."),
@@ -7770,7 +7307,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Knocks down the foe's held\n"
             "item to prevent its use."),
         #endif
-        .effect = EFFECT_KNOCK_OFF,
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 65 : 20,
         .type = TYPE_DARK,
         .accuracy = 100,
@@ -7789,12 +7326,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ENDEAVOR] =
     {
-        .name = COMPOUND_STRING("Endeavor"),
+        .name = COMPOUND_STRING("Corkscrew Pu"),
         .description = COMPOUND_STRING(
-            "Cuts down the foe's HP\n"
-            "to equal the user's HP."),
-        .effect = EFFECT_ENDEAVOR,
-        .power = 1,
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 30,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 5,
@@ -7813,12 +7350,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ERUPTION] =
     {
-        .name = COMPOUND_STRING("Eruption"),
+        .name = COMPOUND_STRING("Punch"),
         .description = COMPOUND_STRING(
-            "The higher the user's HP,\n"
-            "the more damage caused."),
-        .effect = EFFECT_POWER_BASED_ON_USER_HP,
-        .power = 150,
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 20,
         .type = TYPE_FIRE,
         .accuracy = 100,
         .pp = 5,
@@ -7835,12 +7372,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SKILL_SWAP] =
     {
-        .name = COMPOUND_STRING("Skill Swap"),
+        .name = COMPOUND_STRING("Kick"),
         .description = COMPOUND_STRING(
-            "The user swaps\n"
-            "Abilities with the target."),
-        .effect = EFFECT_SKILL_SWAP,
-        .power = 0,
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 30,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
         .pp = 10,
@@ -7859,12 +7396,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_IMPRISON] =
     {
-        .name = COMPOUND_STRING("Imprison"),
+        .name = COMPOUND_STRING("Wicked Jab"),
         .description = COMPOUND_STRING(
-            "Prevents foes from using\n"
-            "moves known by the user."),
-        .effect = EFFECT_IMPRISON,
-        .power = 0,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Paralyzed."),
+        .effect = EFFECT_TCG_INFLICT_PARALYSIS,
+        .power = 20,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
         .pp = 10,
@@ -7887,11 +7424,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_REFRESH] =
     {
-        .name = COMPOUND_STRING("Refresh"),
+        .name = COMPOUND_STRING("Focus Blast"),
         .description = COMPOUND_STRING(
-            "Heals poisoning, paralysis,\n"
-            "or a burn."),
-        .effect = EFFECT_REFRESH,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 0,
@@ -7915,10 +7452,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Grudge"),
         .description = COMPOUND_STRING(
-            "If the user faints, deletes\n"
-            "all PP of foe's last move."),
-        .effect = EFFECT_GRUDGE,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 20,
         .type = TYPE_GHOST,
         .accuracy = 0,
         .pp = 5,
@@ -7939,12 +7476,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SNATCH] =
     {
-        .name = COMPOUND_STRING("Snatch"),
+        .name = COMPOUND_STRING("Steady Punch"),
         .description = COMPOUND_STRING(
-            "Steals the next healing\n"
-            "or stat-changing move."),
-        .effect = EFFECT_SNATCH,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 30,
         .type = TYPE_DARK,
         .accuracy = 0,
         .pp = 10,
@@ -7969,12 +7506,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SECRET_POWER] =
     {
-        .name = COMPOUND_STRING("Secret Power"),
+        .name = COMPOUND_STRING("Drag Off"),
         .description = COMPOUND_STRING(
-            "An attack with effects\n"
-            "that vary by location."),
-        .effect = EFFECT_SECRET_POWER,
-        .power = 70,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 20,
@@ -7982,9 +7519,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .argument = { .secondaryEffectChance = 30 },
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .sheerForceOverride = TRUE,
-        }),
         .contestEffect = CONTEST_EFFECT_BETTER_WITH_GOOD_CONDITION,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -7995,11 +7529,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_DIVE] =
     {
-        .name = COMPOUND_STRING("Dive"),
+        .name = COMPOUND_STRING("Knock Back"),
         .description = COMPOUND_STRING(
-            "Dives underwater the first\n"
-            "turn and strikes next turn."),
-        .effect = EFFECT_SEMI_INVULNERABLE,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = B_UPDATED_MOVE_DATA >= GEN_4 ? 80 : 60,
         .type = TYPE_WATER,
         .accuracy = 100,
@@ -8023,12 +7557,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ARM_THRUST] =
     {
-        .name = COMPOUND_STRING("Arm Thrust"),
+        .name = COMPOUND_STRING("Seething Ang"),
         .description = COMPOUND_STRING(
-            "Straight-arm punches that\n"
-            "strike the foe 2 to 5 times."),
-        .effect = EFFECT_HIT,
-        .power = 15,
+            "Deals +10 extra damage per\n"
+            "10 HP damage on this mon."),
+        .effect = EFFECT_TCG_RAGE_DAMAGE_BOOST,
+        .power = 20,
         .type = TYPE_FIGHTING,
         .accuracy = 100,
         .pp = 20,
@@ -8046,12 +7580,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_CAMOUFLAGE] =
     {
-        .name = COMPOUND_STRING("Camouflage"),
+        .name = COMPOUND_STRING("Fling"),
         .description = COMPOUND_STRING(
-            "Alters the Pokémon's type\n"
-            "depending on the location."),
-        .effect = EFFECT_CAMOUFLAGE,
-        .power = 0,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 50,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 20,
@@ -8072,8 +7606,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_TAIL_GLOW] =
     {
-        .name = COMPOUND_STRING("Tail Glow"),
+        .name = COMPOUND_STRING("Stone Barrag"),
         .description = COMPOUND_STRING(
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
         #if B_UPDATED_MOVE_DATA >= GEN_5
             "Flashes a light that\n"
             "drastically raises Sp. Atk."),
@@ -8081,8 +7617,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Flashes a light that sharply\n"
             "raises Sp. Atk."),
         #endif
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 10,
         .type = TYPE_BUG,
         .accuracy = 0,
         .pp = 20,
@@ -8098,20 +7634,16 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_TailGlow,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .spAtk = B_UPDATED_MOVE_DATA >= GEN_5 ? 3 : 2,
-        }),
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_LUSTER_PURGE] =
     {
-        .name = COMPOUND_STRING("Luster Purge"),
+        .name = COMPOUND_STRING("Boulder Smas"),
         .description = COMPOUND_STRING(
-            "Attacks with a burst of\n"
-            "light. May lower Sp. Def."),
-        .effect = EFFECT_HIT,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = (B_UPDATED_MOVE_DATA >= GEN_9) ? 95 : 70,
         .type = TYPE_PSYCHIC,
         .accuracy = 100,
@@ -8119,11 +7651,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .spDef = 1,
-            .chance = 50,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_STARTLE_MONS_SAME_TYPE_APPEAL : CONTEST_EFFECT_STARTLE_PREV_MON,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -8134,10 +7661,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MIST_BALL] =
     {
-        .name = COMPOUND_STRING("Mist Ball"),
+        .name = COMPOUND_STRING("Avalanche"),
         .description = COMPOUND_STRING(
-            "Attacks with a flurry of\n"
-            "down. May lower Sp. Atk."),
+            "Deals 60 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
         .power = (B_UPDATED_MOVE_DATA >= GEN_9) ? 95 : 70,
         .type = TYPE_PSYCHIC,
@@ -8147,11 +7674,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .ballisticMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .spAtk = 1,
-            .chance = 50,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_BADLY_STARTLE_MONS_WITH_GOOD_APPEALS : CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -8162,12 +7684,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FEATHER_DANCE] =
     {
-        .name = COMPOUND_STRING("Feather Dance"),
+        .name = COMPOUND_STRING("Rock Seal"),
         .description = COMPOUND_STRING(
-            "Envelops the foe with down\n"
-            "to harshly lower Attack."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 20,
         .type = TYPE_FLYING,
         .accuracy = 100,
         .pp = 15,
@@ -8181,20 +7703,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .attack = 2,
-        }),
         .battleAnimScript = gBattleAnimMove_FeatherDance,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_TEETER_DANCE] =
     {
-        .name = COMPOUND_STRING("Teeter Dance"),
+        .name = COMPOUND_STRING("Snivel"),
         .description = COMPOUND_STRING(
-            "Confuses all others."),
-        .effect = EFFECT_CONFUSE,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -8215,11 +7734,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BLAZE_KICK] =
     {
-        .name = COMPOUND_STRING("Blaze Kick"),
+        .name = COMPOUND_STRING("Bone Toss"),
         .description = COMPOUND_STRING(
-            "A kick with a high critical-\n"
-            "hit ratio. May cause a burn."),
-        .effect = EFFECT_HIT,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 85,
         .type = TYPE_FIRE,
         .accuracy = 90,
@@ -8229,10 +7748,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_BURN,
-            .chance = 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_REPETITION_NOT_BORING : CONTEST_EFFECT_HIGHLY_APPEALING,
         .contestCategory = C_UPDATED_MOVE_CATEGORIES >= GEN_6 ? CONTEST_CATEGORY_COOL : CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -8243,8 +7758,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MUD_SPORT] =
     {
-        .name = COMPOUND_STRING("Mud Sport"),
+        .name = COMPOUND_STRING("Call for Fri"),
         .description = COMPOUND_STRING(
+            "Draws 1 card from your deck\n"
+            "after attacking."),
         #if B_UPDATED_MOVE_DATA >= GEN_6
             "Mud weakens Electric-\n"
             "type moves for 5 turns."),
@@ -8252,7 +7769,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Covers the user in mud to\n"
             "weaken all Electric moves."),
         #endif
-        .effect = EFFECT_MUD_SPORT,
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 0,
         .type = TYPE_GROUND,
         .accuracy = 0,
@@ -8274,12 +7791,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ICE_BALL] =
     {
-        .name = COMPOUND_STRING("Ice Ball"),
+        .name = COMPOUND_STRING("Bone Attack"),
         .description = COMPOUND_STRING(
-            "A 5-turn attack that gains\n"
-            "power on successive hits."),
-        .effect = EFFECT_ROLLOUT,
-        .power = 30,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
+        .power = 10,
         .type = TYPE_ICE,
         .accuracy = 90,
         .pp = 20,
@@ -8299,11 +7816,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_NEEDLE_ARM] =
     {
-        .name = COMPOUND_STRING("Needle Arm"),
+        .name = COMPOUND_STRING("Wail"),
         .description = COMPOUND_STRING(
-            "Attacks with thorny arms.\n"
-            "May cause flinching."),
-        .effect = EFFECT_HIT,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 60,
         .type = TYPE_GRASS,
         .accuracy = 100,
@@ -8313,10 +7830,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .minimizeDoubleDamage = B_UPDATED_MOVE_FLAGS < GEN_4,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 30,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -8327,12 +7840,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SLACK_OFF] =
     {
-        .name = COMPOUND_STRING("Slack Off"),
+        .name = COMPOUND_STRING("Bone Headbut"),
         .description = COMPOUND_STRING(
-            "Slacks off and restores\n"
-            "half the maximum HP."),
-        .effect = EFFECT_RESTORE_HP,
-        .power = 0,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = B_UPDATED_MOVE_DATA >= GEN_9 ? 5 : 10,
@@ -8354,11 +7867,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HYPER_VOICE] =
     {
-        .name = COMPOUND_STRING("Hyper Voice"),
+        .name = COMPOUND_STRING("Stretch Kick"),
         .description = COMPOUND_STRING(
-            "A loud attack that uses\n"
-            "sound waves to injure."),
-        .effect = EFFECT_HIT,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 90,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -8380,10 +7893,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Poison Fang"),
         .description = COMPOUND_STRING(
-            "A sharp-fanged attack.\n"
-            "May badly poison the foe."),
-        .effect = EFFECT_HIT,
-        .power = 50,
+            "The Defending Pokémon is\n"
+            "now Poisoned (10 HP/turn)."),
+        .effect = EFFECT_TCG_INFLICT_POISON,
+        .power = 20,
         .type = TYPE_POISON,
         .accuracy = 100,
         .pp = 15,
@@ -8392,10 +7905,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .bitingMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_TOXIC,
-            .chance = B_UPDATED_MOVE_DATA >= GEN_6 ? 50 : 30,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_WORSEN_CONDITION_OF_PREV_MONS,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -8405,12 +7914,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_CRUSH_CLAW] =
     {
-        .name = COMPOUND_STRING("Crush Claw"),
+        .name = COMPOUND_STRING("Jab"),
         .description = COMPOUND_STRING(
-            "Tears at the foe with sharp\n"
-            "claws. May lower Defense."),
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 75,
+        .power = 20,
         .type = TYPE_NORMAL,
         .accuracy = 95,
         .pp = 10,
@@ -8419,11 +7928,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .slicingMove = B_UPDATED_MOVE_FLAGS >= GEN_CHAMPIONS,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .defense = 1,
-            .chance = 50,
-        }),
         .contestEffect = CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -8434,8 +7938,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BLAST_BURN] =
     {
-        .name = COMPOUND_STRING("Blast Burn"),
+        .name = COMPOUND_STRING("Special Punc"),
         .description = COMPOUND_STRING(
+            "Deals 40 HP damage to the\n"
+            "Defending Pokémon."),
         #if B_SKIP_RECHARGE != GEN_1
             "Powerful, but leaves the\n"
             "user immobile the next turn."),
@@ -8444,17 +7950,13 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "it doesn't KO the target."),
         #endif
         .effect = EFFECT_HIT,
-        .power = 150,
+        .power = 40,
         .type = TYPE_FIRE,
         .accuracy = 90,
         .pp = 5,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_RECHARGE,
-            .self = TRUE,
-        }),
         .contestEffect = CONTEST_EFFECT_JAMS_OTHERS_BUT_MISS_ONE_TURN,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -8465,8 +7967,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HYDRO_CANNON] =
     {
-        .name = COMPOUND_STRING("Hydro Cannon"),
+        .name = COMPOUND_STRING("Hydrocannon"),
         .description = COMPOUND_STRING(
+            "Deals +10 extra damage for\n"
+            "each extra Energy attached."),
         #if B_SKIP_RECHARGE != GEN_1
             "Powerful, but leaves the\n"
             "user immobile the next turn."),
@@ -8474,18 +7978,14 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Leaves the user immobile if\n"
             "it doesn't KO the target."),
         #endif
-        .effect = EFFECT_HIT,
-        .power = 150,
+        .effect = EFFECT_TCG_ENERGY_BOOST,
+        .power = 30,
         .type = TYPE_WATER,
         .accuracy = 90,
         .pp = 5,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_RECHARGE,
-            .self = TRUE,
-        }),
         .contestEffect = CONTEST_EFFECT_JAMS_OTHERS_BUT_MISS_ONE_TURN,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -8496,10 +7996,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_METEOR_MASH] =
     {
-        .name = COMPOUND_STRING("Meteor Mash"),
+        .name = COMPOUND_STRING("Mountain Bre"),
         .description = COMPOUND_STRING(
-            "Fires a meteor-like punch.\n"
-            "May raise Attack."),
+            "Deals 10 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 90 : 100,
         .type = TYPE_STEEL,
@@ -8510,12 +8010,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .punchingMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_PLUS,
-            .attack = 1,
-            .self = TRUE,
-            .chance = 20,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_REPETITION_NOT_BORING : CONTEST_EFFECT_BETTER_IF_SAME_TYPE,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -8526,11 +8020,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ASTONISH] =
     {
-        .name = COMPOUND_STRING("Astonish"),
+        .name = COMPOUND_STRING("One-Two Stri"),
         .description = COMPOUND_STRING(
-            "An attack that may shock\n"
-            "the foe into flinching."),
-        .effect = EFFECT_HIT,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
         .power = 30,
         .type = TYPE_GHOST,
         .accuracy = 100,
@@ -8540,10 +8034,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
         .minimizeDoubleDamage = B_UPDATED_MOVE_FLAGS < GEN_4,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 30,
-        }),
         .contestEffect = CONTEST_EFFECT_STARTLE_PREV_MON,
         .contestCategory = C_UPDATED_MOVE_CATEGORIES >= GEN_6 ? CONTEST_CATEGORY_CUTE : CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -8554,12 +8044,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_WEATHER_BALL] =
     {
-        .name = COMPOUND_STRING("Weather Ball"),
+        .name = COMPOUND_STRING("Sharp Claws"),
         .description = COMPOUND_STRING(
-            "The move's type and power\n"
-            "change with the weather."),
-        .effect = EFFECT_WEATHER_BALL,
-        .power = 50,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 10,
         .type = TYPE_NORMAL,
         .accuracy = 100,
         .pp = 10,
@@ -8578,12 +8068,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_AROMATHERAPY] =
     {
-        .name = COMPOUND_STRING("Aromatherapy"),
+        .name = COMPOUND_STRING("Sharp Sickle"),
         .description = COMPOUND_STRING(
-            "Heals all status problems\n"
-            "with a soothing scent."),
-        .effect = EFFECT_HEAL_BELL,
-        .power = 0,
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 30,
         .type = TYPE_GRASS,
         .accuracy = 0,
         .pp = 5,
@@ -8605,12 +8095,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FAKE_TEARS] =
     {
-        .name = COMPOUND_STRING("Fake Tears"),
+        .name = COMPOUND_STRING("Tailspin Att"),
         .description = COMPOUND_STRING(
-            "Feigns crying to harshly\n"
-            "lower the foe's Sp. Def."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Powerful strike; user also\n"
+            "takes 20 HP recoil damage."),
+        .effect = EFFECT_TCG_SELF_DAMAGE_COIN,
+        .power = 40,
         .type = TYPE_DARK,
         .accuracy = 100,
         .pp = 20,
@@ -8623,21 +8113,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = C_UPDATED_MOVE_CATEGORIES >= GEN_6 ? CONTEST_CATEGORY_CUTE : CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .spDef = 2,
-        }),
         .battleAnimScript = gBattleAnimMove_FakeTears,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_AIR_CUTTER] =
     {
-        .name = COMPOUND_STRING("Air Cutter"),
+        .name = COMPOUND_STRING("Psychic Beam"),
         .description = COMPOUND_STRING(
-            "Hacks with razorlike wind.\n"
-            "High critical-hit ratio."),
-        .effect = EFFECT_HIT,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 60 : 55,
         .type = TYPE_FLYING,
         .accuracy = 95,
@@ -8658,11 +8144,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_OVERHEAT] =
     {
-        .name = COMPOUND_STRING("Overheat"),
+        .name = COMPOUND_STRING("Vanish"),
         .description = COMPOUND_STRING(
-            "Allows a full-power attack,\n"
-            "but harshly lowers Sp. Atk."),
-        .effect = EFFECT_HIT,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 130 : 140,
         .type = TYPE_FIRE,
         .accuracy = 90,
@@ -8671,11 +8157,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .makesContact = B_UPDATED_MOVE_DATA < GEN_4,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .spAtk = 2,
-            .self = TRUE,
-        }),
         .contestEffect = CONTEST_EFFECT_USER_MORE_EASILY_STARTLED,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -8686,12 +8167,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ODOR_SLEUTH] =
     {
-        .name = COMPOUND_STRING("Odor Sleuth"),
+        .name = COMPOUND_STRING("Psycho Panic"),
         .description = COMPOUND_STRING(
-            "Negates evasion and the\n"
-            "Ghost type's immunities."),
-        .effect = EFFECT_FORESIGHT,
-        .power = 0,
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 30,
         .type = TYPE_NORMAL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_4 ? 0 : 100,
         .pp = 40,
@@ -8711,11 +8192,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ROCK_TOMB] =
     {
-        .name = COMPOUND_STRING("Rock Tomb"),
+        .name = COMPOUND_STRING("Blink"),
         .description = COMPOUND_STRING(
-            "Stops the foe from moving\n"
-            "with rocks and lowers Speed."),
-        .effect = EFFECT_HIT,
+            "Reduces damage taken during\n"
+            "opponent's next turn."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 60 : 50,
         .type = TYPE_ROCK,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_6 ? 95 : 80,
@@ -8723,11 +8204,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .speed = 1,
-            .chance = 100,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_SHIFT_JUDGE_ATTENTION : CONTEST_EFFECT_DONT_EXCITE_AUDIENCE,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -8738,12 +8214,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SILVER_WIND] =
     {
-        .name = COMPOUND_STRING("Silver Wind"),
+        .name = COMPOUND_STRING("Mind Shock"),
         .description = COMPOUND_STRING(
-            "A powdery attack that may\n"
-            "raise all stats."),
+            "Deals 30 HP damage to the\n"
+            "Defending Pokémon."),
         .effect = EFFECT_HIT,
-        .power = 60,
+        .power = 30,
         .type = TYPE_BUG,
         .accuracy = 100,
         .pp = 5,
@@ -8751,16 +8227,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .windMove = B_EXTRAPOLATED_MOVE_FLAGS,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_PLUS,
-            .attack = 1,
-            .defense = 1,
-            .spDef = 1,
-            .spAtk = 1,
-            .speed = 1,
-            .self = TRUE,
-            .chance = 10,
-        }),
         .contestEffect = CONTEST_EFFECT_IMPROVE_CONDITION_PREVENT_NERVOUSNESS,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -8771,11 +8237,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_METAL_SOUND] =
     {
-        .name = COMPOUND_STRING("Metal Sound"),
+        .name = COMPOUND_STRING("Trans Damage"),
         .description = COMPOUND_STRING(
-            "Emits a horrible screech\n"
-            "that harshly lowers Sp. Def."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Discards 1 Energy attached\n"
+            "to the Defending Pokémon."),
+        .effect = EFFECT_TCG_DISCARD_TARGET_ENERGY,
         .power = 0,
         .type = TYPE_STEEL,
         .accuracy = 85,
@@ -8791,22 +8257,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = COMBO_STARTER_METAL_SOUND,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .spDef = 2,
-        }),
         .battleAnimScript = gBattleAnimMove_MetalSound,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_GRASS_WHISTLE] =
     {
-        .name = COMPOUND_STRING("Grass Whistle"),
+        .name = COMPOUND_STRING("Teleport Bla"),
         .description = COMPOUND_STRING(
-            "Lulls the foe into sleep\n"
-            "with a pleasant melody."),
-        .effect = EFFECT_NON_VOLATILE_STATUS,
-        .power = 0,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
+        .power = 30,
         .type = TYPE_GRASS,
         .accuracy = 55,
         .pp = 15,
@@ -8828,11 +8290,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_TICKLE] =
     {
-        .name = COMPOUND_STRING("Tickle"),
+        .name = COMPOUND_STRING("Afternoon Na"),
         .description = COMPOUND_STRING(
-            "Makes the foe laugh to\n"
-            "lower Attack and Defense."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Draws 1 card from your deck\n"
+            "after attacking."),
+        .effect = EFFECT_TCG_DRAW_CARD,
         .power = 0,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -8847,22 +8309,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_MINUS,
-            .attack = 1,
-            .defense = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_Tickle,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_COSMIC_POWER] =
     {
-        .name = COMPOUND_STRING("Cosmic Power"),
+        .name = COMPOUND_STRING("Spacing Out"),
         .description = COMPOUND_STRING(
-            "Raises Defense and Sp. Def\n"
-            "with a mystic power."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Heals 20 HP of damage from\n"
+            "this Pokémon."),
+        .effect = EFFECT_TCG_HEAL_USER,
         .power = 0,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
@@ -8878,11 +8335,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = C_UPDATED_MOVE_CATEGORIES >= GEN_6 ? CONTEST_CATEGORY_BEAUTY : CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .defense = 1,
-            .spDef = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_CosmicPower,
         .validApprenticeMove = TRUE,
     },
@@ -8891,10 +8343,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Water Spout"),
         .description = COMPOUND_STRING(
-            "Inflicts more damage if the\n"
-            "user's HP is high."),
-        .effect = EFFECT_POWER_BASED_ON_USER_HP,
-        .power = 150,
+            "Deals +10 extra damage for\n"
+            "each extra Energy attached."),
+        .effect = EFFECT_TCG_ENERGY_BOOST,
+        .power = 20,
         .type = TYPE_WATER,
         .accuracy = 100,
         .pp = 5,
@@ -8911,11 +8363,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SIGNAL_BEAM] =
     {
-        .name = COMPOUND_STRING("Signal Beam"),
+        .name = COMPOUND_STRING("Scavenge"),
         .description = COMPOUND_STRING(
-            "A strange beam attack that\n"
-            "may confuse the foe."),
-        .effect = EFFECT_HIT,
+            "Discard 1 Energy attached\n"
+            "to this Pokémon to attack."),
+        .effect = EFFECT_TCG_DISCARD_USER_ENERGY,
         .power = 75,
         .type = TYPE_BUG,
         .accuracy = 100,
@@ -8923,10 +8375,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_CONFUSION,
-            .chance = 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_SHIFT_JUDGE_ATTENTION : CONTEST_EFFECT_SCRAMBLE_NEXT_TURN_ORDER,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -8937,11 +8385,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SHADOW_PUNCH] =
     {
-        .name = COMPOUND_STRING("Shadow Punch"),
+        .name = COMPOUND_STRING("Big Yawn"),
         .description = COMPOUND_STRING(
-            "An unavoidable punch that\n"
-            "is thrown from shadows."),
-        .effect = EFFECT_HIT,
+            "The Defending Pokémon is\n"
+            "now Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
         .power = 60,
         .type = TYPE_GHOST,
         .accuracy = 0,
@@ -8961,12 +8409,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_EXTRASENSORY] =
     {
-        .name = COMPOUND_STRING("Extrasensory"),
+        .name = COMPOUND_STRING("Big Snore"),
         .description = COMPOUND_STRING(
-            "Attacks with a peculiar\n"
-            "power. May cause flinching."),
-        .effect = EFFECT_HIT,
-        .power = 80,
+            "The Defending Pokémon is\n"
+            "now Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
+        .power = 30,
         .type = TYPE_PSYCHIC,
         .accuracy = 100,
         .pp = B_UPDATED_MOVE_DATA >= GEN_6 ? 20 : 30,
@@ -8974,10 +8422,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .minimizeDoubleDamage = B_UPDATED_MOVE_FLAGS < GEN_4,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 10,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_STARTLE_MONS_SAME_TYPE_APPEAL : CONTEST_EFFECT_BADLY_STARTLE_FRONT_MON,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -8988,12 +8432,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SKY_UPPERCUT] =
     {
-        .name = COMPOUND_STRING("Sky Uppercut"),
+        .name = COMPOUND_STRING("Fickle Attac"),
         .description = COMPOUND_STRING(
-            "An uppercut thrown as if\n"
-            "leaping into the sky."),
-        .effect = EFFECT_HIT,
-        .power = 85,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 40,
         .type = TYPE_FIGHTING,
         .accuracy = 90,
         .pp = 15,
@@ -9013,11 +8457,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SAND_TOMB] =
     {
-        .name = COMPOUND_STRING("Sand Tomb"),
+        .name = COMPOUND_STRING("Sleeping Gas"),
         .description = COMPOUND_STRING(
-            "Traps and hurts the foe in\n"
-            "quicksand for "BINDING_TURNS" turns."),
-        .effect = EFFECT_HIT,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
         .power = B_UPDATED_MOVE_DATA >= GEN_5 ? 35 : 15,
         .type = TYPE_GROUND,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 85 : 70,
@@ -9025,10 +8469,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_WRAP,
-            .argument.wrapped = B_MSG_WRAPPED_SAND_TOMB,
-        }),
         .contestEffect = CONTEST_EFFECT_DONT_EXCITE_AUDIENCE,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -9039,8 +8479,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SHEER_COLD] =
     {
-        .name = COMPOUND_STRING("Sheer Cold"),
+        .name = COMPOUND_STRING("Spookify"),
         .description = COMPOUND_STRING(
+            "Bolsters defense and guards\n"
+            "against the next attack."),
         #if B_SHEER_COLD_ACC >= GEN_7
             "Causes fainting. Unlikely to\n"
             "hit if user isn't Ice-type."),
@@ -9048,7 +8490,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "A chilling attack that\n"
             "causes fainting if it hits."),
         #endif
-        .effect = EFFECT_OHKO,
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 1,
         .type = TYPE_ICE,
         .accuracy = 30,
@@ -9068,11 +8510,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MUDDY_WATER] =
     {
-        .name = COMPOUND_STRING("Muddy Water"),
+        .name = COMPOUND_STRING("Fade to Blac"),
         .description = COMPOUND_STRING(
-            "Attacks with muddy water.\n"
-            "May lower accuracy."),
-        .effect = EFFECT_HIT,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Confused."),
+        .effect = EFFECT_TCG_INFLICT_CONFUSION,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 90 : 95,
         .type = TYPE_WATER,
         .accuracy = 85,
@@ -9081,11 +8523,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .skyBattleBanned = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .accuracy = 1,
-            .chance = 30,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_STARTLE_PREV_MONS : CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -9096,11 +8533,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BULLET_SEED] =
     {
-        .name = COMPOUND_STRING("Bullet Seed"),
+        .name = COMPOUND_STRING("Energy Conve"),
         .description = COMPOUND_STRING(
-            "Shoots 2 to 5 seeds in a row\n"
-            "to strike the foe."),
-        .effect = EFFECT_HIT,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = B_UPDATED_MOVE_DATA >= GEN_5 ? 25 : 10,
         .type = TYPE_GRASS,
         .accuracy = 100,
@@ -9119,11 +8556,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_AERIAL_ACE] =
     {
-        .name = COMPOUND_STRING("Aerial Ace"),
+        .name = COMPOUND_STRING("Eerie Light"),
         .description = COMPOUND_STRING(
-            "An extremely speedy and\n"
-            "unavoidable attack."),
-        .effect = EFFECT_HIT,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Confused."),
+        .effect = EFFECT_TCG_INFLICT_CONFUSION,
         .power = 60,
         .type = TYPE_FLYING,
         .accuracy = 0,
@@ -9143,11 +8580,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_ICICLE_SPEAR] =
     {
-        .name = COMPOUND_STRING("Icicle Spear"),
+        .name = COMPOUND_STRING("Poltergeist"),
         .description = COMPOUND_STRING(
-            "Attacks the foe by firing\n"
-            "2 to 5 icicles in a row."),
-        .effect = EFFECT_HIT,
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
         .power = B_UPDATED_MOVE_DATA >= GEN_5 ? 25 : 10,
         .type = TYPE_ICE,
         .accuracy = 100,
@@ -9165,12 +8602,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_IRON_DEFENSE] =
     {
-        .name = COMPOUND_STRING("Iron Defense"),
+        .name = COMPOUND_STRING("Bad Dreams"),
         .description = COMPOUND_STRING(
-            "Hardens the body's surface\n"
-            "to sharply raise Defense."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
+        .power = 20,
         .type = TYPE_STEEL,
         .accuracy = 0,
         .pp = 15,
@@ -9186,21 +8623,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_IronDefense,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .defense = 2,
-        }),
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_BLOCK] =
     {
-        .name = COMPOUND_STRING("Block"),
+        .name = COMPOUND_STRING("Bother"),
         .description = COMPOUND_STRING(
-            "Blocks the foe's way to\n"
-            "prevent escape."),
-        .effect = EFFECT_MEAN_LOOK,
-        .power = 0,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 30,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 5,
@@ -9220,8 +8653,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_HOWL] =
     {
-        .name = COMPOUND_STRING("Howl"),
+        .name = COMPOUND_STRING("Dark Mind"),
         .description = COMPOUND_STRING(
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
         #if B_UPDATED_MOVE_DATA >= GEN_8
             "Howls to raise the spirit\n"
             "and raises allies' Attack."),
@@ -9229,8 +8664,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Howls to raise the spirit\n"
             "and raises Attack."),
         #endif
-        .power = 0,
-        .effect = EFFECT_STAT_CHANGE,
+        .power = 30,
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 40,
@@ -9248,21 +8683,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestComboStarterId = 0,
         .contestComboMoves = {0},
         .battleAnimScript = gBattleAnimMove_Howl,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .attack = 1,
-        }),
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_DRAGON_CLAW] =
     {
-        .name = COMPOUND_STRING("Dragon Claw"),
+        .name = COMPOUND_STRING("Psy Horror"),
         .description = COMPOUND_STRING(
-            "Slashes the foe with sharp\n"
-            "claws."),
-        .effect = EFFECT_HIT,
-        .power = 80,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
+        .power = 30,
         .type = TYPE_DRAGON,
         .accuracy = 100,
         .pp = 15,
@@ -9281,8 +8712,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_FRENZY_PLANT] =
     {
-        .name = COMPOUND_STRING("Frenzy Plant"),
+        .name = COMPOUND_STRING("Push Aside"),
         .description = COMPOUND_STRING(
+            "Bolsters defense and guards\n"
+            "against the next attack."),
         #if B_SKIP_RECHARGE != GEN_1
             "Powerful, but leaves the\n"
             "user immobile the next turn."),
@@ -9290,7 +8723,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "Leaves the user immobile if\n"
             "it doesn't KO the target."),
         #endif
-        .effect = EFFECT_HIT,
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 150,
         .type = TYPE_GRASS,
         .accuracy = 90,
@@ -9299,10 +8732,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .skyBattleBanned = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_RECHARGE,
-            .self = TRUE,
-        }),
         .contestEffect = CONTEST_EFFECT_JAMS_OTHERS_BUT_MISS_ONE_TURN,
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = 0,
@@ -9313,11 +8742,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BULK_UP] =
     {
-        .name = COMPOUND_STRING("Bulk Up"),
+        .name = COMPOUND_STRING("Prophecy"),
         .description = COMPOUND_STRING(
-            "Bulks up the body to raise\n"
-            "both Attack and Defense."),
-        .effect = EFFECT_STAT_CHANGE,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_FIGHTING,
         .accuracy = 0,
@@ -9329,11 +8758,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .snatchAffected = TRUE,
         .ignoresProtect = TRUE,
         .mirrorMoveBanned = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .attack = 1,
-            .defense = 1,
-        }),
         .contestEffect = CONTEST_EFFECT_IMPROVE_CONDITION_PREVENT_NERVOUSNESS,
         .contestCategory = C_UPDATED_MOVE_CATEGORIES >= GEN_6 ? CONTEST_CATEGORY_COOL : CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -9344,12 +8768,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_BOUNCE] =
     {
-        .name = COMPOUND_STRING("Bounce"),
+        .name = COMPOUND_STRING("Psypunch"),
         .description = COMPOUND_STRING(
-            "Bounces up, then down the\n"
-            "next turn. May paralyze."),
-        .effect = EFFECT_SEMI_INVULNERABLE,
-        .power = 85,
+            "Deals 20 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 20,
         .type = TYPE_FLYING,
         .accuracy = 85,
         .pp = 5,
@@ -9362,10 +8786,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .instructBanned = TRUE,
         .assistBanned = B_UPDATED_MOVE_FLAGS >= GEN_6,
         .argument.twoTurnAttack = { .stringId = STRINGID_PKMNSPRANGUP, .state = STATE_ON_AIR },
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_PARALYSIS,
-            .chance = 30,
-        }),
         .contestEffect = CONTEST_EFFECT_AVOID_STARTLE,
         .contestCategory = CONTEST_CATEGORY_CUTE,
         .contestComboStarterId = 0,
@@ -9376,23 +8796,18 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MUD_SHOT] =
     {
-        .name = COMPOUND_STRING("Mud Shot"),
+        .name = COMPOUND_STRING("Bench Manipu"),
         .description = COMPOUND_STRING(
-            "Hurls mud at the foe and\n"
-            "lowers Speed."),
-        .effect = EFFECT_HIT,
-        .power = 55,
+            "Flip coins: deals 20 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 20,
         .type = TYPE_GROUND,
         .accuracy = 95,
         .pp = 15,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .speed = 1,
-            .chance = 100,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_HIGHLY_APPEALING : CONTEST_EFFECT_BADLY_STARTLE_PREV_MONS,
         .contestCategory = CONTEST_CATEGORY_TOUGH,
         .contestComboStarterId = 0,
@@ -9402,12 +8817,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_POISON_TAIL] =
     {
-        .name = COMPOUND_STRING("Poison Tail"),
+        .name = COMPOUND_STRING("Juggling"),
         .description = COMPOUND_STRING(
-            "Has a high critical-hit\n"
-            "ratio. May also poison."),
-        .effect = EFFECT_HIT,
-        .power = 50,
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 10,
         .type = TYPE_POISON,
         .accuracy = 100,
         .criticalHitStage = B_UPDATED_MOVE_DATA >= GEN_3 ? 1 : 2,
@@ -9416,10 +8831,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
         .makesContact = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_POISON,
-            .chance = 10,
-        }),
         .contestEffect = CONTEST_EFFECT_WORSEN_CONDITION_OF_PREV_MONS,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,
@@ -9430,11 +8841,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_COVET] =
     {
-        .name = COMPOUND_STRING("Covet"),
+        .name = COMPOUND_STRING("Cold Breath"),
         .description = COMPOUND_STRING(
-            "Cutely begs to obtain an\n"
-            "item held by the foe."),
-        .effect = EFFECT_STEAL_ITEM,
+            "Flip a coin. If heads, the\n"
+            "Defending mon is Asleep."),
+        .effect = EFFECT_TCG_INFLICT_SLEEP,
         .power = B_UPDATED_MOVE_DATA >= GEN_5 ? 60 : 40,
         .type = TYPE_NORMAL,
         .accuracy = 100,
@@ -9457,21 +8868,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_VOLT_TACKLE] =
     {
-        .name = COMPOUND_STRING("Volt Tackle"),
+        .name = COMPOUND_STRING("Telekinesis"),
     #if B_UPDATED_MOVE_DATA >= GEN_4
         .description = COMPOUND_STRING(
-            "A life-risking tackle that\n"
-            "hurts the user. May paralyze."),
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_PARALYSIS,
-            .chance = 10,
-        }),
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
     #else
         .description = COMPOUND_STRING(
-            "A life-risking tackle that\n"
-            "slightly hurts the user."),
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
     #endif
-        .effect = EFFECT_RECOIL,
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 120,
         .type = TYPE_ELECTRIC,
         .accuracy = 100,
@@ -9491,12 +8898,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_MAGICAL_LEAF] =
     {
-        .name = COMPOUND_STRING("Magical Leaf"),
+        .name = COMPOUND_STRING("Psycrush"),
         .description = COMPOUND_STRING(
-            "Attacks with a strange leaf\n"
-            "that cannot be evaded."),
-        .effect = EFFECT_HIT,
-        .power = 60,
+            "Flip coins: deals 10 damage\n"
+            "times number of heads."),
+        .effect = EFFECT_TCG_MULTI_COIN_HIT,
+        .power = 10,
         .type = TYPE_GRASS,
         .accuracy = 0,
         .pp = 20,
@@ -9513,8 +8920,10 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_WATER_SPORT] =
     {
-        .name = COMPOUND_STRING("Water Sport"),
+        .name = COMPOUND_STRING("Energy Absor"),
         .description = COMPOUND_STRING(
+            "Bolsters defense and guards\n"
+            "against the next attack."),
         #if B_UPDATED_MOVE_DATA >= GEN_6
             "Water weakens Fire-\n"
             "type moves for 5 turns."),
@@ -9522,7 +8931,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
             "The user becomes soaked to\n"
             "weaken all Fire-type moves."),
         #endif
-        .effect = EFFECT_WATER_SPORT,
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 0,
         .type = TYPE_WATER,
         .accuracy = 0,
@@ -9544,12 +8953,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_CALM_MIND] =
     {
-        .name = COMPOUND_STRING("Calm Mind"),
+        .name = COMPOUND_STRING("Psyburn"),
         .description = COMPOUND_STRING(
-            "Raises Sp. Atk and Sp. Def\n"
-            "by focusing the mind."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Deals 40 HP damage to the\n"
+            "Defending Pokémon."),
+        .effect = EFFECT_HIT,
+        .power = 40,
         .type = TYPE_PSYCHIC,
         .accuracy = 0,
         .pp = 20,
@@ -9564,22 +8973,17 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = COMBO_STARTER_CALM_MIND,
         .contestComboMoves = {0},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .spAtk = 1,
-            .spDef = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_CalmMind,
         .validApprenticeMove = TRUE,
     },
 
     [MOVE_LEAF_BLADE] =
     {
-        .name = COMPOUND_STRING("Leaf Blade"),
+        .name = COMPOUND_STRING("Complete Rec"),
         .description = COMPOUND_STRING(
-            "Slashes with a sharp leaf.\n"
-            "High critical-hit ratio."),
-        .effect = EFFECT_HIT,
+            "Heals 20 HP of damage from\n"
+            "this Pokémon."),
+        .effect = EFFECT_TCG_HEAL_USER,
         .power = B_UPDATED_MOVE_DATA >= GEN_4 ? 90 : 70,
         .type = TYPE_GRASS,
         .accuracy = 100,
@@ -9600,12 +9004,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_DRAGON_DANCE] =
     {
-        .name = COMPOUND_STRING("Dragon Dance"),
+        .name = COMPOUND_STRING("Psycho Blast"),
         .description = COMPOUND_STRING(
-            "A mystical dance that\n"
-            "raises Attack and Speed."),
-        .effect = EFFECT_STAT_CHANGE,
-        .power = 0,
+            "Discards 1 Energy attached\n"
+            "to the Defending Pokémon."),
+        .effect = EFFECT_TCG_DISCARD_TARGET_ENERGY,
+        .power = 30,
         .type = TYPE_DRAGON,
         .accuracy = 0,
         .pp = 20,
@@ -9621,11 +9025,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .contestCategory = CONTEST_CATEGORY_COOL,
         .contestComboStarterId = COMBO_STARTER_DRAGON_DANCE,
         .contestComboMoves = {COMBO_STARTER_DRAGON_BREATH, COMBO_STARTER_DRAGON_RAGE, COMBO_STARTER_DRAGON_RUSH, COMBO_STARTER_DRAGON_TAIL},
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = STAT_CHANGE_EFFECT_PLUS,
-            .attack = 1,
-            .speed = 1,
-        }),
         .battleAnimScript = gBattleAnimMove_DragonDance,
         .validApprenticeMove = TRUE,
     },
@@ -9634,9 +9033,9 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Rock Blast"),
         .description = COMPOUND_STRING(
-            "Hurls boulders at the foe\n"
-            "2 to 5 times in a row."),
-        .effect = EFFECT_HIT,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 25,
         .type = TYPE_ROCK,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 90 : 80,
@@ -9655,12 +9054,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_SHOCK_WAVE] =
     {
-        .name = COMPOUND_STRING("Shock Wave"),
+        .name = COMPOUND_STRING("Dark Amplifi"),
         .description = COMPOUND_STRING(
-            "A fast and unavoidable\n"
-            "electric attack."),
-        .effect = EFFECT_HIT,
-        .power = 60,
+            "Flip a coin. If heads, this\n"
+            "attack deals +20 damage."),
+        .effect = EFFECT_TCG_COIN_DAMAGE_BONUS,
+        .power = 20,
         .type = TYPE_ELECTRIC,
         .accuracy = 0,
         .pp = 20,
@@ -9677,11 +9076,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_WATER_PULSE] =
     {
-        .name = COMPOUND_STRING("Water Pulse"),
+        .name = COMPOUND_STRING("Mystery Atta"),
         .description = COMPOUND_STRING(
-            "Attacks with ultrasonic\n"
-            "waves. May confuse the foe."),
-        .effect = EFFECT_HIT,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = 60,
         .type = TYPE_WATER,
         .accuracy = 100,
@@ -9690,10 +9089,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
         .pulseMove = TRUE,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_CONFUSION,
-            .chance = 20,
-        }),
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_SHIFT_JUDGE_ATTENTION : CONTEST_EFFECT_SCRAMBLE_NEXT_TURN_ORDER,
         .contestCategory = CONTEST_CATEGORY_BEAUTY,
         .contestComboStarterId = 0,
@@ -9704,11 +9099,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_DOOM_DESIRE] =
     {
-        .name = COMPOUND_STRING("Doom Desire"),
+        .name = COMPOUND_STRING("Devolution B"),
         .description = COMPOUND_STRING(
-            "Summons strong light to\n"
-            "attack 2 turns later."),
-        .effect = EFFECT_FUTURE_SIGHT,
+            "Bolsters defense and guards\n"
+            "against the next attack."),
+        .effect = EFFECT_TCG_SHIELD_NEXT_TURN,
         .power = B_UPDATED_MOVE_DATA >= GEN_5 ? 140 : 120,
         .type = TYPE_STEEL,
         .accuracy = B_UPDATED_MOVE_DATA >= GEN_5 ? 100 : 85,
@@ -9728,11 +9123,11 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_PSYCHO_BOOST] =
     {
-        .name = COMPOUND_STRING("Psycho Boost"),
+        .name = COMPOUND_STRING("Slicing Wind"),
         .description = COMPOUND_STRING(
-            "Allows a full-power attack,\n"
-            "but harshly lowers Sp. Atk."),
-        .effect = EFFECT_HIT,
+            "Deals 10 HP damage to 1 of\n"
+            "opponent's Benched Pokémon."),
+        .effect = EFFECT_TCG_BENCH_SNIPER,
         .power = 140,
         .type = TYPE_PSYCHIC,
         .accuracy = 90,
@@ -9740,11 +9135,6 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_SPECIAL,
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_STAT_MINUS,
-            .spAtk = 2,
-            .self = TRUE,
-        }),
         .contestEffect = CONTEST_EFFECT_USER_MORE_EASILY_STARTLED,
         .contestCategory = CONTEST_CATEGORY_SMART,
         .contestComboStarterId = 0,

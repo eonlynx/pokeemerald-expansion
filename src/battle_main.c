@@ -32,6 +32,7 @@
 #include "gpu_regs.h"
 #include "international_string_util.h"
 #include "item.h"
+#include "tcg.h"
 #include "link.h"
 #include "link_rfu.h"
 #include "load_save.h"
@@ -2758,6 +2759,7 @@ static void BattleStartClearSetData(void)
 
     TurnValuesCleanUp(FALSE);
     memset(&gSpecialStatuses, 0, sizeof(gSpecialStatuses));
+    InitTcgBattleState();
 
     memset(&gFieldTimers, 0, sizeof(gFieldTimers));
     memset(&gSideStatuses, 0, sizeof(gSideStatuses));
@@ -3329,6 +3331,50 @@ static void DoBattleIntro(void)
             gBattleStruct->eventState.battleIntro++;
         }
         break;
+    case BATTLE_INTRO_STATE_CHOOSE_INITIAL_MON:
+        if (!gTcgBattleState.activeMonPlaced && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED | BATTLE_TYPE_RECORDED_LINK)))
+        {
+            gTcgBattleState.viewingHandInPartyMenu = TRUE;
+            battler = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
+            BtlController_EmitChoosePokemon(battler, B_COMM_TO_CONTROLLER, PARTY_ACTION_SEND_OUT, PARTY_SIZE, ABILITY_NONE, 0, gBattleStruct->battlerPartyOrders[battler]);
+            MarkBattlerForControllerExec(battler);
+            gBattleStruct->eventState.battleIntro++;
+        }
+        else
+        {
+            gBattleStruct->eventState.battleIntro = BATTLE_INTRO_STATE_PRINT_PLAYER_SEND_OUT_TEXT;
+        }
+        break;
+    case BATTLE_INTRO_STATE_WAIT_FOR_INITIAL_MON:
+        battler = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
+        if (!IsBattlerMarkedForControllerExec(battler))
+        {
+            gTcgBattleState.viewingHandInPartyMenu = FALSE;
+            if (!gTcgBattleState.activeMonPlaced
+             || GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES) == SPECIES_NONE)
+            {
+                for (u8 h = 0; h < gTcgBattleState.playerHandCount; h++)
+                {
+                    u16 cid = gTcgBattleState.playerHand[h];
+                    const struct TcgCardInfo *info = GetTcgCardInfo(cid);
+                    if (info != NULL
+                     && info->cardType == CARD_TYPE_POKEMON_BASIC
+                     && info->species != SPECIES_NONE
+                     && cid != CARD_MYSTERIOUS_FOSSIL
+                     && cid != CARD_CLEFAIRY_DOLL)
+                    {
+                        u8 fieldSlot = 0;
+                        bool8 evolved = FALSE;
+                        TryPlaceOrEvolveFromHand(h, &fieldSlot, &evolved);
+                        break;
+                    }
+                }
+            }
+            gTcgBattleState.activeMonPlaced = TRUE;
+            SyncBattlerStructFromPartyMon(battler);
+            gBattleStruct->eventState.battleIntro = BATTLE_INTRO_STATE_PRINT_PLAYER_SEND_OUT_TEXT;
+        }
+        break;
     case BATTLE_INTRO_STATE_PRINT_PLAYER_SEND_OUT_TEXT:
         if (!(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
         {
@@ -3740,36 +3786,9 @@ void SwitchTwoBattlersInParty(enum BattlerId battler, enum BattlerId battler2)
 
 void SwitchPartyOrder(enum BattlerId battler)
 {
-    s32 i;
-    u32 partyId1, partyId2;
-
-    for (i = 0; i < (int)ARRAY_COUNT(gBattlePartyCurrentOrder); i++)
-        gBattlePartyCurrentOrder[i] = *(battler * 3 + i + (u8 *)(gBattleStruct->battlerPartyOrders));
-
-    partyId1 = GetPartyIdFromBattlePartyId(gBattlerPartyIndexes[battler]);
-    partyId2 = GetPartyIdFromBattlePartyId(gBattleStruct->monToSwitchIntoId[battler]);
-    SwitchPartyMonSlots(partyId1, partyId2);
-
-    if (gBattleStruct->battlerState[battler].originalBattlerPartyId == partyId1)
-        gBattleStruct->battlerState[battler].originalBattlerPartyId = partyId2;
-    else if (gBattleStruct->battlerState[battler].originalBattlerPartyId == partyId2)
-        gBattleStruct->battlerState[battler].originalBattlerPartyId = partyId1;
-
-    if (IsDoubleBattle())
-    {
-        for (i = 0; i < (int)ARRAY_COUNT(gBattlePartyCurrentOrder); i++)
-        {
-            *(battler * 3 + i + (u8 *)(gBattleStruct->battlerPartyOrders)) = gBattlePartyCurrentOrder[i];
-            *(GetPartnerBattler(battler) * 3 + i + (u8 *)(gBattleStruct->battlerPartyOrders)) = gBattlePartyCurrentOrder[i];
-        }
-    }
-    else
-    {
-        for (i = 0; i < (int)ARRAY_COUNT(gBattlePartyCurrentOrder); i++)
-        {
-            *(battler * 3 + i + (u8 *)(gBattleStruct->battlerPartyOrders)) = gBattlePartyCurrentOrder[i];
-        }
-    }
+    // TCG Pocket: Cmd_getswitchedmondata directly swaps gParties[trainer][0] and gParties[trainer][targetSlot],
+    // so battlerPartyOrders remains fixed at 0, 1, 2, 3, 4, 5.
+    (void)battler;
 }
 
 enum
@@ -4024,6 +4043,9 @@ static void HandleTurnActionSelectionState(void)
                     BtlController_EmitEndBounceEffect(battler, B_COMM_TO_CONTROLLER);
                     MarkBattlerForControllerExec(battler);
                     return;
+                case B_ACTION_NOTHING_FAINTED:
+                    gBattleCommunication[battler]++;
+                    break;
                 case B_ACTION_DEBUG:
                     BtlController_EmitDebugMenu(battler, B_COMM_TO_CONTROLLER);
                     MarkBattlerForControllerExec(battler);
@@ -4079,6 +4101,12 @@ static void HandleTurnActionSelectionState(void)
                 case B_ACTION_USE_MOVE:
                     switch (gBattleResources->bufferB[battler][1])
                     {
+                    case B_ACTION_SWITCH:
+                        gChosenActionByBattler[battler] = B_ACTION_SWITCH;
+                        gBattleStruct->battlerPartyIndexes[battler] = gBattlerPartyIndexes[battler];
+                        BtlController_EmitChoosePokemon(battler, B_COMM_TO_CONTROLLER, PARTY_ACTION_CHOOSE_MON, PARTY_SIZE, ABILITY_NONE, 0, gBattleStruct->battlerPartyOrders[battler]);
+                        MarkBattlerForControllerExec(battler);
+                        return;
                     case 3:
                     case 4:
                     case 5:
@@ -4209,6 +4237,9 @@ static void HandleTurnActionSelectionState(void)
                 case B_ACTION_WALLY_THROW:
                     gBattleCommunication[battler]++;
                     break;
+                case B_ACTION_NOTHING_FAINTED:
+                    gBattleCommunication[battler]++;
+                    break;
                 case B_ACTION_DEBUG:
                     gBattleCommunication[battler] = STATE_BEFORE_ACTION_CHOSEN;
                     break;
@@ -4273,8 +4304,6 @@ static void HandleTurnActionSelectionState(void)
                 gSelectionBattleScripts[battler] = NULL;
                 if (gBattleResources->bufferB[battler][1] == B_ACTION_NOTHING_FAINTED)
                 {
-                    gHitMarker |= HITMARKER_RUN;
-                    gChosenActionByBattler[battler] = B_ACTION_RUN;
                     gBattleCommunication[battler] = STATE_WAIT_ACTION_CONFIRMED_STANDBY;
                 }
                 else
@@ -5285,6 +5314,10 @@ static void HandleEndTurn_FinishBattle(void)
         FadeOutMapMusic(5);
         TryRestoreHeldItems();
 
+        // TCG Pocket: Cards do not retain damage between battles, fully heal party
+        for (u32 i = 0; i < PARTY_SIZE; i++)
+            HealPokemon(&gSaveBlock1Ptr->playerParty[i]);
+
         for (u32 i = 0; i < PARTY_SIZE; i++)
         {
             bool32 changedForm = TryRevertPartyMonFormChange(i);
@@ -5412,11 +5445,30 @@ static void WaitForEvoSceneToFinish(void)
 
 static void ReturnFromBattleToOverworld(void)
 {
+    RestorePlayerPartyAfterBattle();
     if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
     {
         CalculatePlayerPartyCount();
         RandomlyGivePartyPokerus();
         PartySpreadPokerus();
+
+        // TCG Pocket: Fully restore party at end of battle
+        for (u32 i = 0; i < PARTY_SIZE; i++)
+        {
+            u16 maxHp = GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_MAX_HP);
+            if (maxHp > 0)
+            {
+                SetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_HP, &maxHp);
+                u32 status = 0;
+                SetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_STATUS, &status);
+            }
+        }
+
+        // TCG Pocket: Unlock gym leader or rival default deck on victory
+        if ((gBattleOutcome == B_OUTCOME_WON) && (gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        {
+            UnlockGymLeaderDeck(TRAINER_BATTLE_PARAM.opponentA);
+        }
     }
 
     if (gBattleTypeFlags & BATTLE_TYPE_LINK && gReceivedRemoteLinkPlayers)

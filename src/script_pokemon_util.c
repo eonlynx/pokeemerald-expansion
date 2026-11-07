@@ -27,6 +27,7 @@
 #include "string_util.h"
 #include "tv.h"
 #include "wild_encounter.h"
+#include "tcg.h"
 #include "constants/abilities.h"
 #include "constants/items.h"
 #include "constants/battle_frontier.h"
@@ -384,18 +385,19 @@ u32 ScriptGiveMonParameterized(u8 side, u8 slot, struct PokemonTemplate *monTemp
 
 u32 ScriptGiveMon(enum Species species, u8 level, enum Item item)
 {
+    u16 cardId = GetCardIdFromSpecies(species);
+    if (cardId != 0)
+        AddCardToBag(cardId, 1);
+
+    if (item != ITEM_NONE)
+        AddBagItem(item, 1);
+
     struct Pokemon mon;
-    u8 heldItem[2];
-
     CreateRandomMon(&mon, species, level);
-    if (item)
-    {
-        heldItem[0] = item;
-        heldItem[1] = item >> 8;
-        SetMonData(&mon, MON_DATA_HELD_ITEM, heldItem);
-    }
+    HandleSetPokedexFlagFromMon(&mon, FLAG_SET_SEEN);
+    HandleSetPokedexFlagFromMon(&mon, FLAG_SET_CAUGHT);
 
-    return GiveScriptedMonToPlayer(&mon, PARTY_SIZE);
+    return MON_GIVEN_TO_PARTY;
 }
 
 #define PARSE_FLAG(n, default_) (flags & (1 << (n))) ? VarGet(ScriptReadHalfword(ctx)) : (default_)

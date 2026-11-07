@@ -33,6 +33,7 @@
 #include "bg.h"
 #include "string_util.h"
 #include "pokemon_icon.h"
+#include "tcg.h"
 #include "caps.h"
 #include "m4a.h"
 #include "mail.h"
@@ -2141,7 +2142,9 @@ static void Cmd_getexp(void)
     u8 *expMonId = &gBattleStruct->expGetterMonId;
     u32 currLvl;
 
-    gBattlerFainted = GetBattlerForBattleScript(cmd->battler);
+    // TCG Pocket: No EXP gain or level ups in battle
+    gBattlescriptCurrInstr += 2;
+    return;
 
     enum Species faintedSpecies;
     if (!gBattleMons[gBattlerFainted].volatiles.transformed)
@@ -3201,7 +3204,43 @@ static void Cmd_getswitchedmondata(void)
         gBattleStruct->monToSwitchIntoId[battler] = GetArbitraryValidSwitchIn(trainer);
     }
 
-    gBattlerPartyIndexes[battler] = gBattleStruct->monToSwitchIntoId[battler];
+    // TCG Pocket: keep Active Pokémon in party[0] and Bench Pokémon in party[1..3]
+    u8 targetSlot = gBattleStruct->monToSwitchIntoId[battler];
+    if (targetSlot > 0 && targetSlot < PARTY_SIZE)
+    {
+        struct Pokemon *party = gParties[trainer];
+        if (GetMonData(&party[0], MON_DATA_HP) > 0)
+        {
+            u32 zeroStatus = 0;
+            SetMonData(&party[0], MON_DATA_STATUS, &zeroStatus);
+        }
+
+        struct Pokemon temp = party[0];
+        party[0] = party[targetSlot];
+        party[targetSlot] = temp;
+
+        SwapSlotEnergies(GetBattlerSide(battler), 0, targetSlot);
+        if (GetBattlerSide(battler) == B_SIDE_PLAYER)
+        {
+            u8 tmpPlaced = gTcgBattleState.turnMonPlaced[0];
+            gTcgBattleState.turnMonPlaced[0] = gTcgBattleState.turnMonPlaced[targetSlot];
+            gTcgBattleState.turnMonPlaced[targetSlot] = tmpPlaced;
+
+            u8 tmpEvolved = gTcgBattleState.turnMonEvolved[0];
+            gTcgBattleState.turnMonEvolved[0] = gTcgBattleState.turnMonEvolved[targetSlot];
+            gTcgBattleState.turnMonEvolved[targetSlot] = tmpEvolved;
+        }
+
+        // If the outgoing mon was fainted (HP == 0), clear its Bench slot so the slot is now open
+        if (GetMonData(&party[targetSlot], MON_DATA_HP) == 0)
+        {
+            ZeroMonData(&party[targetSlot]);
+        }
+
+        gBattleStruct->monToSwitchIntoId[battler] = 0;
+    }
+
+    gBattlerPartyIndexes[battler] = 0;
 
     BtlController_EmitGetMonData(battler, B_COMM_TO_CONTROLLER, REQUEST_ALL_BATTLE, 1u << gBattlerPartyIndexes[battler]);
     MarkBattlerForControllerExec(battler);
@@ -3336,6 +3375,13 @@ bool32 CanBattlerSwitch(enum BattlerId battler)
 static void Cmd_jumpifcantswitch(void)
 {
     CMD_ARGS(u8 battler:7, u8 ignoreEscapePrevention:1, const u8 *jumpInstr);
+
+    // TCG Pocket: disable vanilla SHIFT-mode free switch prompt after an opponent faints
+    if (cmd->battler == BS_PLAYER1)
+    {
+        gBattlescriptCurrInstr = cmd->jumpInstr;
+        return;
+    }
 
     enum BattlerId battler = GetBattlerForBattleScript(cmd->battler);
     if (!cmd->ignoreEscapePrevention && !CanBattlerEscape(battler) && GetBattlerHoldEffect(battler) != HOLD_EFFECT_SHED_SHELL)
@@ -8402,6 +8448,32 @@ static void Cmd_givecaughtmon(void)
         gBattleResults.caughtMonSpecies = GetMonData(caughtMon, MON_DATA_SPECIES);
         GetMonData(caughtMon, MON_DATA_NICKNAME, gBattleResults.caughtMonNick);
         gBattleResults.caughtMonBall = GetMonData(caughtMon, MON_DATA_POKEBALL);
+
+        // TCG Pocket: Add caught card to Bag and salvage held item
+        u16 cardId = GetMonCardId(caughtMon);
+        if (cardId == 0)
+        {
+            for (u16 c = 1; c <= gTcgCardCount; c++)
+            {
+                if (gTcgCards[c].species == gBattleResults.caughtMonSpecies)
+                {
+                    cardId = c;
+                    break;
+                }
+            }
+        }
+        if (cardId != 0)
+            AddCardToBag(cardId, 1);
+
+        enum Item heldItem = GetMonData(caughtMon, MON_DATA_HELD_ITEM);
+        if (heldItem != ITEM_NONE)
+        {
+            u16 zeroItem = ITEM_NONE;
+            SetMonData(caughtMon, MON_DATA_HELD_ITEM, &zeroItem);
+            AddBagItem(heldItem, 1);
+            CopyItemName(heldItem, gStringVar1);
+            PrepareStringBattle(STRINGID_TCG_FOUND_HELD_ITEM, GetCatchingBattler());
+        }
 
         gSelectedMonPartyId = PARTY_SIZE;
         gBattleCommunication[MULTIUSE_STATE] = 0;

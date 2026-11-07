@@ -1,0 +1,1413 @@
+# TCG POCKET MOVES MECHANICS AUDIT REPORT
+# Total active TCG moves: 352
+
+MOVE_CONSTANT              | VISIBLE_NAME     | POWER | EFFECT_CONSTANT                    | RESOLVING_MECHANIC / FUNCTION
+-----------------------------------------------------------------------------------------------------------------------------
+MOVE_ABSORB                | Absorb           | 40    | EFFECT_TCG_HEAL_USER               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_HEAL_USER)
+  Line 1: "Heals 20 HP of damage from"
+  Line 2: "this Pokémon."
+
+MOVE_ACID                  | Acid             | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_ACID_ARMOR            | Regeneration     | 0     | EFFECT_TCG_HEAL_USER               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_HEAL_USER)
+  Line 1: "Heals 20 HP of damage from"
+  Line 2: "this Pokémon."
+
+MOVE_AERIAL_ACE            | Eerie Light      | 0     | EFFECT_TCG_INFLICT_CONFUSION       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_CONFUSION)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Confused."
+
+MOVE_AEROBLAST             | Aeroblast        | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_AGILITY               | Agility          | 30    | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_AIR_CUTTER            | Psychic Beam     | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_AMNESIA               | Amnesia          | 0     | EFFECT_TCG_DISABLE_MOVE            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISABLE_MOVE)
+  Line 1: "Disables 1 of the foe's"
+  Line 2: "attacks on their next turn."
+
+MOVE_ANCIENT_POWER         | Thunder Jolt     | 30    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SELF_DAMAGE_COIN)
+  Line 1: "Flip a coin. If tails, this"
+  Line 2: "Pokémon takes 20 HP recoil."
+
+MOVE_ARM_THRUST            | Seething Ang     | 20    | EFFECT_TCG_RAGE_DAMAGE_BOOST       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_RAGE_DAMAGE_BOOST)
+  Line 1: "Deals +10 extra damage per"
+  Line 2: "10 HP damage on this mon."
+
+MOVE_AROMATHERAPY          | Sharp Sickle     | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_ASSIST                | Dig Under        | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_ASTONISH              | One-Two Stri     | 30    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_ATTRACT               | Water Power      | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_AURORA_BEAM           | Aurora Beam      | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 50 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_BARRAGE               | Scatter Spor     | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_BARRIER               | Barrier          | 0     | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_USER_ENERGY)
+  Line 1: "Discard 1 Energy attached"
+  Line 2: "to this Pokémon to attack."
+
+MOVE_BATON_PASS            | Hide in Shel     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_BEAT_UP               | Gigashock        | 30    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_BELLY_DRUM            | Mix-Up           | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_BIDE                  | Ram              | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_BIND                  | Bind             | 20    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_BITE                  | Bite             | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_BLAST_BURN            | Special Punc     | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 40 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_BLAZE_KICK            | Bone Toss        | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_BLIZZARD              | Blizzard         | 50    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_BLOCK                 | Bother           | 30    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_BODY_SLAM             | Body Slam        | 20    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_BONEMERANG            | Bonemerang       | 30    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 30 damage"
+  Line 2: "times number of heads."
+
+MOVE_BONE_CLUB             | Nosedive         | 60    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SELF_DAMAGE_COIN)
+  Line 1: "Flip a coin. If tails, this"
+  Line 2: "Pokémon takes 20 HP recoil."
+
+MOVE_BONE_RUSH             | Fireworks        | 20    | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_USER_ENERGY)
+  Line 1: "Discard 1 Energy attached"
+  Line 2: "to this Pokémon to attack."
+
+MOVE_BOUNCE                | Psypunch         | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_BRICK_BREAK           | Tantrum          | 50    | EFFECT_TCG_INFLICT_CONFUSION       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_CONFUSION)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Confused."
+
+MOVE_BUBBLE                | Bubble           | 10    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_BUBBLE_BEAM           | Bubblebeam       | 40    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_BULK_UP               | Prophecy         | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_BULLET_SEED           | Energy Conve     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_CALM_MIND             | Psyburn          | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 40 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_CAMOUFLAGE            | Fling            | 50    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_CHARGE                | Raging Thund     | 50    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_CHARM                 | Burning Fire     | 10    | EFFECT_TCG_ENERGY_BOOST            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_ENERGY_BOOST)
+  Line 1: "Deals +10 extra damage for"
+  Line 2: "each extra Energy attached."
+
+MOVE_CLAMP                 | Clamp            | 30    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_COMET_PUNCH           | Comet Punch      | 20    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 20 damage"
+  Line 2: "times number of heads."
+
+MOVE_CONFUSE_RAY           | Confuse Ray      | 10    | EFFECT_TCG_INFLICT_CONFUSION       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_CONFUSION)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Confused."
+
+MOVE_CONFUSION             | Poison Vapor     | 10    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_CONSTRICT             | Flitter          | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_CONVERSION            | Nasty Goo        | 10    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_CONVERSION_2          | Conversion 2     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_COSMIC_POWER          | Spacing Out      | 0     | EFFECT_TCG_HEAL_USER               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_HEAL_USER)
+  Line 1: "Heals 20 HP of damage from"
+  Line 2: "this Pokémon."
+
+MOVE_COTTON_SPORE          | Slicing Thro     | 10    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_COUNTER               | Spit Poison      | 0     | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Poisoned."
+
+MOVE_COVET                 | Cold Breath      | 20    | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Asleep."
+
+MOVE_CRABHAMMER            | Crabhammer       | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 40 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_CROSS_CHOP            | Trickle          | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_CRUNCH                | Corrosive Li     | 40    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_CRUSH_CLAW            | Jab              | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_CURSE                 | Slashing Str     | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 40 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_CUT                   | Fury Strikes     | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_DEFENSE_CURL          | Horn Hazard      | 30    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_DESTINY_BOND          | Destiny Bond     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_DETECT                | Smash Kick       | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_DIG                   | Dig              | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_DISABLE               | Disable          | 0     | EFFECT_TCG_DISABLE_MOVE            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISABLE_MOVE)
+  Line 1: "Disables 1 of the foe's"
+  Line 2: "attacks on their next turn."
+
+MOVE_DIVE                  | Knock Back       | 30    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_DIZZY_PUNCH           | Dizzy Punch      | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_DOOM_DESIRE           | Devolution B     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_DOUBLE_EDGE           | Double-edge      | 40    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SELF_DAMAGE_COIN)
+  Line 1: "Powerful strike; user also"
+  Line 2: "takes 20 HP recoil damage."
+
+MOVE_DOUBLE_KICK           | Double Kick      | 30    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 30 damage"
+  Line 2: "times number of heads."
+
+MOVE_DOUBLE_SLAP           | Doubleslap       | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_DOUBLE_TEAM           | Boyfriends       | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_DRAGON_BREATH         | Aurora Wave      | 30    | EFFECT_TCG_INFLICT_CONFUSION       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_CONFUSION)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Confused."
+
+MOVE_DRAGON_CLAW           | Psy Horror       | 30    | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Asleep."
+
+MOVE_DRAGON_DANCE          | Psycho Blast     | 30    | EFFECT_TCG_DISCARD_TARGET_ENERGY   | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_TARGET_ENERGY)
+  Line 1: "Discards 1 Energy attached"
+  Line 2: "to the Defending Pokémon."
+
+MOVE_DRAGON_RAGE           | Dragon Rage      | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 50 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_DREAM_EATER           | Dream Eater      | 50    | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Asleep."
+
+MOVE_DRILL_PECK            | Drill Peck       | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 40 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_DYNAMIC_PUNCH         | Twiddle          | 0     | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Asleep."
+
+MOVE_EARTHQUAKE            | Earthquake       | 70    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_EGG_BOMB              | Suspicious S     | 10    | EFFECT_TCG_INFLICT_CONFUSION       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_CONFUSION)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Confused."
+
+MOVE_EMBER                 | Ember            | 30    | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_USER_ENERGY)
+  Line 1: "Discard 1 Energy attached"
+  Line 2: "to this Pokémon to attack."
+
+MOVE_ENCORE                | Salt Water       | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_ENDEAVOR              | Corkscrew Pu     | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_ENDURE                | Flame Pillar     | 30    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_ERUPTION              | Punch            | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_EXPLOSION             | Dissolve         | 20    | EFFECT_TCG_DISCARD_TARGET_ENERGY   | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_TARGET_ENERGY)
+  Line 1: "Discards 1 Energy attached"
+  Line 2: "to the Defending Pokémon."
+
+MOVE_EXTRASENSORY          | Big Snore        | 30    | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Asleep."
+
+MOVE_EXTREME_SPEED         | Gnaw             | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_FACADE                | Energy Bomb      | 30    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_FAKE_TEARS            | Tailspin Att     | 40    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SELF_DAMAGE_COIN)
+  Line 1: "Powerful strike; user also"
+  Line 2: "takes 20 HP recoil damage."
+
+MOVE_FALSE_SWIPE           | Magma Punch      | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 40 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_FEATHER_DANCE         | Rock Seal        | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_FEINT_ATTACK          | Continuous F     | 50    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 50 damage"
+  Line 2: "times number of heads."
+
+MOVE_FIRE_BLAST            | Fire Blast       | 80    | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_USER_ENERGY)
+  Line 1: "Discard 1 Energy attached"
+  Line 2: "to this Pokémon to attack."
+
+MOVE_FIRE_PUNCH            | Fire Punch       | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_FIRE_SPIN             | Fire Spin        | 100   | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_USER_ENERGY)
+  Line 1: "Discard 1 Energy attached"
+  Line 2: "to this Pokémon to attack."
+
+MOVE_FISSURE               | Stare            | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_FLAIL                 | Flail            | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_FLAMETHROWER          | Flamethrower     | 50    | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_USER_ENERGY)
+  Line 1: "Discard 1 Energy attached"
+  Line 2: "to this Pokémon to attack."
+
+MOVE_FLAME_WHEEL           | Stun Gas         | 20    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Poisoned."
+
+MOVE_FLASH                 | Venom Powder     | 10    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Poisoned."
+
+MOVE_FLATTER               | Speed Ball       | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_FLY                   | Fly              | 30    | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_FOCUS_ENERGY          | Focus Energy     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_FOCUS_PUNCH           | Stun Needle      | 30    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_FOLLOW_ME             | Follow Me        | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_FORESIGHT             | Errand-Runni     | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_FRENZY_PLANT          | Push Aside       | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_FRUSTRATION           | Dizziness        | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_FURY_ATTACK           | Fury Attack      | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_FURY_CUTTER           | Dive Bomb        | 80    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_FURY_SWIPES           | Fury Swipes      | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_FUTURE_SIGHT          | Short Circui     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_GIGA_DRAIN            | Rear Kick        | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_GLARE                 | Petal Whirlw     | 30    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 30 damage"
+  Line 2: "times number of heads."
+
+MOVE_GRASS_WHISTLE         | Teleport Bla     | 30    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_GROWL                 | Growl            | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_GROWTH                | Deadly Poiso     | 30    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_GRUDGE                | Grudge           | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_GUILLOTINE            | Guillotine       | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 50 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_GUST                  | Gust             | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_HAIL                  | Magnetic Lin     | 30    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_HARDEN                | Harden           | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_HAZE                  | Horn Rush        | 40    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_HEADBUTT              | Headbutt         | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_HEAL_BELL             | Mirror Shell     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_HEAT_WAVE             | Microwave        | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_HELPING_HAND          | Thunderstorm     | 40    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SELF_DAMAGE_COIN)
+  Line 1: "Flip a coin. If tails, this"
+  Line 2: "Pokémon takes 20 HP recoil."
+
+MOVE_HIDDEN_POWER          | Rapid Evolut     | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_HIGH_JUMP_KICK        | High Jump Ki     | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 50 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_HORN_ATTACK           | Horn Attack      | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_HORN_DRILL            | Horn Drill       | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 50 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_HOWL                  | Dark Mind        | 30    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_HYDRO_CANNON          | Hydrocannon      | 30    | EFFECT_TCG_ENERGY_BOOST            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_ENERGY_BOOST)
+  Line 1: "Deals +10 extra damage for"
+  Line 2: "each extra Energy attached."
+
+MOVE_HYDRO_PUMP            | Hydro Pump       | 40    | EFFECT_TCG_ENERGY_BOOST            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_ENERGY_BOOST)
+  Line 1: "Deals +10 extra damage for"
+  Line 2: "each extra Energy attached."
+
+MOVE_HYPER_BEAM            | Hyper Beam       | 20    | EFFECT_TCG_DISCARD_TARGET_ENERGY   | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_TARGET_ENERGY)
+  Line 1: "Discards 1 Energy attached"
+  Line 2: "to the Defending Pokémon."
+
+MOVE_HYPER_FANG            | Hyper Fang       | 50    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_HYPER_VOICE           | Stretch Kick     | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_HYPNOSIS              | Hypnosis         | 0     | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Asleep."
+
+MOVE_ICE_BALL              | Bone Attack      | 10    | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_ICE_BEAM              | Ice Beam         | 20    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_ICE_PUNCH             | Ice Punch        | 10    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_ICICLE_SPEAR          | Poltergeist      | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_ICY_WIND              | Flames of Ra     | 40    | EFFECT_TCG_ENERGY_BOOST            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_ENERGY_BOOST)
+  Line 1: "Deals +10 extra damage for"
+  Line 2: "each extra Energy attached."
+
+MOVE_IMPRISON              | Wicked Jab       | 20    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_INGRAIN               | Trip Over        | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_IRON_DEFENSE          | Bad Dreams       | 20    | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Asleep."
+
+MOVE_IRON_TAIL             | Slap             | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_JUMP_KICK             | Horrid Polle     | 30    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Poisoned (10 HP/turn)."
+
+MOVE_KARATE_CHOP           | Karate Chop      | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 50 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_KINESIS               | Sprout           | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_KNOCK_OFF             | Focused One      | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_LEAF_BLADE            | Complete Rec     | 0     | EFFECT_TCG_HEAL_USER               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_HEAL_USER)
+  Line 1: "Heals 20 HP of damage from"
+  Line 2: "this Pokémon."
+
+MOVE_LEECH_LIFE            | Leech Life       | 10    | EFFECT_TCG_HEAL_USER               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_HEAL_USER)
+  Line 1: "Heals 20 HP of damage from"
+  Line 2: "this Pokémon."
+
+MOVE_LEECH_SEED            | Leech Seed       | 20    | EFFECT_TCG_HEAL_USER               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_HEAL_USER)
+  Line 1: "Heals 20 HP of damage from"
+  Line 2: "this Pokémon."
+
+MOVE_LEER                  | Leer             | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_LICK                  | Lick             | 10    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_LIGHT_SCREEN          | Light Screen     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_LOCK_ON               | Flame Tail       | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_LOVELY_KISS           | Toxic Spore      | 10    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Poisoned (10 HP/turn)."
+
+MOVE_LOW_KICK              | Low Kick         | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_LUSTER_PURGE          | Boulder Smas     | 30    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_MACH_PUNCH            | Mach Punch       | 20    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_MAGICAL_LEAF          | Psycrush         | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_MAGIC_COAT            | Knock Down       | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_MAGNITUDE             | Super Psy        | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 50 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_MEAN_LOOK             | Fire Wing        | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 50 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_MEDITATE              | Meditate         | 10    | EFFECT_TCG_RAGE_DAMAGE_BOOST       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_RAGE_DAMAGE_BOOST)
+  Line 1: "Deals +10 extra damage per"
+  Line 2: "10 HP damage on this mon."
+
+MOVE_MEGAHORN              | Jellyfish St     | 10    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Poisoned (10 HP/turn)."
+
+MOVE_MEGA_DRAIN            | Mega Drain       | 40    | EFFECT_TCG_HEAL_USER               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_HEAL_USER)
+  Line 1: "Heals 20 HP of damage from"
+  Line 2: "this Pokémon."
+
+MOVE_MEGA_KICK             | Mega Kick        | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_MEGA_PUNCH            | Mega Punch       | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 50 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_MEMENTO               | Chain Lightn     | 20    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_METAL_CLAW            | Strange Beam     | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_METAL_SOUND           | Trans Damage     | 0     | EFFECT_TCG_DISCARD_TARGET_ENERGY   | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_TARGET_ENERGY)
+  Line 1: "Discards 1 Energy attached"
+  Line 2: "to the Defending Pokémon."
+
+MOVE_METEOR_MASH           | Mountain Bre     | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_METRONOME             | Metronome        | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_MILK_DRINK            | Wildfire         | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_MIMIC                 | Call for Fam     | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_MIND_READER           | Mass Explosi     | 20    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 20 damage"
+  Line 2: "times number of heads."
+
+MOVE_MINIMIZE              | Minimize         | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_MIRROR_COAT           | Freeze Dry       | 30    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_MIRROR_MOVE           | Mirror Move      | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_MIST                  | Poison Horn      | 0     | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Poisoned (10 HP/turn)."
+
+MOVE_MIST_BALL             | Avalanche        | 60    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 60 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_MOONLIGHT             | Flop             | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_MORNING_SUN           | Star Freeze      | 20    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_MUDDY_WATER           | Fade to Blac     | 10    | EFFECT_TCG_INFLICT_CONFUSION       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_CONFUSION)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Confused."
+
+MOVE_MUD_SHOT              | Bench Manipu     | 20    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 20 damage"
+  Line 2: "times number of heads."
+
+MOVE_MUD_SLAP              | Mud Slap         | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_MUD_SPORT             | Call for Fri     | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_NATURE_POWER          | Thunder Atta     | 30    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_NEEDLE_ARM            | Wail             | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_NIGHTMARE             | Nightmare        | 10    | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Asleep."
+
+MOVE_NIGHT_SHADE           | Tail Wag         | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_OCTAZOOKA             | Perplex          | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_ODOR_SLEUTH           | Psycho Panic     | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_OUTRAGE               | Flame Infern     | 10    | EFFECT_TCG_ENERGY_BOOST            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_ENERGY_BOOST)
+  Line 1: "Deals +10 extra damage for"
+  Line 2: "each extra Energy attached."
+
+MOVE_OVERHEAT              | Vanish           | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_PAIN_SPLIT            | Wave Splash      | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 40 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_PAY_DAY               | Pay Day          | 10    | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_PECK                  | Peck             | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_PERISH_SONG           | Flare            | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_PETAL_DANCE           | Petal Dance      | 40    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 40 damage"
+  Line 2: "times number of heads."
+
+MOVE_PIN_MISSILE           | Pin Missile      | 20    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 20 damage"
+  Line 2: "times number of heads."
+
+MOVE_POISON_FANG           | Poison Fang      | 20    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Poisoned (10 HP/turn)."
+
+MOVE_POISON_GAS            | Poison Gas       | 0     | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Poisoned (10 HP/turn)."
+
+MOVE_POISON_POWDER         | Poisonpowder     | 20    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Poisoned (10 HP/turn)."
+
+MOVE_POISON_STING          | Poison Sting     | 10    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Poisoned."
+
+MOVE_POISON_TAIL           | Juggling         | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_POUND                 | Pound            | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_POWDER_SNOW           | Tail Slap        | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_PRESENT               | Headache         | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_PROTECT               | Fireball         | 70    | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_USER_ENERGY)
+  Line 1: "Discard 1 Energy attached"
+  Line 2: "to this Pokémon to attack."
+
+MOVE_PSYBEAM               | Psybeam          | 20    | EFFECT_TCG_INFLICT_CONFUSION       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_CONFUSION)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Confused."
+
+MOVE_PSYCHIC               | Psychic          | 10    | EFFECT_TCG_ENERGY_BOOST            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_ENERGY_BOOST)
+  Line 1: "Deals +10 extra damage for"
+  Line 2: "each extra Energy attached."
+
+MOVE_PSYCHO_BOOST          | Slicing Wind     | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_PSYCH_UP              | Ice Breath       | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_PSYWAVE               | Psywave          | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_PURSUIT               | Double-Edged     | 80    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 80 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_QUICK_ATTACK          | Quick Attack     | 10    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_RAGE                  | Rage             | 10    | EFFECT_TCG_RAGE_DAMAGE_BOOST       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_RAGE_DAMAGE_BOOST)
+  Line 1: "Deals +10 extra damage per"
+  Line 2: "10 HP damage on this mon."
+
+MOVE_RAIN_DANCE            | Rolling Tack     | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_RAPID_SPIN            | Hide             | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_RAZOR_LEAF            | Razor Leaf       | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_RAZOR_WIND            | Poison Seed      | 0     | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Poisoned (10 HP/turn)."
+
+MOVE_RECOVER               | Recover          | 0     | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_USER_ENERGY)
+  Line 1: "Discard 1 Energy attached"
+  Line 2: "to this Pokémon to attack."
+
+MOVE_RECYCLE               | Mischief         | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_REFLECT               | Swift Lunge      | 60    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SELF_DAMAGE_COIN)
+  Line 1: "Flip a coin. If tails, this"
+  Line 2: "Pokémon takes 20 HP recoil."
+
+MOVE_REFRESH               | Focus Blast      | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_REST                  | Rest             | 0     | EFFECT_TCG_HEAL_USER               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_HEAL_USER)
+  Line 1: "Heals 20 HP of damage from"
+  Line 2: "this Pokémon."
+
+MOVE_RETURN                | Rocket Tackl     | 40    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SELF_DAMAGE_COIN)
+  Line 1: "Flip a coin. If tails, this"
+  Line 2: "Pokémon takes 20 HP recoil."
+
+MOVE_REVENGE               | Anger            | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_REVERSAL              | Irongrip         | 20    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_ROAR                  | Stiffen          | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_ROCK_BLAST            | Rock Blast       | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_ROCK_SLIDE            | Lure             | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_ROCK_SMASH            | Sparking Kic     | 30    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_ROCK_THROW            | Rock Throw       | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 40 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_ROCK_TOMB             | Blink            | 30    | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_ROLE_PLAY             | Sand Veil        | 0     | EFFECT_TCG_BLIND_TARGET            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BLIND_TARGET)
+  Line 1: "Foe must flip a coin to hit"
+  Line 2: "during their next turn."
+
+MOVE_ROLLING_KICK          | Rolling Kick     | 30    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_ROLLOUT               | Rollout          | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SACRED_FIRE           | Third Eye        | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_SAFEGUARD             | Psyshock         | 10    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_SANDSTORM             | Kick Away        | 20    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_SAND_ATTACK           | Sand-attack      | 10    | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_SAND_TOMB             | Sleeping Gas     | 0     | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Asleep."
+
+MOVE_SCARY_FACE            | Nail Flick       | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SCRATCH               | Scratch          | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SCREECH               | Strength in      | 10    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_SECRET_POWER          | Drag Off         | 20    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_SEISMIC_TOSS          | Seismic Toss     | 60    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 60 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SELF_DESTRUCT         | Selfdestruct     | 60    | EFFECT_TCG_SELFDESTRUCT            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SELFDESTRUCT)
+  Line 1: "Deals massive damage; this"
+  Line 2: "Pokémon also takes recoil."
+
+MOVE_SHADOW_BALL           | Recharge         | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_SHADOW_PUNCH          | Big Yawn         | 0     | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Asleep."
+
+MOVE_SHARPEN               | Sticky Hands     | 10    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_SHEER_COLD            | Spookify         | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_SHOCK_WAVE            | Dark Amplifi     | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_SIGNAL_BEAM           | Scavenge         | 0     | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_USER_ENERGY)
+  Line 1: "Discard 1 Energy attached"
+  Line 2: "to this Pokémon to attack."
+
+MOVE_SILVER_WIND           | Mind Shock       | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SING                  | Sing             | 0     | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Asleep."
+
+MOVE_SKILL_SWAP            | Kick             | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SKULL_BASH            | Skull Bash       | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SKY_ATTACK            | Stir Up Twis     | 20    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_SKY_UPPERCUT          | Fickle Attac     | 40    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_SLACK_OFF             | Bone Headbut     | 20    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_SLAM                  | Slam             | 30    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 30 damage"
+  Line 2: "times number of heads."
+
+MOVE_SLASH                 | Slash            | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SLEEP_POWDER          | Sleep Powder     | 0     | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Asleep."
+
+MOVE_SLEEP_TALK            | Shell Attack     | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SLUDGE                | Sludge           | 30    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Poisoned."
+
+MOVE_SLUDGE_BOMB           | Dancing Embe     | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_SMELLING_SALTS        | Lightning Fl     | 20    | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_SMOG                  | Smog             | 20    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Poisoned."
+
+MOVE_SMOKESCREEN           | Smokescreen      | 10    | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_SNATCH                | Steady Punch     | 30    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_SNORE                 | Poison Whip      | 10    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Poisoned (10 HP/turn)."
+
+MOVE_SOFT_BOILED           | Foul Odor        | 20    | EFFECT_TCG_INFLICT_CONFUSION       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_CONFUSION)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Confused."
+
+MOVE_SOLAR_BEAM            | Solarbeam        | 60    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 60 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SONIC_BOOM            | Sonicboom        | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SPARK                 | Spark            | 20    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_SPIDER_WEB            | Gas Explosio     | 40    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SELF_DAMAGE_COIN)
+  Line 1: "Powerful strike; user also"
+  Line 2: "takes 20 HP recoil damage."
+
+MOVE_SPIKES                | Nine Tails       | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_SPIKE_CANNON          | Spike Cannon     | 30    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 30 damage"
+  Line 2: "times number of heads."
+
+MOVE_SPITE                 | Fire Tail        | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SPIT_UP               | Magnetic Sto     | 0     | EFFECT_TCG_HEAL_USER               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_HEAL_USER)
+  Line 1: "Heals 20 HP of damage from"
+  Line 2: "this Pokémon."
+
+MOVE_SPLASH                | Sway             | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_SPORE                 | Spore            | 0     | EFFECT_TCG_INFLICT_SLEEP           | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_SLEEP)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Asleep."
+
+MOVE_STEEL_WING            | Dry Up           | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_STOCKPILE             | Magnetism        | 10    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_STOMP                 | Stomp            | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_STRENGTH              | Terror Strik     | 10    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_STRING_SHOT           | String Shot      | 10    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_STRUGGLE              | Big Eggsplos     | 20    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 20 damage"
+  Line 2: "times number of heads."
+
+MOVE_STUN_SPORE            | Stun Spore       | 20    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_SUBMISSION            | Submission       | 60    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SELF_DAMAGE_COIN)
+  Line 1: "Powerful strike; user also"
+  Line 2: "takes 20 HP recoil damage."
+
+MOVE_SUBSTITUTE            | Sludge Punch     | 20    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Poisoned (10 HP/turn)."
+
+MOVE_SUNNY_DAY             | Tentacle Gri     | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_SUPERPOWER            | Earth Wave       | 30    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_SUPERSONIC            | Supersonic       | 0     | EFFECT_TCG_INFLICT_CONFUSION       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_CONFUSION)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Confused."
+
+MOVE_SUPER_FANG            | Super Fang       | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_SURF                  | Surf             | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SWAGGER               | Playing with     | 30    | EFFECT_TCG_ENERGY_BOOST            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_ENERGY_BOOST)
+  Line 1: "Deals +10 extra damage for"
+  Line 2: "each extra Energy attached."
+
+MOVE_SWALLOW               | Superconduct     | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_SWEET_KISS            | Foxfire          | 10    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_SWEET_SCENT           | Water Bomb       | 20    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_SWIFT                 | Swift            | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_SWORDS_DANCE          | Swords Dance     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_SYNTHESIS             | Spinning Sho     | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_TACKLE                | Tackle           | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 10 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_TAIL_GLOW             | Stone Barrag     | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 10 damage"
+  Line 2: "times number of heads."
+
+MOVE_TAIL_WHIP             | Mysterious P     | 20    | EFFECT_TCG_INFLICT_CONFUSION       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_CONFUSION)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Confused."
+
+MOVE_TAKE_DOWN             | Take Down        | 50    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SELF_DAMAGE_COIN)
+  Line 1: "Powerful strike; user also"
+  Line 2: "takes 20 HP recoil damage."
+
+MOVE_TAUNT                 | Thunder Cras     | 50    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_TEETER_DANCE          | Snivel           | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_TELEPORT              | Teleport         | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_THIEF                 | Confusion Ga     | 20    | EFFECT_TCG_INFLICT_CONFUSION       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_CONFUSION)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Confused."
+
+MOVE_THRASH                | Thrash           | 30    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_THUNDER               | Thunder          | 60    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_THUNDERBOLT           | Thunderbolt      | 50    | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_USER_ENERGY)
+  Line 1: "Discard 1 Energy attached"
+  Line 2: "to this Pokémon to attack."
+
+MOVE_THUNDER_PUNCH         | Thunderpunch     | 30    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_THUNDER_SHOCK         | Thundershock     | 10    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_THUNDER_WAVE          | Thunder Wave     | 10    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_TICKLE                | Afternoon Na     | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_TORMENT               | Group Spark      | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_TOXIC                 | Toxic            | 20    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Poisoned (10 HP/turn)."
+
+MOVE_TRANSFORM             | Rainbow Powd     | 20    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Poisoned."
+
+MOVE_TRICK                 | Big Thunder      | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_TRIPLE_KICK           | Foul Gas         | 10    | EFFECT_TCG_INFLICT_POISON          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_POISON)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Poisoned."
+
+MOVE_TRI_ATTACK            | Tri Attack       | 20    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 20 damage"
+  Line 2: "times number of heads."
+
+MOVE_TWINEEDLE             | Twineedle        | 30    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (EFFECT_TCG_MULTI_COIN_HIT)
+  Line 1: "Flip coins: deals 30 damage"
+  Line 2: "times number of heads."
+
+MOVE_TWISTER               | Twister          | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_UPROAR                | Surprise Thu     | 30    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_VINE_WHIP             | Vine Whip        | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_VISE_GRIP             | First Aid        | 0     | EFFECT_TCG_HEAL_USER               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_HEAL_USER)
+  Line 1: "Heals 20 HP of damage from"
+  Line 2: "this Pokémon."
+
+MOVE_VITAL_THROW           | Spinning Att     | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 20 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_VOLT_TACKLE           | Telekinesis      | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_WATERFALL             | Waterfall        | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_WATER_GUN             | Water Gun        | 20    | EFFECT_TCG_ENERGY_BOOST            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_ENERGY_BOOST)
+  Line 1: "Deals +10 extra damage for"
+  Line 2: "each extra Energy attached."
+
+MOVE_WATER_PULSE           | Mystery Atta     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_WATER_SPORT           | Energy Absor     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Bolsters defense and guards"
+  Line 2: "against the next attack."
+
+MOVE_WATER_SPOUT           | Water Spout      | 20    | EFFECT_TCG_ENERGY_BOOST            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_ENERGY_BOOST)
+  Line 1: "Deals +10 extra damage for"
+  Line 2: "each extra Energy attached."
+
+MOVE_WEATHER_BALL          | Sharp Claws      | 10    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_WHIRLPOOL             | Whirlpool        | 40    | EFFECT_TCG_DISCARD_TARGET_ENERGY   | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DISCARD_TARGET_ENERGY)
+  Line 1: "Discards 1 Energy attached"
+  Line 2: "to the Defending Pokémon."
+
+MOVE_WHIRLWIND             | Whirlwind        | 20    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (EFFECT_TCG_BENCH_SNIPER)
+  Line 1: "Deals 10 HP damage to 1 of"
+  Line 2: "opponent's Benched Pokémon."
+
+MOVE_WILL_O_WISP           | Energy Spike     | 0     | EFFECT_TCG_DRAW_CARD               | ApplyModifiersAfterDmgRoll (EFFECT_TCG_DRAW_CARD)
+  Line 1: "Draws 1 card from your deck"
+  Line 2: "after attacking."
+
+MOVE_WING_ATTACK           | Wing Attack      | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (EFFECT_HIT)
+  Line 1: "Deals 30 HP damage to the"
+  Line 2: "Defending Pokémon."
+
+MOVE_WISH                  | Rolling Need     | 40    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+
+MOVE_WITHDRAW              | Withdraw         | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (EFFECT_TCG_SHIELD_NEXT_TURN)
+  Line 1: "Reduces damage taken during"
+  Line 2: "opponent's next turn."
+
+MOVE_WRAP                  | Wrap             | 20    | EFFECT_TCG_INFLICT_PARALYSIS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_PARALYSIS)
+  Line 1: "Flip a coin. If heads, the"
+  Line 2: "Defending mon is Paralyzed."
+
+MOVE_YAWN                  | Frenzied Att     | 40    | EFFECT_TCG_INFLICT_CONFUSION       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_INFLICT_CONFUSION)
+  Line 1: "The Defending Pokémon is"
+  Line 2: "now Confused."
+
+MOVE_ZAP_CANNON            | Lunge            | 20    | EFFECT_TCG_COIN_DAMAGE_BONUS       | ApplyModifiersAfterDmgRoll (EFFECT_TCG_COIN_DAMAGE_BONUS)
+  Line 1: "Flip a coin. If heads, this"
+  Line 2: "attack deals +20 damage."
+

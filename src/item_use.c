@@ -1565,8 +1565,22 @@ static void ItemUseOnFieldCB_TownMap(u8 taskId)
     DestroyTask(taskId);
 }
 
+#include "region_map.h"
+#include "constants/items.h"
+#include "constants/flags.h"
+#include "overworld.h"
+
 void ItemUseOutOfBattle_TownMap(u8 taskId)
 {
+    if (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType)
+     && FlagGet(FLAG_BADGE03_GET)
+     && CheckBagHasItem(ITEM_HM02, 1))
+    {
+        gBagMenu->newScreenCallback = CB2_OpenFlyMap;
+        Task_FadeAndCloseBagMenu(taskId);
+        return;
+    }
+
     if (!gTasks[taskId].tUsingRegisteredKeyItem)
     {
         sItemUseOnFieldCB = ItemUseOnFieldCB_TownMap;

@@ -1,0 +1,2173 @@
+unused_deck_cards.txt
+
+# UNUSED DECK CARDS LOG (TCG POCKET 20-CARD CONVERSION)
+# Documents remaining minimal cards omitted after variant synthesis
+
+CARD NAME                      | COUNT
+----------------------------------------
+Machop                         | 27   
+Bill                           | 27   
+Magmar                         | 25   
+Charmander                     | 24   
+Gastly                         | 23   
+Voltorb                        | 20   
+Abra                           | 20   
+Eevee                          | 20   
+Squirtle                       | 18   
+Dratini                        | 16   
+Drowzee                        | 15   
+Pikachu                        | 15   
+Geodude                        | 15   
+Bulbasaur                      | 15   
+Kangaskhan                     | 14   
+Switch                         | 14   
+Psyduck                        | 14   
+Slowpoke                       | 13   
+Nidoranâ                     | 13   
+Vulpix                         | 12   
+Growlithe                      | 12   
+Electabuzz                     | 12   
+Zubat                          | 12   
+Diglett                        | 11   
+Magnemite                      | 11   
+Ponyta                         | 11   
+Spearow                        | 11   
+Cubone                         | 10   
+Poliwag                        | 10   
+Haunter                        | 10   
+Weedle                         | 10   
+Pidgey                         | 9    
+Oddish                         | 9    
+Grimer                         | 9    
+Scyther                        | 9    
+Sandshrew                      | 9    
+Ekans                          | 9    
+Staryu                         | 9    
+Chansey                        | 8    
+Koffing                        | 8    
+Hitmonchan                     | 8    
+Magikarp                       | 8    
+Gust of Wind                   | 8    
+Seel                           | 7    
+Jigglypuff                     | 7    
+Krabby                         | 7    
+Potion                         | 7    
+Venonat                        | 7    
+Doduo                          | 7    
+Defender                       | 7    
+Machoke                        | 6    
+Rhyhorn                        | 6    
+Paras                          | 6    
+PlusPower                      | 6    
+Lickitung                      | 6    
+Zapdos                         | 5    
+Lapras                         | 5    
+Articuno                       | 5    
+Mankey                         | 5    
+Graveler                       | 5    
+Onix                           | 5    
+Exeggcute                      | 5    
+Kadabra                        | 5    
+Nidoranâ                     | 5    
+Caterpie                       | 5    
+Bellsprout                     | 5    
+Bill's Teleporter              | 5    
+Goldeen                        | 4    
+Moltres                        | 4    
+Wartortle                      | 4    
+Meowth                         | 4    
+Wigglytuff                     | 4    
+Tangela                        | 4    
+Ditto                          | 4    
+Porygon                        | 4    
+Pidgeotto                      | 4    
+Nidorino                       | 4    
+Golduck                        | 4    
+Jynx                           | 4    
+Computer Search                | 4    
+Dark Dragonair                 | 4    
+Clefairy                       | 3    
+Hitmonlee                      | 3    
+Arcanine                       | 3    
+Rattata                        | 3    
+Raichu                         | 3    
+Golbat                         | 3    
+Fearow                         | 3    
+Slowbro                        | 3    
+Charmeleon                     | 3    
+Nightly Garbage Run            | 3    
+Dark Machoke                   | 3    
+Dark Hypno                     | 3    
+Dark Haunter                   | 3    
+Professor Oak                  | 3    
+Ninetails                      | 2    
+Magneton                       | 2    
+Weezing                        | 2    
+Shellder                       | 2    
+Full Heal                      | 2    
+Weepinbell                     | 2    
+Pinsir                         | 2    
+Clefairy Doll                  | 2    
+Master Ball                    | 2    
+Sandslash                      | 2    
+Poliwhirl                      | 2    
+Tentacool                      | 2    
+Mysterious Fossil              | 2    
+Dark Ivysaur                   | 2    
+Dark Golbat                    | 2    
+Dark Raichu                    | 2    
+Dark Charmeleon                | 2    
+Dark Starmie                   | 2    
+Dark Gyarados                  | 2    
+Dark Machamp                   | 2    
+Dark Golduck                   | 2    
+Snorlax                        | 2    
+Dark Muk                       | 2    
+Blastoise                      | 2    
+Item Finder                    | 2    
+Mew                            | 1    
+Electrode                      | 1    
+Dewgong                        | 1    
+Dragonair                      | 1    
+Horsea                         | 1    
+Ivysaur                        | 1    
+Omanyte                        | 1    
+Gengar                         | 1    
+Hypno                          | 1    
+PokÃ©mon Breeder               | 1    
+Gambler                        | 1    
+Arbok                          | 1    
+Dark Electrode                 | 1    
+Marowak                        | 1    
+Rhydon                         | 1    
+Dugtrio                        | 1    
+Metapod                        | 1    
+Kakuna                         | 1    
+Venomoth                       | 1    
+Parasect                       | 1    
+Nidorina                       | 1    
+Seadra                         | 1    
+Kingler                        | 1    
+Rapidash                       | 1    
+Dark Arbok                     | 1    
+Dark Jolteon                   | 1    
+Dark Rapidash                  | 1    
+Dark Ninetales                 | 1    
+Dark Vaporeon                  | 1    
+Dark Dugtrio                   | 1    
+Golem                          | 1    
+Dark Fearow                    | 1    
+Dark Primeape                  | 1    
+Dark Marowak                   | 1    
+Dark Kadabra                   | 1    
+Dark Gengar                    | 1    
+Dark Clefable                  | 1    
+Dark Venusaur                  | 1    
+Dark Charizard                 | 1    
+Dark Blastoise                 | 1    
+Cool Porygon                   | 1    
+Scoop Up                       | 1    
+Alakazam                       | 1    
+PokÃ©mon Trader                | 1    
+Dark Gloom                     | 1    
+Dark Vileplume                 | 1    
+
+moves_items_supporters_status.txt
+
+# TCG POCKET EDITION: MOVES, ITEMS & SUPPORTERS STATUS AUDIT
+# Total entries audited: 205
+
+| CONSTANT_ID             | TYPE (MOVE/ITEM/SUPPORTER) | PROCESSED (YES/NO) | NAME_CHANGED (YES/NO [NEW_NAME])    | DESC_CHANGED (YES/NO) | SPECIAL_LOGIC_NEEDED (YES/NO) | LOGIC_IMPLEMENTED (YES/NO) |
+|:------------------------|:---------------------------|:-------------------|:------------------------------------|:----------------------|:------------------------------|:---------------------------|
+| MOVE_ABSORB              | MOVE                       | YES                | YES [Absorb]                         | YES                    | NO                             | YES                        |
+| MOVE_ACID                | MOVE                       | YES                | YES [Acid]                           | YES                    | YES                            | YES                        |
+| MOVE_AEROBLAST           | MOVE                       | YES                | YES [Aeroblast]                      | YES                    | NO                             | YES                        |
+| MOVE_AGILITY             | MOVE                       | YES                | YES [Agility]                        | YES                    | YES                            | YES                        |
+| MOVE_AMNESIA             | MOVE                       | YES                | YES [Amnesia]                        | YES                    | NO                             | YES                        |
+| MOVE_AURORA_BEAM         | MOVE                       | YES                | YES [Aurora Beam]                    | YES                    | NO                             | YES                        |
+| MOVE_AVALANCHE           | MOVE                       | YES                | YES [Avalanche]                      | YES                    | NO                             | YES                        |
+| MOVE_BARRIER             | MOVE                       | YES                | YES [Barrier]                        | YES                    | YES                            | YES                        |
+| MOVE_BATON_PASS          | MOVE                       | YES                | YES [Energy Trans]                   | YES                    | NO                             | YES                        |
+| MOVE_BIND                | MOVE                       | YES                | YES [Bind]                           | YES                    | YES                            | YES                        |
+| MOVE_BITE                | MOVE                       | YES                | YES [Bite]                           | YES                    | NO                             | YES                        |
+| MOVE_BLIZZARD            | MOVE                       | YES                | YES [Blizzard]                       | YES                    | YES                            | YES                        |
+| MOVE_BODY_SLAM           | MOVE                       | YES                | YES [Body Slam]                      | YES                    | YES                            | YES                        |
+| MOVE_BONEMERANG          | MOVE                       | YES                | YES [Bonemerang]                     | YES                    | NO                             | YES                        |
+| MOVE_BUBBLE              | MOVE                       | YES                | YES [Bubble]                         | YES                    | YES                            | YES                        |
+| MOVE_BUBBLEBEAM          | MOVE                       | YES                | YES [Bubblebeam]                     | YES                    | YES                            | YES                        |
+| MOVE_CLAMP               | MOVE                       | YES                | YES [Clamp]                          | YES                    | YES                            | YES                        |
+| MOVE_CONFUSE_RAY         | MOVE                       | YES                | YES [Confuse Ray]                    | YES                    | YES                            | YES                        |
+| MOVE_CONVERSION_2        | MOVE                       | YES                | YES [Conversion 2]                   | YES                    | NO                             | YES                        |
+| MOVE_COTTON_GUARD        | MOVE                       | YES                | YES [Guard]                          | YES                    | NO                             | YES                        |
+| MOVE_CRABHAMMER          | MOVE                       | YES                | YES [Crabhammer]                     | YES                    | NO                             | YES                        |
+| MOVE_CURSE               | MOVE                       | YES                | YES [Curse]                          | YES                    | NO                             | YES                        |
+| MOVE_DECORATE            | MOVE                       | YES                | YES [Rat]                            | YES                    | NO                             | YES                        |
+| MOVE_DIG                 | MOVE                       | YES                | YES [Dig]                            | YES                    | NO                             | YES                        |
+| MOVE_DISABLE             | MOVE                       | YES                | YES [Disable]                        | YES                    | NO                             | YES                        |
+| MOVE_DIZZY_PUNCH         | MOVE                       | YES                | YES [Punch]                          | YES                    | NO                             | YES                        |
+| MOVE_DOUBLESLAP          | MOVE                       | YES                | YES [Doubleslap]                     | YES                    | YES                            | YES                        |
+| MOVE_DOUBLE_EDGE         | MOVE                       | YES                | YES [Double-edge]                    | YES                    | YES                            | YES                        |
+| MOVE_DOUBLE_SLAP         | MOVE                       | YES                | YES [Slap]                           | YES                    | YES                            | YES                        |
+| MOVE_DRAGON_ASCENT       | MOVE                       | YES                | YES [Dragon]                         | YES                    | NO                             | YES                        |
+| MOVE_DREAM_EATER         | MOVE                       | YES                | YES [Dream Eater]                    | YES                    | NO                             | YES                        |
+| MOVE_DRILL_PECK          | MOVE                       | YES                | YES [Drill Peck]                     | YES                    | NO                             | YES                        |
+| MOVE_DYNAMIC_PUNCH       | MOVE                       | YES                | YES [Special Punch]                  | YES                    | NO                             | YES                        |
+| MOVE_EARTHQUAKE          | MOVE                       | YES                | YES [Earthquake]                     | YES                    | NO                             | YES                        |
+| MOVE_ELECTRIC_TERRAIN    | MOVE                       | YES                | YES [Electric]                       | YES                    | NO                             | YES                        |
+| MOVE_EMBER               | MOVE                       | YES                | YES [Ember]                          | YES                    | YES                            | YES                        |
+| MOVE_EXPANDING_FORCE     | MOVE                       | YES                | YES [Expand]                         | YES                    | NO                             | YES                        |
+| MOVE_FIRE_BLAST          | MOVE                       | YES                | YES [Fire Blast]                     | YES                    | YES                            | YES                        |
+| MOVE_FIRE_PUNCH          | MOVE                       | YES                | YES [Fire Punch]                     | YES                    | NO                             | YES                        |
+| MOVE_FIRE_SPIN           | MOVE                       | YES                | YES [Fire Spin]                      | YES                    | YES                            | YES                        |
+| MOVE_FLAIL               | MOVE                       | YES                | YES [Flail]                          | YES                    | NO                             | YES                        |
+| MOVE_FLAMETHROWER        | MOVE                       | YES                | YES [Flamethrower]                   | YES                    | YES                            | YES                        |
+| MOVE_FLING               | MOVE                       | YES                | YES [Fling]                          | YES                    | NO                             | YES                        |
+| MOVE_FLY                 | MOVE                       | YES                | YES [Fly]                            | YES                    | NO                             | YES                        |
+| MOVE_FRENZY_PLANT        | MOVE                       | YES                | YES [Frenzy]                         | YES                    | NO                             | YES                        |
+| MOVE_FURY_ATTACK         | MOVE                       | YES                | YES [Fury Attack]                    | YES                    | YES                            | YES                        |
+| MOVE_FUSION_FLARE        | MOVE                       | YES                | YES [Flare]                          | YES                    | NO                             | YES                        |
+| MOVE_GASTRO_ACID         | MOVE                       | YES                | YES [Gas]                            | YES                    | YES                            | YES                        |
+| MOVE_GROWL               | MOVE                       | YES                | YES [Growl]                          | YES                    | NO                             | YES                        |
+| MOVE_GROWTH              | MOVE                       | YES                | YES [Solar Power]                    | YES                    | NO                             | YES                        |
+| MOVE_GRUDGE              | MOVE                       | YES                | YES [Grudge]                         | YES                    | NO                             | YES                        |
+| MOVE_GUILLOTINE          | MOVE                       | YES                | YES [Guillotine]                     | YES                    | NO                             | YES                        |
+| MOVE_GUST                | MOVE                       | YES                | YES [Gust]                           | YES                    | NO                             | YES                        |
+| MOVE_G_MAX_FIREBALL      | MOVE                       | YES                | YES [Fireball]                       | YES                    | YES                            | YES                        |
+| MOVE_G_MAX_WILDFIRE      | MOVE                       | YES                | YES [Wildfire]                       | YES                    | NO                             | YES                        |
+| MOVE_HARDEN              | MOVE                       | YES                | YES [Stiffen]                        | YES                    | NO                             | YES                        |
+| MOVE_HEADBUTT            | MOVE                       | YES                | YES [Headbutt]                       | YES                    | NO                             | YES                        |
+| MOVE_HEAL_ORDER          | MOVE                       | YES                | YES [Heal]                           | YES                    | NO                             | YES                        |
+| MOVE_HURRICANE           | MOVE                       | YES                | YES [Hurricane]                      | YES                    | NO                             | YES                        |
+| MOVE_HYDRO_PUMP          | MOVE                       | YES                | YES [Hydro Pump]                     | YES                    | NO                             | YES                        |
+| MOVE_HYPER_BEAM          | MOVE                       | YES                | YES [Hyper Beam]                     | YES                    | YES                            | YES                        |
+| MOVE_HYPER_FANG          | MOVE                       | YES                | YES [Hyper Fang]                     | YES                    | NO                             | YES                        |
+| MOVE_HYPNOSIS            | MOVE                       | YES                | YES [Hypnosis]                       | YES                    | YES                            | YES                        |
+| MOVE_ICE_BALL            | MOVE                       | YES                | YES [Ball]                           | YES                    | NO                             | YES                        |
+| MOVE_ICE_BEAM            | MOVE                       | YES                | YES [Ice Beam]                       | YES                    | YES                            | YES                        |
+| MOVE_ICE_PUNCH           | MOVE                       | YES                | YES [Ice Punch]                      | YES                    | YES                            | YES                        |
+| MOVE_KARATE_CHOP         | MOVE                       | YES                | YES [Karate Chop]                    | YES                    | NO                             | YES                        |
+| MOVE_LEECH_SEED          | MOVE                       | YES                | YES [Leech Seed]                     | YES                    | NO                             | YES                        |
+| MOVE_LEER                | MOVE                       | YES                | YES [Leer]                           | YES                    | NO                             | YES                        |
+| MOVE_LICK                | MOVE                       | YES                | YES [Lick]                           | YES                    | YES                            | YES                        |
+| MOVE_LIGHT_SCREEN        | MOVE                       | YES                | YES [Light Screen]                   | YES                    | NO                             | YES                        |
+| MOVE_LOW_KICK            | MOVE                       | YES                | YES [Low Kick]                       | YES                    | NO                             | YES                        |
+| MOVE_LUNGE               | MOVE                       | YES                | YES [Lunge]                          | YES                    | NO                             | YES                        |
+| MOVE_MAGNETIC_FLUX       | MOVE                       | YES                | YES [Magnet]                         | YES                    | NO                             | YES                        |
+| MOVE_MEDITATE            | MOVE                       | YES                | YES [Meditate]                       | YES                    | NO                             | YES                        |
+| MOVE_MEGA_DRAIN          | MOVE                       | YES                | YES [Mega Drain]                     | YES                    | NO                             | YES                        |
+| MOVE_METRONOME           | MOVE                       | YES                | YES [Metronome]                      | YES                    | NO                             | YES                        |
+| MOVE_MINIMIZE            | MOVE                       | YES                | YES [Minimize]                       | YES                    | NO                             | YES                        |
+| MOVE_MOUNTAIN_GALE       | MOVE                       | YES                | YES [Gale]                           | YES                    | NO                             | YES                        |
+| MOVE_NIGHTMARE           | MOVE                       | YES                | YES [Nightmare]                      | YES                    | YES                            | YES                        |
+| MOVE_NO_RETREAT          | MOVE                       | YES                | YES [Eat]                            | YES                    | NO                             | YES                        |
+| MOVE_PECK                | MOVE                       | YES                | YES [Peck]                           | YES                    | NO                             | YES                        |
+| MOVE_PETAL_DANCE         | MOVE                       | YES                | YES [Petal Dance]                    | YES                    | NO                             | YES                        |
+| MOVE_PIN_MISSILE         | MOVE                       | YES                | YES [Pin Missile]                    | YES                    | YES                            | YES                        |
+| MOVE_POISONPOWDER        | MOVE                       | YES                | YES [Poisonpowder]                   | YES                    | YES                            | YES                        |
+| MOVE_POISON_FANG         | MOVE                       | YES                | YES [Poison Fang]                    | YES                    | YES                            | YES                        |
+| MOVE_POISON_GAS          | MOVE                       | YES                | YES [Poison Gas]                     | YES                    | YES                            | YES                        |
+| MOVE_POISON_JAB          | MOVE                       | YES                | YES [Jab]                            | YES                    | NO                             | YES                        |
+| MOVE_POISON_POWDER       | MOVE                       | YES                | YES [Horrid Pollen]                  | YES                    | YES                            | YES                        |
+| MOVE_POISON_STING        | MOVE                       | YES                | YES [Poison Sting]                   | YES                    | YES                            | YES                        |
+| MOVE_POLTERGEIST         | MOVE                       | YES                | YES [Poltergeist]                    | YES                    | NO                             | YES                        |
+| MOVE_POUNCE              | MOVE                       | YES                | YES [Pounce]                         | YES                    | NO                             | YES                        |
+| MOVE_POUND               | MOVE                       | YES                | YES [Pound]                          | YES                    | NO                             | YES                        |
+| MOVE_POWER_SHIFT         | MOVE                       | YES                | YES [Shift]                          | YES                    | NO                             | YES                        |
+| MOVE_PROTECT             | MOVE                       | YES                | YES [Green Shield]                   | YES                    | YES                            | YES                        |
+| MOVE_PSYBEAM             | MOVE                       | YES                | YES [Psybeam]                        | YES                    | YES                            | YES                        |
+| MOVE_PSYCHIC             | MOVE                       | YES                | YES [Psychic]                        | YES                    | NO                             | YES                        |
+| MOVE_PSYSHOCK            | MOVE                       | YES                | YES [Psyshock]                       | YES                    | YES                            | YES                        |
+| MOVE_PSYWAVE             | MOVE                       | YES                | YES [Psywave]                        | YES                    | NO                             | YES                        |
+| MOVE_RAGE                | MOVE                       | YES                | YES [Rage]                           | YES                    | NO                             | YES                        |
+| MOVE_RAZOR_LEAF          | MOVE                       | YES                | YES [Razor Leaf]                     | YES                    | NO                             | YES                        |
+| MOVE_RECOVER             | MOVE                       | YES                | YES [First Aid]                      | YES                    | NO                             | YES                        |
+| MOVE_REST                | MOVE                       | YES                | YES [Rest]                           | YES                    | NO                             | YES                        |
+| MOVE_ROCK_CLIMB          | MOVE                       | YES                | YES [Rock]                           | YES                    | NO                             | YES                        |
+| MOVE_ROCK_THROW          | MOVE                       | YES                | YES [Rock Throw]                     | YES                    | NO                             | YES                        |
+| MOVE_ROLLOUT             | MOVE                       | YES                | YES [Rollout]                        | YES                    | NO                             | YES                        |
+| MOVE_SAND_ATTACK         | MOVE                       | YES                | YES [Sand-attack]                    | YES                    | NO                             | YES                        |
+| MOVE_SAPPY_SEED          | MOVE                       | YES                | YES [Seed]                           | YES                    | NO                             | YES                        |
+| MOVE_SCRATCH             | MOVE                       | YES                | YES [Scratch]                        | YES                    | NO                             | YES                        |
+| MOVE_SEISMIC_TOSS        | MOVE                       | YES                | YES [Seismic Toss]                   | YES                    | NO                             | YES                        |
+| MOVE_SELFDESTRUCT        | MOVE                       | YES                | YES [Selfdestruct]                   | YES                    | YES                            | YES                        |
+| MOVE_SING                | MOVE                       | YES                | YES [Sing]                           | YES                    | YES                            | YES                        |
+| MOVE_SKULL_BASH          | MOVE                       | YES                | YES [Skull Bash]                     | YES                    | NO                             | YES                        |
+| MOVE_SLAM                | MOVE                       | YES                | YES [Slam]                           | YES                    | NO                             | YES                        |
+| MOVE_SLASH               | MOVE                       | YES                | YES [Slash]                          | YES                    | NO                             | YES                        |
+| MOVE_SLEEP_POWDER        | MOVE                       | YES                | YES [Sleep Powder]                   | YES                    | YES                            | YES                        |
+| MOVE_SLUDGE              | MOVE                       | YES                | YES [Sludge]                         | YES                    | YES                            | YES                        |
+| MOVE_SMOG                | MOVE                       | YES                | YES [Smog]                           | YES                    | YES                            | YES                        |
+| MOVE_SMOKESCREEN         | MOVE                       | YES                | YES [Smokescreen]                    | YES                    | NO                             | YES                        |
+| MOVE_SOLARBEAM           | MOVE                       | YES                | YES [Solarbeam]                      | YES                    | NO                             | YES                        |
+| MOVE_SONICBOOM           | MOVE                       | YES                | YES [Sonicboom]                      | YES                    | NO                             | YES                        |
+| MOVE_SPARK               | MOVE                       | YES                | YES [Spark]                          | YES                    | YES                            | YES                        |
+| MOVE_SPIKE_CANNON        | MOVE                       | YES                | YES [Spike Cannon]                   | YES                    | YES                            | YES                        |
+| MOVE_SPORE               | MOVE                       | YES                | YES [Spore]                          | YES                    | YES                            | YES                        |
+| MOVE_STOMP               | MOVE                       | YES                | YES [Stomp]                          | YES                    | NO                             | YES                        |
+| MOVE_STOMPING_TANTRUM    | MOVE                       | YES                | YES [Tantrum]                        | YES                    | NO                             | YES                        |
+| MOVE_STRING_SHOT         | MOVE                       | YES                | YES [String Shot]                    | YES                    | YES                            | YES                        |
+| MOVE_STUN_SPORE          | MOVE                       | YES                | YES [Stun Spore]                     | YES                    | YES                            | YES                        |
+| MOVE_SUBMISSION          | MOVE                       | YES                | YES [Submission]                     | YES                    | YES                            | YES                        |
+| MOVE_SUPERPOWER          | MOVE                       | YES                | YES [Superpower]                     | YES                    | NO                             | YES                        |
+| MOVE_SUPERSONIC          | MOVE                       | YES                | YES [Supersonic]                     | YES                    | YES                            | YES                        |
+| MOVE_SUPER_FANG          | MOVE                       | YES                | YES [Super Fang]                     | YES                    | NO                             | YES                        |
+| MOVE_SURF                | MOVE                       | YES                | YES [Surf]                           | YES                    | NO                             | YES                        |
+| MOVE_SWEET_SCENT         | MOVE                       | YES                | YES [Foul Odor]                      | YES                    | YES                            | YES                        |
+| MOVE_SWIFT               | MOVE                       | YES                | YES [Swift]                          | YES                    | NO                             | YES                        |
+| MOVE_TACKLE              | MOVE                       | YES                | YES [Tackle]                         | YES                    | NO                             | YES                        |
+| MOVE_TAKE_DOWN           | MOVE                       | YES                | YES [Take Down]                      | YES                    | YES                            | YES                        |
+| MOVE_TELEKINESIS         | MOVE                       | YES                | YES [Telekinesis]                    | YES                    | YES                            | YES                        |
+| MOVE_TELEPORT            | MOVE                       | YES                | YES [Teleport]                       | YES                    | NO                             | YES                        |
+| MOVE_THRASH              | MOVE                       | YES                | YES [Thrash]                         | YES                    | YES                            | YES                        |
+| MOVE_THUNDER             | MOVE                       | YES                | YES [Thunder]                        | YES                    | NO                             | YES                        |
+| MOVE_THUNDERBOLT         | MOVE                       | YES                | YES [Thunderbolt]                    | YES                    | YES                            | YES                        |
+| MOVE_THUNDEROUS_KICK     | MOVE                       | YES                | YES [Kick]                           | YES                    | NO                             | YES                        |
+| MOVE_THUNDERPUNCH        | MOVE                       | YES                | YES [Thunderpunch]                   | YES                    | YES                            | YES                        |
+| MOVE_THUNDERSHOCK        | MOVE                       | YES                | YES [Thundershock]                   | YES                    | YES                            | YES                        |
+| MOVE_THUNDER_SHOCK       | MOVE                       | YES                | YES [Thunder Jolt]                   | YES                    | YES                            | YES                        |
+| MOVE_TOXIC               | MOVE                       | YES                | YES [Toxic]                          | YES                    | YES                            | YES                        |
+| MOVE_TWINEEDLE           | MOVE                       | YES                | YES [Twineedle]                      | YES                    | NO                             | YES                        |
+| MOVE_TWISTER             | MOVE                       | YES                | YES [Twister]                        | YES                    | NO                             | YES                        |
+| MOVE_VINE_WHIP           | MOVE                       | YES                | YES [Vine Whip]                      | YES                    | NO                             | YES                        |
+| MOVE_WATERFALL           | MOVE                       | YES                | YES [Waterfall]                      | YES                    | NO                             | YES                        |
+| MOVE_WATER_GUN           | MOVE                       | YES                | YES [Water Gun]                      | YES                    | NO                             | YES                        |
+| MOVE_WHIRLPOOL           | MOVE                       | YES                | YES [Whirlpool]                      | YES                    | NO                             | YES                        |
+| MOVE_WHIRLWIND           | MOVE                       | YES                | YES [Whirlwind]                      | YES                    | YES                            | YES                        |
+| MOVE_WING_ATTACK         | MOVE                       | YES                | YES [Wing Attack]                    | YES                    | NO                             | YES                        |
+| MOVE_WITHDRAW            | MOVE                       | YES                | YES [Withdraw]                       | YES                    | NO                             | YES                        |
+| MOVE_WRAP                | MOVE                       | YES                | YES [Wrap]                           | YES                    | YES                            | YES                        |
+| MOVE_ZAP_CANNON          | MOVE                       | YES                | YES [Big Thunder]                    | YES                    | NO                             | YES                        |
+| ITEM_POTION              | ITEM                       | YES                | YES [Potion]                         | YES                    | YES                            | YES                        |
+| ITEM_SUPER_POTION        | ITEM                       | YES                | YES [Super Potion]                   | YES                    | YES                            | YES                        |
+| ITEM_FULL_HEAL           | ITEM                       | YES                | YES [Full Heal]                      | YES                    | YES                            | YES                        |
+| ITEM_REVIVE              | ITEM                       | YES                | YES [Revive]                         | YES                    | YES                            | YES                        |
+| ITEM_MAX_REVIVE          | ITEM                       | YES                | YES [Max Revive]                     | YES                    | YES                            | YES                        |
+| ITEM_POKE_FLUTE          | ITEM                       | YES                | YES [Poké Flute]                     | YES                    | YES                            | YES                        |
+| ITEM_TCG_POKE_RECEIVER   | ITEM                       | YES                | YES [Poké Receiver]                  | YES                    | YES                            | YES                        |
+| ITEM_TCG_PROF_OAK        | SUPPORTER                  | YES                | YES [Prof. Oak]                      | YES                    | YES                            | YES                        |
+| ITEM_TCG_BILL            | ITEM                       | YES                | YES [Bill]                           | YES                    | YES                            | YES                        |
+| ITEM_TCG_SWITCH          | ITEM                       | YES                | YES [Switch]                         | YES                    | YES                            | YES                        |
+| ITEM_TCG_GUST_OF_WIND    | ITEM                       | YES                | YES [Gust of Wind]                   | YES                    | YES                            | YES                        |
+| ITEM_TCG_ENERGY_REMOVAL  | ITEM                       | YES                | YES [Energy Removal]                 | YES                    | YES                            | YES                        |
+| ITEM_TCG_SUPER_ENERGY_REMOVAL | ITEM                       | YES                | YES [Super Energy Removal]           | YES                    | YES                            | YES                        |
+| ITEM_TCG_PLUSPOWER       | ITEM                       | YES                | YES [PlusPower]                      | YES                    | YES                            | YES                        |
+| ITEM_TCG_DEFENDER        | ITEM                       | YES                | YES [Defender]                       | YES                    | YES                            | YES                        |
+| ITEM_TCG_SCOOP_UP        | ITEM                       | YES                | YES [Scoop Up]                       | YES                    | YES                            | YES                        |
+| ITEM_TCG_SUPER_SCOOP_UP  | ITEM                       | YES                | YES [Super Scoop Up]                 | YES                    | YES                            | YES                        |
+| ITEM_TCG_COMPUTER_SEARCH | ITEM                       | YES                | YES [Computer Search]                | YES                    | YES                            | YES                        |
+| ITEM_TCG_GAMBLER         | SUPPORTER                  | YES                | YES [Gambler]                        | YES                    | YES                            | YES                        |
+| ITEM_TCG_MAINTENANCE     | ITEM                       | YES                | YES [Maintenance]                    | YES                    | YES                            | YES                        |
+| ITEM_TCG_ITEM_FINDER     | ITEM                       | YES                | YES [Item Finder]                    | YES                    | YES                            | YES                        |
+| ITEM_TCG_DEVOLUTION_SPRAY | ITEM                       | YES                | YES [Devolution Spray]               | YES                    | YES                            | YES                        |
+| ITEM_TCG_CLEFAIRY_DOLL   | ITEM                       | YES                | YES [Clefairy Doll]                  | YES                    | YES                            | YES                        |
+| ITEM_TCG_MYSTERIOUS_FOSSIL | ITEM                       | YES                | YES [Mysterious Fossil]              | YES                    | YES                            | YES                        |
+| ITEM_TCG_POKEMON_TRADER  | ITEM                       | YES                | YES [Pokémon Trader]                 | YES                    | YES                            | YES                        |
+| ITEM_TCG_POKEMON_BREEDER | ITEM                       | YES                | YES [Pokémon Breeder]                | YES                    | YES                            | YES                        |
+| ITEM_TCG_POKEMON_CENTER  | ITEM                       | YES                | YES [Pokémon Center]                 | YES                    | YES                            | YES                        |
+| ITEM_TCG_LASS            | SUPPORTER                  | YES                | YES [Lass]                           | YES                    | YES                            | YES                        |
+| ITEM_TCG_MR_FUJI         | SUPPORTER                  | YES                | YES [Mr. Fuji]                       | YES                    | YES                            | YES                        |
+| ITEM_TCG_IMPOSTER_PROF_OAK | SUPPORTER                  | YES                | YES [Imposter Prof. Oak]             | YES                    | YES                            | YES                        |
+| ITEM_TCG_IMPOSTER_OAK_REVENGE | ITEM                       | YES                | YES [Imposter Oak's Revenge]         | YES                    | YES                            | YES                        |
+| ITEM_TCG_RECYCLE         | ITEM                       | YES                | YES [Recycle]                        | YES                    | YES                            | YES                        |
+| ITEM_TCG_NIGHTLY_GARBAGE_RUN | ITEM                       | YES                | YES [Nightly Garbage Run]            | YES                    | YES                            | YES                        |
+| ITEM_TCG_ROCKET_SNEAK_ATTACK | SUPPORTER                  | YES                | YES [Rocket's Sneak Attack]          | YES                    | YES                            | YES                        |
+| ITEM_TCG_HERE_COMES_TEAM_ROCKET | SUPPORTER                  | YES                | YES [Here Comes Team Rocket]         | YES                    | YES                            | YES                        |
+| ITEM_TCG_ROCKET_TRAP     | ITEM                       | YES                | YES [The Rocket's Trap]              | YES                    | YES                            | YES                        |
+| ITEM_TCG_BOSS_WAY        | ITEM                       | YES                | YES [The Boss's Way]                 | YES                    | YES                            | YES                        |
+| ITEM_TCG_GOOP_GAS_ATTACK | ITEM                       | YES                | YES [Goop Gas Attack]                | YES                    | YES                            | YES                        |
+| ITEM_TCG_BILLS_TELEPORTER | ITEM                       | YES                | YES [Bill's Teleporter]              | YES                    | YES                            | YES                        |
+| ITEM_TCG_BILLS_PC        | ITEM                       | YES                | YES [Bill's PC]                      | YES                    | YES                            | YES                        |
+| ITEM_TCG_CHALLENGE       | ITEM                       | YES                | YES [Challenge!]                     | YES                    | YES                            | YES                        |
+| ITEM_TCG_SLEEP           | ITEM                       | YES                | YES [Sleep!]                         | YES                    | YES                            | YES                        |
+| ITEM_TCG_COMPUTER_ERROR  | ITEM                       | YES                | YES [Computer Error]                 | YES                    | YES                            | YES                        |
+| ITEM_TCG_DIGGER          | ITEM                       | YES                | YES [Digger]                         | YES                    | YES                            | YES                        |
+| ITEM_TCG_FOSSIL_EXCAVATION | ITEM                       | YES                | YES [Fossil Excavation]              | YES                    | YES                            | YES                        |
+| ITEM_TCG_IMAKUNI         | SUPPORTER                  | YES                | YES [Imakuni?]                       | YES                    | YES                            | YES                        |
+| ITEM_TCG_POKEMON_RETRANSFER | ITEM                       | YES                | YES [Pokémon Retransfer]             | YES                    | YES                            | YES                        |
+
+tcg_moves_mechanics_check.txt
+
+# TCG POCKET MOVES MECHANICS AUDIT REPORT
+# Total active TCG moves: 158
+
+MOVE_CONSTANT              | VISIBLE_NAME     | POWER | EFFECT_CONSTANT                    | RESOLVING_MECHANIC / FUNCTION
+-----------------------------------------------------------------------------------------------------------------------------
+MOVE_ABSORB                | Absorb           | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 40 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_ACID                  | Acid             | 20    | EFFECT_POISON                      | CheckupTurn (10 HP poison loss)
+  Line 1: "Deals 20 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Poisoned."
+
+MOVE_AEROBLAST             | Aeroblast        | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_AGILITY               | Agility          | 30    | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (Shield flag +100 def)
+  Line 1: "Flip a coin. If heads, prevent"
+  Line 2: "all damage during next turn."
+
+MOVE_AMNESIA               | Amnesia          | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_AURORA_BEAM           | Aurora Beam      | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 50 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_AVALANCHE             | Avalanche        | 60    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 60 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_BARRIER               | Barrier          | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (Shield flag +100 def)
+  Line 1: "Flip a coin. If heads, prevent"
+  Line 2: "all damage during next turn."
+
+MOVE_BATON_PASS            | Energy Trans     | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_BIND                  | Bind             | 20    | EFFECT_PARALYZE                    | CheckupTurn (1-turn clear)
+  Line 1: "Deals 20 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Paralyzed."
+
+MOVE_BITE                  | Bite             | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_BLIZZARD              | Blizzard         | 50    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (Target bench HP -10)
+  Line 1: "Deals 50 damage. Also deals"
+  Line 2: "10 damage to 1 Benched PKMN."
+
+MOVE_BODY_SLAM             | Body Slam        | 20    | EFFECT_PARALYZE                    | CheckupTurn (1-turn clear)
+  Line 1: "Deals 20 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Paralyzed."
+
+MOVE_BONEMERANG            | Bonemerang       | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_BUBBLE                | Bubble           | 10    | EFFECT_PARALYZE                    | CheckupTurn (1-turn clear)
+  Line 1: "Deals 10 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Paralyzed."
+
+MOVE_BUBBLEBEAM            | Bubblebeam       | 40    | EFFECT_PARALYZE                    | CheckupTurn (1-turn clear)
+  Line 1: "Deals 40 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Paralyzed."
+
+MOVE_CLAMP                 | Clamp            | 30    | EFFECT_PARALYZE                    | CheckupTurn (1-turn clear)
+  Line 1: "Deals 30 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Paralyzed."
+
+MOVE_CONFUSE_RAY           | Confuse Ray      | 10    | EFFECT_CONFUSE                     | BattleScript_Confusion (50% fail no self-dmg)
+  Line 1: "Deals 10 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Confused."
+
+MOVE_CONVERSION_2          | Conversion 2     | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_COTTON_GUARD          | Guard            | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_CRABHAMMER            | Crabhammer       | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 40 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_CURSE                 | Curse            | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_DECORATE              | Rat              | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_DIG                   | Dig              | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_DISABLE               | Disable          | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_DIZZY_PUNCH           | Punch            | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_DOUBLESLAP            | Doubleslap       | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (Multi-coin damage scaling)
+  Line 1: "Flip 3 coins. Deals damage"
+  Line 2: "for each heads (10x)."
+
+MOVE_DOUBLE_EDGE           | Double-edge      | 40    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (Self recoil check)
+  Line 1: "Deals 40 damage. Flip a coin:"
+  Line 2: "Tails: user takes 20 recoil."
+
+MOVE_DOUBLE_SLAP           | Slap             | 20    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (Multi-coin damage scaling)
+  Line 1: "Flip 3 coins. Deals damage"
+  Line 2: "for each heads (20x)."
+
+MOVE_DRAGON_ASCENT         | Dragon           | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_DREAM_EATER           | Dream Eater      | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 50 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_DRILL_PECK            | Drill Peck       | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 40 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_DYNAMIC_PUNCH         | Special Punch    | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 40 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_EARTHQUAKE            | Earthquake       | 70    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 70 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_ELECTRIC_TERRAIN      | Electric         | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_EMBER                 | Ember            | 30    | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (activeEnergyCount--)
+  Line 1: "Deals 30 damage."
+  Line 2: "Discards 1 Energy from user."
+
+MOVE_EXPANDING_FORCE       | Expand           | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_FIRE_BLAST            | Fire Blast       | 80    | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (activeEnergyCount--)
+  Line 1: "Deals 80 damage."
+  Line 2: "Discards 1 Energy from user."
+
+MOVE_FIRE_PUNCH            | Fire Punch       | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_FIRE_SPIN             | Fire Spin        | 100   | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (activeEnergyCount--)
+  Line 1: "Deals 100 damage."
+  Line 2: "Discards 1 Energy from user."
+
+MOVE_FLAIL                 | Flail            | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_FLAMETHROWER          | Flamethrower     | 50    | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (activeEnergyCount--)
+  Line 1: "Deals 50 damage."
+  Line 2: "Discards 1 Energy from user."
+
+MOVE_FLING                 | Fling            | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 50 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_FLY                   | Fly              | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_FRENZY_PLANT          | Frenzy           | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_FURY_ATTACK           | Fury Attack      | 10    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (Multi-coin damage scaling)
+  Line 1: "Flip 3 coins. Deals damage"
+  Line 2: "for each heads (10x)."
+
+MOVE_FUSION_FLARE          | Flare            | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_GASTRO_ACID           | Gas              | 0     | EFFECT_POISON                      | CheckupTurn (10 HP poison loss)
+  Line 1: "Flip a coin. If heads,"
+  Line 2: "Defending Pokémon is Poisoned."
+
+MOVE_GROWL                 | Growl            | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_GROWTH                | Solar Power      | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_GRUDGE                | Grudge           | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_GUILLOTINE            | Guillotine       | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 50 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_GUST                  | Gust             | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_G_MAX_FIREBALL        | Fireball         | 70    | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (activeEnergyCount--)
+  Line 1: "Deals 70 damage."
+  Line 2: "Discards 1 Energy from user."
+
+MOVE_G_MAX_WILDFIRE        | Wildfire         | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_HARDEN                | Stiffen          | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_HEADBUTT              | Headbutt         | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_HEAL_ORDER            | Heal             | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_HURRICANE             | Hurricane        | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_HYDRO_PUMP            | Hydro Pump       | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 40 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_HYPER_BEAM            | Hyper Beam       | 20    | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (activeEnergyCount--)
+  Line 1: "Deals 20 damage."
+  Line 2: "Discards 1 Energy from user."
+
+MOVE_HYPER_FANG            | Hyper Fang       | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 50 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_HYPNOSIS              | Hypnosis         | 0     | EFFECT_SLEEP                       | CheckupTurn (Coin wake-up check)
+  Line 1: "Flip a coin. If heads,"
+  Line 2: "Defending Pokémon is Asleep."
+
+MOVE_ICE_BALL              | Ball             | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_ICE_BEAM              | Ice Beam         | 20    | EFFECT_PARALYZE                    | CheckupTurn (1-turn clear)
+  Line 1: "Deals 20 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Paralyzed."
+
+MOVE_ICE_PUNCH             | Ice Punch        | 10    | EFFECT_PARALYZE                    | CheckupTurn (1-turn clear)
+  Line 1: "Deals 10 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Paralyzed."
+
+MOVE_KARATE_CHOP           | Karate Chop      | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 50 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_LEECH_SEED            | Leech Seed       | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_LEER                  | Leer             | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_LICK                  | Lick             | 10    | EFFECT_PARALYZE                    | CheckupTurn (1-turn clear)
+  Line 1: "Deals 10 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Paralyzed."
+
+MOVE_LIGHT_SCREEN          | Light Screen     | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_LOW_KICK              | Low Kick         | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_LUNGE                 | Lunge            | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_MAGNETIC_FLUX         | Magnet           | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_MEDITATE              | Meditate         | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_MEGA_DRAIN            | Mega Drain       | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 40 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_METRONOME             | Metronome        | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_MINIMIZE              | Minimize         | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_MOUNTAIN_GALE         | Gale             | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_NIGHTMARE             | Nightmare        | 10    | EFFECT_SLEEP                       | CheckupTurn (Coin wake-up check)
+  Line 1: "Deals 10 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Asleep."
+
+MOVE_NO_RETREAT            | Eat              | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_PECK                  | Peck             | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_PETAL_DANCE           | Petal Dance      | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 40 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_PIN_MISSILE           | Pin Missile      | 20    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (Multi-coin damage scaling)
+  Line 1: "Flip 3 coins. Deals damage"
+  Line 2: "for each heads (20x)."
+
+MOVE_POISONPOWDER          | Poisonpowder     | 20    | EFFECT_POISON                      | CheckupTurn (10 HP poison loss)
+  Line 1: "Deals 20 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Poisoned."
+
+MOVE_POISON_FANG           | Poison Fang      | 20    | EFFECT_POISON                      | CheckupTurn (10 HP poison loss)
+  Line 1: "Deals 20 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Poisoned."
+
+MOVE_POISON_GAS            | Poison Gas       | 0     | EFFECT_POISON                      | CheckupTurn (10 HP poison loss)
+  Line 1: "Flip a coin. If heads,"
+  Line 2: "Defending Pokémon is Poisoned."
+
+MOVE_POISON_JAB            | Jab              | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_POISON_POWDER         | Horrid Pollen    | 30    | EFFECT_POISON                      | CheckupTurn (10 HP poison loss)
+  Line 1: "Deals 30 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Poisoned."
+
+MOVE_POISON_STING          | Poison Sting     | 10    | EFFECT_POISON                      | CheckupTurn (10 HP poison loss)
+  Line 1: "Deals 10 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Poisoned."
+
+MOVE_POLTERGEIST           | Poltergeist      | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_POUNCE                | Pounce           | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_POUND                 | Pound            | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_POWER_SHIFT           | Shift            | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_PROTECT               | Green Shield     | 0     | EFFECT_TCG_SHIELD_NEXT_TURN        | ApplyModifiersAfterDmgRoll (Shield flag +100 def)
+  Line 1: "Flip a coin. If heads, prevent"
+  Line 2: "all damage during next turn."
+
+MOVE_PSYBEAM               | Psybeam          | 20    | EFFECT_CONFUSE                     | BattleScript_Confusion (50% fail no self-dmg)
+  Line 1: "Deals 20 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Confused."
+
+MOVE_PSYCHIC               | Psychic          | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_PSYSHOCK              | Psyshock         | 10    | EFFECT_PARALYZE                    | CheckupTurn (1-turn clear)
+  Line 1: "Deals 10 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Paralyzed."
+
+MOVE_PSYWAVE               | Psywave          | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_RAGE                  | Rage             | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_RAZOR_LEAF            | Razor Leaf       | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_RECOVER               | First Aid        | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_REST                  | Rest             | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_ROCK_CLIMB            | Rock             | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_ROCK_THROW            | Rock Throw       | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 40 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_ROLLOUT               | Rollout          | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_SAND_ATTACK           | Sand-attack      | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_SAPPY_SEED            | Seed             | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_SCRATCH               | Scratch          | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_SEISMIC_TOSS          | Seismic Toss     | 60    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 60 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_SELFDESTRUCT          | Selfdestruct     | 60    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (Self recoil check)
+  Line 1: "Deals 60 damage. Flip a coin:"
+  Line 2: "Tails: user takes 20 recoil."
+
+MOVE_SING                  | Sing             | 0     | EFFECT_SLEEP                       | CheckupTurn (Coin wake-up check)
+  Line 1: "Flip a coin. If heads,"
+  Line 2: "Defending Pokémon is Asleep."
+
+MOVE_SKULL_BASH            | Skull Bash       | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_SLAM                  | Slam             | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_SLASH                 | Slash            | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_SLEEP_POWDER          | Sleep Powder     | 0     | EFFECT_SLEEP                       | CheckupTurn (Coin wake-up check)
+  Line 1: "Flip a coin. If heads,"
+  Line 2: "Defending Pokémon is Asleep."
+
+MOVE_SLUDGE                | Sludge           | 30    | EFFECT_POISON                      | CheckupTurn (10 HP poison loss)
+  Line 1: "Deals 30 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Poisoned."
+
+MOVE_SMOG                  | Smog             | 20    | EFFECT_POISON                      | CheckupTurn (10 HP poison loss)
+  Line 1: "Deals 20 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Poisoned."
+
+MOVE_SMOKESCREEN           | Smokescreen      | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_SOLARBEAM             | Solarbeam        | 60    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 60 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_SONICBOOM             | Sonicboom        | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_SPARK                 | Spark            | 20    | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (Target bench HP -10)
+  Line 1: "Deals 20 damage. Also deals"
+  Line 2: "10 damage to 1 Benched PKMN."
+
+MOVE_SPIKE_CANNON          | Spike Cannon     | 30    | EFFECT_TCG_MULTI_COIN_HIT          | ApplyModifiersAfterDmgRoll (Multi-coin damage scaling)
+  Line 1: "Flip 3 coins. Deals damage"
+  Line 2: "for each heads (30x)."
+
+MOVE_SPORE                 | Spore            | 0     | EFFECT_SLEEP                       | CheckupTurn (Coin wake-up check)
+  Line 1: "Flip a coin. If heads,"
+  Line 2: "Defending Pokémon is Asleep."
+
+MOVE_STOMP                 | Stomp            | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_STOMPING_TANTRUM      | Tantrum          | 50    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 50 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_STRING_SHOT           | String Shot      | 10    | EFFECT_PARALYZE                    | CheckupTurn (1-turn clear)
+  Line 1: "Deals 10 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Paralyzed."
+
+MOVE_STUN_SPORE            | Stun Spore       | 20    | EFFECT_SLEEP                       | CheckupTurn (Coin wake-up check)
+  Line 1: "Deals 20 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Asleep."
+
+MOVE_SUBMISSION            | Submission       | 60    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (Self recoil check)
+  Line 1: "Deals 60 damage. Flip a coin:"
+  Line 2: "Tails: user takes 20 recoil."
+
+MOVE_SUPERPOWER            | Superpower       | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_SUPERSONIC            | Supersonic       | 0     | EFFECT_CONFUSE                     | BattleScript_Confusion (50% fail no self-dmg)
+  Line 1: "Flip a coin. If heads,"
+  Line 2: "Defending Pokémon is Confused."
+
+MOVE_SUPER_FANG            | Super Fang       | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_SURF                  | Surf             | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_SWEET_SCENT           | Foul Odor        | 20    | EFFECT_CONFUSE                     | BattleScript_Confusion (50% fail no self-dmg)
+  Line 1: "Deals 20 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Confused."
+
+MOVE_SWIFT                 | Swift            | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_TACKLE                | Tackle           | 10    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 10 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_TAKE_DOWN             | Take Down        | 50    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (Self recoil check)
+  Line 1: "Deals 50 damage. Flip a coin:"
+  Line 2: "Tails: user takes 20 recoil."
+
+MOVE_TELEKINESIS           | Telekinesis      | 0     | EFFECT_TCG_BENCH_SNIPER            | ApplyModifiersAfterDmgRoll (Target bench HP -10)
+  Line 1: "Deals 0 damage. Also deals"
+  Line 2: "10 damage to 1 Benched PKMN."
+
+MOVE_TELEPORT              | Teleport         | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_THRASH                | Thrash           | 30    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (Self recoil check)
+  Line 1: "Deals 30 damage. Flip a coin:"
+  Line 2: "Tails: user takes 20 recoil."
+
+MOVE_THUNDER               | Thunder          | 60    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 60 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_THUNDERBOLT           | Thunderbolt      | 50    | EFFECT_TCG_DISCARD_USER_ENERGY     | ApplyModifiersAfterDmgRoll (activeEnergyCount--)
+  Line 1: "Deals 50 damage."
+  Line 2: "Discards 1 Energy from user."
+
+MOVE_THUNDEROUS_KICK       | Kick             | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_THUNDERPUNCH          | Thunderpunch     | 30    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (Self recoil check)
+  Line 1: "Deals 30 damage. Flip a coin:"
+  Line 2: "Tails: user takes 20 recoil."
+
+MOVE_THUNDERSHOCK          | Thundershock     | 10    | EFFECT_PARALYZE                    | CheckupTurn (1-turn clear)
+  Line 1: "Deals 10 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Paralyzed."
+
+MOVE_THUNDER_SHOCK         | Thunder Jolt     | 30    | EFFECT_TCG_SELF_DAMAGE_COIN        | ApplyModifiersAfterDmgRoll (Self recoil check)
+  Line 1: "Deals 30 damage. Flip a coin:"
+  Line 2: "Tails: user takes 20 recoil."
+
+MOVE_TOXIC                 | Toxic            | 20    | EFFECT_POISON                      | CheckupTurn (10 HP poison loss)
+  Line 1: "Deals 20 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Poisoned."
+
+MOVE_TWINEEDLE             | Twineedle        | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_TWISTER               | Twister          | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_VINE_WHIP             | Vine Whip        | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_WATERFALL             | Waterfall        | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_WATER_GUN             | Water Gun        | 20    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 20 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_WHIRLPOOL             | Whirlpool        | 40    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 40 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_WHIRLWIND             | Whirlwind        | 20    | EFFECT_TCG_FORCE_SWITCH            | ApplyModifiersAfterDmgRoll (Force benched promotion)
+  Line 1: "Deals 20 damage. Forces rival"
+  Line 2: "to switch Active Pokémon."
+
+MOVE_WING_ATTACK           | Wing Attack      | 30    | EFFECT_HIT                         | ApplyModifiersAfterDmgRoll (Base Damage)
+  Line 1: "Deals 30 damage to the"
+  Line 2: "defending Pokémon."
+
+MOVE_WITHDRAW              | Withdraw         | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+MOVE_WRAP                  | Wrap             | 20    | EFFECT_PARALYZE                    | CheckupTurn (1-turn clear)
+  Line 1: "Deals 20 damage. Flip a coin:"
+  Line 2: "Defending Pokémon is Paralyzed."
+
+MOVE_ZAP_CANNON            | Big Thunder      | 0     | EFFECT_HIT                         | BattleScript_Standard
+  Line 1: "Special battle technique in"
+  Line 2: "Pokémon TCG Pocket."
+
+vanilla_vs_tcg_items.txt
+
+# VANILLA VS TCG ITEMS CLASSIFICATION REPORT
+# Total items in database: 915
+
+ITEM_CONSTANT                       | ASSIGNED_POCKET           | STATUS / ROLE            
+------------------------------------------------------------------------------------------
+ITEM_AGUAV_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_APICOT_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_ASPEAR_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_BABIRI_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_BELUE_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_BLUK_BERRY                     | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_CHARTI_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_CHERI_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_CHESTO_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_CHILAN_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_CHOPLE_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_COBA_BERRY                     | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_COLBUR_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_CORNN_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_CUSTAP_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_DURIN_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_ENIGMA_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_ENIGMA_BERRY_E_READER          | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_FIGY_BERRY                     | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_GANLON_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_GREPA_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_HABAN_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_HONDEW_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_IAPAPA_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_JABOCA_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_KASIB_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_KEBIA_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_KEE_BERRY                      | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_KELPSY_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_LANSAT_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_LEPPA_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_LIECHI_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_LUM_BERRY                      | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_MAGOST_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_MAGO_BERRY                     | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_MARANGA_BERRY                  | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_MICLE_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_NANAB_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_NOMEL_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_OCCA_BERRY                     | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_ORAN_BERRY                     | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_PAMTRE_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_PASSHO_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_PAYAPA_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_PECHA_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_PERSIM_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_PETAYA_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_PINAP_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_POMEG_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_QUALOT_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_RABUTA_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_RAWST_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_RAZZ_BERRY                     | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_RINDO_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_ROSELI_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_ROWAP_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_SALAC_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_SHUCA_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_SITRUS_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_SPELON_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_STARF_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_TAMATO_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_TANGA_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_WACAN_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_WATMEL_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_WEPEAR_BERRY                   | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_WIKI_BERRY                     | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_YACHE_BERRY                    | POCKET_BERRIES            | PRESERVED_BERRIES        
+ITEM_ABILITY_CAPSULE                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ABILITY_PATCH                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ABILITY_SHIELD                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ABOMASITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ABSOLITE                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ABSOLITE_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ABSORB_BULB                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ADAMANT_CRYSTAL                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ADAMANT_MINT                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ADAMANT_ORB                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ADRENALINE_ORB                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AERODACTYLITE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AGGRONITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AIR_BALLOON                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ALAKAZITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ALORAICHIUM_Z                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ALTARIANITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AMAZE_MULCH                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AMPHAROSITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AMULET_COIN                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ANTIDOTE                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ARMORITE_ORE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ARMOR_FOSSIL                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ASSAULT_VEST                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AUDINITE                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AUSPICIOUS_ARMOR               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AUX_EVASION                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AUX_GUARD                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AUX_POWER                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AUX_POWERGUARD                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_AWAKENING                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BALM_MUSHROOM                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BANETTITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BARBARACITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BAXCALIBRITE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BEAD_MAIL                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BEEDRILLITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BERRY_JUICE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BERRY_SWEET                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BERSERK_GENE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BIG_BAMBOO_SHOOT               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BIG_MALASADA                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BIG_MUSHROOM                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BIG_NUGGET                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BIG_PEARL                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BIG_ROOT                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BINDING_BAND                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLACK_APRICORN                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLACK_AUGURITE                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLACK_BELT                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLACK_FLUTE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLACK_GLASSES                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLACK_SLUDGE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLASTOISINITE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLAZIKENITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLUE_APRICORN                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLUE_FLUTE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLUE_ORB                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLUE_SCARF                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLUE_SHARD                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BLUNDER_POLICY                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BOLD_MINT                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BOOSTER_ENERGY                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BOOST_MULCH                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BOTTLE_CAP                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BRAVE_MINT                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BRIGHT_POWDER                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BUGINIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BUG_GEM                        | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BUG_MEMORY                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BUG_TERA_SHARD                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BURN_DRIVE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_BURN_HEAL                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CALCIUM                        | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CALM_MINT                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CAMERUPTITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CARBOS                         | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CAREFUL_MINT                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CASTELIACONE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CELL_BATTERY                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CHANDELURITE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CHARCOAL                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CHARIZARDITE_X                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CHARIZARDITE_Y                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CHESNAUGHTITE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CHILL_DRIVE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CHIMECHITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CHIPPED_POT                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CHOICE_BAND                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CHOICE_DUMPLING                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CHOICE_SCARF                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CHOICE_SPECS                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CLAW_FOSSIL                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CLEANSE_TAG                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CLEAR_AMULET                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CLEFABLITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CLEVER_FEATHER                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CLEVER_MOCHI                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CLOVER_SWEET                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_COMET_SHARD                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CORNERSTONE_MASK               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_COVERT_CLOAK                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_COVER_FOSSIL                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CRABOMINITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_CRACKED_POT                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DAMP_MULCH                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DAMP_ROCK                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DARKINIUM_Z                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DARKRANITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DARK_GEM                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DARK_MEMORY                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DARK_TERA_SHARD                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DAWN_STONE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DECIDIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DEEP_SEA_SCALE                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DEEP_SEA_TOOTH                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DELPHOXITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DESTINY_KNOT                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DIANCITE                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DIRE_HIT                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DOME_FOSSIL                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DOUSE_DRIVE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DRACO_PLATE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DRAGALGITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DRAGONINITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DRAGONIUM_Z                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DRAGON_FANG                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DRAGON_GEM                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DRAGON_MEMORY                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DRAGON_SCALE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DRAGON_TERA_SHARD              | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DRAMPANITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DREAD_PLATE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DREAM_MAIL                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DUBIOUS_DISC                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DUSK_STONE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DYNAMAX_CANDY                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_DYNITE_ORE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EARTH_PLATE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EELEKTROSSITE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EEVIUM_Z                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EJECT_BUTTON                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EJECT_PACK                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ELECTIRIZER                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ELECTRIC_GEM                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ELECTRIC_MEMORY                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ELECTRIC_SEED                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ELECTRIC_TERA_SHARD            | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ELECTRIUM_Z                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ELIXIR                         | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EMBOARITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ENERGY_POWDER                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ENERGY_ROOT                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ETHER                          | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EVERSTONE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EVIOLITE                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EXCADRITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EXPERT_BELT                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EXP_CANDY_L                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EXP_CANDY_M                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EXP_CANDY_S                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EXP_CANDY_XL                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_EXP_CANDY_XS                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FAB_MAIL                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FAIRIUM_Z                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FAIRY_FEATHER                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FAIRY_GEM                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FAIRY_MEMORY                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FAIRY_TERA_SHARD               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FALINKSITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FERALIGITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FIGHTING_GEM                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FIGHTING_MEMORY                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FIGHTING_TERA_SHARD            | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FIGHTINIUM_Z                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FINE_REMEDY                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FIRE_GEM                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FIRE_MEMORY                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FIRE_STONE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FIRE_TERA_SHARD                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FIRIUM_Z                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FIST_PLATE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FLAME_ORB                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FLAME_PLATE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FLOAT_STONE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FLOETTITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FLOWER_SWEET                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FLUFFY_TAIL                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FLYING_GEM                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FLYING_MEMORY                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FLYING_TERA_SHARD              | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FLYINIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FOCUS_BAND                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FOCUS_SASH                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FOSSILIZED_BIRD                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FOSSILIZED_DINO                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FOSSILIZED_DRAKE               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FOSSILIZED_FISH                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FRESH_START_MOCHI              | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FRESH_WATER                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FROSLASSITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FULL_INCENSE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_FULL_RESTORE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GALARICA_CUFF                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GALARICA_TWIG                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GALARICA_WREATH                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GALLADITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GARCHOMPITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GARCHOMPITE_Z                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GARDEVOIRITE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GENGARITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GENIUS_FEATHER                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GENIUS_MOCHI                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GENTLE_MINT                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GHOSTIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GHOST_GEM                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GHOST_MEMORY                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GHOST_TERA_SHARD               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GIMMIGHOUL_COIN                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GLALITITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GLIMMORANITE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GLITTER_MAIL                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GOLD_BOTTLE_CAP                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GOLISOPITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GOLURKITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GOOEY_MULCH                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GRASSIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GRASSY_SEED                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GRASS_GEM                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GRASS_MEMORY                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GRASS_TERA_SHARD               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GREEN_APRICORN                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GREEN_SCARF                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GREEN_SHARD                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GRENINJITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GRIP_CLAW                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GRISEOUS_CORE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GRISEOUS_ORB                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GROUNDIUM_Z                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GROUND_GEM                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GROUND_MEMORY                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GROUND_TERA_SHARD              | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GROWTH_MULCH                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GUARD_SPEC                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_GYARADOSITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HARBOR_MAIL                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HARD_STONE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HASTY_MINT                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HAWLUCHANITE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HEALTH_FEATHER                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HEALTH_MOCHI                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HEAL_POWDER                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HEARTHFLAME_MASK               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HEART_SCALE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HEATRANITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HEAT_ROCK                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HEAVY_DUTY_BOOTS               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HELIX_FOSSIL                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HERACRONITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HONEY                          | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HOUNDOOMINITE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HP_UP                          | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_HYPER_POTION                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ICE_GEM                        | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ICE_HEAL                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ICE_MEMORY                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ICE_STONE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ICE_TERA_SHARD                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ICICLE_PLATE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ICIUM_Z                        | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ICY_ROCK                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_IMPISH_MINT                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_INCINIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_INSECT_PLATE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_IRON                           | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_IRON_BALL                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_IRON_PLATE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_JAW_FOSSIL                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_JOLLY_MINT                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_JUBILIFE_MUFFIN                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_KANGASKHANITE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_KINGS_ROCK                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_KOMMONIUM_Z                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LAGGING_TAIL                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LATIASITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LATIOSITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LAVA_COOKIE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LAX_INCENSE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LAX_MINT                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LEADERS_CREST                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LEAF_STONE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LEEK                           | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LEFTOVERS                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LEMONADE                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LIFE_ORB                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LIGHT_BALL                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LIGHT_CLAY                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LINKING_CORD                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LOADED_DICE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LONELY_MINT                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LOPUNNITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LOVE_SWEET                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LUCARIONITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LUCARIONITE_Z                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LUCKY_EGG                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LUCKY_PUNCH                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LUCK_INCENSE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LUMINOUS_MOSS                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LUMIOSE_GALETTE                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LUNALIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LURE                           | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LUSTROUS_GLOBE                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LUSTROUS_ORB                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_LYCANIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MACHO_BRACE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MAGEARNITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MAGMARIZER                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MAGNET                         | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MALAMARITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MALICIOUS_ARMOR                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MANECTITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MARSHADIUM_Z                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MASTERPIECE_TEACUP             | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MAWILITE                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MAX_ELIXIR                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MAX_ETHER                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MAX_HONEY                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MAX_LURE                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MAX_MUSHROOMS                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MAX_POTION                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MAX_REPEL                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MEADOW_PLATE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MECH_MAIL                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MEDICHAMITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MEGANIUMITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MENTAL_HERB                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MEOWSTICITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_METAGROSSITE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_METAL_ALLOY                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_METAL_COAT                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_METAL_POWDER                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_METRONOME                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MEWNIUM_Z                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MEWTWONITE_X                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MEWTWONITE_Y                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MILD_MINT                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MIMIKIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MIND_PLATE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MIRACLE_SEED                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MIRROR_HERB                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MISTY_SEED                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MODEST_MINT                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MOOMOO_MILK                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MOON_STONE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MUSCLE_BAND                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MUSCLE_FEATHER                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MUSCLE_MOCHI                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_MYSTIC_WATER                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_NAIVE_MINT                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_NAUGHTY_MINT                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_NEVER_MELT_ICE                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_NONE                           | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_NORMALIUM_Z                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_NORMAL_GEM                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_NORMAL_TERA_SHARD              | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_NUGGET                         | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ODD_INCENSE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ODD_KEYSTONE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_OLD_AMBER                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_OLD_GATEAU                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ORANGE_MAIL                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_OVAL_STONE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PARALYZE_HEAL                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PEARL                          | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PEARL_STRING                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PEAT_BLOCK                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PEWTER_CRUNCHIES               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PIDGEOTITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PIKANIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PIKASHUNIUM_Z                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PINK_APRICORN                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PINK_NECTAR                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PINK_SCARF                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PINSIRITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PIXIE_PLATE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PLUME_FOSSIL                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POISONIUM_Z                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POISON_BARB                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POISON_GEM                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POISON_MEMORY                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POISON_TERA_SHARD              | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POKESHI_DOLL                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POKE_DOLL                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POKE_TOY                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POWER_ANKLET                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POWER_BAND                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POWER_BELT                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POWER_BRACER                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POWER_HERB                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POWER_LENS                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_POWER_WEIGHT                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PP_MAX                         | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PP_UP                          | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PRETTY_FEATHER                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PRIMARIUM_Z                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PRISM_SCALE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PROTECTIVE_PADS                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PROTECTOR                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PROTEIN                        | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PSYCHIC_GEM                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PSYCHIC_MEMORY                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PSYCHIC_SEED                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PSYCHIC_TERA_SHARD             | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PSYCHIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PUNCHING_GLOVE                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PURE_INCENSE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PURPLE_NECTAR                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_PYROARITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_QUICK_CLAW                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_QUICK_POWDER                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_QUIET_MINT                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RAGE_CANDY_BAR                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RAICHUNITE_X                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RAICHUNITE_Y                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RARE_BONE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RARE_CANDY                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RASH_MINT                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RAZOR_CLAW                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RAZOR_FANG                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_REAPER_CLOTH                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RED_APRICORN                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RED_CARD                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RED_FLUTE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RED_NECTAR                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RED_ORB                        | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RED_SCARF                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RED_SHARD                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RELAXED_MINT                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RELIC_BAND                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RELIC_COPPER                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RELIC_CROWN                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RELIC_GOLD                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RELIC_SILVER                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RELIC_STATUE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RELIC_VASE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_REMEDY                         | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_REPEL                          | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RESIST_FEATHER                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RESIST_MOCHI                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RETRO_MAIL                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_REVIVAL_HERB                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RIBBON_SWEET                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RICH_MULCH                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RING_TARGET                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ROCKIUM_Z                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ROCKY_HELMET                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ROCK_GEM                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ROCK_INCENSE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ROCK_MEMORY                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ROCK_TERA_SHARD                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ROOM_SERVICE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ROOT_FOSSIL                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ROSE_INCENSE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RUSTED_SHIELD                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_RUSTED_SWORD                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SABLENITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SACHET                         | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SACRED_ASH                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SAFETY_GOGGLES                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SAIL_FOSSIL                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SALAMENCITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SASSY_MINT                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SCEPTILITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SCIZORITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SCOLIPITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SCOPE_LENS                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SCOVILLAINITE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SCRAFTINITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SEA_INCENSE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SERIOUS_MINT                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SHADOW_MAIL                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SHALOUR_SABLE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SHARPEDONITE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SHARP_BEAK                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SHED_SHELL                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SHELL_BELL                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SHINY_STONE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SHOAL_SALT                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SHOAL_SHELL                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SHOCK_DRIVE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SILK_SCARF                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SILVER_POWDER                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SKARMORITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SKULL_FOSSIL                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SKY_PLATE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SLOWBRONITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SMOKE_BALL                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SMOOTH_ROCK                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SNORLIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SNOWBALL                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SODA_POP                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SOFT_SAND                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SOLGANIUM_Z                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SOOTHE_BELL                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SOUL_DEW                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SPELL_TAG                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SPLASH_PLATE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SPOOKY_PLATE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STABLE_MULCH                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STARAPTITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STARDUST                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STARMINITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STAR_PIECE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STAR_SWEET                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STEELIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STEELIXITE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STEEL_GEM                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STEEL_MEMORY                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STEEL_TERA_SHARD               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STELLAR_TERA_SHARD             | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STICKY_BARB                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STONE_PLATE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STRANGE_SOUVENIR               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_STRAWBERRY_SWEET               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SUN_STONE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SUPERB_REMEDY                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SUPER_LURE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SUPER_REPEL                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SURPRISE_MULCH                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SWAMPERTITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SWAP_SNACK                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SWEET_APPLE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SWEET_HEART                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SWIFT_FEATHER                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SWIFT_MOCHI                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_SYRUPY_APPLE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TAPUNIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TART_APPLE                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TATSUGIRINITE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TERRAIN_EXTENDER               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_THICK_CLUB                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_THROAT_SPRAY                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_THUNDER_STONE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TIMID_MINT                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TINY_BAMBOO_SHOOT              | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TINY_MUSHROOM                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TOXIC_ORB                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TOXIC_PLATE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TROPIC_MAIL                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TWICE_SPICED_RADISH            | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TWISTED_SPOON                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_TYRANITARITE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ULTRANECROZIUM_Z               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_UNREMARKABLE_TEACUP            | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_UPGRADE                        | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_UTILITY_UMBRELLA               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_VENUSAURITE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_VICTREEBELITE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WATERIUM_Z                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WATER_GEM                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WATER_MEMORY                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WATER_STONE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WATER_TERA_SHARD               | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WAVE_INCENSE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WAVE_MAIL                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WEAKNESS_POLICY                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WELLSPRING_MASK                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WHIPPED_DREAM                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WHITE_APRICORN                 | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WHITE_FLUTE                    | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WHITE_HERB                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WIDE_LENS                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WISE_GLASSES                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WISHING_PIECE                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_WOOD_MAIL                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_X_ACCURACY                     | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_X_ATTACK                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_X_DEFENSE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_X_SPEED                        | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_X_SP_ATK                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_X_SP_DEF                       | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_YELLOW_APRICORN                | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_YELLOW_FLUTE                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_YELLOW_NECTAR                  | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_YELLOW_SCARF                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_YELLOW_SHARD                   | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ZAP_PLATE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ZERAORITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ZINC                           | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ZOOM_LENS                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ZYGARDITE                      | POCKET_ITEMS_LEG          | LEGACY_ARCHIVED          
+ITEM_ACRO_BIKE                      | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_AURORA_TICKET                  | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_BASEMENT_KEY                   | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_BERRY_POUCH                    | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_BICYCLE                        | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_BIKE_VOUCHER                   | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_CARD_KEY                       | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_CATCHING_CHARM                 | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_COIN_CASE                      | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_CONTEST_PASS                   | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_DEVON_PARTS                    | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_DEVON_SCOPE                    | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_DNA_SPLICERS                   | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_DOWSING_MACHINE                | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_DYNAMAX_BAND                   | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_EON_TICKET                     | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_ESCAPE_ROPE                    | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_EXP_CHARM                      | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_EXP_SHARE                      | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_FAME_CHECKER                   | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_GLIMMERING_CHARM               | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_GOLD_TEETH                     | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_GOOD_ROD                       | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_GO_GOGGLES                     | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_GRACIDEA                       | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_KEY_TO_ROOM_1                  | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_KEY_TO_ROOM_2                  | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_KEY_TO_ROOM_4                  | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_KEY_TO_ROOM_6                  | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_LETTER                         | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_LIFT_KEY                       | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_MACH_BIKE                      | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_MAGMA_EMBLEM                   | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_MEGA_RING                      | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_METEORITE                      | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_MYSTIC_TICKET                  | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_N_LUNARIZER                    | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_N_SOLARIZER                    | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_OLD_ROD                        | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_OLD_SEA_MAP                    | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_OVAL_CHARM                     | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_PARCEL                         | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_POKEBLOCK_CASE                 | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_POKEMON_BOX_LINK               | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_POKE_RADAR                     | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_POWDER_JAR                     | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_PRISON_BOTTLE                  | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_RAINBOW_PASS                   | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_REINS_OF_UNITY                 | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_REVEAL_GLASS                   | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_ROTOM_CATALOG                  | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_RUBY                           | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_SAPPHIRE                       | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_SCANNER                        | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_SCROLL_OF_DARKNESS             | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_SCROLL_OF_WATERS               | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_SECRET_KEY                     | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_SHINY_CHARM                    | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_SILPH_SCOPE                    | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_SOOT_SACK                      | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_SS_TICKET                      | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_STORAGE_KEY                    | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_SUPER_ROD                      | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_TEA                            | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_TEACHY_TV                      | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_TERA_ORB                       | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_TM_CASE                        | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_TOWN_MAP                       | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_TRI_PASS                       | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_VS_SEEKER                      | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_WAILMER_PAIL                   | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_ZYGARDE_CUBE                   | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_Z_POWER_RING                   | POCKET_KEY_ITEMS          | PRESERVED_KEY_ITEMS      
+ITEM_BEAST_BALL                     | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_CHERISH_BALL                   | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_DIVE_BALL                      | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_DREAM_BALL                     | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_DUSK_BALL                      | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_FAST_BALL                      | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_FRIEND_BALL                    | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_GREAT_BALL                     | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_HEAL_BALL                      | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_HEAVY_BALL                     | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_LEVEL_BALL                     | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_LOVE_BALL                      | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_LURE_BALL                      | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_LUXURY_BALL                    | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_MASTER_BALL                    | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_MOON_BALL                      | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_NEST_BALL                      | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_NET_BALL                       | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_PARK_BALL                      | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_POKE_BALL                      | POCKET_POKE_BALLS         | VANILLA_CATCH_BALL       
+ITEM_PREMIER_BALL                   | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_QUICK_BALL                     | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_REPEAT_BALL                    | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_SAFARI_BALL                    | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_SPORT_BALL                     | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_STRANGE_BALL                   | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_TIMER_BALL                     | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_ULTRA_BALL                     | POCKET_POKE_BALLS         | PRESERVED_POKE_BALLS     
+ITEM_FULL_HEAL                      | POCKET_TCG_ITEMS          | TCG_ITEM_CARD            
+ITEM_MAX_REVIVE                     | POCKET_TCG_ITEMS          | TCG_ITEM_CARD            
+ITEM_POKE_FLUTE                     | POCKET_TCG_ITEMS          | TCG_ITEM_CARD            
+ITEM_POTION                         | POCKET_TCG_ITEMS          | TCG_ITEM_CARD            
+ITEM_REVIVE                         | POCKET_TCG_ITEMS          | TCG_ITEM_CARD            
+ITEM_SUPER_POTION                   | POCKET_TCG_ITEMS          | TCG_ITEM_CARD            
+ITEM_TCG_BILL                       | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_BILLS_PC                   | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_BILLS_TELEPORTER           | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_BOSS_WAY                   | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_CHALLENGE                  | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_CLEFAIRY_DOLL              | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_COMPUTER_ERROR             | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_COMPUTER_SEARCH            | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_DEFENDER                   | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_DEVOLUTION_SPRAY           | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_DIGGER                     | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_ENERGY_REMOVAL             | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_FOSSIL_EXCAVATION          | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_GOOP_GAS_ATTACK            | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_GUST_OF_WIND               | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_IMPOSTER_OAK_REVENGE       | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_ITEM_FINDER                | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_MAINTENANCE                | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_MYSTERIOUS_FOSSIL          | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_NIGHTLY_GARBAGE_RUN        | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_PLUSPOWER                  | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_POKEMON_BREEDER            | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_POKEMON_CENTER             | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_POKEMON_RETRANSFER         | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_POKEMON_TRADER             | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_POKE_RECEIVER              | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_RECYCLE                    | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_ROCKET_TRAP                | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_SCOOP_UP                   | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_SLEEP                      | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_SUPER_ENERGY_REMOVAL       | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_SUPER_SCOOP_UP             | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_SWITCH                     | POCKET_TCG_ITEMS          | TCG_CARD                 
+ITEM_TCG_GAMBLER                    | POCKET_TCG_SUPPORTERS     | TCG_CARD                 
+ITEM_TCG_HERE_COMES_TEAM_ROCKET     | POCKET_TCG_SUPPORTERS     | TCG_CARD                 
+ITEM_TCG_IMAKUNI                    | POCKET_TCG_SUPPORTERS     | TCG_CARD                 
+ITEM_TCG_IMPOSTER_PROF_OAK          | POCKET_TCG_SUPPORTERS     | TCG_CARD                 
+ITEM_TCG_LASS                       | POCKET_TCG_SUPPORTERS     | TCG_CARD                 
+ITEM_TCG_MR_FUJI                    | POCKET_TCG_SUPPORTERS     | TCG_CARD                 
+ITEM_TCG_PROF_OAK                   | POCKET_TCG_SUPPORTERS     | TCG_CARD                 
+ITEM_TCG_ROCKET_SNEAK_ATTACK        | POCKET_TCG_SUPPORTERS     | TCG_CARD                 
+ITEM_HM_CUT                         | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_HM_DIVE                        | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_HM_FLASH                       | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_HM_FLY                         | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_HM_ROCK_SMASH                  | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_HM_STRENGTH                    | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_HM_SURF                        | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_HM_WATERFALL                   | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM100                          | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM51                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM52                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM53                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM54                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM55                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM56                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM57                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM58                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM59                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM60                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM61                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM62                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM63                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM64                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM65                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM66                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM67                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM68                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM69                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM70                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM71                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM72                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM73                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM74                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM75                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM76                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM77                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM78                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM79                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM80                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM81                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM82                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM83                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM84                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM85                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM86                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM87                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM88                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM89                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM90                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM91                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM92                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM93                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM94                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM95                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM96                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM97                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM98                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM99                           | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_AERIAL_ACE                  | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_ATTRACT                     | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_BLIZZARD                    | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_BRICK_BREAK                 | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_BULK_UP                     | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_BULLET_SEED                 | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_CALM_MIND                   | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_DIG                         | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_DOUBLE_TEAM                 | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_DRAGON_CLAW                 | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_EARTHQUAKE                  | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_FACADE                      | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_FIRE_BLAST                  | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_FLAMETHROWER                | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_FOCUS_PUNCH                 | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_FRUSTRATION                 | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_GIGA_DRAIN                  | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_HAIL                        | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_HIDDEN_POWER                | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_HYPER_BEAM                  | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_ICE_BEAM                    | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_IRON_TAIL                   | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_LIGHT_SCREEN                | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_OVERHEAT                    | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_PROTECT                     | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_PSYCHIC                     | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_RAIN_DANCE                  | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_REFLECT                     | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_REST                        | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_RETURN                      | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_ROAR                        | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_ROCK_TOMB                   | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_SAFEGUARD                   | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_SANDSTORM                   | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_SECRET_POWER                | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_SHADOW_BALL                 | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_SHOCK_WAVE                  | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_SKILL_SWAP                  | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_SLUDGE_BOMB                 | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_SNATCH                      | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_SOLAR_BEAM                  | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_STEEL_WING                  | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_SUNNY_DAY                   | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_TAUNT                       | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_THIEF                       | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_THUNDER                     | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_THUNDERBOLT                 | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_TORMENT                     | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_TOXIC                       | POCKET_TM_HM              | PRESERVED_TM_HM          
+ITEM_TM_WATER_PULSE                 | POCKET_TM_HM              | PRESERVED_TM_HM          
+
+AGENTS.md
+
+# AGENTS.md — Pokémon FireRed TCG Pocket Edition Architecture
+
+Este documento detalla la arquitectura técnica, las estructuras de datos, el flujo de ejecución y las convenciones del motor **Pokémon FireRed TCG Pocket Edition** implementado sobre `pokeemerald-expansion`.
+
+---
+
+## 1. Visión General del Proyecto
+
+El proyecto transforma el sistema de combate RPG por turnos y gestión de criaturas de Pokémon FireRed en el reglamento oficial de **Pokémon TCG Pocket**:
+- **Mazos de 20 cartas** en lugar de equipos tradicionales de 6 Pokémon.
+- **Colección de cartas** administrada a través de los bolsillos de la Mochila y el PC de almacenamiento.
+- **Combate de TCG Pocket**: Sin debilidades en banca, cálculo plano de debilidad (+20), estados especiales de Checkup (Veneno 10 HP, Quemado 20 HP con moneda, Sueño con moneda, Parálisis de 1 turno, Confusión 50% de fallo sin autodaño), ruleta de zona de energía multicolor, límites de 10 cartas en mano, sin derrota por deck-out, y límite de 30/50 turnos.
+- **Integración total con la historia de Kanto**: MOs (HMs) automáticas mediante posesión de objetos y medallas, entrega de cartas en `ScriptGiveMon`, y mazos iniciales entregados por el Prof. Oak.
+
+---
+
+## 2. Estructuras de Datos y Memoria
+
+### 2.1. Cartas TCG (`include/tcg.h`)
+Cada carta del juego está definida en `struct TcgCardInfo`:
+- `cardId`: Identificador único (1 a 429).
+- `name`: Nombre de la carta.
+- `species`: Especie de Pokémon asociada en Gen 3 (o `SPECIES_NONE` para entrenadores).
+- `preEvoSpecies`: Pre-evolución requerida en campo para evolucionar (Stage 1 / Stage 2).
+- `equivItemId`: Objeto del mapa equivalente si procede (ítems vanilla o `ITEM_TCG_*`).
+- `cardType`: `CARD_TYPE_POKEMON_BASIC`, `STAGE1`, `STAGE2`, `TRAINER_ITEM`, `TRAINER_SUPPORTER`.
+- `energyType`: Tipo elemental de energía (Planta, Fuego, Agua, Rayo, Psíquico, Lucha, Oscura, Metálica, Incolora).
+- `weaknessType`: Tipo elemental ante el que sufre +20 de daño.
+- `retreatCost`: Coste de retirada en energías incoloras.
+- `maxHp`: Puntos de vida fijos de la carta.
+- `pokemonPowerId`: ID del poder Pokémon (si tiene).
+- `move1`, `move2`: Movimientos y sus costes elementales en `struct TcgAttackCost`.
+- `isRareShiny`: Flag booleano; si es `TRUE`, debilita por 2 Puntos de Premio en vez de 1.
+- `description`: Cadena sintetizada de descripción explícita con saltos de línea (`\n`).
+
+### 2.2. Mazos y Guardado (`struct SaveBlock1`)
+En `include/global.h`, `SaveBlock1` almacena:
+```c
+struct TcgDeck customDecks[MAX_CUSTOM_DECKS];   // 14 mazos personalizados de 20 cartas
+u8 currentDeckIndex;                           // Índice del mazo actual (0-13 o 0-31)
+bool8 isCurrentDeckDefault;                     // TRUE si usa mazo predeterminado
+u32 unlockedDefaultDecksMask;                  // Máscara de bits de 32 mazos desbloqueados
+```
+Para evitar desbordar el tamaño límite de `SaveBlock1` de GBA, se activaron las macros de liberación en `include/config/save.h`:
+- `FREE_EXTRA_SEEN_FLAGS_SAVEBLOCK1` (52 bytes)
+- `FREE_POKEMON_JUMP` (16 bytes)
+- `FREE_RECORD_MIXING_HALL_RECORDS` (1032 bytes)
+- `FREE_EXTRA_SEEN_FLAGS_SAVEBLOCK2` (108 bytes)
+
+### 2.3. Bolsillos de la Mochila (`include/constants/item.h`)
+Se configuraron 8 bolsillos dedicados:
+1. `POCKET_TCG_POKEMON`: Cartas de Pokémon (capacidad 100).
+2. `POCKET_TCG_ITEMS`: Cartas de Entrenador - Item (capacidad 50).
+3. `POCKET_TCG_SUPPORTERS`: Cartas de Entrenador - Supporter (capacidad 50).
+4. `POCKET_POKE_BALLS`
+5. `POCKET_KEY_ITEMS`
+6. `POCKET_ITEMS_LEG` (Objetos misceláneos de mapa)
+7. `POCKET_TM_HM` (Objetos MO)
+8. `POCKET_BERRIES`
+
+---
+
+## 3. Cartas de Entrenador (Items y Supporters)
+
+### 3.1. Nuevos Ítems Registrados (`include/constants/items.h` y `src/data/items.h`)
+Para cartas sin objeto vanilla equivalente, se añadieron 40 constantes `ITEM_TCG_*` asociadas al icono gráfico de interrogación (`gItemIcon_QuestionMark`):
+- `ITEM_TCG_PROF_OAK`, `ITEM_TCG_BILL`, `ITEM_TCG_SWITCH`, `ITEM_TCG_GUST_OF_WIND`
+- `ITEM_TCG_ENERGY_REMOVAL`, `ITEM_TCG_SUPER_ENERGY_REMOVAL`, `ITEM_TCG_PLUSPOWER`, `ITEM_TCG_DEFENDER`
+- `ITEM_TCG_SCOOP_UP`, `ITEM_TCG_SUPER_SCOOP_UP`, `ITEM_TCG_COMPUTER_SEARCH`, `ITEM_TCG_GAMBLER`
+- `ITEM_TCG_MAINTENANCE`, `ITEM_TCG_ITEM_FINDER`, `ITEM_TCG_DEVOLUTION_SPRAY`, `ITEM_TCG_CLEFAIRY_DOLL`
+- `ITEM_TCG_MYSTERIOUS_FOSSIL`, `ITEM_TCG_POKEMON_TRADER`, `ITEM_TCG_POKEMON_BREEDER`, `ITEM_TCG_POKEMON_CENTER`
+- `ITEM_TCG_LASS`, `ITEM_TCG_MR_FUJI`, `ITEM_TCG_IMPOSTER_PROF_OAK`, `ITEM_TCG_IMPOSTER_OAK_REVENGE`
+- `ITEM_TCG_RECYCLE`, `ITEM_TCG_NIGHTLY_GARBAGE_RUN`, `ITEM_TCG_ROCKET_SNEAK_ATTACK`, `ITEM_TCG_HERE_COMES_TEAM_ROCKET`
+- `ITEM_TCG_ROCKET_TRAP`, `ITEM_TCG_BOSS_WAY`, `ITEM_TCG_GOOP_GAS_ATTACK`, `ITEM_TCG_BILLS_TELEPORTER`
+- `ITEM_TCG_BILLS_PC`, `ITEM_TCG_CHALLENGE`, `ITEM_TCG_SLEEP`, `ITEM_TCG_COMPUTER_ERROR`
+- `ITEM_TCG_DIGGER`, `ITEM_TCG_FOSSIL_EXCAVATION`, `ITEM_TCG_IMAKUNI`, `ITEM_TCG_POKEMON_RETRANSFER`
+
+### 3.2. Ejecución Lógica en Combate (`src/tcg_trainer_cards.c`)
+Al pulsar `SEND OUT` sobre una carta Item o Supporter en `HAND` (`src/party_menu.c`), el dispatcher `ExecuteTrainerCardEffect(cardId, battler)` ejecuta el efecto oficial de la carta:
+- **`CARD_PROFESSOR_OAK`**: Descarta las demás cartas de la mano y roba hasta 5 del mazo (respetando el tope de 10).
+- **`CARD_BILL`**: Roba 2 cartas del mazo.
+- **`CARD_POTION` / `SUPER_POTION`**: Cura 20 / 40 HP al Pokémon Activo.
+- **`CARD_FULL_HEAL`**: Cura todas las condiciones especiales activas.
+- **`CARD_SWITCH`**: Intercambia el activo por uno de la banca sin pagar coste de retirada.
+- **`CARD_GUST_OF_WIND`**: Fuerza al rival a cambiar su Pokémon Activo por uno de su banca.
+- **`CARD_PLUSPOWER`**: Concede `plusPowerBonus += 10` al siguiente ataque en ese turno.
+- **`CARD_DEFENDER`**: Reduce en -20 (`defenderBonus += 20`) el daño que recibirá el defensor en el siguiente turno rival.
+- **`CARD_GAMBLER`**: Moneda: Cara roba 8 cartas; Cruz roba 1 carta.
+- **Regla Supporter**: Limita el uso a máximo 1 carta Supporter por turno (`supporterUsedThisTurn`).
+
+---
+
+## 4. Efectos de Movimientos TCG 1:1 en el Motor de Combate
+
+Se implementaron en `include/constants/battle_move_effects.h` y `src/battle_util.c` las mecánicas genuinas de combate de cartas:
+1. `EFFECT_TCG_COIN_DAMAGE_BONUS`: Lanza moneda en el ataque; 50% de probabilidad de sumar +20 de daño base.
+2. `EFFECT_TCG_SELF_DAMAGE_COIN`: Lanza moneda; en cruz, el usuario sufre 20 de daño de retroceso.
+3. `EFFECT_TCG_DISCARD_USER_ENERGY`: Descarta 1 energía del atacante para poder ejecutar el movimiento.
+4. `EFFECT_TCG_DISCARD_TARGET_ENERGY`: Descarta 1 energía de la reserva del Pokémon defensor.
+5. `EFFECT_TCG_BENCH_SNIPER`: Inflige daño directo (10 HP) a un Pokémon de la banca rival (inmune a debilidad y estados).
+6. `EFFECT_TCG_SHIELD_NEXT_TURN`: Activa un escudo defensivo que bloquea 100 de daño durante el próximo turno rival.
+
+---
+
+## 5. Límites Visuales de Texto y Formato en GBA
+
+Para evitar desbordamientos y cortes de palabras a mitad de sílaba:
+- **En la Mochila (`src/item_menu.c`)**: Caja de texto limitada a 3 líneas con un máximo de 30-34 caracteres por línea.
+- **En el `SUMMARY` (`src/pokemon_summary_screen.c`)**: Recuadro inferior limitado a 2 líneas de máximo 32 caracteres por línea.
+- **Sintetización con saltos explícitos (`\n`)**:
+  - `Cara: +10 daño.`
+  - `Descarta 1 energía.`
+  - `10 daño a 1 de la banca.`
+
+---
+
+## 6. Poda de Variantes de Mazos y Empaquetado Temático (`tools/generate_tcg_data.py`)
+
+- **Máximo 2 Variantes con Diferencias Sustanciales**: En mazos de doble tipo, *Variante 1* se enfoca en el Tipo A y *Variante 2* en el Tipo B. En mazos monotipo con múltiples familias, se dividen las líneas evolutivas sin generar clones de 1-2 cartas.
+- **Vaciado de Sobrantes en Barajas Temáticas**: Las cartas sobrantes del proceso de partición se agrupan por tipo para generar barajas complementarias (*Grass Bloom*, *Fire Surge*, *Water Torrent*, *Lightning Spark*, *Psychic Mind*, *Fight Beatdown*, *Colorless Aggro*, *Rocket Darkness*), reduciendo drásticamente el archivo `unused_deck_cards.txt`.
+- Total de barajas temáticas finales: **322**.
+
+---
+
+## 7. Asignación Estática Determinista por Entrenador (`src/data/trainer_tcg_decks.h`)
+
+Queda suprimida cualquier asignación aleatoria o rotativa:
+- La tabla `const u16 gTrainerToDeckMap[TRAINERS_COUNT]` asigna a cada uno de los **624 entrenadores de FRLG** un mazo fijo indexado por su `trainerId`.
+- La asignación se basa en las especies de Pokémon que usa cada entrenador en vanilla:
+  - Brock: Mazo Roca/Lucha (#11)
+  - Misty: Mazo Agua (#5)
+  - Lt. Surge: Mazo Eléctrico (#9)
+  - Erika: Mazo Planta (#7)
+  - Koga: Mazo Veneno (#13)
+  - Sabrina: Mazo Psíquico (#15)
+  - Blaine: Mazo Fuego (#3)
+  - Giovanni: Mazo Tierra/Roca (#17)
+  - Cada *Youngster*, *Bug Catcher*, *Hiker*, etc., recibe un mazo adaptado a su equipo de Kanto.
+- `BuildTemporaryTrainerDeck(trainerId, destDeck)` consulta directamente `gTrainerToDeckMap[trainerId]`.
+
+---
+
+## 8. Auditoría de Integridad y Validación de Líneas Evolutivas
+
+Se implementó un pipeline estricto de auto-corrección y validación formal de mazos:
+- **Corrección Automática de Huérfanos (`tools/generate_tcg_data.py`)**: Durante la partición y ensamblado de variantes temáticas, la función `fix_deck_evolution_chains` detecta cartas de Etapa 1 o Etapa 2 que carezcan de su pre-evolución directa en el mazo. Si la pre-evolución existe en la base de datos, la incorpora sustituyendo cartas prescindibles; si no, reemplaza la carta injugable por cartas de soporte universales (*Bill*, *Potion*, *Switch*, *Full Heal*), manteniendo siempre el límite de 20 cartas y un máximo estricto de 2 copias por especie y por carta.
+- **Herramienta Oficial de Validación (`tools/validate_all_decks.py`)**: Valida al 100% todos los mazos del juego (`gDefaultDecks`, `gThematicDecks` y asignaciones de `gTrainerToDeckMap`):
+  1. Exactamente 20 cartas por baraja.
+  2. Mínimo 1 Pokémon Básico real (los Fósiles no cuentan como Básico inicial).
+  3. Máximo 2 copias por carta y por especie de Pokémon.
+  4. Cero huérfanos de Etapa 1 o Etapa 2 (requieren pre-evolución explícita en el mazo).
+  5. Mapeos de los 624 entrenadores dentro del rango de índices de mazo válidos.
+- **Resultado de la Validación**:
+  `[PASS] All 354 decks validated: 0 evolution orphan errors, 0 size errors, 0 copy limit errors.`
+
+---
+
+## 9. Inventario de Archivos Clave del Módulo TCG
+
+- **Definiciones y Constantes**:
+  - `include/tcg.h`: Estructuras centrales (`TcgCardInfo`, `TcgDeck`, `TcgAttackCost`, tipos de energía y constantes TCG).
+  - `include/constants/tcg_cards.h`: Enumeración canónica `CARD_*` de las 429 cartas.
+  - `include/constants/items.h`: Constantes de 40 cartas de entrenador (`ITEM_TCG_*`).
+  - `include/constants/battle_move_effects.h`: Constantes de efectos TCG (`EFFECT_TCG_*`).
+- **Tablas de Datos**:
+  - `src/data/tcg_cards.h`: Base de datos completa `gTcgCards[NUM_TCG_CARDS + 1]`.
+  - `src/data/tcg_decks.h`: Mazos por defecto `gDefaultDecks[32]` y temáticos `gThematicDecks[354]`.
+  - `src/data/trainer_tcg_decks.h`: Mapeo estático `gTrainerToDeckMap[TRAINERS_COUNT]`.
+  - `src/data/items.h`: Entradas de cartas de entrenador registradas con icono `gItemIcon_QuestionMark`.
+- **Lógica de Ejecución en C**:
+  - `src/tcg.c`: Inicialización de combates, ruleta de energía, validación y robo de cartas.
+  - `src/tcg_trainer_cards.c`: Ejecución en combate de efectos de cartas Item y Supporter (`ExecuteTrainerCardEffect`).
+  - `src/battle_util.c`: Modificadores de daño en combate TCG (moneda, descarte de energía, escudos).
+  - `src/party_menu.c`: Interfaz del menú de equipo / mano de cartas en combate.
+- **Herramientas de Mantenimiento**:
+  - `tools/generate_tcg_data.py`: Script generador de cartas, mazos y mapas desde las fuentes de GB.
+  - `tools/validate_all_decks.py`: Script de validación formal e integridad de barajas.
+
+---
+
+## 10. Actualización Real de Movimientos e Ítems TCG (`src/data/moves_info.h` y `src/data/items.h`)
+
+En cumplimiento de la fidelidad visual, mecánica y lingüística de TCG Pocket:
+1. **Idioma Obligatorio (100% Inglés)**:
+   - Todo el código fuente, datos de movimientos, cartas e ítems están redactados exclusivamente en idioma inglés conciso, eliminando cualquier cadena en español del árbol de compilación.
+2. **Extracción Directa desde ASM y Prohibición de Costes en `.description`**:
+   - Daños y efectos extraídos directamente de las macros de GBC (`cards1.asm`, `cards2.asm`, `cards.asm`): `DAMAGE_X` (monedas multiplicativas), `DAMAGE_PLUS` (bono de moneda), `Flags 1` (estados, retroceso, banco) y `Flags 2` (descarte de energía, cambio forzado, escudos).
+   - **Prohibición terminante de costes en `.description`**: Queda eliminado cualquier texto de coste elemental (como `"Cost:..."` o `"(Energy cost ready)"`) en las descripciones de ataques y cartas. El coste de energía se renderiza de forma visual e independiente en el recuadro superior derecho de la interfaz de batalla (`COST/`).
+   - Las descripciones de ataques en `src/data/moves_info.h` se ciñen exclusivamente a la mecánica especial en **máximo 2 líneas de 32 caracteres**.
+3. **Extracción e Implementación de Pokémon Powers**:
+   - Extraídos nativamente de ASM y registrados en `cardInfo->pokemonPowerId`.
+   - Asignados de forma determinista al **Slot 1** (`MON_DATA_MOVE1`) en `CreateTempMonFromCardId`.
+   - Regla oficial TCG Pocket: En `src/battle_controller_player.c`, se bloquea el uso de Pokémon Powers si el combatiente está bajo los estados especiales **Dormido (`STATUS1_SLEEP`), Paralizado (`STATUS1_PARALYSIS`) o Confuso (`STATUS2_CONFUSION`)**.
+4. **Restauración de Poké Ball y Creación de Poké Receiver**:
+   - **`ITEM_POKE_BALL`**: Restaurada al 100% como la Poké Ball vanilla clásica de captura en `POCKET_POKE_BALLS` (bolsillo 4), preservando la captura salvaje en `battle_script_commands.c`.
+   - **`ITEM_TCG_POKE_RECEIVER`**: Nueva carta de Entrenador tipo Objeto (`CARD_POKE_RECEIVER`) en `POCKET_TCG_ITEMS` (bolsillo 2), icono `gItemIcon_QuestionMark`, con efecto de lanzar moneda para buscar un Pokémon Básico en el mazo.
+5. **Re-Auditoría Profunda de Ítems de Kanto y Auto-Conversión en Overworld**:
+   - Se auditaron las 26 equivalencias directas y semánticas de mapa con cartas TCG:
+     - *Poké Doll* -> *Clefairy Doll* (`CARD_CLEFAIRY_DOLL`)
+     - *Escape Rope* -> *Switch* (`CARD_SWITCH`)
+     - *Itemfinder* -> *Item Finder* (`CARD_ITEM_FINDER`)
+     - *X Attack* -> *PlusPower* (`CARD_PLUSPOWER`)
+     - *X Defend* / *Guard Spec* -> *Defender* (`CARD_DEFENDER`)
+     - *Helix/Dome Fossil* / *Old Amber* -> *Mysterious Fossil* (`CARD_MYSTERIOUS_FOSSIL`)
+     - *Hyper/Max Potion* / *Full Restore* -> *Super Potion* / *Pokémon Center*
+     - *Ether/Max Ether* -> *Recycle* (`CARD_RECYCLE`)
+     - *Elixir/Max Elixir* -> *Nightly Garbage Run* (`CARD_NIGHTLY_GARBAGE_RUN`)
+   - En `src/item.c` (`AddBagItem`), cualquier objeto recogido en el mapa que posea carta asignada se transforma automáticamente a su carta TCG en `POCKET_TCG_ITEMS` o `POCKET_TCG_SUPPORTERS`.
+   - Todos los demás objetos RPG de mapa sin carta TCG permanecen archivados en **`POCKET_ITEMS_LEG`** (bolsillo 6), mostrándose en gris (`COLORID_GRAY_CURSOR`) con solo opciones `TOSS` y `CANCEL`.
+6. **Reportes de Auditoría y Verificación**:
+   - `tools/moves_items_supporters_status.txt`: Tabla con 203 entradas auditadas con valores reales en inglés.
+   - `tools/vanilla_vs_tcg_items.txt`: Clasificación de los 915 ítems del juego por bolsillo y rol.
+   - `tools/tcg_moves_mechanics_check.txt`: Registro detallado de los movimientos TCG y su rutina resolutiva.
+
+---
+
+## 11. Notas para Desarrolladores y Futuros Agentes
+
+- **Conservación de Scripts**: Todos los scripts de extracción, inspección, validación y reporte deben mantenerse dentro de la carpeta `tools/` para garantizar la trazabilidad y reproducibilidad del proyecto.
+- **Identificación de Cartas en Batalla**: El campo `MON_DATA_EXP` de cada `struct Pokemon` se utiliza como contenedor seguro del `cardId` (32 bits), ya que la experiencia RPG tradicional no se utiliza en combate TCG.
+- **Preservación de Estructuras**: No alterar los tamaños ni campos de `struct BattlePokemon` o `struct Pokemon` sin verificar el empaquetado y compatibilidad con el motor de animaciones y buffers de red.
+- **Regla de Compilación**: En este entorno sin GCC ARM / WSL nativo en PATH, las modificaciones deben aplicarse de forma modular y estricta en el código fuente C sin compilar tras cada pequeño cambio, siguiendo las instrucciones de `instrucciones.txt`.

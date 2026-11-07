@@ -1,4 +1,5 @@
 #include "global.h"
+#include "tcg.h"
 #include "item_menu.h"
 #include "battle.h"
 #include "battle_controllers.h"
@@ -92,6 +93,8 @@ enum {
     ACTION_BY_TYPE,
     ACTION_BY_AMOUNT,
     ACTION_BY_INDEX,
+    ACTION_SUMMARY,
+    ACTION_ADD_CARD,
     ACTION_DUMMY,
 };
 
@@ -205,6 +208,9 @@ static void ItemMenu_CheckTag(u8);
 static void ItemMenu_Show(u8);
 static void ItemMenu_GiveFavorLady(u8);
 static void ItemMenu_ConfirmQuizLady(u8);
+static void ItemMenu_Summary(u8);
+static void ItemMenu_AddCard(u8);
+static void CB2_ShowBagCardSummary(void);
 static void Task_ItemContext_Normal(u8);
 static void Task_ItemContext_GiveToParty(u8);
 static void Task_ItemContext_Sell(u8);
@@ -308,6 +314,8 @@ static const struct MenuAction sItemMenuActions[] = {
     [ACTION_BY_TYPE]           = {COMPOUND_STRING("Type"),      {ItemMenu_SortByType}},
     [ACTION_BY_AMOUNT]         = {COMPOUND_STRING("Amount"),    {ItemMenu_SortByAmount}},
     [ACTION_BY_INDEX]          = {COMPOUND_STRING("Index"),     {ItemMenu_SortByIndex}},
+    [ACTION_SUMMARY]           = {COMPOUND_STRING("SUMMARY"),   {ItemMenu_Summary}},
+    [ACTION_ADD_CARD]          = {COMPOUND_STRING("ADD"),       {ItemMenu_AddCard}},
     [ACTION_DUMMY]             = {gText_EmptyString2, {NULL}}
 };
 
@@ -335,7 +343,6 @@ static const u8 sContextMenuItems_TmHmPocket[] = {
 
 static const u8 sContextMenuItems_BerriesPocket[] = {
     ACTION_CHECK_TAG,   ACTION_DUMMY,
-    ACTION_USE,         ACTION_GIVE,
     ACTION_TOSS,        ACTION_CANCEL
 };
 
@@ -349,6 +356,20 @@ static const u8 sContextMenuItems_Give[] = {
 
 static const u8 sContextMenuItems_Cancel[] = {
     ACTION_CANCEL
+};
+
+static const u8 sContextMenuItems_ItemsLegPocket[] = {
+    ACTION_TOSS,        ACTION_CANCEL
+};
+
+static const u8 sContextMenuItems_TcgCardsPocket[] = {
+    ACTION_SUMMARY,     ACTION_TOSS,
+    ACTION_CANCEL,      ACTION_DUMMY
+};
+
+static const u8 sContextMenuItems_TcgCardsPcBox[] = {
+    ACTION_ADD_CARD,    ACTION_SUMMARY,
+    ACTION_CANCEL,      ACTION_DUMMY
 };
 
 static const u8 sContextMenuItems_BerryBlenderCrush[] = {
@@ -585,7 +606,7 @@ static EWRAM_DATA struct TempWallyBag *sTempWallyBag = 0;
 
 void ResetBagScrollPositions(void)
 {
-    gBagPosition.pocket = POCKET_ITEMS;
+    gBagPosition.pocket = POCKET_TCG_POKEMON;
     memset(gBagPosition.cursorPosition, 0, sizeof(gBagPosition.cursorPosition));
     memset(gBagPosition.scrollPosition, 0, sizeof(gBagPosition.scrollPosition));
 }
@@ -657,6 +678,7 @@ void QuizLadyOpenBagMenu(void)
 
 void GoToBagMenu(u8 location, u8 pocket, MainCallback exitCallback)
 {
+    EnsureStarterDeckCardsInBag();
     gBagMenu = AllocZeroed(sizeof(*gBagMenu));
     if (gBagMenu == NULL)
     {
@@ -671,6 +693,8 @@ void GoToBagMenu(u8 location, u8 pocket, MainCallback exitCallback)
             gBagPosition.exitCallback = exitCallback;
         if (pocket < POCKETS_COUNT)
             gBagPosition.pocket = pocket;
+        if (gBagPosition.pocket >= POCKETS_COUNT)
+            gBagPosition.pocket = POCKET_TCG_POKEMON;
         if (gBagPosition.location == ITEMMENULOCATION_BERRY_TREE
          || gBagPosition.location == ITEMMENULOCATION_BERRY_BLENDER_CRUSH
          || gBagPosition.location == ITEMMENULOCATION_BERRY_TREE_MULCH
@@ -943,6 +967,21 @@ static void GetItemNameFromPocket(u8 *dest, enum Item itemId)
     u8 *end;
     switch (gBagPosition.pocket)
     {
+    case POCKET_TCG_POKEMON:
+    case POCKET_TCG_ITEMS:
+    case POCKET_TCG_SUPPORTERS:
+        {
+            const struct TcgCardInfo *cardInfo = GetTcgCardInfo(itemId);
+            if (cardInfo != NULL && cardInfo->name != NULL)
+            {
+                end = StringCopy(dest, cardInfo->name);
+                PrependFontIdToFit(dest, end, FONT_NARROW, 88);
+                break;
+            }
+        }
+        end = CopyItemName(itemId, dest);
+        PrependFontIdToFit(dest, end, FONT_NARROW, 88);
+        break;
     case POCKET_TM_HM:
         end = StringCopy(gStringVar2, GetMoveName(ItemIdToBattleMoveId(itemId)));
         PrependFontIdToFit(gStringVar2, end, FONT_NARROW, NUM_TECHNICAL_MACHINES >= 100 ? 60 : 65);
@@ -1019,7 +1058,8 @@ static void BagMenu_ItemPrintCallback(u8 windowId, u32 itemIndex, u8 y)
             ConvertIntToDecimalStringN(gStringVar1, itemSlot.quantity, STR_CONV_MODE_RIGHT_ALIGN, MAX_ITEM_DIGITS);
             StringExpandPlaceholders(gStringVar4, gText_xVar1);
             offset = GetStringRightAlignXOffset(FONT_NARROW, gStringVar4, 119);
-            BagMenu_Print(windowId, FONT_NARROW, gStringVar4, offset, y, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
+            u8 qtyColor = (gBagPosition.pocket == POCKET_ITEMS_LEG) ? COLORID_GRAY_CURSOR : COLORID_NORMAL;
+            BagMenu_Print(windowId, FONT_NARROW, gStringVar4, offset, y, 0, 0, TEXT_SKIP_DRAW, qtyColor);
         }
         else
         {
@@ -1035,7 +1075,19 @@ static void PrintItemDescription(int itemIndex)
     const u8 *str;
     if (itemIndex != LIST_CANCEL)
     {
-        str = GetItemDescription(GetBagItemId(gBagPosition.pocket, itemIndex));
+        u16 itemId = GetBagItemId(gBagPosition.pocket, itemIndex);
+        if (gBagPosition.pocket == POCKET_TCG_POKEMON || gBagPosition.pocket == POCKET_TCG_ITEMS || gBagPosition.pocket == POCKET_TCG_SUPPORTERS)
+        {
+            const struct TcgCardInfo *cardInfo = GetTcgCardInfo(itemId);
+            if (cardInfo != NULL && cardInfo->description != NULL)
+                str = cardInfo->description;
+            else
+                str = GetItemDescription(itemId);
+        }
+        else
+        {
+            str = GetItemDescription(itemId);
+        }
     }
     else
     {
@@ -1045,7 +1097,8 @@ static void PrintItemDescription(int itemIndex)
         str = gStringVar4;
     }
     FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
-    BagMenu_Print(WIN_DESCRIPTION, FONT_NORMAL, str, 3, 1, 0, 0, 0, COLORID_NORMAL);
+    u8 descColor = (gBagPosition.pocket == POCKET_ITEMS_LEG) ? COLORID_GRAY_CURSOR : COLORID_NORMAL;
+    BagMenu_Print(WIN_DESCRIPTION, FONT_NORMAL, str, 3, 1, 0, 0, 0, descColor);
 }
 
 static void BagMenu_PrintCursor(u8 listTaskId, u8 colorIndex)
@@ -1341,6 +1394,11 @@ static void Task_BagMenu_HandleInput(u8 taskId)
             gTasks[taskId].func = Task_FadeAndCloseBagMenu;
             break;
         default: // A_BUTTON
+            if (gBagPosition.pocket == POCKET_TM_HM)
+            {
+                PlaySE(SE_FAILURE);
+                break;
+            }
             {
                 struct ItemSlot itemSlot = GetBagItemIdAndQuantity(gBagPosition.pocket, listPosition);
                 PlaySE(SE_SELECT);
@@ -1388,16 +1446,18 @@ static u8 GetSwitchBagPocketDirection(void)
 
 static void ChangeBagPocketId(u8 *bagPocketId, s8 deltaBagPocketId)
 {
-    if (deltaBagPocketId == MENU_CURSOR_DELTA_RIGHT && *bagPocketId == POCKETS_COUNT - 1)
-        *bagPocketId = 0;
-    else if (deltaBagPocketId == MENU_CURSOR_DELTA_LEFT && *bagPocketId == 0)
+    if (deltaBagPocketId == MENU_CURSOR_DELTA_RIGHT && *bagPocketId >= POCKETS_COUNT - 1)
+        *bagPocketId = POCKET_TCG_POKEMON;
+    else if (deltaBagPocketId == MENU_CURSOR_DELTA_LEFT && *bagPocketId <= POCKET_TCG_POKEMON)
         *bagPocketId = POCKETS_COUNT - 1;
     else
         *bagPocketId += deltaBagPocketId;
 
+    if (*bagPocketId >= POCKETS_COUNT)
+        *bagPocketId = POCKET_TCG_POKEMON;
+
     if (IsVictoryCatch() && *bagPocketId == POCKET_POKE_BALLS)
         *bagPocketId += 1;
-
 }
 
 static void SwitchBagPocket(u8 taskId, s16 deltaBagPocketId, bool16 skipEraseList)
@@ -1524,7 +1584,7 @@ static void StartItemSwap(u8 taskId)
     ListMenuSetTemplateField(tListTaskId, LISTFIELD_CURSORKIND, CURSOR_INVISIBLE);
     tListPosition = gBagPosition.scrollPosition[gBagPosition.pocket] + gBagPosition.cursorPosition[gBagPosition.pocket];
     gBagMenu->toSwapPos = tListPosition;
-    CopyItemName(GetBagItemId(gBagPosition.pocket, tListPosition), gStringVar1);
+    GetItemNameFromPocket(gStringVar1, GetBagItemId(gBagPosition.pocket, tListPosition));
     StringExpandPlaceholders(gStringVar4, gText_MoveVar1Where);
     FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
     BagMenu_Print(WIN_DESCRIPTION, FONT_NORMAL, gStringVar4, 3, 1, 0, 0, 0, COLORID_NORMAL);
@@ -1618,6 +1678,12 @@ static void CancelItemSwap(u8 taskId)
 
 static void OpenContextMenu(u8 taskId)
 {
+    if (gBagPosition.pocket == POCKET_TM_HM)
+    {
+        PlaySE(SE_FAILURE);
+        return;
+    }
+
     switch (gBagPosition.location)
     {
     case ITEMMENULOCATION_BATTLE:
@@ -1697,12 +1763,23 @@ static void OpenContextMenu(u8 taskId)
         {
             switch (gBagPosition.pocket)
             {
-            case POCKET_ITEMS:
-                gBagMenu->contextMenuItemsPtr = gBagMenu->contextMenuItemsBuffer;
-                gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsPocket);
-                memcpy(&gBagMenu->contextMenuItemsBuffer, &sContextMenuItems_ItemsPocket, sizeof(sContextMenuItems_ItemsPocket));
-                if (ItemIsMail(gSpecialVar_ItemId) == TRUE)
-                    gBagMenu->contextMenuItemsBuffer[0] = ACTION_CHECK;
+            case POCKET_ITEMS_LEG:
+                gBagMenu->contextMenuItemsPtr = sContextMenuItems_ItemsLegPocket;
+                gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsLegPocket);
+                break;
+            case POCKET_TCG_ITEMS:
+            case POCKET_TCG_SUPPORTERS:
+            case POCKET_TCG_POKEMON:
+                if (gBagPosition.location == ITEMMENULOCATION_PCBOX)
+                {
+                    gBagMenu->contextMenuItemsPtr = sContextMenuItems_TcgCardsPcBox;
+                    gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_TcgCardsPcBox);
+                }
+                else
+                {
+                    gBagMenu->contextMenuItemsPtr = sContextMenuItems_TcgCardsPocket;
+                    gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_TcgCardsPocket);
+                }
                 break;
             case POCKET_KEY_ITEMS:
                 gBagMenu->contextMenuItemsPtr = gBagMenu->contextMenuItemsBuffer;
@@ -1741,7 +1818,8 @@ static void OpenContextMenu(u8 taskId)
     }
     else
     {
-        u8 *end = CopyItemName(gSpecialVar_ItemId, gStringVar1);
+        GetItemNameFromPocket(gStringVar1, gSpecialVar_ItemId);
+        u8 *end = gStringVar1 + StringLength(gStringVar1);
         WrapFontIdToFit(gStringVar1, end, FONT_NORMAL, WindowWidthPx(WIN_DESCRIPTION) - 10 - 6);
         StringExpandPlaceholders(gStringVar4, gText_Var1IsSelected);
         FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
@@ -1908,7 +1986,16 @@ static void ItemMenu_Toss(u8 taskId)
     }
     else
     {
-        u8 *end = CopyItemNameHandlePlural(gSpecialVar_ItemId, gStringVar1, 2);
+        u8 *end;
+        if (gBagPosition.pocket == POCKET_TCG_POKEMON || gBagPosition.pocket == POCKET_TCG_ITEMS || gBagPosition.pocket == POCKET_TCG_SUPPORTERS)
+        {
+            GetItemNameFromPocket(gStringVar1, gSpecialVar_ItemId);
+            end = gStringVar1 + StringLength(gStringVar1);
+        }
+        else
+        {
+            end = CopyItemNameHandlePlural(gSpecialVar_ItemId, gStringVar1, 2);
+        }
         WrapFontIdToFit(gStringVar1, end, FONT_NORMAL, WindowWidthPx(WIN_DESCRIPTION) - 10 - 6);
         StringExpandPlaceholders(gStringVar4, gText_TossHowManyVar1s);
         FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
@@ -1921,8 +2008,17 @@ static void ItemMenu_Toss(u8 taskId)
 static void AskTossItems(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
+    u8 *end;
 
-    u8 *end = CopyItemNameHandlePlural(gSpecialVar_ItemId, gStringVar1, tItemCount);
+    if (gBagPosition.pocket == POCKET_TCG_POKEMON || gBagPosition.pocket == POCKET_TCG_ITEMS || gBagPosition.pocket == POCKET_TCG_SUPPORTERS)
+    {
+        GetItemNameFromPocket(gStringVar1, gSpecialVar_ItemId);
+        end = gStringVar1 + StringLength(gStringVar1);
+    }
+    else
+    {
+        end = CopyItemNameHandlePlural(gSpecialVar_ItemId, gStringVar1, tItemCount);
+    }
     WrapFontIdToFit(gStringVar1, end, FONT_NORMAL, WindowWidthPx(WIN_DESCRIPTION) - 10 - 6);
     ConvertIntToDecimalStringN(gStringVar2, tItemCount, STR_CONV_MODE_LEFT_ALIGN, MAX_ITEM_DIGITS);
     StringExpandPlaceholders(gStringVar4, gText_ConfirmTossItems);
@@ -1965,8 +2061,17 @@ static void Task_ChooseHowManyToToss(u8 taskId)
 static void ConfirmToss(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
+    u8 *end;
 
-    u8 *end = CopyItemNameHandlePlural(gSpecialVar_ItemId, gStringVar1, tItemCount);
+    if (gBagPosition.pocket == POCKET_TCG_POKEMON || gBagPosition.pocket == POCKET_TCG_ITEMS || gBagPosition.pocket == POCKET_TCG_SUPPORTERS)
+    {
+        GetItemNameFromPocket(gStringVar1, gSpecialVar_ItemId);
+        end = gStringVar1 + StringLength(gStringVar1);
+    }
+    else
+    {
+        end = CopyItemNameHandlePlural(gSpecialVar_ItemId, gStringVar1, tItemCount);
+    }
     WrapFontIdToFit(gStringVar1, end, FONT_NORMAL, WindowWidthPx(WIN_DESCRIPTION) - 10 - 6);
     ConvertIntToDecimalStringN(gStringVar2, tItemCount, STR_CONV_MODE_LEFT_ALIGN, MAX_ITEM_DIGITS);
     StringExpandPlaceholders(gStringVar4, gText_ThrewAwayVar2Var1s);
@@ -2144,9 +2249,36 @@ static void Task_ItemContext_GiveToParty(u8 taskId)
     }
 }
 
+static EWRAM_DATA struct Pokemon sBagSummaryMon = {0};
+
+static void CB2_ShowBagCardSummary(void)
+{
+    ShowPokemonSummaryScreen(SUMMARY_MODE_LOCK_MOVES, &sBagSummaryMon, 0, 0, CB2_ReturnToBagMenuPocket);
+}
+
+static void ItemMenu_Summary(u8 taskId)
+{
+    RemoveContextWindow();
+    CreateTempMonFromCardId(&sBagSummaryMon, gSpecialVar_ItemId);
+    gBagMenu->newScreenCallback = CB2_ShowBagCardSummary;
+    Task_FadeAndCloseBagMenu(taskId);
+}
+
+static void ItemMenu_AddCard(u8 taskId)
+{
+    RemoveContextWindow();
+    Task_FadeAndCloseBagMenu(taskId);
+}
+
 // Selected item to give to a Pokémon in PC storage
 static void Task_ItemContext_GiveToPC(u8 taskId)
 {
+    if (gBagPosition.pocket == POCKET_TCG_POKEMON || gBagPosition.pocket == POCKET_TCG_ITEMS || gBagPosition.pocket == POCKET_TCG_SUPPORTERS)
+    {
+        Task_ItemContext_Normal(taskId);
+        return;
+    }
+
     if (ItemIsMail(gSpecialVar_ItemId) == TRUE)
         DisplayItemMessage(taskId, FONT_NORMAL, gText_CantWriteMail, HandleErrorMessage);
     else if (gBagPosition.pocket != POCKET_KEY_ITEMS && !GetItemImportance(gSpecialVar_ItemId))
@@ -2551,13 +2683,14 @@ static void PrintPocketNames(const u8 *pocketName1, const u8 *pocketName2)
     struct WindowTemplate window = {0};
     u16 windowId;
     int offset;
+    u8 color1 = (gBagPosition.pocket == POCKET_ITEMS_LEG || gBagPosition.pocket == POCKET_TM_HM || gBagPosition.pocket == POCKET_BERRIES) ? COLORID_GRAY_CURSOR : COLORID_POCKET_NAME;
 
     window.width = 16;
     window.height = 2;
     windowId = AddWindow(&window);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
     offset = GetStringCenterAlignXOffset(FONT_NORMAL, pocketName1, 0x40);
-    BagMenu_Print(windowId, FONT_NORMAL, pocketName1, offset, 1, 0, 0, TEXT_SKIP_DRAW, COLORID_POCKET_NAME);
+    BagMenu_Print(windowId, FONT_NORMAL, pocketName1, offset, 1, 0, 0, TEXT_SKIP_DRAW, color1);
     if (pocketName2)
     {
         offset = GetStringCenterAlignXOffset(FONT_NORMAL, pocketName2, 0x40);

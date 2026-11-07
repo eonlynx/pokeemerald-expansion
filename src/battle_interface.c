@@ -599,14 +599,91 @@ static const union TextColor sHealthBoxTextColor =
 // The same goes for a 2 vs 1 where opponent has only one Pokémon.
 enum BattleCoordTypes GetBattlerCoordsIndex(enum BattlerId battler)
 {
-    if (GetBattlerPosition(battler) == B_POSITION_PLAYER_LEFT && gPartiesCount[B_TRAINER_PLAYER] == 1 && !(gBattleTypeFlags & BATTLE_TYPE_MULTI))
+    if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
         return BATTLE_COORDS_SINGLES;
-    else if (GetBattlerPosition(battler) == B_POSITION_OPPONENT_LEFT && gPartiesCount[B_TRAINER_OPPONENT_A] == 1 && !(gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS))
-        return BATTLE_COORDS_SINGLES;
-    else if (IsDoubleBattle())
-        return BATTLE_COORDS_DOUBLES;
-    else
-        return BATTLE_COORDS_SINGLES;
+    return BATTLE_COORDS_DOUBLES;
+}
+
+static void CreateTcgBenchHealthboxPair(u8 benchIdx, bool8 isPlayer)
+{
+    const struct SpriteTemplate *tpl = isPlayer ? &sHealthboxPlayerSpriteTemplates[1] : &sHealthboxOpponentSpriteTemplates[1];
+    u8 leftId = CreateSprite(tpl, isPlayer ? 171 : 32, isPlayer ? 101 : 44, 1);
+    u8 rightId = CreateSpriteAtEnd(tpl, isPlayer ? (171 + 64) : (32 + 64), isPlayer ? 101 : 44, 1);
+
+    gSprites[leftId].oam.affineParam = rightId;
+    gSprites[leftId].hMain_HealthBarSpriteId = SPRITE_NONE;
+    gSprites[leftId].hMain_Battler = benchIdx;
+    gSprites[leftId].invisible = TRUE;
+
+    gSprites[rightId].hOther_HealthBoxSpriteId = leftId;
+    gSprites[rightId].oam.tileNum += 32;
+    gSprites[rightId].callback = SpriteCB_HealthBoxOther;
+    gSprites[rightId].invisible = TRUE;
+
+    gHealthboxSpriteIds[benchIdx] = leftId;
+}
+
+void UpdateTcgBenchHealthboxes(void)
+{
+    if (IsDoubleBattle() || (gBattleTypeFlags & BATTLE_TYPE_SAFARI))
+        return;
+
+    for (u8 side = 0; side < 2; side++)
+    {
+        u8 benchIdx = 2 + side;
+        u8 leftId = gHealthboxSpriteIds[benchIdx];
+        if (leftId >= MAX_SPRITES || !gSprites[leftId].inUse)
+            continue;
+        u8 rightId = gSprites[leftId].oam.affineParam;
+        if (rightId >= MAX_SPRITES || !gSprites[rightId].inUse)
+            continue;
+
+        s16 saved1 = gSprites[leftId].data[1];
+        s16 saved2 = gSprites[rightId].data[1];
+        gSprites[leftId].data[1] = rightId;
+        gSprites[rightId].data[1] = SPRITE_NONE;
+
+        u8 xStart = (side == B_SIDE_PLAYER) ? 14 : 8;
+        FillSpriteRectColor(leftId, xStart, 3, 98, 22, HEALTHBOX_BG_INDEX);
+
+        if (side == B_SIDE_OPPONENT && !(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        {
+            AddSpriteTextPrinterParameterized6(leftId, FONT_SMALL_NARROW, xStart + 4, 3, 0, 0, sHealthBoxTextColor, 0, COMPOUND_STRING("(L) BAG"));
+            AddSpriteTextPrinterParameterized6(leftId, FONT_SMALL_NARROW, xStart + 4, 13, 0, 0, sHealthBoxTextColor, 0, COMPOUND_STRING("(R) RUN"));
+        }
+        else
+        {
+            enum BattleTrainer trainer = (side == B_SIDE_PLAYER) ? B_TRAINER_PLAYER : B_TRAINER_OPPONENT_A;
+            for (u8 slot = 1; slot <= 3; slot++)
+            {
+                struct Pokemon *mon = &gParties[trainer][slot];
+                u16 species = GetMonData(mon, MON_DATA_SPECIES);
+                u16 hp = GetMonData(mon, MON_DATA_HP);
+                u16 maxHp = GetMonData(mon, MON_DATA_MAX_HP);
+                if (species == SPECIES_NONE || hp == 0)
+                    continue;
+                if (gTcgBattleState.fieldTargetBlinkState
+                 && gTcgBattleState.selectedFieldSide == side
+                 && gTcgBattleState.selectedFieldSlot == slot)
+                    continue;
+
+                u8 lineBuf[32];
+                u8 nick[POKEMON_NAME_LENGTH + 1];
+                GetMonData(mon, MON_DATA_NICKNAME, nick);
+                StringGet_Nickname(nick);
+                nick[8] = EOS;
+                u8 *ptr = StringCopy(lineBuf, nick);
+                *ptr++ = CHAR_SPACE;
+                ptr = ConvertIntToDecimalStringN(ptr, hp, STR_CONV_MODE_LEFT_ALIGN, 3);
+                *ptr++ = CHAR_SLASH;
+                ptr = ConvertIntToDecimalStringN(ptr, maxHp, STR_CONV_MODE_LEFT_ALIGN, 3);
+                AddSpriteTextPrinterParameterized6(leftId, FONT_SMALL_NARROW, xStart + 2, 1 + (slot - 1) * 7, 0, 0, sHealthBoxTextColor, 0, lineBuf);
+            }
+        }
+
+        gSprites[leftId].data[1] = saved1;
+        gSprites[rightId].data[1] = saved2;
+    }
 }
 
 u8 CreateBattlerHealthboxSprites(enum BattlerId battler)
@@ -698,6 +775,14 @@ u8 CreateBattlerHealthboxSprites(enum BattlerId battler)
 
     CreateIndicatorSprite(battler);
 
+    if (!IsDoubleBattle() && !(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
+    {
+        if (IsOnPlayerSide(battler))
+            CreateTcgBenchHealthboxPair(2, TRUE);
+        else
+            CreateTcgBenchHealthboxPair(3, FALSE);
+    }
+
     gBattleStruct->ballSpriteIds[0] = MAX_SPRITES;
     gBattleStruct->ballSpriteIds[1] = MAX_SPRITES;
     gBattleStruct->moveInfoSpriteId = MAX_SPRITES;
@@ -779,17 +864,48 @@ void SetBattleBarStruct(enum BattlerId battler, u8 healthboxSpriteId, s32 maxVal
 void SetHealthboxSpriteInvisible(u8 healthboxSpriteId)
 {
     gSprites[healthboxSpriteId].invisible = TRUE;
-    gSprites[gSprites[healthboxSpriteId].hMain_HealthBarSpriteId].invisible = TRUE;
+    if (gSprites[healthboxSpriteId].hMain_HealthBarSpriteId != SPRITE_NONE)
+        gSprites[gSprites[healthboxSpriteId].hMain_HealthBarSpriteId].invisible = TRUE;
     gSprites[gSprites[healthboxSpriteId].oam.affineParam].invisible = TRUE;
     UpdateIndicatorVisibilityAndType(healthboxSpriteId, TRUE);
+
+    if (!IsDoubleBattle() && !(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
+    {
+        u8 battler = gSprites[healthboxSpriteId].hMain_Battler;
+        if (battler < 2)
+        {
+            u8 benchId = gHealthboxSpriteIds[2 + GetBattlerSide(battler)];
+            if (benchId < MAX_SPRITES && gSprites[benchId].inUse)
+            {
+                gSprites[benchId].invisible = TRUE;
+                gSprites[gSprites[benchId].oam.affineParam].invisible = TRUE;
+            }
+        }
+    }
 }
 
 void SetHealthboxSpriteVisible(u8 healthboxSpriteId)
 {
     gSprites[healthboxSpriteId].invisible = FALSE;
-    gSprites[gSprites[healthboxSpriteId].hMain_HealthBarSpriteId].invisible = FALSE;
+    if (gSprites[healthboxSpriteId].hMain_HealthBarSpriteId != SPRITE_NONE)
+        gSprites[gSprites[healthboxSpriteId].hMain_HealthBarSpriteId].invisible = FALSE;
     gSprites[gSprites[healthboxSpriteId].oam.affineParam].invisible = FALSE;
     UpdateIndicatorVisibilityAndType(healthboxSpriteId, FALSE);
+
+    if (!IsDoubleBattle() && !(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
+    {
+        u8 battler = gSprites[healthboxSpriteId].hMain_Battler;
+        if (battler < 2)
+        {
+            u8 benchId = gHealthboxSpriteIds[2 + GetBattlerSide(battler)];
+            if (benchId < MAX_SPRITES && gSprites[benchId].inUse)
+            {
+                gSprites[benchId].invisible = FALSE;
+                gSprites[gSprites[benchId].oam.affineParam].invisible = FALSE;
+                UpdateTcgBenchHealthboxes();
+            }
+        }
+    }
 }
 
 static void UpdateSpritePos(u8 spriteId, s16 x, s16 y)
@@ -836,6 +952,28 @@ void UpdateOamPriorityInAllHealthboxes(u8 priority, bool32 hideHPBoxes)
         if (B_HIDE_HEALTHBOX_IN_ANIMS == TRUE && hideHPBoxes && IsBattlerAlive(i))
             TryToggleHealboxVisibility(priority, healthboxLeftSpriteId, healthboxRightSpriteId, healthbarSpriteId);
     }
+
+    if (!IsDoubleBattle() && !(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
+    {
+        for (u8 b = 2; b < 4; b++)
+        {
+            u8 bLeft = gHealthboxSpriteIds[b];
+            if (bLeft < MAX_SPRITES && gSprites[bLeft].inUse)
+            {
+                u8 bRight = gSprites[bLeft].oam.affineParam;
+                gSprites[bLeft].oam.priority = priority;
+                if (bRight < MAX_SPRITES && gSprites[bRight].inUse)
+                    gSprites[bRight].oam.priority = priority;
+                if (B_HIDE_HEALTHBOX_IN_ANIMS == TRUE && hideHPBoxes)
+                {
+                    bool32 inv = (priority == 0);
+                    gSprites[bLeft].invisible = inv;
+                    if (bRight < MAX_SPRITES && gSprites[bRight].inUse)
+                        gSprites[bRight].invisible = inv;
+                }
+            }
+        }
+    }
 }
 
 static const s16 sBattlerHealthboxCoords[BATTLE_COORDS_COUNT][MAX_BATTLERS_COUNT][2] =
@@ -877,8 +1015,30 @@ static void UpdateLvlInHealthbox(u8 healthboxSpriteId, u8 lvl)
     enum BattlerId battler = gSprites[healthboxSpriteId].hMain_Battler;
     u32 spriteId = gSprites[healthboxSpriteId].oam.affineParam;
 
+    // In TCG Pocket: display Card ID (#122) instead of RPG Level
+    u16 cardId = GetMonCardId(GetBattlerMon(battler));
+    if (cardId == 0)
+    {
+        u16 species = GetMonData(GetBattlerMon(battler), MON_DATA_SPECIES);
+        for (u16 c = 1; c <= gTcgCardCount; c++)
+        {
+            if (gTcgCards[c].species == species)
+            {
+                cardId = c;
+                break;
+            }
+        }
+    }
+
+    if (cardId != 0)
+    {
+        text[0] = CHAR_EXTRA_SYMBOL;
+        text[1] = CHAR_NO;
+        ConvertIntToDecimalStringN(text + 2, cardId, STR_CONV_MODE_LEFT_ALIGN, 3);
+        UpdateIndicatorVisibilityAndType(healthboxSpriteId, TRUE);
+    }
     // Don't print Lv char if mon has a gimmick with an indicator active.
-    if (GetIndicatorPalTag(battler) != TAG_NONE)
+    else if (GetIndicatorPalTag(battler) != TAG_NONE)
     {
         ConvertIntToDecimalStringN(text, lvl, STR_CONV_MODE_LEFT_ALIGN, 3);
         UpdateIndicatorLevelData(healthboxSpriteId, lvl);
@@ -2139,6 +2299,7 @@ void UpdateHealthboxAttribute(u8 healthboxSpriteId, struct Pokemon *mon, u8 elem
         if (elementId == HEALTHBOX_STATUS_ICON || elementId == HEALTHBOX_ALL)
             UpdateStatusIconInHealthbox(healthboxSpriteId);
     }
+    UpdateTcgBenchHealthboxes();
 }
 
 #define B_EXPBAR_PIXELS 64

@@ -28,6 +28,7 @@
 #include "string_util.h"
 #include "task.h"
 #include "test_runner.h"
+#include "tcg.h"
 #include "trig.h"
 #include "trainer_slide.h"
 #include "window.h"
@@ -1887,6 +1888,78 @@ bool32 HandleFaintedMonActions(void)
                 if (gBattleMons[gBattleStruct->eventState.faintedActionBattler].hp == 0
                  && !(gAbsentBattlerFlags & (1u << gBattleStruct->eventState.faintedActionBattler)))
                 {
+                    u8 fBattler = gBattleStruct->eventState.faintedActionBattler;
+                    u8 side = GetBattlerSide(fBattler);
+                    u16 cardId = GetMonCardId(GetBattlerMon(fBattler));
+                    const struct TcgCardInfo *cInfo = GetTcgCardInfo(cardId);
+                    u8 points = (cInfo && cInfo->isRareShiny) ? 2 : 1;
+
+                    RecordDiscardedCard(side, cardId);
+                    DiscardEnergyFromSlot(side, 0, 99);
+
+                    if (IsOnPlayerSide(fBattler))
+                    {
+                        gTcgBattleState.opponentPrizePoints += points;
+                        if (gTcgBattleState.opponentPrizePoints >= gTcgBattleState.opponentPrizeTarget)
+                            gBattleOutcome |= B_OUTCOME_LOST;
+                    }
+                    else
+                    {
+                        gTcgBattleState.playerPrizePoints += points;
+                        if (gTcgBattleState.playerPrizePoints >= gTcgBattleState.playerPrizeTarget)
+                            gBattleOutcome |= B_OUTCOME_WON;
+
+                        // Replenish opponent Bench from their 20-card deck/hand if possible
+                        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+                        {
+                            DrawCardForOpponent();
+                            for (u8 h = 0; h < gTcgBattleState.opponentHandCount; h++)
+                            {
+                                u16 hCid = gTcgBattleState.opponentHand[h];
+                                const struct TcgCardInfo *hInfo = GetTcgCardInfo(hCid);
+                                if (hInfo && hInfo->cardType == CARD_TYPE_POKEMON_BASIC && hInfo->species != SPECIES_NONE && hCid != CARD_MYSTERIOUS_FOSSIL)
+                                {
+                                    for (u8 slot = 1; slot < MAX_FIELD_POKEMON; slot++)
+                                    {
+                                        if (GetMonData(&gParties[B_TRAINER_OPPONENT_A][slot], MON_DATA_SPECIES) == SPECIES_NONE
+                                         || GetMonData(&gParties[B_TRAINER_OPPONENT_A][slot], MON_DATA_HP) == 0)
+                                        {
+                                            CreateTempMonFromCardId(&gParties[B_TRAINER_OPPONENT_A][slot], hCid);
+                                            if (slot >= gPartiesCount[B_TRAINER_OPPONENT_A])
+                                                gPartiesCount[B_TRAINER_OPPONENT_A] = slot + 1;
+                                            for (u8 k = h; k + 1 < gTcgBattleState.opponentHandCount; k++)
+                                                gTcgBattleState.opponentHand[k] = gTcgBattleState.opponentHand[k + 1];
+                                            gTcgBattleState.opponentHand[--gTcgBattleState.opponentHandCount] = 0;
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    // TCG Pocket: Bench Out instant defeat
+                    {
+                        struct Pokemon *party = GetBattlerParty(fBattler);
+                        bool32 hasAliveMons = FALSE;
+                        for (u32 p = 0; p < MAX_FIELD_POKEMON; p++)
+                        {
+                            if (GetMonData(&party[p], MON_DATA_SPECIES) != SPECIES_NONE && GetMonData(&party[p], MON_DATA_HP) > 0)
+                            {
+                                hasAliveMons = TRUE;
+                                break;
+                            }
+                        }
+                        if (!hasAliveMons)
+                        {
+                            if (IsOnPlayerSide(fBattler))
+                                gBattleOutcome |= B_OUTCOME_LOST;
+                            else
+                                gBattleOutcome |= B_OUTCOME_WON;
+                        }
+                    }
+
                     BattleScriptExecute(BattleScript_HandleFaintedMon);
                     gBattleStruct->eventState.faintedAction = FAINTED_ACTIONS_HANDLE_NEXT_BATTLER;
                     return TRUE;
@@ -4922,38 +4995,8 @@ enum Ability GetBattlerAbility(enum BattlerId battler)
 
 enum Ability GetBattlerAbilityInternal(enum BattlerId battler, bool32 ignoreMoldBreaker, bool32 noAbilityShield)
 {
-    bool32 hasAbilityShield = !noAbilityShield && GetBattlerHoldEffectIgnoreAbility(battler) == HOLD_EFFECT_ABILITY_SHIELD;
-    bool32 abilityCantBeSuppressed = gAbilitiesInfo[gBattleMons[battler].ability].cantBeSuppressed;
-
-    if (gBattleStruct->battlerState[battler].notOnField || gSpecialStatuses[battler].attackerInParty)
-        return ABILITY_NONE;
-
-    if (abilityCantBeSuppressed)
-    {
-        // Edge case: Pokémon under the effect of gastro acid transforms into a Pokémon with Comatose (Todo: verify how other unsuppressable abilities behave)
-        if (gBattleMons[battler].volatiles.transformed
-            && gBattleMons[battler].volatiles.gastroAcid
-            && gBattleMons[battler].ability == ABILITY_COMATOSE)
-                return ABILITY_NONE;
-
-        if (CanBreakThroughAbility(gBattlerAttacker, battler, hasAbilityShield, ignoreMoldBreaker))
-            return ABILITY_NONE;
-
-        return gBattleMons[battler].ability;
-    }
-
-    if (gBattleMons[battler].volatiles.gastroAcid)
-        return ABILITY_NONE;
-
-    if (!hasAbilityShield
-     && IsNeutralizingGasOnField()
-     && (gBattleMons[battler].ability != ABILITY_NEUTRALIZING_GAS || gBattleMons[battler].volatiles.gastroAcid))
-        return ABILITY_NONE;
-
-    if (CanBreakThroughAbility(gBattlerAttacker, battler, hasAbilityShield, ignoreMoldBreaker))
-        return ABILITY_NONE;
-
-    return gBattleMons[battler].ability;
+    // TCG Pocket: Passive abilities are replaced by active Pokémon Powers
+    return ABILITY_NONE;
 }
 
 u32 IsAbilityOnSide(enum BattlerId battler, enum Ability ability)
@@ -5732,35 +5775,8 @@ enum HoldEffect GetBattlerHoldEffectIgnoreAbility(enum BattlerId battler)
 
 enum HoldEffect GetBattlerHoldEffectInternal(enum BattlerId battler, enum Ability ability)
 {
-    enum HoldEffect holdEffect;
-
-    if (gBattleStruct->battlerState[battler].notOnField)
-        return HOLD_EFFECT_NONE;
-    if (gSpecialStatuses[battler].attackerInParty)
-        return HOLD_EFFECT_NONE;
-
-    if (gBattleMons[battler].volatiles.embargoTimer
-     || gFieldStatuses & STATUS_FIELD_MAGIC_ROOM
-     || (ability == ABILITY_KLUTZ && !gBattleMons[battler].volatiles.gastroAcid))
-    {
-        if (gBattleMons[battler].item == ITEM_ENIGMA_BERRY_E_READER)
-            holdEffect = gEnigmaBerries[battler].holdEffect;
-        else
-            holdEffect = GetItemHoldEffect(gBattleMons[battler].item);
-
-        if (holdEffect == HOLD_EFFECT_DOUBLE_PRIZE)
-        {
-            gPotentialItemEffectBattler = battler;
-            return holdEffect;
-        }
-        return HOLD_EFFECT_NONE;
-    }
-
-    gPotentialItemEffectBattler = battler;
-    if (gBattleMons[battler].item == ITEM_ENIGMA_BERRY_E_READER)
-        return gEnigmaBerries[battler].holdEffect;
-    else
-        return GetItemHoldEffect(gBattleMons[battler].item);
+    // TCG Pocket: No held items active in battle (Trainer items used from Hand)
+    return HOLD_EFFECT_NONE;
 }
 
 enum HoldEffect GetBattlerHoldEffectIgnoreNegation(enum BattlerId battler)
@@ -7688,6 +7704,22 @@ static inline s32 DoMoveDamageCalcVars(struct DamageContext *ctx)
     s32 dmg;
     u32 userFinalAttack;
     u32 targetFinalDefense;
+    u16 cardIdAtk = GetMonCardId(GetBattlerMon(ctx->battlerAtk));
+    const struct TcgCardInfo *infoAtk = GetTcgCardInfo(cardIdAtk);
+
+    // TCG Pocket: deterministic card damage
+    if (infoAtk != NULL)
+    {
+        if (ctx->move == infoAtk->move1)
+            dmg = infoAtk->move1Damage;
+        else if (ctx->move == infoAtk->move2)
+            dmg = infoAtk->move2Damage;
+        else
+            dmg = 0;
+
+        dmg = ApplyModifiersAfterDmgRoll(ctx, dmg);
+        return dmg;
+    }
 
     if (ctx->fixedBasePower)
         gBattleMovePower = ctx->fixedBasePower;
@@ -7728,14 +7760,249 @@ static inline s32 DoMoveDamageCalcVars(struct DamageContext *ctx)
 
 s32 ApplyModifiersAfterDmgRoll(struct DamageContext *ctx, s32 dmg)
 {
-    if (GetActiveGimmick(ctx->battlerAtk) == GIMMICK_TERA)
-        DAMAGE_APPLY_MODIFIER(GetTeraMultiplier(ctx));
-    else
-        DAMAGE_APPLY_MODIFIER(GetSameTypeAttackBonusModifier(ctx));
-    DAMAGE_APPLY_MODIFIER(ctx->typeEffectivenessModifier);
-    DAMAGE_APPLY_MODIFIER(GetBurnOrFrostBiteModifier(ctx));
-    DAMAGE_APPLY_MODIFIER(GetMoveAgainstProtectionModifier(ctx));
-    DAMAGE_APPLY_MODIFIER(GetOtherModifiers(ctx));
+    u16 cardIdAtk = GetMonCardId(GetBattlerMon(ctx->battlerAtk));
+    u16 cardIdDef = GetMonCardId(GetBattlerMon(ctx->battlerDef));
+    const struct TcgCardInfo *infoAtk = GetTcgCardInfo(cardIdAtk);
+    const struct TcgCardInfo *infoDef = GetTcgCardInfo(cardIdDef);
+
+    // TCG Pocket: Weakness adds flat +20 damage only to active Pokémon (never bench) and only if base damage > 0
+    if (dmg > 0 && ctx->battlerDef == gBattlerTarget)
+    {
+        if (infoAtk && infoDef && infoDef->weaknessType != NUM_ENERGY_TYPES)
+        {
+            if (infoAtk->energyType == infoDef->weaknessType)
+                dmg += 20;
+        }
+
+        // TCG Pocket PlusPower: +10 damage on next attack
+        if (gTcgBattleState.plusPowerBonus[ctx->battlerAtk] > 0)
+        {
+            dmg += gTcgBattleState.plusPowerBonus[ctx->battlerAtk];
+            if (!ctx->aiCalc)
+                gTcgBattleState.plusPowerBonus[ctx->battlerAtk] = 0;
+        }
+
+        // TCG Pocket Defender: -20 damage received
+        if (gTcgBattleState.defenderBonus[ctx->battlerDef] > 0)
+        {
+            dmg -= gTcgBattleState.defenderBonus[ctx->battlerDef];
+            if (dmg < 0)
+                dmg = 0;
+        }
+    }
+
+    if (ctx->aiCalc)
+        return dmg;
+
+    // TCG Pocket 1:1 Move Effects (execute for damaging and non-damaging moves)
+    switch (GetMoveEffect(ctx->move))
+    {
+    case EFFECT_TCG_COIN_DAMAGE_BONUS:
+        if (Random() % 2 == 0)
+        {
+            dmg += 20;
+            PrepareStringBattle(STRINGID_TCG_COIN_HEADS, ctx->battlerAtk);
+        }
+        else
+        {
+            PrepareStringBattle(STRINGID_TCG_COIN_TAILS, ctx->battlerAtk);
+        }
+        break;
+    case EFFECT_TCG_SELF_DAMAGE_COIN:
+        if (Random() % 2 != 0)
+        {
+            PrepareStringBattle(STRINGID_TCG_COIN_TAILS, ctx->battlerAtk);
+            if (gBattleMons[ctx->battlerAtk].hp > 20)
+                gBattleMons[ctx->battlerAtk].hp -= 20;
+            else
+                gBattleMons[ctx->battlerAtk].hp = 1;
+            SetMonData(GetBattlerMon(ctx->battlerAtk), MON_DATA_HP, &gBattleMons[ctx->battlerAtk].hp);
+        }
+        else
+        {
+            PrepareStringBattle(STRINGID_TCG_COIN_HEADS, ctx->battlerAtk);
+        }
+        break;
+    case EFFECT_TCG_DISCARD_USER_ENERGY:
+        DiscardEnergyFromSlot(GetBattlerSide(ctx->battlerAtk), 0, 1);
+        break;
+    case EFFECT_TCG_DISCARD_TARGET_ENERGY:
+        DiscardEnergyFromSlot(GetBattlerSide(ctx->battlerDef), 0, 1);
+        break;
+    case EFFECT_TCG_BENCH_SNIPER:
+        {
+            struct Pokemon *targetParty = gParties[(GetBattlerSide(ctx->battlerDef) == B_SIDE_PLAYER) ? B_TRAINER_PLAYER : B_TRAINER_OPPONENT_A];
+            for (u32 b = 1; b < MAX_FIELD_POKEMON; b++)
+            {
+                u16 bHp = GetMonData(&targetParty[b], MON_DATA_HP);
+                if (GetMonData(&targetParty[b], MON_DATA_SPECIES) != SPECIES_NONE && bHp > 0)
+                {
+                    u16 newHp = (bHp > 10) ? bHp - 10 : 0;
+                    SetMonData(&targetParty[b], MON_DATA_HP, &newHp);
+                    if (newHp == 0)
+                    {
+                        u8 defSide = GetBattlerSide(ctx->battlerDef);
+                        u16 bCid = GetMonCardId(&targetParty[b]);
+                        const struct TcgCardInfo *bInfo = GetTcgCardInfo(bCid);
+                        u8 pts = (bInfo && bInfo->isRareShiny) ? 2 : 1;
+                        RecordDiscardedCard(defSide, bCid);
+                        DiscardEnergyFromSlot(defSide, b, 99);
+                        ZeroMonData(&targetParty[b]);
+                        if (defSide == B_SIDE_PLAYER)
+                        {
+                            gTcgBattleState.opponentPrizePoints += pts;
+                            if (gTcgBattleState.opponentPrizePoints >= gTcgBattleState.opponentPrizeTarget)
+                                gBattleOutcome |= B_OUTCOME_LOST;
+                        }
+                        else
+                        {
+                            gTcgBattleState.playerPrizePoints += pts;
+                            if (gTcgBattleState.playerPrizePoints >= gTcgBattleState.playerPrizeTarget)
+                                gBattleOutcome |= B_OUTCOME_WON;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        break;
+    case EFFECT_TCG_SHIELD_NEXT_TURN:
+        gTcgBattleState.defenderBonus[ctx->battlerAtk] += 20;
+        break;
+    case EFFECT_TCG_MULTI_COIN_HIT:
+        {
+            u32 heads = 0;
+            u32 baseHit = (dmg > 0) ? dmg : 20;
+            for (u32 c = 0; c < 3; c++)
+            {
+                if (Random() % 2 == 0)
+                    heads++;
+            }
+            if (heads > 0)
+                PrepareStringBattle(STRINGID_TCG_COIN_HEADS, ctx->battlerAtk);
+            else
+                PrepareStringBattle(STRINGID_TCG_COIN_TAILS, ctx->battlerAtk);
+            dmg = baseHit * heads;
+        }
+        break;
+    case EFFECT_TCG_FORCE_SWITCH:
+        {
+            u8 defSide = GetBattlerSide(ctx->battlerDef);
+            struct Pokemon *targetParty = gParties[(defSide == B_SIDE_PLAYER) ? B_TRAINER_PLAYER : B_TRAINER_OPPONENT_A];
+            for (u32 b = 1; b < MAX_FIELD_POKEMON; b++)
+            {
+                if (GetMonData(&targetParty[b], MON_DATA_SPECIES) != SPECIES_NONE && GetMonData(&targetParty[b], MON_DATA_HP) > 0)
+                {
+                    u32 zeroStatus = 0;
+                    SetMonData(&targetParty[0], MON_DATA_STATUS, &zeroStatus);
+                    struct Pokemon temp = targetParty[0];
+                    targetParty[0] = targetParty[b];
+                    targetParty[b] = temp;
+                    SwapSlotEnergies(defSide, 0, b);
+                    SyncBattlerStructFromPartyMon(ctx->battlerDef);
+                    break;
+                }
+            }
+        }
+        break;
+    case EFFECT_TCG_SELFDESTRUCT:
+        if (gBattleMons[ctx->battlerAtk].hp > 20)
+            gBattleMons[ctx->battlerAtk].hp -= 20;
+        else
+            gBattleMons[ctx->battlerAtk].hp = 0;
+        SetMonData(GetBattlerMon(ctx->battlerAtk), MON_DATA_HP, &gBattleMons[ctx->battlerAtk].hp);
+        break;
+    case EFFECT_TCG_HEAL_USER:
+        {
+            u16 maxHp = gBattleMons[ctx->battlerAtk].maxHP;
+            if (gBattleMons[ctx->battlerAtk].hp + 20 <= maxHp)
+                gBattleMons[ctx->battlerAtk].hp += 20;
+            else
+                gBattleMons[ctx->battlerAtk].hp = maxHp;
+            SetMonData(GetBattlerMon(ctx->battlerAtk), MON_DATA_HP, &gBattleMons[ctx->battlerAtk].hp);
+        }
+        break;
+    case EFFECT_TCG_DISABLE_MOVE:
+        gBattleMons[ctx->battlerDef].volatiles.disabledMove = gBattleMons[ctx->battlerDef].moves[0];
+        gBattleMons[ctx->battlerDef].volatiles.disableTimer = 2;
+        break;
+    case EFFECT_TCG_BLIND_TARGET:
+        if (gBattleMons[ctx->battlerDef].statStages[STAT_ACC] > 0)
+            gBattleMons[ctx->battlerDef].statStages[STAT_ACC]--;
+        break;
+    case EFFECT_TCG_INFLICT_POISON:
+        if (gBattleMons[ctx->battlerDef].status1 == 0)
+        {
+            gBattleMons[ctx->battlerDef].status1 = STATUS1_POISON;
+            SetMonData(GetBattlerMon(ctx->battlerDef), MON_DATA_STATUS, &gBattleMons[ctx->battlerDef].status1);
+        }
+        break;
+    case EFFECT_TCG_INFLICT_SLEEP:
+        if (gBattleMons[ctx->battlerDef].status1 == 0)
+        {
+            gBattleMons[ctx->battlerDef].status1 = STATUS1_SLEEP_TURN(2);
+            SetMonData(GetBattlerMon(ctx->battlerDef), MON_DATA_STATUS, &gBattleMons[ctx->battlerDef].status1);
+        }
+        break;
+    case EFFECT_TCG_INFLICT_PARALYSIS:
+        if ((Random() & 1) && gBattleMons[ctx->battlerDef].status1 == 0)
+        {
+            gBattleMons[ctx->battlerDef].status1 = STATUS1_PARALYSIS;
+            SetMonData(GetBattlerMon(ctx->battlerDef), MON_DATA_STATUS, &gBattleMons[ctx->battlerDef].status1);
+            PrepareStringBattle(STRINGID_TCG_COIN_HEADS, ctx->battlerAtk);
+        }
+        else
+        {
+            PrepareStringBattle(STRINGID_TCG_COIN_TAILS, ctx->battlerAtk);
+        }
+        break;
+    case EFFECT_TCG_INFLICT_CONFUSION:
+        if (Random() & 1)
+        {
+            gBattleMons[ctx->battlerDef].volatiles.confusionTimer = 3;
+            PrepareStringBattle(STRINGID_TCG_COIN_HEADS, ctx->battlerAtk);
+        }
+        else
+        {
+            PrepareStringBattle(STRINGID_TCG_COIN_TAILS, ctx->battlerAtk);
+        }
+        break;
+    case EFFECT_TCG_INFLICT_BURN:
+        if ((Random() & 1) && gBattleMons[ctx->battlerDef].status1 == 0)
+        {
+            gBattleMons[ctx->battlerDef].status1 = STATUS1_BURN;
+            SetMonData(GetBattlerMon(ctx->battlerDef), MON_DATA_STATUS, &gBattleMons[ctx->battlerDef].status1);
+            PrepareStringBattle(STRINGID_TCG_COIN_HEADS, ctx->battlerAtk);
+        }
+        else
+        {
+            PrepareStringBattle(STRINGID_TCG_COIN_TAILS, ctx->battlerAtk);
+        }
+        break;
+    case EFFECT_TCG_DRAW_CARD:
+        if (GetBattlerSide(ctx->battlerAtk) == B_SIDE_PLAYER)
+            DrawCardForPlayer();
+        else
+            DrawCardForOpponent();
+        break;
+    case EFFECT_TCG_ENERGY_BOOST:
+        {
+            u8 atkSide = GetBattlerSide(ctx->battlerAtk);
+            u8 extraEnergies = gTcgBattleState.activeEnergyCount[atkSide];
+            dmg += extraEnergies * 10;
+        }
+        break;
+    case EFFECT_TCG_RAGE_DAMAGE_BOOST:
+        {
+            u16 maxHp = gBattleMons[ctx->battlerAtk].maxHP;
+            u16 curHp = gBattleMons[ctx->battlerAtk].hp;
+            if (maxHp > curHp)
+                dmg += ((maxHp - curHp) / 10) * 10;
+        }
+        break;
+    default:
+        break;
+    }
 
     return dmg;
 }
@@ -8363,23 +8630,11 @@ static inline bool32 MoveIgnoresType(struct DamageContext *ctx)
 
 uq4_12_t CalcTypeEffectivenessMultiplier(struct DamageContext *ctx)
 {
+    // TCG Pocket: Weakness (+20 flat) is applied in ApplyModifiersAfterDmgRoll;
+    // RPG type immunities and multipliers do not apply.
     uq4_12_t modifier = UQ_4_12(1.0);
-
-    if (!MoveIgnoresType(ctx))
-    {
-        modifier = CalcTypeEffectivenessMultiplierInternal(ctx, modifier);
-        if (GetMoveEffect(ctx->move) == EFFECT_TWO_TYPED_MOVE && !ctx->isAnticipation)
-        {
-            enum Type primaryType = ctx->moveType;
-
-            ctx->moveType = GetMoveArgType(ctx->move);
-            modifier = CalcTypeEffectivenessMultiplierInternal(ctx, modifier);
-            ctx->moveType = primaryType;
-        }
-    }
-
     if (ctx->updateFlags)
-        UpdateMoveResultFlags(modifier, &gBattleStruct->moveResultFlags[ctx->battlerDef]);
+        gBattleStruct->moveResultFlags[ctx->battlerDef] &= ~(MOVE_RESULT_DOESNT_AFFECT_FOE | MOVE_RESULT_SUPER_EFFECTIVE | MOVE_RESULT_NOT_VERY_EFFECTIVE);
     return modifier;
 }
 

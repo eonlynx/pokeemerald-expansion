@@ -1,4 +1,5 @@
 #include "global.h"
+#include "tcg.h"
 #include "berry.h"
 #include "decompress.h"
 #include "graphics.h"
@@ -9,6 +10,8 @@
 #include "malloc.h"
 #include "menu_helpers.h"
 #include "menu.h"
+#include "pokemon.h"
+#include "pokemon_icon.h"
 #include "sprite.h"
 #include "window.h"
 #include "util.h"
@@ -90,12 +93,15 @@ static const union AnimCmd sSpriteAnim_Bag_Berries[] =
 
 static const union AnimCmd *const sBagSpriteAnimTable[] =
 {
-    [POCKET_ITEMS]      = sSpriteAnim_Bag_Items,
-    [POCKET_POKE_BALLS] = sSpriteAnim_Bag_Pokeballs,
-    [POCKET_TM_HM]      = sSpriteAnim_Bag_TMsHMs,
-    [POCKET_BERRIES]    = sSpriteAnim_Bag_Berries,
-    [POCKET_KEY_ITEMS]  = sSpriteAnim_Bag_KeyItems,
-    [POCKET_DUMMY]       = sSpriteAnim_Bag_Closed,
+    [POCKET_TCG_POKEMON]    = sSpriteAnim_Bag_Items,
+    [POCKET_TCG_ITEMS]      = sSpriteAnim_Bag_Items,
+    [POCKET_TCG_SUPPORTERS] = sSpriteAnim_Bag_Items,
+    [POCKET_POKE_BALLS]     = sSpriteAnim_Bag_Pokeballs,
+    [POCKET_KEY_ITEMS]      = sSpriteAnim_Bag_KeyItems,
+    [POCKET_ITEMS_LEG]      = sSpriteAnim_Bag_Items,
+    [POCKET_TM_HM]          = sSpriteAnim_Bag_TMsHMs,
+    [POCKET_BERRIES]        = sSpriteAnim_Bag_Berries,
+    [POCKET_DUMMY]          = sSpriteAnim_Bag_Closed,
 };
 
 static const union AffineAnimCmd sSpriteAffineAnim_BagNormal[] =
@@ -471,12 +477,57 @@ void AddBagItemIconSprite(enum Item itemId, u8 id)
     u8 *spriteId = &gBagMenu->spriteIds[id + ITEMMENUSPRITE_ITEM];
     if (*spriteId == SPRITE_NONE)
     {
-        u8 iconSpriteId;
+        u8 iconSpriteId = MAX_SPRITES;
+        enum Item iconItem = itemId;
 
         // Either TAG_ITEM_ICON or TAG_ITEM_ICON_ALT
         FreeSpriteTilesByTag(id + TAG_ITEM_ICON);
         FreeSpritePaletteByTag(id + TAG_ITEM_ICON);
-        iconSpriteId = AddItemIconSprite(id + TAG_ITEM_ICON, id + TAG_ITEM_ICON, itemId);
+
+        if (itemId != ITEM_LIST_END && gBagPosition.pocket == POCKET_TCG_POKEMON)
+        {
+            const struct TcgCardInfo *cardInfo = GetTcgCardInfo(itemId);
+            if (cardInfo != NULL && cardInfo->species != SPECIES_NONE)
+            {
+                struct SpriteSheet spriteSheet = {
+                    .data = GetMonIconTiles(cardInfo->species, FALSE),
+                    .size = 0x200,
+                    .tag = id + TAG_ITEM_ICON,
+                };
+                struct SpritePalette spritePalette = {
+                    .data = gMonIconPaletteTable[gSpeciesInfo[cardInfo->species].iconPalIndex].data,
+                    .tag = id + TAG_ITEM_ICON,
+                };
+                struct SpriteTemplate spriteTemplate = gItemIconSpriteTemplate;
+                spriteTemplate.tileTag = id + TAG_ITEM_ICON;
+                spriteTemplate.paletteTag = id + TAG_ITEM_ICON;
+                LoadSpriteSheet(&spriteSheet);
+                LoadSpritePalette(&spritePalette);
+                iconSpriteId = CreateSpriteUnchecked(&spriteTemplate, 0, 0, 0);
+            }
+            else if (cardInfo != NULL && cardInfo->equivItemId != ITEM_NONE)
+            {
+                iconItem = cardInfo->equivItemId;
+                iconSpriteId = AddItemIconSprite(id + TAG_ITEM_ICON, id + TAG_ITEM_ICON, iconItem);
+            }
+            else
+            {
+                iconSpriteId = AddItemIconSprite(id + TAG_ITEM_ICON, id + TAG_ITEM_ICON, ITEM_POKE_BALL);
+            }
+        }
+        else if (itemId != ITEM_LIST_END
+              && (gBagPosition.pocket == POCKET_TCG_ITEMS || gBagPosition.pocket == POCKET_TCG_SUPPORTERS))
+        {
+            const struct TcgCardInfo *cardInfo = GetTcgCardInfo(itemId);
+            if (cardInfo != NULL && cardInfo->equivItemId != ITEM_NONE)
+                iconItem = cardInfo->equivItemId;
+            iconSpriteId = AddItemIconSprite(id + TAG_ITEM_ICON, id + TAG_ITEM_ICON, iconItem);
+        }
+        else
+        {
+            iconSpriteId = AddItemIconSprite(id + TAG_ITEM_ICON, id + TAG_ITEM_ICON, iconItem);
+        }
+
         if (iconSpriteId != MAX_SPRITES)
         {
             *spriteId = iconSpriteId;

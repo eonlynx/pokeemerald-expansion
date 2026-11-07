@@ -2,8 +2,8 @@
 #define GUARD_POKEMON_STORAGE_SYSTEM_H
 
 #define TOTAL_BOXES_COUNT       14
-#define IN_BOX_ROWS             5 // Number of rows, 6 Pokémon per row
-#define IN_BOX_COLUMNS          6 // Number of columns, 5 Pokémon per column
+#define IN_BOX_ROWS             4 // 4 rows
+#define IN_BOX_COLUMNS          5 // 5 columns (5x4 = 20 cards)
 #define IN_BOX_COUNT            (IN_BOX_ROWS * IN_BOX_COLUMNS)
 #define BOX_NAME_LENGTH         8
 #define MAX_FUSION_STORAGE      4
@@ -69,6 +69,7 @@ void SetWaldaPhrase(const u8 *src);
 bool32 IsWaldaPhraseEmpty(void);
 
 void ChooseMonFromStorage();
+void ShowDeckStorageSystem(void (*exitCallback)(void));
 u32 CountPartyNonEggMons(void);
 void RemoveSelectedPcMon(struct Pokemon *mon);
 

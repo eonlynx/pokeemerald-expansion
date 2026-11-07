@@ -18,6 +18,8 @@
 #include "graphics.h"
 #include "international_string_util.h"
 #include "item.h"
+#include "item_icon.h"
+#include "item_menu_icons.h"
 #include "link.h"
 #include "m4a.h"
 #include "malloc.h"
@@ -33,6 +35,7 @@
 #include "pokemon_sprite_visualizer.h"
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
+#include "tcg.h"
 #include "pokerus.h"
 #include "region_map.h"
 #include "scanline_effect.h"
@@ -1889,15 +1892,30 @@ static void ShowMonSkillsInfo(u8 taskId, s16 mode)
 
 void ExtractMonSkillStatsData(struct Pokemon *mon, struct PokeSummary *sum)
 {
+    u16 cardId = GetMonCardId(mon);
+    const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
+
     sum->nature = GetNature(mon);
     sum->mintNature = GetMonData(mon, MON_DATA_HIDDEN_NATURE);
     sum->currentHP = GetMonData(mon, MON_DATA_HP);
-    sum->maxHP = GetMonData(mon, MON_DATA_MAX_HP);
-    sum->atk = GetMonData(mon, MON_DATA_ATK);
-    sum->def = GetMonData(mon, MON_DATA_DEF);
-    sum->spatk = GetMonData(mon, MON_DATA_SPATK);
-    sum->spdef = GetMonData(mon, MON_DATA_SPDEF);
-    sum->speed = GetMonData(mon, MON_DATA_SPEED);
+    if (cardInfo != NULL && cardInfo->maxHp > 0)
+    {
+        sum->maxHP = cardInfo->maxHp;
+        sum->atk = cardInfo->move1Damage;
+        sum->def = cardInfo->move2Damage;
+        sum->spatk = cardInfo->retreatCost;
+        sum->spdef = (cardInfo->weaknessType < NUM_ENERGY_TYPES) ? 20 : 0;
+        sum->speed = cardInfo->isRareShiny ? 2 : 1;
+    }
+    else
+    {
+        sum->maxHP = GetMonData(mon, MON_DATA_MAX_HP);
+        sum->atk = GetMonData(mon, MON_DATA_ATK);
+        sum->def = GetMonData(mon, MON_DATA_DEF);
+        sum->spatk = GetMonData(mon, MON_DATA_SPATK);
+        sum->spdef = GetMonData(mon, MON_DATA_SPDEF);
+        sum->speed = GetMonData(mon, MON_DATA_SPEED);
+    }
 }
 
 void ExtractMonSkillIvData(struct Pokemon *mon, struct PokeSummary *sum)
@@ -2092,12 +2110,19 @@ static s8 AdvanceMonIndex(s8 delta)
     {
         s8 index = sMonSummaryScreen->curMonIndex;
 
-        do
+        while (TRUE)
         {
+            u16 cid;
+            const struct TcgCardInfo *cinfo;
             index += delta;
             if (index < 0 || index > sMonSummaryScreen->maxMonIndex)
                 return -1;
-        } while (GetMonData(&mon[index], MON_DATA_IS_EGG));
+            cid = GetMonCardId(&mon[index]);
+            cinfo = GetTcgCardInfo(cid);
+            if (!GetMonData(&mon[index], MON_DATA_IS_EGG)
+             && !(cinfo != NULL && (cinfo->cardType == CARD_TYPE_TRAINER_ITEM || cinfo->cardType == CARD_TYPE_TRAINER_SUPPORTER)))
+                break;
+        }
         return index;
     }
 }
@@ -2145,8 +2170,12 @@ static void ChangePage(u8 taskId, s8 delta)
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     s16 *data = gTasks[taskId].data;
     u32 currPageIndex;
+    u16 cardId = GetMonCardId(&sMonSummaryScreen->currentMon);
+    const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
 
     if (summary->isEgg)
+        return;
+    else if (cardInfo != NULL && (cardInfo->cardType == CARD_TYPE_TRAINER_ITEM || cardInfo->cardType == CARD_TYPE_TRAINER_SUPPORTER))
         return;
     else if (delta == -1 && sMonSummaryScreen->currPageIndex == sMonSummaryScreen->minPageIndex)
         return;
@@ -3130,9 +3159,13 @@ static void DrawContestMoveHearts(enum Move move)
     }
 }
 
-static void LimitEggSummaryPageDisplay(void) // If the Pokémon is an egg, limit the number of pages displayed to 1
+static void LimitEggSummaryPageDisplay(void) // If the Pokémon is an egg or Trainer card, limit the number of pages displayed to 1
 {
-    if (sMonSummaryScreen->summary.isEgg)
+    u16 cardId = GetMonCardId(&sMonSummaryScreen->currentMon);
+    const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
+    bool8 isTrainerCard = (cardInfo != NULL && (cardInfo->cardType == CARD_TYPE_TRAINER_ITEM || cardInfo->cardType == CARD_TYPE_TRAINER_SUPPORTER));
+
+    if (sMonSummaryScreen->summary.isEgg || isTrainerCard)
         ChangeBgX(3, 0x10000, BG_COORD_SET);
     else
         ChangeBgX(3, 0, BG_COORD_SET);
@@ -3215,15 +3248,35 @@ static void PrintNotEggInfo(void)
         else
             SetMonPicBackgroundPalette(TRUE);
     }
-    StringCopy(gStringVar1, gText_LevelSymbol);
-    ConvertIntToDecimalStringN(gStringVar2, summary->level, STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringAppend(gStringVar1, gStringVar2);
+    u16 cardId = GetMonCardId(mon);
+    const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
+    if (cardId != 0)
+    {
+        ConvertIntToDecimalStringN(gStringVar2, cardId, STR_CONV_MODE_LEADING_ZEROS, 3);
+        StringCopy(gStringVar1, gText_Number);
+        StringAppend(gStringVar1, gStringVar2);
+    }
+    else
+    {
+        StringCopy(gStringVar1, gText_LevelSymbol);
+        ConvertIntToDecimalStringN(gStringVar2, summary->level, STR_CONV_MODE_LEFT_ALIGN, 3);
+        StringAppend(gStringVar1, gStringVar2);
+    }
     PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, gStringVar1, 24, 17, 0, 1);
     GetMonNickname(mon, gStringVar1);
     PrintTextOnWindowToFitPx(PSS_LABEL_WINDOW_PORTRAIT_NICKNAME, gStringVar1, 0, 1, 0, 1, WindowWidthPx(PSS_LABEL_WINDOW_PORTRAIT_NICKNAME) - 9);
     PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, gText_Slash, 0, 1, 0, 1);
-    PrintTextOnWindowToFitPx(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, GetSpeciesName(summary->species2), 6, 1, 0, 1, WindowWidthPx(PSS_LABEL_WINDOW_PORTRAIT_SPECIES) - 9);
-    PrintGenderSymbol(mon, summary->species2);
+    if (cardInfo != NULL && (cardInfo->cardType == CARD_TYPE_TRAINER_ITEM || cardInfo->cardType == CARD_TYPE_TRAINER_SUPPORTER))
+    {
+        PrintTextOnWindowToFitPx(PSS_LABEL_WINDOW_PORTRAIT_SPECIES,
+            (cardInfo->cardType == CARD_TYPE_TRAINER_ITEM) ? COMPOUND_STRING("ITEM") : COMPOUND_STRING("SUPPORTER"),
+            6, 1, 0, 1, WindowWidthPx(PSS_LABEL_WINDOW_PORTRAIT_SPECIES) - 9);
+    }
+    else
+    {
+        PrintTextOnWindowToFitPx(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, GetSpeciesName(summary->species2), 6, 1, 0, 1, WindowWidthPx(PSS_LABEL_WINDOW_PORTRAIT_SPECIES) - 9);
+        PrintGenderSymbol(mon, summary->species2);
+    }
     PutWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_NICKNAME);
     PutWindowTilemap(PSS_LABEL_WINDOW_PORTRAIT_SPECIES);
 }
@@ -3279,18 +3332,18 @@ static void PrintPageNamesAndStats(void)
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_INFO_TYPE, gText_TypeSlash, 0, 1, 0, 0);
     statsXPos = 6 + GetStringCenterAlignXOffset(FONT_NORMAL, gText_HP4, 42);
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_LEFT, gText_HP4, statsXPos, 1, 0, 1);
-    statsXPos = 6 + GetStringCenterAlignXOffset(FONT_NORMAL, gText_Attack3, 42);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_LEFT, gText_Attack3, statsXPos, 17, 0, 1);
-    statsXPos = 6 + GetStringCenterAlignXOffset(FONT_NORMAL, gText_Defense3, 42);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_LEFT, gText_Defense3, statsXPos, 33, 0, 1);
-    statsXPos = 2 + GetStringCenterAlignXOffset(FONT_NORMAL, gText_SpAtk4, 36);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, gText_SpAtk4, statsXPos, 1, 0, 1);
-    statsXPos = 2 + GetStringCenterAlignXOffset(FONT_NORMAL, gText_SpDef4, 36);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, gText_SpDef4, statsXPos, 17, 0, 1);
-    statsXPos = 2 + GetStringCenterAlignXOffset(FONT_NORMAL, gText_Speed2, 36);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, gText_Speed2, statsXPos, 33, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, gText_ExpPoints, 6, 1, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, gText_NextLv, 6, 17, 0, 1);
+    statsXPos = 6 + GetStringCenterAlignXOffset(FONT_NORMAL, COMPOUND_STRING("MOVE 1"), 42);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_LEFT, COMPOUND_STRING("MOVE 1"), statsXPos, 17, 0, 1);
+    statsXPos = 6 + GetStringCenterAlignXOffset(FONT_NORMAL, COMPOUND_STRING("MOVE 2"), 42);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_LEFT, COMPOUND_STRING("MOVE 2"), statsXPos, 33, 0, 1);
+    statsXPos = 2 + GetStringCenterAlignXOffset(FONT_NORMAL, COMPOUND_STRING("RETRT"), 36);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, COMPOUND_STRING("RETRT"), statsXPos, 1, 0, 1);
+    statsXPos = 2 + GetStringCenterAlignXOffset(FONT_NORMAL, COMPOUND_STRING("WEAK"), 36);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, COMPOUND_STRING("WEAK"), statsXPos, 17, 0, 1);
+    statsXPos = 2 + GetStringCenterAlignXOffset(FONT_NORMAL, COMPOUND_STRING("PRIZE"), 36);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, COMPOUND_STRING("PRIZE"), statsXPos, 33, 0, 1);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, COMPOUND_STRING("CARD ID"), 6, 1, 0, 1);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, COMPOUND_STRING("BAG OWN"), 6, 17, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATUS, gText_Status, 2, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gText_Power, 0, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gText_Accuracy2, 0, 17, 0, 1);
@@ -3448,8 +3501,133 @@ static void CreateTextPrinterTask(u8 pageIndex)
     CreateTask(sTextPrinterTasks[pageIndex], 16);
 }
 
+static const u8 sTcgEnergyNames[][12] = {
+    [ENERGY_GRASS]     = _("GRASS"),
+    [ENERGY_FIRE]      = _("FIRE"),
+    [ENERGY_WATER]     = _("WATER"),
+    [ENERGY_LIGHTNING] = _("LIGHTNING"),
+    [ENERGY_PSYCHIC]   = _("PSYCHIC"),
+    [ENERGY_FIGHTING]  = _("FIGHTING"),
+    [ENERGY_DARKNESS]  = _("DARKNESS"),
+    [ENERGY_METAL]     = _("METAL"),
+    [ENERGY_COLORLESS] = _("COLORLESS"),
+};
+
+static const u8 sText_TrainerItem[] = _("TRAINER - ITEM");
+static const u8 sText_TrainerSupporter[] = _("TRAINER - SUPPORTER");
+static const u8 sText_StageBasic[] = _("STAGE: BASIC");
+static const u8 sText_Stage1[] = _("STAGE: STAGE 1");
+static const u8 sText_Stage2[] = _("STAGE: STAGE 2");
+static const u8 sText_HpLabel[] = _("HP: ");
+static const u8 sText_RetreatLabel[] = _("  RETREAT: ");
+static const u8 sText_RetreatCostC[] = _("C");
+static const u8 sText_WeaknessLabel[] = _("WEAKNESS: ");
+static const u8 sText_Plus20[] = _(" (+20)");
+static const u8 sText_WeaknessNone[] = _("NONE");
+static const u8 sText_PkmnPowerHeader[] = _("(PKMN POWER)");
+static const u8 sText_Powr[] = _("POWR");
+static const u8 sText_Dash[] = _("-");
+
 static void PrintInfoPageText(void)
 {
+    u16 cardId = GetMonCardId(&sMonSummaryScreen->currentMon);
+    const struct TcgCardInfo *info = GetTcgCardInfo(cardId);
+
+    if (info != NULL)
+    {
+        u8 otWin = AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ORIGINAL_TRAINER);
+        u8 idWin = AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ID);
+        u8 abilWin = AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_ABILITY);
+        u8 memoWin = AddWindowFromTemplateList(sPageInfoTemplate, PSS_DATA_WINDOW_INFO_MEMO);
+        int xPos;
+
+        FillWindowPixelBuffer(otWin, PIXEL_FILL(0));
+        FillWindowPixelBuffer(idWin, PIXEL_FILL(0));
+        FillWindowPixelBuffer(abilWin, PIXEL_FILL(0));
+        FillWindowPixelBuffer(memoWin, PIXEL_FILL(0));
+
+        PrintMonOTName();
+
+        StringCopy(gStringVar1, gText_IDNumber2);
+        ConvertIntToDecimalStringN(gStringVar2, cardId, STR_CONV_MODE_LEADING_ZEROS, 3);
+        StringAppend(gStringVar1, gStringVar2);
+        xPos = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar1, 56);
+        PrintTextOnWindow(idWin, gStringVar1, xPos, 1, 0, 1);
+
+        if (info->cardType == CARD_TYPE_TRAINER_ITEM || info->cardType == CARD_TYPE_TRAINER_SUPPORTER)
+        {
+            if (info->cardType == CARD_TYPE_TRAINER_ITEM)
+            {
+                PrintTextOnWindow(abilWin, sText_TrainerItem, 0, 1, 0, 1);
+                PrintTextOnWindowToFit(abilWin, COMPOUND_STRING("Play during your turn before attacking."), 0, 17, 0, 0);
+            }
+            else
+            {
+                PrintTextOnWindow(abilWin, sText_TrainerSupporter, 0, 1, 0, 1);
+                PrintTextOnWindowToFit(abilWin, COMPOUND_STRING("Limit 1 Supporter card per turn."), 0, 17, 0, 0);
+            }
+
+            if (info->description != NULL)
+                PrintTextOnWindow(memoWin, info->description, 0, 1, 0, 0);
+        }
+        else
+        {
+            if (info->pokemonPowerId != 0 && info->powerName != NULL && info->powerName[0] != EOS)
+            {
+                PrintTextOnWindow(abilWin, info->powerName, 0, 1, 0, 1);
+                if (info->powerDescription != NULL)
+                    PrintTextOnWindowToFit(abilWin, info->powerDescription, 0, 17, 0, 0);
+            }
+            else
+            {
+                PrintTextOnWindow(abilWin, COMPOUND_STRING("NO POKéMON POWER"), 0, 1, 0, 1);
+                PrintTextOnWindowToFit(abilWin, COMPOUND_STRING("Relies on direct TCG Pocket attacks."), 0, 17, 0, 0);
+            }
+
+            u8 stageStr[36];
+            if (info->cardType == CARD_TYPE_POKEMON_BASIC)
+                StringCopy(stageStr, sText_StageBasic);
+            else if (info->cardType == CARD_TYPE_POKEMON_STAGE1)
+                StringCopy(stageStr, sText_Stage1);
+            else
+                StringCopy(stageStr, sText_Stage2);
+            PrintTextOnWindow(memoWin, stageStr, 0, 1, 0, 0);
+
+            u8 hpStr[40];
+            StringCopy(hpStr, sText_HpLabel);
+            ConvertIntToDecimalStringN(gStringVar1, info->maxHp, STR_CONV_MODE_LEFT_ALIGN, 3);
+            StringAppend(hpStr, gStringVar1);
+            StringAppend(hpStr, sText_RetreatLabel);
+            ConvertIntToDecimalStringN(gStringVar2, info->retreatCost, STR_CONV_MODE_LEFT_ALIGN, 1);
+            StringAppend(hpStr, gStringVar2);
+            StringAppend(hpStr, sText_RetreatCostC);
+            PrintTextOnWindow(memoWin, hpStr, 0, 17, 0, 0);
+
+            u8 weakStr[36];
+            StringCopy(weakStr, sText_WeaknessLabel);
+            if (info->weaknessType < NUM_ENERGY_TYPES)
+            {
+                StringAppend(weakStr, sTcgEnergyNames[info->weaknessType]);
+                StringAppend(weakStr, sText_Plus20);
+            }
+            else
+            {
+                StringAppend(weakStr, sText_WeaknessNone);
+            }
+            PrintTextOnWindow(memoWin, weakStr, 0, 33, 0, 0);
+
+            PrintTextOnWindow(memoWin,
+                info->isRareShiny ? COMPOUND_STRING("PRIZE VALUE: 2 PTS (RARE)") : COMPOUND_STRING("PRIZE VALUE: 1 PT"),
+                0, 49, 0, 0);
+        }
+
+        PutWindowTilemap(otWin);
+        PutWindowTilemap(idWin);
+        PutWindowTilemap(abilWin);
+        PutWindowTilemap(memoWin);
+        return;
+    }
+
     if (sMonSummaryScreen->summary.isEgg)
     {
         PrintEggOTName();
@@ -3470,6 +3648,14 @@ static void PrintInfoPageText(void)
 
 static void Task_PrintInfoPage(u8 taskId)
 {
+    u16 cardId = GetMonCardId(&sMonSummaryScreen->currentMon);
+    if (cardId != 0)
+    {
+        PrintInfoPageText();
+        DestroyTask(taskId);
+        return;
+    }
+
     s16 *data = gTasks[taskId].data;
     switch (data[0])
     {
@@ -3784,12 +3970,19 @@ static void PrintHeldItemName(void)
     const u8 *text;
     u32 fontId;
     int x;
+    u16 cardId = GetMonCardId(&sMonSummaryScreen->currentMon);
+    const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
 
-    if (sMonSummaryScreen->summary.item == ITEM_ENIGMA_BERRY_E_READER
-        && IsMultiBattle() == TRUE
-        && (sMonSummaryScreen->curMonIndex == 1 || sMonSummaryScreen->curMonIndex == 4 || sMonSummaryScreen->curMonIndex == 5))
+    if (cardInfo != NULL)
     {
-        text = GetItemName(ITEM_ENIGMA_BERRY_E_READER);
+        if (cardInfo->cardType == CARD_TYPE_POKEMON_BASIC)
+            text = COMPOUND_STRING("BASIC");
+        else if (cardInfo->cardType == CARD_TYPE_POKEMON_STAGE1)
+            text = COMPOUND_STRING("STAGE 1");
+        else if (cardInfo->cardType == CARD_TYPE_POKEMON_STAGE2)
+            text = COMPOUND_STRING("STAGE 2");
+        else
+            text = COMPOUND_STRING("TRAINER");
     }
     else if (sMonSummaryScreen->summary.item == ITEM_NONE)
     {
@@ -3810,8 +4003,17 @@ static void PrintRibbonCount(void)
 {
     const u8 *text;
     int x;
+    u16 cardId = GetMonCardId(&sMonSummaryScreen->currentMon);
+    const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
 
-    if (sMonSummaryScreen->summary.ribbonCount == 0)
+    if (cardInfo != NULL)
+    {
+        if (cardInfo->weaknessType < NUM_ENERGY_TYPES)
+            text = sTcgEnergyNames[cardInfo->weaknessType];
+        else
+            text = gText_None;
+    }
+    else if (sMonSummaryScreen->summary.ribbonCount == 0)
     {
         text = gText_None;
     }
@@ -3955,18 +4157,14 @@ static void PrintExpPointsNextLevel(void)
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
     u8 windowId = AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_EXP);
     int x;
-    u32 expToNextLevel;
+    u16 cardId = GetMonCardId(&sMonSummaryScreen->currentMon);
+    u32 ownedCount = (cardId != 0) ? GetCardQuantityInBag(cardId) : 0;
 
-    ConvertIntToDecimalStringN(gStringVar1, sum->exp, STR_CONV_MODE_RIGHT_ALIGN, 7);
+    ConvertIntToDecimalStringN(gStringVar1, (cardId != 0) ? cardId : sum->exp, STR_CONV_MODE_RIGHT_ALIGN, 7);
     x = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar1, 42) + 2;
     PrintTextOnWindow(windowId, gStringVar1, x, 1, 0, 0);
 
-    if (sum->level < MAX_LEVEL)
-        expToNextLevel = gExperienceTables[gSpeciesInfo[sum->species].growthRate][sum->level + 1] - sum->exp;
-    else
-        expToNextLevel = 0;
-
-    ConvertIntToDecimalStringN(gStringVar1, expToNextLevel, STR_CONV_MODE_RIGHT_ALIGN, 6);
+    ConvertIntToDecimalStringN(gStringVar1, ownedCount, STR_CONV_MODE_RIGHT_ALIGN, 6);
     x = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar1, 42) + 2;
     PrintTextOnWindow(windowId, gStringVar1, x, 17, 0, 0);
 }
@@ -4046,6 +4244,48 @@ static void PrintMoveNameAndPP(u8 moveIndex)
     u8 moveNameWindowId = AddWindowFromTemplateList(sPageMovesTemplate, PSS_DATA_WINDOW_MOVE_NAMES);
     u8 ppValueWindowId = AddWindowFromTemplateList(sPageMovesTemplate, PSS_DATA_WINDOW_MOVE_PP);
     enum Move move = summary->moves[moveIndex];
+
+    u16 cardId = GetMonCardId(&sMonSummaryScreen->currentMon);
+    const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
+    if (cardInfo != NULL)
+    {
+        if (moveIndex == 0 && cardInfo->pokemonPowerId != 0)
+        {
+            const u8 *pName = (cardInfo->powerName != NULL && cardInfo->powerName[0] != EOS) ? cardInfo->powerName : sText_PkmnPowerHeader;
+            PrintTextOnWindowToFit(moveNameWindowId, pName, 0, 1, 0, 1);
+            PrintTextOnWindow(ppValueWindowId, sText_Powr, 0, 1, 0, 9);
+            return;
+        }
+        else if (move != 0)
+        {
+            const u8 *mName = GetMoveName(move);
+            u32 pwr = 0;
+            u8 atkSlot = (cardInfo->pokemonPowerId != 0) ? (moveIndex - 1) : moveIndex;
+            if (atkSlot == 0 && cardInfo->move1 != 0 && move != MOVE_RETREAT)
+            {
+                if (cardInfo->move1Name != NULL && cardInfo->move1Name[0] != EOS)
+                    mName = cardInfo->move1Name;
+                pwr = cardInfo->move1Damage;
+            }
+            else if (atkSlot == 1 && cardInfo->move2 != 0 && move != MOVE_RETREAT)
+            {
+                if (cardInfo->move2Name != NULL && cardInfo->move2Name[0] != EOS)
+                    mName = cardInfo->move2Name;
+                pwr = cardInfo->move2Damage;
+            }
+            PrintTextOnWindowToFit(moveNameWindowId, mName, 0, moveIndex * 16 + 1, 0, 1);
+            if (pwr > 0)
+            {
+                ConvertIntToDecimalStringN(gStringVar1, pwr, STR_CONV_MODE_RIGHT_ALIGN, 3);
+                PrintTextOnWindow(ppValueWindowId, gStringVar1, 10, moveIndex * 16 + 1, 0, 9);
+            }
+            else
+            {
+                PrintTextOnWindow(ppValueWindowId, sText_Dash, 20, moveIndex * 16 + 1, 0, 9);
+            }
+            return;
+        }
+    }
 
     if (move != 0)
     {
@@ -4181,10 +4421,71 @@ static void PrintMoveDetails(enum Move move)
     {
         if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
         {
+            u16 cardId = GetMonCardId(&sMonSummaryScreen->currentMon);
+            const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
+            u8 slot = sMonSummaryScreen->firstMoveIndex;
+
             if (B_SHOW_CATEGORY_ICON == TRUE)
                 ShowCategoryIcon(GetBattleMoveCategory(move));
-            PrintMovePowerAndAccuracy(move);
-            PrintTextOnWindowToFit(windowId, GetMoveDescription(move), 6, 1, 0, 0);
+
+            if (cardInfo != NULL)
+            {
+                const u8 *desc = GetMoveDescription(move);
+                u32 power = 0;
+                u32 acc = 100;
+
+                if (cardInfo->pokemonPowerId != 0 && move == MOVE_HELPING_HAND)
+                {
+                    if (cardInfo->powerDescription != NULL && cardInfo->powerDescription[0] != EOS)
+                        desc = cardInfo->powerDescription;
+                    power = 0;
+                    acc = 0;
+                }
+                else if (move == cardInfo->move1 && cardInfo->move1 != 0 && move != MOVE_RETREAT)
+                {
+                    if (cardInfo->move1Description != NULL && cardInfo->move1Description[0] != EOS)
+                        desc = cardInfo->move1Description;
+                    power = cardInfo->move1Damage;
+                }
+                else if (move == cardInfo->move2 && cardInfo->move2 != 0 && move != MOVE_RETREAT)
+                {
+                    if (cardInfo->move2Description != NULL && cardInfo->move2Description[0] != EOS)
+                        desc = cardInfo->move2Description;
+                    power = cardInfo->move2Damage;
+                }
+                else
+                {
+                    power = 0;
+                    acc = 0;
+                }
+
+                FillWindowPixelRect(PSS_LABEL_WINDOW_MOVES_POWER_ACC, PIXEL_FILL(0), 53, 0, 19, 32);
+                if (power == 0)
+                {
+                    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gText_ThreeDashes, 53, 1, 0, 0);
+                }
+                else
+                {
+                    ConvertIntToDecimalStringN(gStringVar1, power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+                    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gStringVar1, 53, 1, 0, 0);
+                }
+                if (acc == 0)
+                {
+                    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gText_ThreeDashes, 53, 17, 0, 0);
+                }
+                else
+                {
+                    ConvertIntToDecimalStringN(gStringVar1, acc, STR_CONV_MODE_RIGHT_ALIGN, 3);
+                    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gStringVar1, 53, 17, 0, 0);
+                }
+
+                PrintTextOnWindowToFit(windowId, desc, 6, 1, 0, 0);
+            }
+            else
+            {
+                PrintMovePowerAndAccuracy(move);
+                PrintTextOnWindowToFit(windowId, GetMoveDescription(move), 6, 1, 0, 0);
+            }
         }
         else
         {
@@ -4518,6 +4819,10 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
 static void PlayMonCry(void)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
+    const struct TcgCardInfo *cardInfo = GetTcgCardInfo(GetMonCardId(&sMonSummaryScreen->currentMon));
+    if (cardInfo != NULL && (cardInfo->cardType == CARD_TYPE_TRAINER_ITEM || cardInfo->cardType == CARD_TYPE_TRAINER_SUPPORTER))
+        return;
+
     if (!summary->isEgg)
     {
         if (ShouldPlayNormalMonCry(&sMonSummaryScreen->currentMon) == TRUE)
@@ -4527,9 +4832,29 @@ static void PlayMonCry(void)
     }
 }
 
+#define TAG_SUMMARY_TRAINER_ICON 0xD75A
+
 static u8 CreateMonSprite(struct Pokemon *unused)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
+    const struct TcgCardInfo *cardInfo = GetTcgCardInfo(GetMonCardId(&sMonSummaryScreen->currentMon));
+
+    FreeSpriteTilesByTag(TAG_SUMMARY_TRAINER_ICON);
+    FreeSpritePaletteByTag(TAG_SUMMARY_TRAINER_ICON);
+
+    if (cardInfo != NULL && (cardInfo->cardType == CARD_TYPE_TRAINER_ITEM || cardInfo->cardType == CARD_TYPE_TRAINER_SUPPORTER))
+    {
+        u16 itemId = (cardInfo->equivItemId != ITEM_NONE) ? cardInfo->equivItemId : ITEM_TCG_PROF_OAK;
+        u8 iconSpriteId = AddItemIconSprite(TAG_SUMMARY_TRAINER_ICON, TAG_SUMMARY_TRAINER_ICON, itemId);
+        if (iconSpriteId != MAX_SPRITES)
+        {
+            gSprites[iconSpriteId].x = 40;
+            gSprites[iconSpriteId].y = 64;
+            gSprites[iconSpriteId].oam.priority = 0;
+            return iconSpriteId;
+        }
+    }
+
     u8 spriteId = CreateSprite(&gMultiuseSpriteTemplate, 40, 64, 5);
 
     FreeSpriteOamMatrix(&gSprites[spriteId]);

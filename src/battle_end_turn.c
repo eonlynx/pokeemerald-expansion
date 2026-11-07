@@ -13,6 +13,7 @@
 #include "constants/abilities.h"
 #include "constants/items.h"
 #include "constants/moves.h"
+#include "tcg.h"
 
 static enum BattlerId GetBattlerSideForMessage(enum BattleSide side)
 {
@@ -33,6 +34,20 @@ static bool32 HandleEndTurnOrder(enum BattlerId battler)
 
     gBattleTurnCounter++;
     gBattleStruct->eventState.endTurn++;
+
+    // TCG Pocket: Turn limits (30, or 50 vs AI)
+    u32 maxTurns = (gBattleTypeFlags & BATTLE_TYPE_LINK) ? 30 : 50;
+    if (gBattleTurnCounter >= maxTurns && gBattleOutcome == 0)
+        gBattleOutcome |= B_OUTCOME_DREW;
+
+    // TCG Pocket: Pokémon Checkup
+    RunPokemonCheckup();
+
+    // Reset per-turn action tracking (next turn's draw & energy generation happen in PlayerHandleChooseAction)
+    gTcgBattleState.retreatedThisTurn = FALSE;
+    gTcgBattleState.energyAttachedThisTurn = FALSE;
+    gTcgBattleState.supporterUsedThisTurn = FALSE;
+    gTcgBattleState.energyGeneratedThisTurn = FALSE;
 
     for (enum BattlerId i = 0; i < gBattlersCount; i++)
         gBattlerByTurnOrder[i] = i;
@@ -530,45 +545,14 @@ static bool32 HandleEndTurnPoison(enum BattlerId battler)
 {
     bool32 effect = FALSE;
 
-    enum Ability ability = GetBattlerAbility(battler);
-    bool32 isToxicPoison = gBattleMons[battler].status1 & STATUS1_TOXIC_POISON;
-
     gBattleStruct->eventState.endTurnBattler++;
 
-    if (IsBattlerPresent(battler) && (gBattleMons[battler].status1 & STATUS1_POISON || isToxicPoison))
+    if (IsBattlerPresent(battler) && (gBattleMons[battler].status1 & (STATUS1_POISON | STATUS1_TOXIC_POISON)))
     {
-        if (IsAbilityAndRecord(battler, ability, ABILITY_MAGIC_GUARD))
-        {
-            if (isToxicPoison && (gBattleMons[battler].status1 & STATUS1_TOXIC_COUNTER) != STATUS1_TOXIC_TURN(15)) // not 16 turns
-                gBattleMons[battler].status1 += STATUS1_TOXIC_TURN(1);
-        }
-        else if (ability == ABILITY_POISON_HEAL)
-        {
-            if (isToxicPoison && (gBattleMons[battler].status1 & STATUS1_TOXIC_COUNTER) != STATUS1_TOXIC_TURN(15)) // not 16 turns
-                gBattleMons[battler].status1 += STATUS1_TOXIC_TURN(1);
-
-            if (!IsBattlerAtMaxHp(battler) && !gBattleMons[battler].volatiles.healBlockTimer)
-            {
-                SetHealAmount(battler, GetNonDynamaxMaxHP(battler) / 8);
-                BattleScriptCall(BattleScript_PoisonHealActivates);
-                effect = TRUE;
-            }
-        }
-        else if (isToxicPoison)
-        {
-            SetPassiveDamageAmount(battler, GetNonDynamaxMaxHP(battler) / 16);
-            if ((gBattleMons[battler].status1 & STATUS1_TOXIC_COUNTER) != STATUS1_TOXIC_TURN(15)) // not 16 turns
-                gBattleMons[battler].status1 += STATUS1_TOXIC_TURN(1);
-            gBattleStruct->passiveHpUpdate[battler] *= (gBattleMons[battler].status1 & STATUS1_TOXIC_COUNTER) >> 8;
-            BattleScriptCall(BattleScript_PoisonTurnDmg);
-            effect = TRUE;
-        }
-        else
-        {
-            SetPassiveDamageAmount(battler, GetNonDynamaxMaxHP(battler) / 8);
-            BattleScriptCall(BattleScript_PoisonTurnDmg);
-            effect = TRUE;
-        }
+        // TCG Pocket Checkup: Poison deals a flat 10 HP damage between turns
+        SetPassiveDamageAmount(battler, 10);
+        BattleScriptCall(BattleScript_PoisonTurnDmg);
+        effect = TRUE;
     }
 
     return effect;
@@ -578,22 +562,17 @@ static bool32 HandleEndTurnBurn(enum BattlerId battler)
 {
     bool32 effect = FALSE;
 
-    enum Ability ability = GetBattlerAbility(battler);
-
     gBattleStruct->eventState.endTurnBattler++;
 
-    if (gBattleMons[battler].status1 & STATUS1_BURN
-     && IsBattlerPresent(battler)
-     && !IsAbilityAndRecord(battler, ability, ABILITY_MAGIC_GUARD))
+    if ((gBattleMons[battler].status1 & STATUS1_BURN) && IsBattlerPresent(battler))
     {
-        s32 burnDamage = GetNonDynamaxMaxHP(battler) / ((GetConfig(B_BURN_DAMAGE) >= GEN_7 || GetConfig(B_BURN_DAMAGE) == GEN_1) ? 16 : 8);
-        if (ability == ABILITY_HEATPROOF)
+        // TCG Pocket Checkup: Burn deals a flat 20 HP damage between turns, then flips a coin to cure Burn
+        SetPassiveDamageAmount(battler, 20);
+        if (Random() & 1)
         {
-            if (burnDamage > (burnDamage / 2) + 1) // Record ability if the burn takes less damage than it normally would.
-                RecordAbilityBattle(battler, ABILITY_HEATPROOF);
-            burnDamage /= 2;
+            gBattleMons[battler].status1 &= ~STATUS1_BURN;
+            SetMonData(GetBattlerMon(battler), MON_DATA_STATUS, &gBattleMons[battler].status1);
         }
-        SetPassiveDamageAmount(battler, burnDamage);
         BattleScriptCall(BattleScript_BurnTurnDmg);
         effect = TRUE;
     }

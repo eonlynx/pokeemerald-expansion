@@ -110,11 +110,20 @@ enum Language
 #define ROAMER_COUNT 1 // Number of maximum concurrent active roamers
 
 // Bag constants
+#define BAG_TCG_POKEMON_COUNT 100
+#define BAG_TCG_ITEMS_COUNT 50
+#define BAG_TCG_SUPPORTERS_COUNT 50
+#define BAG_ITEMS_LEG_COUNT 30
 #define BAG_ITEMS_COUNT 30
 #define BAG_KEYITEMS_COUNT 30
 #define BAG_POKEBALLS_COUNT 16
 #define BAG_TMHM_COUNT 64
 #define BAG_BERRIES_COUNT 46
+
+// TCG constants
+#define DECK_SIZE 20
+#define MAX_CUSTOM_DECKS 14
+#define MAX_DEFAULT_DECKS 32
 
 // Number of facilities for Ranking Hall.
 // 7 facilities for single mode + tower double mode + tower multi mode.

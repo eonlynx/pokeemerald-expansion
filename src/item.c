@@ -95,6 +95,9 @@ struct ItemSlot NONNULL BagPocket_GetSlotData(struct BagPocket *pocket, u32 pock
 {
     switch (pocket->id)
     {
+    case POCKET_TCG_POKEMON:
+    case POCKET_TCG_ITEMS:
+    case POCKET_TCG_SUPPORTERS:
     case POCKET_ITEMS:
     case POCKET_KEY_ITEMS:
     case POCKET_POKE_BALLS:
@@ -118,6 +121,9 @@ void NONNULL BagPocket_SetSlotData(struct BagPocket *pocket, u32 pocketPos, stru
 
     switch (pocket->id)
     {
+    case POCKET_TCG_POKEMON:
+    case POCKET_TCG_ITEMS:
+    case POCKET_TCG_SUPPORTERS:
     case POCKET_ITEMS:
     case POCKET_KEY_ITEMS:
     case POCKET_POKE_BALLS:
@@ -144,17 +150,29 @@ void ApplyNewEncryptionKeyToBagItems(u32 newKey)
 
 void SetBagItemsPointers(void)
 {
-    gBagPockets[POCKET_ITEMS].itemSlots = gSaveBlock1Ptr->bag.items;
-    gBagPockets[POCKET_ITEMS].capacity = BAG_ITEMS_COUNT;
-    gBagPockets[POCKET_ITEMS].id = POCKET_ITEMS;
+    gBagPockets[POCKET_TCG_POKEMON].itemSlots = gSaveBlock1Ptr->bag.tcgPokemon;
+    gBagPockets[POCKET_TCG_POKEMON].capacity = BAG_TCG_POKEMON_COUNT;
+    gBagPockets[POCKET_TCG_POKEMON].id = POCKET_TCG_POKEMON;
+
+    gBagPockets[POCKET_TCG_ITEMS].itemSlots = gSaveBlock1Ptr->bag.tcgItems;
+    gBagPockets[POCKET_TCG_ITEMS].capacity = BAG_TCG_ITEMS_COUNT;
+    gBagPockets[POCKET_TCG_ITEMS].id = POCKET_TCG_ITEMS;
+
+    gBagPockets[POCKET_TCG_SUPPORTERS].itemSlots = gSaveBlock1Ptr->bag.tcgSupporters;
+    gBagPockets[POCKET_TCG_SUPPORTERS].capacity = BAG_TCG_SUPPORTERS_COUNT;
+    gBagPockets[POCKET_TCG_SUPPORTERS].id = POCKET_TCG_SUPPORTERS;
+
+    gBagPockets[POCKET_POKE_BALLS].itemSlots = gSaveBlock1Ptr->bag.pokeBalls;
+    gBagPockets[POCKET_POKE_BALLS].capacity = BAG_POKEBALLS_COUNT;
+    gBagPockets[POCKET_POKE_BALLS].id = POCKET_POKE_BALLS;
 
     gBagPockets[POCKET_KEY_ITEMS].itemSlots = gSaveBlock1Ptr->bag.keyItems;
     gBagPockets[POCKET_KEY_ITEMS].capacity = BAG_KEYITEMS_COUNT;
     gBagPockets[POCKET_KEY_ITEMS].id = POCKET_KEY_ITEMS;
 
-    gBagPockets[POCKET_POKE_BALLS].itemSlots = gSaveBlock1Ptr->bag.pokeBalls;
-    gBagPockets[POCKET_POKE_BALLS].capacity = BAG_POKEBALLS_COUNT;
-    gBagPockets[POCKET_POKE_BALLS].id = POCKET_POKE_BALLS;
+    gBagPockets[POCKET_ITEMS_LEG].itemSlots = gSaveBlock1Ptr->bag.items;
+    gBagPockets[POCKET_ITEMS_LEG].capacity = BAG_ITEMS_LEG_COUNT;
+    gBagPockets[POCKET_ITEMS_LEG].id = POCKET_ITEMS_LEG;
 
     gBagPockets[POCKET_TM_HM].itemSlots = gSaveBlock1Ptr->bag.TMsHMs;
     gBagPockets[POCKET_TM_HM].capacity = BAG_TMHM_COUNT;
@@ -347,6 +365,8 @@ static bool32 NONNULL BagPocket_AddItem(struct BagPocket *pocket, enum Item item
     return count == 0;
 }
 
+#include "tcg.h"
+
 bool32 AddBagItem(enum Item itemId, u16 count)
 {
     itemId = SanitizeBagItemId(itemId);
@@ -357,7 +377,34 @@ bool32 AddBagItem(enum Item itemId, u16 count)
     if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || FlagGet(FLAG_STORING_ITEMS_IN_PYRAMID_BAG) == TRUE)
         return AddPyramidBagItem(itemId, count);
 
+    // TCG Pocket auto-conversion of map items to trainer cards
+    u16 tcgCardId = GetCardIdFromItemId(itemId);
+    if (tcgCardId != 0)
+    {
+        const struct TcgCardInfo *cardInfo = GetTcgCardInfo(tcgCardId);
+        if (cardInfo != NULL)
+        {
+            if (cardInfo->cardType == CARD_TYPE_TRAINER_SUPPORTER)
+                return BagPocket_AddItem(&gBagPockets[POCKET_TCG_SUPPORTERS], (enum Item)tcgCardId, count);
+            else
+                return BagPocket_AddItem(&gBagPockets[POCKET_TCG_ITEMS], (enum Item)tcgCardId, count);
+        }
+    }
+
     return BagPocket_AddItem(&gBagPockets[GetItemPocket(itemId)], itemId, count);
+}
+
+bool32 AddCardToBag(u16 cardId, u16 count)
+{
+    const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
+    if (!cardInfo)
+        return FALSE;
+    if (cardInfo->cardType == CARD_TYPE_TRAINER_SUPPORTER)
+        return BagPocket_AddItem(&gBagPockets[POCKET_TCG_SUPPORTERS], (enum Item)cardId, count);
+    else if (cardInfo->cardType == CARD_TYPE_TRAINER_ITEM)
+        return BagPocket_AddItem(&gBagPockets[POCKET_TCG_ITEMS], (enum Item)cardId, count);
+    else
+        return BagPocket_AddItem(&gBagPockets[POCKET_TCG_POKEMON], (enum Item)cardId, count);
 }
 
 static bool32 NONNULL BagPocket_RemoveItem(struct BagPocket *pocket, enum Item itemId, u16 count)
