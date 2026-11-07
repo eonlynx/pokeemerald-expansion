@@ -502,15 +502,16 @@ static void PopulateBoxWithDeck(u8 boxId, const struct TcgDeck *deck)
             const struct TcgCardInfo *info = GetTcgCardInfo(cid);
             if (info)
             {
-                u16 species = (info->species != SPECIES_NONE) ? info->species : SPECIES_UNOWN;
-                CreateBoxMon(&gPokemonStoragePtr->boxes[boxId][i], species, 1, 0, (struct OriginalTrainerId){0});
+                struct Pokemon tempMon;
+                CreateTempMonFromCardId(&tempMon, cid);
+                if (info->species == SPECIES_NONE)
+                {
+                    u16 unownSpecies = SPECIES_UNOWN_B + (i % 26);
+                    SetMonData(&tempMon, MON_DATA_SPECIES, &unownSpecies);
+                }
+                gPokemonStoragePtr->boxes[boxId][i] = tempMon.box;
                 u32 expVal = cid;
                 SetBoxMonData(&gPokemonStoragePtr->boxes[boxId][i], MON_DATA_EXP, &expVal);
-
-                u8 nickname[POKEMON_NAME_LENGTH + 1];
-                StringCopyN(nickname, info->name, POKEMON_NAME_LENGTH);
-                nickname[POKEMON_NAME_LENGTH] = EOS;
-                SetBoxMonData(&gPokemonStoragePtr->boxes[boxId][i], MON_DATA_NICKNAME, nickname);
             }
             else
             {
@@ -865,22 +866,25 @@ void InitTcgBattleState(void)
         tempDeck[basicIdx] = tmp;
     }
 
-    // 5-card opening hand goes into playerHand[0..4]
-    for (u32 i = 0; i < 5; i++)
-        gTcgBattleState.playerHand[i] = tempDeck[i];
-    gTcgBattleState.playerHandCount = 5;
-
-    // Remaining 15 cards go into playerDeckRemaining[0..14]
-    for (u32 i = 0; i < 15; i++)
-        gTcgBattleState.playerDeckRemaining[i] = tempDeck[5 + i];
-    gTcgBattleState.playerDeckRemainingCount = 15;
-
-    // Initialize Field slot 0 with tempDeck[0] as a safe placeholder until the player chooses their Active Pokémon in DoBattleIntro
+    // Initialize Field slot 0 with tempDeck[0] as the Active Pokémon
     CreateTempMonFromCardId(&gParties[B_TRAINER_PLAYER][0], tempDeck[0]);
     for (u32 i = 1; i < PARTY_SIZE; i++)
         ZeroMonData(&gParties[B_TRAINER_PLAYER][i]);
     gPartiesCount[B_TRAINER_PLAYER] = 1;
-    gTcgBattleState.activeMonPlaced = FALSE;
+    gTcgBattleState.activeMonPlaced = TRUE;
+
+    // 5-card opening hand goes into playerHand[0..4]
+    for (u32 i = 0; i < 5; i++)
+        gTcgBattleState.playerHand[i] = tempDeck[1 + i];
+    gTcgBattleState.playerHandCount = 5;
+
+    // Remaining 14 cards go into playerDeckRemaining[0..13]
+    for (u32 i = 0; i < 14; i++)
+        gTcgBattleState.playerDeckRemaining[i] = tempDeck[6 + i];
+    gTcgBattleState.playerDeckRemainingCount = 14;
+
+    // Coin flip determines who goes first (HEADS = player takes 1st turn)
+    gTcgBattleState.firstTurnFirstPlayer = (Random() % 2 == 0);
 
     // Pre-generate preview of next energy type
     gTcgBattleState.nextGeneratedEnergyType[B_SIDE_PLAYER] =

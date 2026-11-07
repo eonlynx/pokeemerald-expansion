@@ -793,11 +793,12 @@ def main():
         is_rare = 'TRUE' if (rc['rarity'] == 'STAR' or ctype == 'CARD_TYPE_POKEMON_STAGE2' or hp >= 90) else 'FALSE'
         weight = 5 if is_rare == 'TRUE' else (20 if ctype == 'CARD_TYPE_POKEMON_STAGE1' else 50)
 
-        # Build informative 2-line Bag description (<= 2 lines, <= 18 chars/line for WIN_DESCRIPTION)
+        # Build informative 3-line Bag description (<= 3 lines, <= 18 chars/line for WIN_DESCRIPTION)
         st_lbl = 'Basic' if ctype == 'CARD_TYPE_POKEMON_BASIC' else ('Stage 1' if ctype == 'CARD_TYPE_POKEMON_STAGE1' else 'Stage 2')
-        line1 = f'Base Set No. {cid:03d}'[:18]
-        line2 = f'HP:{hp} - {st_lbl} PKMN'[:18]
-        bag_desc = f'{line1}\\n{line2}'
+        line1 = f'Base Set {{NO}}{cid:03d}'
+        line2 = f'HP: {hp}'
+        line3 = f'{st_lbl} {{PKMN}}'
+        bag_desc = f'{line1}\\n{line2}\\n{line3}'
 
         cards_out.append({
             'cardId': cid,

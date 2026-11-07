@@ -1518,6 +1518,9 @@ static void CopyMonToSummaryStruct(struct Pokemon *mon)
     {
         struct BoxPokemon *boxMon = sMonSummaryScreen->monList.boxMons;
         BoxMonToMon(&boxMon[sMonSummaryScreen->curMonIndex], mon);
+        u16 cardId = GetMonCardId(mon);
+        if (cardId != 0)
+            CreateTempMonFromCardId(mon, cardId);
     }
 }
 
@@ -3252,15 +3255,15 @@ static void PrintNotEggInfo(void)
     const struct TcgCardInfo *cardInfo = GetTcgCardInfo(cardId);
     if (cardId != 0)
     {
-        ConvertIntToDecimalStringN(gStringVar2, cardId, STR_CONV_MODE_LEADING_ZEROS, 3);
-        StringCopy(gStringVar1, gText_Number);
-        StringAppend(gStringVar1, gStringVar2);
+        gStringVar1[0] = CHAR_EXTRA_SYMBOL;
+        gStringVar1[1] = CHAR_NO;
+        ConvertIntToDecimalStringN(gStringVar1 + 2, cardId, STR_CONV_MODE_LEFT_ALIGN, 3);
     }
     else
     {
-        StringCopy(gStringVar1, gText_LevelSymbol);
-        ConvertIntToDecimalStringN(gStringVar2, summary->level, STR_CONV_MODE_LEFT_ALIGN, 3);
-        StringAppend(gStringVar1, gStringVar2);
+        gStringVar1[0] = CHAR_EXTRA_SYMBOL;
+        gStringVar1[1] = CHAR_NO;
+        ConvertIntToDecimalStringN(gStringVar1 + 2, summary->level, STR_CONV_MODE_LEFT_ALIGN, 3);
     }
     PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, gStringVar1, 24, 17, 0, 1);
     GetMonNickname(mon, gStringVar1);
@@ -3292,18 +3295,8 @@ static void PrintEggInfo(void)
 
 static void PrintGenderSymbol(struct Pokemon *mon, enum Species species)
 {
-    if (species != SPECIES_NIDORAN_M && species != SPECIES_NIDORAN_F)
-    {
-        switch (GetMonGender(mon))
-        {
-        case MON_MALE:
-            PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, gText_MaleSymbol, 57, 17, 0, 3);
-            break;
-        case MON_FEMALE:
-            PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, gText_FemaleSymbol, 57, 17, 0, 4);
-            break;
-        }
-    }
+    // TCG Pocket: Cards have no gender symbols
+    return;
 }
 
 static void PrintAOrBButtonIcon(u8 windowId, bool8 bButton, u32 x)
@@ -3345,8 +3338,8 @@ static void PrintPageNamesAndStats(void)
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, COMPOUND_STRING("CARD ID"), 6, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, COMPOUND_STRING("BAG OWN"), 6, 17, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATUS, gText_Status, 2, 1, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gText_Power, 0, 1, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gText_Accuracy2, 0, 17, 0, 1);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, COMPOUND_STRING("COST"), 0, 1, 0, 1);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, COMPOUND_STRING("DMG"), 0, 17, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM, gText_Appeal, 0, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_APPEAL_JAM, gText_Jam, 0, 17, 0, 1);
 }
@@ -3578,47 +3571,9 @@ static void PrintInfoPageText(void)
                 if (info->powerDescription != NULL)
                     PrintTextOnWindowToFit(abilWin, info->powerDescription, 0, 17, 0, 0);
             }
-            else
-            {
-                PrintTextOnWindow(abilWin, COMPOUND_STRING("NO POKéMON POWER"), 0, 1, 0, 1);
-                PrintTextOnWindowToFit(abilWin, COMPOUND_STRING("Relies on direct TCG Pocket attacks."), 0, 17, 0, 0);
-            }
 
-            u8 stageStr[36];
-            if (info->cardType == CARD_TYPE_POKEMON_BASIC)
-                StringCopy(stageStr, sText_StageBasic);
-            else if (info->cardType == CARD_TYPE_POKEMON_STAGE1)
-                StringCopy(stageStr, sText_Stage1);
-            else
-                StringCopy(stageStr, sText_Stage2);
-            PrintTextOnWindow(memoWin, stageStr, 0, 1, 0, 0);
-
-            u8 hpStr[40];
-            StringCopy(hpStr, sText_HpLabel);
-            ConvertIntToDecimalStringN(gStringVar1, info->maxHp, STR_CONV_MODE_LEFT_ALIGN, 3);
-            StringAppend(hpStr, gStringVar1);
-            StringAppend(hpStr, sText_RetreatLabel);
-            ConvertIntToDecimalStringN(gStringVar2, info->retreatCost, STR_CONV_MODE_LEFT_ALIGN, 1);
-            StringAppend(hpStr, gStringVar2);
-            StringAppend(hpStr, sText_RetreatCostC);
-            PrintTextOnWindow(memoWin, hpStr, 0, 17, 0, 0);
-
-            u8 weakStr[36];
-            StringCopy(weakStr, sText_WeaknessLabel);
-            if (info->weaknessType < NUM_ENERGY_TYPES)
-            {
-                StringAppend(weakStr, sTcgEnergyNames[info->weaknessType]);
-                StringAppend(weakStr, sText_Plus20);
-            }
-            else
-            {
-                StringAppend(weakStr, sText_WeaknessNone);
-            }
-            PrintTextOnWindow(memoWin, weakStr, 0, 33, 0, 0);
-
-            PrintTextOnWindow(memoWin,
-                info->isRareShiny ? COMPOUND_STRING("PRIZE VALUE: 2 PTS (RARE)") : COMPOUND_STRING("PRIZE VALUE: 1 PT"),
-                0, 49, 0, 0);
+            if (info->description != NULL)
+                PrintTextOnWindow(memoWin, info->description, 0, 1, 0, 0);
         }
 
         PutWindowTilemap(otWin);
@@ -4235,6 +4190,44 @@ static void Task_PrintBattleMoves(u8 taskId)
     data[0]++;
 }
 
+static void FormatSummaryAttackCost(const struct TcgAttackCost *cost, u8 *dst)
+{
+    u8 *ptr = dst;
+    bool8 hasAny = FALSE;
+    static const u8 sEnergyLetters[NUM_ENERGY_TYPES] = {
+        [ENERGY_GRASS] = CHAR_G,
+        [ENERGY_FIRE] = CHAR_F,
+        [ENERGY_WATER] = CHAR_W,
+        [ENERGY_LIGHTNING] = CHAR_L,
+        [ENERGY_PSYCHIC] = CHAR_P,
+        [ENERGY_FIGHTING] = CHAR_F,
+        [ENERGY_DARKNESS] = CHAR_D,
+        [ENERGY_METAL] = CHAR_M,
+        [ENERGY_COLORLESS] = CHAR_C,
+    };
+
+    StringCopy(ptr, COMPOUND_STRING("COST/"));
+    ptr += 5;
+
+    for (u32 t = 0; t < NUM_ENERGY_TYPES; t++)
+    {
+        if (cost->energyCount[t] > 0)
+        {
+            if (hasAny)
+                *(ptr)++ = CHAR_SLASH;
+            ConvertIntToDecimalStringN(ptr, cost->energyCount[t], STR_CONV_MODE_LEFT_ALIGN, 1);
+            ptr += StringLength(ptr);
+            *(ptr)++ = sEnergyLetters[t];
+            hasAny = TRUE;
+        }
+    }
+
+    if (!hasAny)
+        StringCopy(dst, COMPOUND_STRING("COST/-"));
+    else
+        *ptr = EOS;
+}
+
 static void PrintMoveNameAndPP(u8 moveIndex)
 {
     u8 pp;
@@ -4253,36 +4246,51 @@ static void PrintMoveNameAndPP(u8 moveIndex)
         {
             const u8 *pName = (cardInfo->powerName != NULL && cardInfo->powerName[0] != EOS) ? cardInfo->powerName : sText_PkmnPowerHeader;
             PrintTextOnWindowToFit(moveNameWindowId, pName, 0, 1, 0, 1);
-            PrintTextOnWindow(ppValueWindowId, sText_Powr, 0, 1, 0, 9);
+            PrintTextOnWindow(ppValueWindowId, COMPOUND_STRING("COST/-"), 0, 1, 0, 1);
             return;
         }
         else if (move != 0)
         {
             const u8 *mName = GetMoveName(move);
-            u32 pwr = 0;
+            u8 costStr[24];
             u8 atkSlot = (cardInfo->pokemonPowerId != 0) ? (moveIndex - 1) : moveIndex;
-            if (atkSlot == 0 && cardInfo->move1 != 0 && move != MOVE_RETREAT)
+
+            if (move == MOVE_RETREAT)
+            {
+                mName = COMPOUND_STRING("Retreat");
+                if (cardInfo->retreatCost > 0)
+                {
+                    StringCopy(costStr, COMPOUND_STRING("COST/"));
+                    u8 *ptr = costStr + 5;
+                    ConvertIntToDecimalStringN(ptr, cardInfo->retreatCost, STR_CONV_MODE_LEFT_ALIGN, 1);
+                    ptr += StringLength(ptr);
+                    *(ptr)++ = CHAR_C;
+                    *ptr = EOS;
+                }
+                else
+                {
+                    StringCopy(costStr, COMPOUND_STRING("COST/-"));
+                }
+            }
+            else if (atkSlot == 0 && cardInfo->move1 != 0)
             {
                 if (cardInfo->move1Name != NULL && cardInfo->move1Name[0] != EOS)
                     mName = cardInfo->move1Name;
-                pwr = cardInfo->move1Damage;
+                FormatSummaryAttackCost(&cardInfo->move1Cost, costStr);
             }
-            else if (atkSlot == 1 && cardInfo->move2 != 0 && move != MOVE_RETREAT)
+            else if (atkSlot == 1 && cardInfo->move2 != 0)
             {
                 if (cardInfo->move2Name != NULL && cardInfo->move2Name[0] != EOS)
                     mName = cardInfo->move2Name;
-                pwr = cardInfo->move2Damage;
-            }
-            PrintTextOnWindowToFit(moveNameWindowId, mName, 0, moveIndex * 16 + 1, 0, 1);
-            if (pwr > 0)
-            {
-                ConvertIntToDecimalStringN(gStringVar1, pwr, STR_CONV_MODE_RIGHT_ALIGN, 3);
-                PrintTextOnWindow(ppValueWindowId, gStringVar1, 10, moveIndex * 16 + 1, 0, 9);
+                FormatSummaryAttackCost(&cardInfo->move2Cost, costStr);
             }
             else
             {
-                PrintTextOnWindow(ppValueWindowId, sText_Dash, 20, moveIndex * 16 + 1, 0, 9);
+                StringCopy(costStr, COMPOUND_STRING("COST/-"));
             }
+
+            PrintTextOnWindowToFit(moveNameWindowId, mName, 0, moveIndex * 16 + 1, 0, 1);
+            PrintTextOnWindow(ppValueWindowId, costStr, 0, moveIndex * 16 + 1, 0, 1);
             return;
         }
     }
@@ -4431,51 +4439,68 @@ static void PrintMoveDetails(enum Move move)
             {
                 const u8 *desc = GetMoveDescription(move);
                 u32 power = 0;
-                u32 acc = 100;
+                u8 costBuf[16];
+                costBuf[0] = EOS;
 
-                if (cardInfo->pokemonPowerId != 0 && move == MOVE_HELPING_HAND)
+                if (move == MOVE_RETREAT)
+                {
+                    desc = COMPOUND_STRING("Switch Active {PKMN} with\na Bench {PKMN}.");
+                    power = 0;
+                    if (cardInfo->retreatCost > 0)
+                    {
+                        u8 *ptr = costBuf;
+                        ConvertIntToDecimalStringN(ptr, cardInfo->retreatCost, STR_CONV_MODE_LEFT_ALIGN, 1);
+                        ptr += StringLength(ptr);
+                        *(ptr)++ = CHAR_C;
+                        *ptr = EOS;
+                    }
+                    else
+                    {
+                        StringCopy(costBuf, sText_Dash);
+                    }
+                }
+                else if (cardInfo->pokemonPowerId != 0 && move == MOVE_HELPING_HAND)
                 {
                     if (cardInfo->powerDescription != NULL && cardInfo->powerDescription[0] != EOS)
                         desc = cardInfo->powerDescription;
                     power = 0;
-                    acc = 0;
+                    StringCopy(costBuf, sText_Dash);
                 }
-                else if (move == cardInfo->move1 && cardInfo->move1 != 0 && move != MOVE_RETREAT)
+                else if (move == cardInfo->move1 && cardInfo->move1 != 0)
                 {
                     if (cardInfo->move1Description != NULL && cardInfo->move1Description[0] != EOS)
                         desc = cardInfo->move1Description;
                     power = cardInfo->move1Damage;
+                    u8 fullCost[24];
+                    FormatSummaryAttackCost(&cardInfo->move1Cost, fullCost);
+                    StringCopy(costBuf, fullCost + 5); // skip "COST/"
                 }
-                else if (move == cardInfo->move2 && cardInfo->move2 != 0 && move != MOVE_RETREAT)
+                else if (move == cardInfo->move2 && cardInfo->move2 != 0)
                 {
                     if (cardInfo->move2Description != NULL && cardInfo->move2Description[0] != EOS)
                         desc = cardInfo->move2Description;
                     power = cardInfo->move2Damage;
+                    u8 fullCost[24];
+                    FormatSummaryAttackCost(&cardInfo->move2Cost, fullCost);
+                    StringCopy(costBuf, fullCost + 5); // skip "COST/"
                 }
                 else
                 {
                     power = 0;
-                    acc = 0;
+                    StringCopy(costBuf, sText_Dash);
                 }
 
-                FillWindowPixelRect(PSS_LABEL_WINDOW_MOVES_POWER_ACC, PIXEL_FILL(0), 53, 0, 19, 32);
+                FillWindowPixelRect(PSS_LABEL_WINDOW_MOVES_POWER_ACC, PIXEL_FILL(0), 40, 0, 32, 32);
+                PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, costBuf, 42, 1, 0, 0);
+
                 if (power == 0)
                 {
-                    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gText_ThreeDashes, 53, 1, 0, 0);
+                    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gText_ThreeDashes, 46, 17, 0, 0);
                 }
                 else
                 {
                     ConvertIntToDecimalStringN(gStringVar1, power, STR_CONV_MODE_RIGHT_ALIGN, 3);
-                    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gStringVar1, 53, 1, 0, 0);
-                }
-                if (acc == 0)
-                {
-                    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gText_ThreeDashes, 53, 17, 0, 0);
-                }
-                else
-                {
-                    ConvertIntToDecimalStringN(gStringVar1, acc, STR_CONV_MODE_RIGHT_ALIGN, 3);
-                    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gStringVar1, 53, 17, 0, 0);
+                    PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gStringVar1, 46, 17, 0, 0);
                 }
 
                 PrintTextOnWindowToFit(windowId, desc, 6, 1, 0, 0);

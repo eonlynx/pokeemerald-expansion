@@ -3265,9 +3265,41 @@ static void DoBattleIntro(void)
     case BATTLE_INTRO_STATE_WAIT_FOR_INTRO_TEXT:
         if (!IsBattlerMarkedForControllerExec(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)))
         {
+            gBattleStruct->eventState.battleIntro++;
+        }
+        break;
+    case BATTLE_INTRO_STATE_TCG_DREW_CARDS_TEXT:
+        if (!IsBattlerMarkedForControllerExec(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)))
+        {
+            if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+                PrepareStringBattle(STRINGID_TCG_DREW_CARDS_TRAINER, GetBattlerAtPosition(B_POSITION_PLAYER_LEFT));
+            else
+                PrepareStringBattle(STRINGID_TCG_DREW_CARDS_WILD, GetBattlerAtPosition(B_POSITION_PLAYER_LEFT));
+            gBattleStruct->eventState.battleIntro++;
+        }
+        break;
+    case BATTLE_INTRO_STATE_WAIT_FOR_TCG_DREW_CARDS_TEXT:
+        if (!IsBattlerMarkedForControllerExec(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)))
+        {
+            gBattleStruct->eventState.battleIntro++;
+        }
+        break;
+    case BATTLE_INTRO_STATE_TCG_FIRST_TURN_TEXT:
+        if (!IsBattlerMarkedForControllerExec(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)))
+        {
+            if (gTcgBattleState.firstTurnFirstPlayer || !(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+                PrepareStringBattle(STRINGID_TCG_FIRST_TURN_PLAYER, GetBattlerAtPosition(B_POSITION_PLAYER_LEFT));
+            else
+                PrepareStringBattle(STRINGID_TCG_FIRST_TURN_OPPONENT, GetBattlerAtPosition(B_POSITION_PLAYER_LEFT));
+            gBattleStruct->eventState.battleIntro++;
+        }
+        break;
+    case BATTLE_INTRO_STATE_WAIT_FOR_TCG_FIRST_TURN_TEXT:
+        if (!IsBattlerMarkedForControllerExec(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)))
+        {
             if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
             {
-                gBattleStruct->eventState.battleIntro++;
+                gBattleStruct->eventState.battleIntro = BATTLE_INTRO_STATE_TRAINER_SEND_OUT_TEXT;
             }
             else
             {
@@ -3332,48 +3364,9 @@ static void DoBattleIntro(void)
         }
         break;
     case BATTLE_INTRO_STATE_CHOOSE_INITIAL_MON:
-        if (!gTcgBattleState.activeMonPlaced && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED | BATTLE_TYPE_RECORDED_LINK)))
-        {
-            gTcgBattleState.viewingHandInPartyMenu = TRUE;
-            battler = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
-            BtlController_EmitChoosePokemon(battler, B_COMM_TO_CONTROLLER, PARTY_ACTION_SEND_OUT, PARTY_SIZE, ABILITY_NONE, 0, gBattleStruct->battlerPartyOrders[battler]);
-            MarkBattlerForControllerExec(battler);
-            gBattleStruct->eventState.battleIntro++;
-        }
-        else
-        {
-            gBattleStruct->eventState.battleIntro = BATTLE_INTRO_STATE_PRINT_PLAYER_SEND_OUT_TEXT;
-        }
-        break;
     case BATTLE_INTRO_STATE_WAIT_FOR_INITIAL_MON:
-        battler = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
-        if (!IsBattlerMarkedForControllerExec(battler))
-        {
-            gTcgBattleState.viewingHandInPartyMenu = FALSE;
-            if (!gTcgBattleState.activeMonPlaced
-             || GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SPECIES) == SPECIES_NONE)
-            {
-                for (u8 h = 0; h < gTcgBattleState.playerHandCount; h++)
-                {
-                    u16 cid = gTcgBattleState.playerHand[h];
-                    const struct TcgCardInfo *info = GetTcgCardInfo(cid);
-                    if (info != NULL
-                     && info->cardType == CARD_TYPE_POKEMON_BASIC
-                     && info->species != SPECIES_NONE
-                     && cid != CARD_MYSTERIOUS_FOSSIL
-                     && cid != CARD_CLEFAIRY_DOLL)
-                    {
-                        u8 fieldSlot = 0;
-                        bool8 evolved = FALSE;
-                        TryPlaceOrEvolveFromHand(h, &fieldSlot, &evolved);
-                        break;
-                    }
-                }
-            }
-            gTcgBattleState.activeMonPlaced = TRUE;
-            SyncBattlerStructFromPartyMon(battler);
-            gBattleStruct->eventState.battleIntro = BATTLE_INTRO_STATE_PRINT_PLAYER_SEND_OUT_TEXT;
-        }
+        gTcgBattleState.activeMonPlaced = TRUE;
+        gBattleStruct->eventState.battleIntro = BATTLE_INTRO_STATE_PRINT_PLAYER_SEND_OUT_TEXT;
         break;
     case BATTLE_INTRO_STATE_PRINT_PLAYER_SEND_OUT_TEXT:
         if (!(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
@@ -3387,7 +3380,7 @@ static void DoBattleIntro(void)
             if (B_FAST_INTRO_PKMN_TEXT == TRUE
                 && gBattleTypeFlags & BATTLE_TYPE_TRAINER
                 && !(gBattleTypeFlags & (BATTLE_TYPE_RECORDED | BATTLE_TYPE_RECORDED_LINK | BATTLE_TYPE_RECORDED_IS_MASTER | BATTLE_TYPE_LINK))
-                && gSprites[gHealthboxSpriteIds[battler ^ BIT_SIDE]].callback == SpriteCallbackDummy)
+                && gSprites[gHealthboxSpriteIds[battler ^ BIT_SIDE]].callback != SpriteCallbackDummy)
             {
                 return;
             }

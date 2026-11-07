@@ -89,14 +89,16 @@ u8 GetBattlerSpriteCoord(enum BattlerId battler, u8 coordType)
             coordType = BATTLER_COORD_Y;
     }
 
+    u8 coordsIndex = IsDoubleBattle() ? BATTLE_COORDS_DOUBLES : BATTLE_COORDS_SINGLES;
+
     switch (coordType)
     {
     case BATTLER_COORD_X:
     case BATTLER_COORD_X_2:
-        retVal = sBattlerCoords[GetBattlerCoordsIndex(battler)][GetBattlerPosition(battler)].x;
+        retVal = sBattlerCoords[coordsIndex][GetBattlerPosition(battler)].x;
         break;
     case BATTLER_COORD_Y:
-        retVal = sBattlerCoords[GetBattlerCoordsIndex(battler)][GetBattlerPosition(battler)].y;
+        retVal = sBattlerCoords[coordsIndex][GetBattlerPosition(battler)].y;
         break;
     case BATTLER_COORD_Y_PIC_OFFSET:
     case BATTLER_COORD_Y_PIC_OFFSET_DEFAULT:
@@ -196,7 +198,7 @@ u8 GetBattlerSpriteFinal_Y(enum BattlerId battler, enum Species species, bool32 
         offset = GetBattlerYDelta(battler, species);
         offset -= GetBattlerElevation(battler, species);
     }
-    y = offset + sBattlerCoords[GetBattlerCoordsIndex(battler)][GetBattlerPosition(battler)].y;
+    y = offset + sBattlerCoords[IsDoubleBattle() ? BATTLE_COORDS_DOUBLES : BATTLE_COORDS_SINGLES][GetBattlerPosition(battler)].y;
     if (a3)
     {
         if (IsOnPlayerSide(battler))

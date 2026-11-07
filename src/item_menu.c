@@ -975,6 +975,11 @@ static void GetItemNameFromPocket(u8 *dest, enum Item itemId)
             if (cardInfo != NULL && cardInfo->name != NULL)
             {
                 end = StringCopy(dest, cardInfo->name);
+                *end++ = CHAR_SPACE;
+                *end++ = CHAR_EXTRA_SYMBOL;
+                *end++ = CHAR_NO;
+                end = ConvertIntToDecimalStringN(end, cardInfo->cardId, STR_CONV_MODE_LEFT_ALIGN, 3);
+                *end = EOS;
                 PrependFontIdToFit(dest, end, FONT_NARROW, 88);
                 break;
             }

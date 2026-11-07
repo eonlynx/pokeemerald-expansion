@@ -915,6 +915,10 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_TCG_TRAINER_PLAYED]                   = COMPOUND_STRING("{STR_VAR_1} played\n{STR_VAR_2}!\p"),
     [STRINGID_TCG_POWER_USED]                       = COMPOUND_STRING("{STR_VAR_1} activated\n{STR_VAR_2}!\p"),
     [STRINGID_TCG_ENERGY_ALREADY_ATTACHED]          = COMPOUND_STRING("Energy was already attached\nthis turn!\p"),
+    [STRINGID_TCG_DREW_CARDS_TRAINER]               = COMPOUND_STRING("{B_PLAYER_NAME} and {B_TRAINER1_NAME}\ndrew 5 cards!\p"),
+    [STRINGID_TCG_DREW_CARDS_WILD]                  = COMPOUND_STRING("{B_PLAYER_NAME} drew 5 cards!\p"),
+    [STRINGID_TCG_FIRST_TURN_PLAYER]                = COMPOUND_STRING("Coin flip: HEADS!\n{B_PLAYER_NAME} takes the 1st turn!\p"),
+    [STRINGID_TCG_FIRST_TURN_OPPONENT]              = COMPOUND_STRING("Coin flip: TAILS!\n{B_TRAINER1_NAME} takes the 1st turn!\p"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

@@ -1156,13 +1156,20 @@ static void DisplayPartyPokemonData(u8 slot)
 
     if (info != NULL && (info->cardType == CARD_TYPE_TRAINER_ITEM || info->cardType == CARD_TYPE_TRAINER_SUPPORTER))
     {
+        u8 str[16];
         sPartyMenuBoxes[slot].infoRects->blitFunc(sPartyMenuBoxes[slot].windowId, 0, 0, 0, 0, TRUE);
         DisplayPartyPokemonNickname(mon, &sPartyMenuBoxes[slot], 0);
+
+        str[0] = CHAR_EXTRA_SYMBOL;
+        str[1] = CHAR_NO;
+        ConvertIntToDecimalStringN(str + 2, cardId, STR_CONV_MODE_LEFT_ALIGN, 3);
+        DisplayPartyPokemonBarDetail(sPartyMenuBoxes[slot].windowId, str, 0, &sPartyMenuBoxes[slot].infoRects->dimensions[4]);
+
         DisplayPartyPokemonBarDetail(
             sPartyMenuBoxes[slot].windowId,
             (info->cardType == CARD_TYPE_TRAINER_SUPPORTER) ? COMPOUND_STRING("SUPPORTER") : COMPOUND_STRING("ITEM"),
             0,
-            &sPartyMenuBoxes[slot].infoRects->dimensions[4]);
+            &sPartyMenuBoxes[slot].infoRects->dimensions[12]);
         CopyWindowToVram(sPartyMenuBoxes[slot].windowId, COPYWIN_GFX);
     }
     else if (GetMonData(mon, MON_DATA_IS_EGG))
@@ -2736,7 +2743,14 @@ static void DisplayPartyPokemonLevelCheck(struct Pokemon *mon, struct PartyMenuB
             if (c != 0)
                 menuBox->infoRects->blitFunc(menuBox->windowId, menuBox->infoRects->dimensions[4] >> 3, (menuBox->infoRects->dimensions[5] >> 3) + 1, menuBox->infoRects->dimensions[6] >> 3, menuBox->infoRects->dimensions[7] >> 3, FALSE);
             if (c != 2)
-                DisplayPartyPokemonLevel(GetMonData(mon, MON_DATA_LEVEL), menuBox);
+            {
+                u16 cardId = GetMonCardId(mon);
+                u8 str[16];
+                str[0] = CHAR_EXTRA_SYMBOL;
+                str[1] = CHAR_NO;
+                ConvertIntToDecimalStringN(str + 2, (cardId != 0) ? cardId : GetMonData(mon, MON_DATA_LEVEL), STR_CONV_MODE_LEFT_ALIGN, 3);
+                DisplayPartyPokemonBarDetail(menuBox->windowId, str, 0, &menuBox->infoRects->dimensions[4]);
+            }
         }
     }
 }
@@ -2751,12 +2765,8 @@ static void DisplayPartyPokemonLevel(u8 level, struct PartyMenuBox *menuBox)
 
 static void DisplayPartyPokemonGenderNidoranCheck(struct Pokemon *mon, struct PartyMenuBox *menuBox, u8 c)
 {
-    u8 nickname[POKEMON_NAME_LENGTH + 1];
-
-    if (c == 1)
-        menuBox->infoRects->blitFunc(menuBox->windowId, menuBox->infoRects->dimensions[8] >> 3, (menuBox->infoRects->dimensions[9] >> 3) + 1, menuBox->infoRects->dimensions[10] >> 3, menuBox->infoRects->dimensions[11] >> 3, FALSE);
-    GetMonNickname(mon, nickname);
-    DisplayPartyPokemonGender(GetMonGender(mon), GetMonData(mon, MON_DATA_SPECIES), nickname, menuBox);
+    // TCG Pocket: Cards have no gender symbols
+    return;
 }
 
 static void DisplayPartyPokemonGender(u8 gender, enum Species species, u8 *nickname, struct PartyMenuBox *menuBox)
@@ -4027,6 +4037,7 @@ static void CursorCb_SendMon(u8 taskId)
         if (info == NULL)
         {
             PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+            DisplayPartyMenuMessage(COMPOUND_STRING("Cannot select that card!"), TRUE);
             gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
             return;
         }
@@ -4063,6 +4074,7 @@ static void CursorCb_SendMon(u8 taskId)
                     gTcgBattleState.playerHand[gTcgBattleState.playerHandCount++] = cardId;
                 SyncHandToPartyMenu();
                 PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+                DisplayPartyMenuMessage(COMPOUND_STRING("That Trainer card cannot\nbe played right now!"), TRUE);
                 gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
                 return;
             }
@@ -4091,6 +4103,12 @@ static void CursorCb_SendMon(u8 taskId)
             {
                 SyncHandToPartyMenu();
                 PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+                if (!gTcgBattleState.activeMonPlaced)
+                    DisplayPartyMenuMessage(COMPOUND_STRING("You must select a Basic\nPokémon for Active spot!"), TRUE);
+                else if (info->cardType == CARD_TYPE_POKEMON_STAGE1 || info->cardType == CARD_TYPE_POKEMON_STAGE2)
+                    DisplayPartyMenuMessage(COMPOUND_STRING("No matching pre-evolution\nin play to evolve!"), TRUE);
+                else
+                    DisplayPartyMenuMessage(COMPOUND_STRING("Cannot play this card\nright now!"), TRUE);
                 gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
                 return;
             }

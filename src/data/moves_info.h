@@ -2441,13 +2441,13 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
 
     [MOVE_TELEPORT] =
     {
-        .name = COMPOUND_STRING("Teleport"),
+        .name = COMPOUND_STRING("Retreat"),
         .description = COMPOUND_STRING(
-            "Deals 10 HP damage to 1 of\n"
-            "opponent's Benched Pokémon."),
-        .effect = EFFECT_TCG_BENCH_SNIPER,
+            "Switch Active {PKMN} with\n"
+            "a Bench {PKMN}."),
+        .effect = EFFECT_TELEPORT,
         .power = 0,
-        .type = TYPE_PSYCHIC,
+        .type = TYPE_NORMAL,
         .accuracy = 0,
         .pp = 20,
         .target = TARGET_USER,
